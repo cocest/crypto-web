@@ -1,0 +1,19 @@
+/* custom css for the website should be place here */
+.site-logo-cont {
+    display: table-cell;
+    vertical-align: middle;
+    overflow: hidden;
+    padding-left: 30px;
+}
+
+.main-menu-cont {
+    display: table-cell;
+    width: 100%;
+    padding-right: 10px;
+    vertical-align: middle;
+}
+
+.page-cont-max-width {
+    max-width: 1250px;
+    margin: 0 auto;
+}

@@ -1,0 +1,278 @@
+/*
+ * UdaraX CSS is a simple css framework for building colorfull, 
+ * beautifull, responsive, and dynamic website.
+ *
+ * Author: Attamah Celestine .C.
+ * Date: __/__/____
+ *
+ */
+
+ /*********default**********/
+ body {
+   padding: 0px;
+   margin: 0px;
+   overflow-x: hidden;
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   color: #4c4e50;
+ }
+
+ /*********color palette********/
+ .ux-txt-white {
+   color: white;
+ }
+
+ .ux-txt-white.txt-hover:hover {
+   color: lightgray;
+ }
+
+ .ux-bg-chocolate {
+   background-color: chocolate;
+ }
+
+ .ux-bg-chocolate.bg-hover:hover {
+   background-color: rgb(209, 122, 60);
+ }
+
+ .ux-txt-chocolate {
+   background-color: chocolate;
+ }
+
+ .ux-txt-chocolate.txt-hover:hover {
+   background-color: rgb(209, 122, 60);
+ }
+
+ .ux-bg-red {
+     background-color: red;
+ }
+
+ .ux-bg-red.bg-hover:hover {
+     background-color: rgb(230, 0, 0);
+ }
+
+ .ux-txt-red {
+     color: red;
+ }
+
+ .ux-txt-red.txt-hover:hover {
+     color: rgb(230, 0, 0);
+ }
+
+
+ .ux-bg-amber {
+    background-color: rgb(255, 193, 7);
+ }
+
+ .ux-bg-amber.bg-hover:hover {
+    background-color: rgb(233, 175, 1);
+ }
+
+ .ux-bg-grayblue {
+   background-color: #5787c2;
+ }
+
+ .ux-bg-grayblue.bg-hover:hover {
+   background-color: #698fbe;
+ }
+
+ /*********color transition hover effect*********/
+ .ux-bg-red-hover:hover {
+     background-color: red;
+     transition: background-color 0.5s;
+ }
+
+ .ux-bg-amber-hover:hover {
+    background-color: rgb(255, 193, 7);
+    transition: background-color 0.5s;
+ }
+ /*********color transition hover effect end*********/
+
+ /*********element opacity*********/
+ .ux-opacity-1 {
+     opacity: 0.2;
+ }
+
+ .ux-opacity-2 {
+    opacity: 0.4;
+ }
+
+ .ux-opacity-3 {
+    opacity: 0.6;
+ }
+
+ .ux-opacity-4 {
+    opacity: 0.8;
+ }
+ /*********element opacity end*********/
+
+ /*********font format**********/
+ /*font format here*/
+ /*********font format end**********/
+
+ /*********rounded corner**********/
+ .ux-round-corner-1 {
+     border-radius: 4px;
+ }
+
+ .ux-round-corner-2 {
+    border-radius: 8px;
+ }
+
+ .ux-round-corner-3 {
+    border-radius: 12px;
+ }
+
+ .ux-round-corner-4 {
+    border-radius: 16px;
+ }
+
+ .ux-half-round-corner {
+    border-radius: 25%;
+ }
+
+ .ux-full-round-corner {
+    border-radius: 50%;
+ }
+ /*********rounded corner end**********/
+
+ /*********button*********/
+ .ux-btn {
+    display: inline-block;
+    text-align: center;
+    width: fit-content;
+    padding: 5px 15px!important;
+    font-size: 1.0em;
+    box-sizing: border-box;
+    cursor: default;
+ }
+
+ .ux-btn.small {
+   font-size: 0.9em;
+   padding: 4px 8px!important;
+ }
+
+ .ux-btn.medium {
+   font-size: 1.2em;
+   padding: 6px 12px!important;
+ }
+
+ .ux-btn.large {
+   font-size: 1.5em;
+   padding: 8px 16px!important;
+ }
+
+ .ux-btn.x-large {
+   font-size: 2.0em;
+   padding: 10px 20px!important;
+ }
+
+ .ux-btn.ux-bg-red.grad-silk {
+   background: linear-gradient(rgb(252, 118, 118), red);
+ }
+
+ .ux-btn.grad-silk.ux-bg-red-hover:hover {
+    background: linear-gradient(rgb(252, 118, 118), red);
+ }
+
+ .ux-btn.ux-bg-red.grad-silk.bg-hover:hover {
+   background: linear-gradient(rgb(255, 104, 104), rgb(230, 0, 0));
+ }
+
+ .ux-btn.ux-bg-red.grad-smooth {
+   background: linear-gradient(rgb(252, 118, 118), rgb(252, 118, 118), red);
+ }
+
+ .ux-btn.grad-smooth.ux-bg-red-hover:hover {
+   background: linear-gradient(rgb(252, 118, 118), rgb(252, 118, 118), red);
+ }
+
+ .ux-btn.ux-bg-red.grad-smooth.bg-hover:hover {
+   background: linear-gradient(rgb(252, 118, 118), rgb(255, 101, 101), rgb(230, 0, 0));
+ }
+
+ .ux-btn.ux-bg-red.grad-hard {
+   background: linear-gradient(rgb(255, 153, 153), rgb(255, 153, 153), red);
+ }
+
+ .ux-btn.grad-hard.ux-bg-red-hover:hover {
+   background: linear-gradient(rgb(255, 153, 153), rgb(255, 153, 153), red);
+ }
+
+ .ux-btn.ux-bg-red.grad-hard.bg-hover:hover {
+   background: linear-gradient(rgb(255, 153, 153), rgb(255, 137, 137), rgb(230, 0, 0));
+ }
+
+ .ux-btn.ux-bg-amber.grad-silk {
+   background: linear-gradient(rgb(255, 220, 115), rgb(255, 193, 7));
+ }
+
+ .ux-btn.grad-silk.ux-bg-amber-hover:hover {
+   background: linear-gradient(rgb(255, 220, 115), rgb(255, 193, 7));
+ }
+
+ .ux-btn.ux-bg-amber.grad-silk.bg-hover:hover {
+   background: linear-gradient(rgb(255, 220, 115), rgb(233, 175, 1));
+ }
+
+ .ux-btn.ux-bg-amber.grad-smooth {
+   background: linear-gradient(rgb(255, 220, 115), rgb(255, 220, 115), rgb(255, 193, 7));
+ }
+
+ .ux-btn.grad-smooth.ux-bg-amber-hover:hover {
+   background: linear-gradient(rgb(255, 220, 115), rgb(255, 220, 115), rgb(255, 193, 7));
+ }
+
+ .ux-btn.ux-bg-amber.grad-smooth.bg-hover:hover {
+   background: linear-gradient(rgb(255, 220, 115), rgb(255, 210, 110), rgb(233, 175, 1));
+ }
+
+ .ux-btn.ux-bg-amber.grad-hard {
+   background: linear-gradient(rgb(255, 241, 198), rgb(255, 229, 152), rgb(255, 193, 7));
+ }
+
+ .ux-btn.grad-hard.ux-bg-amber-hover:hover {
+   background: linear-gradient(rgb(255, 241, 198), rgb(255, 229, 152), rgb(255, 193, 7));
+ }
+
+ .ux-btn.ux-bg-amber.grad-hard.bg-hover:hover {
+   background: linear-gradient(rgb(255, 241, 198), rgb(255, 223, 127), rgb(233, 175, 1));
+ }
+
+ /*********dimension*********/
+ .ux-fill-x-space {
+    width: 100%;
+ }
+
+ /************Alignment***********/
+ .ux-txt-align-rt {
+    text-align: right;
+ }
+
+ .ux-txt-align-lt {
+   text-align: left;
+}
+
+ /************menu**************/
+ ul.ux-hr-menu {
+   list-style-type: none;
+   margin: 0px;
+   padding: 0px;
+ }
+
+ ul.ux-hr-menu li {
+   display: inline;
+   text-align: center;
+ }
+
+ ul.ux-hr-menu.fmt-link-med li .link {
+   display: inline-block;
+   text-decoration: none;
+   padding: 22px 12px;
+   font-size: 0.95em;
+ }
+
+ ul.ux-hr-menu.fmt-link-sm li .link {
+  display: inline-block;
+  text-decoration: none;
+  padding: 15px 10px;
+  font-size: 0.95em;
+}
