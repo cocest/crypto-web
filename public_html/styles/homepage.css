@@ -17,3 +17,18 @@
     max-width: 1250px;
     margin: 0 auto;
 }
+
+.page-top-menu-cont {
+    position: fixed;
+    width: 100%;
+}
+
+.page-top-menu-cont.show {
+    top: 0px;
+    transition: top 0.5s;
+}
+
+.page-top-menu-cont.hide {
+    top: -70px;
+    transition: top 0.3s;
+}

@@ -12,9 +12,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link type="text/css" rel="stylesheet" href="./styles/UdaraX.css">
     <link type="text/css" rel="stylesheet" href="./styles/homepage.css">
-    <script type="text/javascript" defer="defer" src="./scripts/script_here.js"></script>
+    <script type="text/javascript" src="./scripts/utils.js"></script>
+    <script type="text/javascript" src="./scripts/slider.js"></script>
     <script type="text/javascript">
         function init() {
+            // define and initialise variables
+            let top_main_menu_hidden = false;
+            let page_scroll_y = 0;
+            let curr_page_scroll_y = 0;
+
+            // show and hide main top menu on scroll
+            function hideAndShowMainMenu() {
+                // get top menu container
+                let elem  = document.querySelector('.page-top-menu-cont');
+
+                curr_page_scroll_y = getPageScrollTop();
+
+                //check if page is scroll down
+                if (curr_page_scroll_y - page_scroll_y  > 0) {
+                    // check if menu has not been hidden
+                    if (!top_main_menu_hidden) {
+                        // hide menu
+                        elem.setAttribute('class', 'page-top-menu-cont hide ux-bg-grayblue');
+                        top_main_menu_hidden = true;
+                    }
+
+                } else { // page is scroll up
+                    // check if menu has not been shown
+                    if (top_main_menu_hidden) {
+                        // hide menu
+                        elem.setAttribute('class', 'page-top-menu-cont show ux-bg-grayblue');
+                        top_main_menu_hidden = false;
+                    }
+                }
+
+                // set page current y-position
+                page_scroll_y = curr_page_scroll_y;
+            }
+
+            //listen to page scroll event
+            window.onscroll = function (e) {
+                hideAndShowMainMenu();
+            };
+
+            // call after page is loaded
             // code here
         }
 
@@ -29,7 +70,7 @@
 </head>
 
 <body>
-    <div class="page-top-menu-cont ux-bg-grayblue">
+    <div class="page-top-menu-cont show ux-bg-grayblue">
         <!--Header menu container-->
         <div class="page-cont-max-width">
             <nav>
@@ -40,19 +81,23 @@
                 </div>
                 <div class="main-menu-cont">
                     <ul class="ux-hr-menu fmt-link-med ux-txt-align-rt">
-                        <li><a class="link ux-txt-white txt-hover" href="#">Home</a></li>
-                        <li><a class="link ux-txt-white txt-hover" href="#">Investment Packages</a></li>
-                        <li><a class="link ux-txt-white txt-hover" href="#">Testimoney</a></li>
-                        <li><a class="link ux-txt-white txt-hover" href="#">About Us</a></li>
-                        <li><a class="link ux-txt-white txt-hover" href="#">Contact Us</a></li>
-                        <li><a class="link ux-txt-white txt-hover" href="#">FAQ</a></li>
+                        <li><a class="link ux-txt-smokewhite txt-hover" href="#">Home</a></li>
+                        <li><a class="link ux-txt-smokewhite txt-hover" href="#">Investment Packages</a></li>
+                        <li><a class="link ux-txt-smokewhite txt-hover" href="#">Testimoney</a></li>
+                        <li><a class="link ux-txt-smokewhite txt-hover" href="#">About Us</a></li>
+                        <li><a class="link ux-txt-smokewhite txt-hover" href="#">Contact Us</a></li>
+                        <li><a class="link ux-txt-smokewhite txt-hover" href="#">FAQ</a></li>
                         <li><a class="link ux-btn ux-bg-chocolate bg-hover ux-txt-white ux-round-corner-1" href="#">Get
                                 Started</a></li>
-                        <li><a class="link ux-txt-white txt-hover" href="#">Sign In</a></li>
+                        <li><a class="link ux-txt-smokewhite txt-hover" href="#">Sign In</a></li>
                     </ul>
                 </div>
             </nav>
         </div>
+    </div>
+    <!--page upper section-->
+    <div id="imageslider-cont" style="height: 500px; border: 2px solid gray;">
+        //
     </div>
 </body>
 

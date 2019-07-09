@@ -25,6 +25,14 @@
    color: lightgray;
  }
 
+ .ux-txt-smokewhite {
+   color: #e0e0e0;
+ }
+
+ .ux-txt-smokewhite.txt-hover:hover {
+   color: white;
+ }
+
  .ux-bg-chocolate {
    background-color: chocolate;
  }
