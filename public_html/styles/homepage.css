@@ -1,4 +1,8 @@
 /* custom css for the website should be place here */
+.shadow {
+    box-shadow: 0px 1px 8px 2px rgba(0, 0, 0, 0.4);
+}
+
 .site-logo-cont {
     display: table-cell;
     vertical-align: middle;
@@ -21,6 +25,7 @@
 .page-top-menu-cont {
     position: fixed;
     width: 100%;
+    z-index: 100
 }
 
 .page-top-menu-cont.show {
@@ -31,4 +36,31 @@
 .page-top-menu-cont.hide {
     top: -70px;
     transition: top 0.3s;
+}
+
+#imageslider-cont {
+    position: absolute;
+    height: 550px;
+    width: 100%;
+}
+
+#anim-img-indicator {
+    position: absolute;
+    left: -32px;
+    bottom: 10px;
+    height: 20px;
+    width: 65px;
+    margin-left: 50%;
+    z-index: 50;
+}
+
+#img-ind-0,
+#img-ind-1,
+#img-ind-2 {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 2px 0 2px;
+    cursor: pointer;
+    border: 1px solid white;
 }

@@ -1,0 +1,5 @@
+# ignore contents in anim folder
+images/anim/
+
+# ignore enviromental variables (.env)
+.env

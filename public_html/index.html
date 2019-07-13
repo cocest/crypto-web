@@ -21,19 +21,38 @@
             let page_scroll_y = 0;
             let curr_page_scroll_y = 0;
 
+            // start image slider animation
+            window.imageSlider(
+                [
+                    './images/anim/0908Japan09.bmp',
+                    './images/anim/0908Japan13.bmp',
+                    './images/anim/0908Japan16.bmp'
+                ],
+                2, // animation time (in seconds)
+                5, // wait for next animation time (in seconds)
+                function (prev_indicator_index, curr_indicator_index) {
+                    // mark the indicator as image slide play
+                    var elem_1 = document.getElementById('img-ind-' + prev_indicator_index);
+                    var elem_2 = document.getElementById('img-ind-' + curr_indicator_index);
+
+                    elem_1.setAttribute('class', 'ux-bg-white ux-f-round-corner');
+                    elem_2.setAttribute('class', 'ux-bg-grayblue bg-hover ux-f-round-corner');
+                }
+            );
+
             // show and hide main top menu on scroll
             function hideAndShowMainMenu() {
                 // get top menu container
-                let elem  = document.querySelector('.page-top-menu-cont');
+                let elem = document.querySelector('.page-top-menu-cont');
 
                 curr_page_scroll_y = getPageScrollTop();
 
                 //check if page is scroll down
-                if (curr_page_scroll_y - page_scroll_y  > 0) {
+                if (curr_page_scroll_y - page_scroll_y > 0) {
                     // check if menu has not been hidden
                     if (!top_main_menu_hidden) {
                         // hide menu
-                        elem.setAttribute('class', 'page-top-menu-cont hide ux-bg-grayblue');
+                        elem.setAttribute('class', 'page-top-menu-cont hide ux-bg-grayblue shadow');
                         top_main_menu_hidden = true;
                     }
 
@@ -41,7 +60,7 @@
                     // check if menu has not been shown
                     if (top_main_menu_hidden) {
                         // hide menu
-                        elem.setAttribute('class', 'page-top-menu-cont show ux-bg-grayblue');
+                        elem.setAttribute('class', 'page-top-menu-cont show ux-bg-grayblue shadow');
                         top_main_menu_hidden = false;
                     }
                 }
@@ -70,7 +89,7 @@
 </head>
 
 <body>
-    <div class="page-top-menu-cont show ux-bg-grayblue">
+    <div class="page-top-menu-cont show ux-bg-grayblue shadow">
         <!--Header menu container-->
         <div class="page-cont-max-width">
             <nav>
@@ -96,8 +115,13 @@
         </div>
     </div>
     <!--page upper section-->
-    <div id="imageslider-cont" style="height: 500px; border: 2px solid gray;">
-        //
+    <div id="imageslider-cont">
+        <!--animated image indicator-->
+        <div id="anim-img-indicator">
+            <div id="img-ind-0" class="ux-bg-grayblue bg-hover ux-f-round-corner" onclick="gotoImageSlider(0)"></div>
+            <div id="img-ind-1" class="ux-bg-white ux-f-round-corner" onclick="gotoImageSlider(1)"></div>
+            <div id="img-ind-2" class="ux-bg-white ux-f-round-corner" onclick="gotoImageSlider(2)"></div>
+        </div>
     </div>
 </body>
 

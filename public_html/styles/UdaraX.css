@@ -25,6 +25,10 @@
    color: lightgray;
  }
 
+ .ux-bg-white {
+   background-color: white;
+ }
+
  .ux-txt-smokewhite {
    color: #e0e0e0;
  }
@@ -133,11 +137,11 @@
     border-radius: 16px;
  }
 
- .ux-half-round-corner {
+ .ux-h-round-corner {
     border-radius: 25%;
  }
 
- .ux-full-round-corner {
+ .ux-f-round-corner {
     border-radius: 50%;
  }
  /*********rounded corner end**********/
