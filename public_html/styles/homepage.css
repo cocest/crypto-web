@@ -38,10 +38,50 @@
     transition: top 0.3s;
 }
 
+.page-upper-section {
+    position: absolute;
+    height: 600px;
+    width: 100%;
+    background-image: url(../images/background/architecture-blue-building-411595.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-color: #8c8c8c;
+    background-blend-mode: multiply;
+}
+
 #imageslider-cont {
     position: absolute;
-    height: 550px;
+    height: inherit;
+    width: inherit;
+}
+
+#headline-cont {
+    position: relative;
+    height: inherit;
     width: 100%;
+    z-index: 50;
+}
+
+.headline {
+    padding: 150px 20px 0 20px;
+}
+
+.sub-headline {
+    padding: 0 20px 0 20px; max-width: 600px;
+}
+
+.sub-headline-txt {
+    font-family: Corbel, Calibri, sans-serif;
+}
+
+.action-btn-cont {
+    padding: 30px 20px 0 20px;
+}
+
+.custom-action-btn {
+    padding: 6px 40px;
+    font-size: 1.2em;
 }
 
 #anim-img-indicator {
@@ -51,7 +91,7 @@
     height: 20px;
     width: 65px;
     margin-left: 50%;
-    z-index: 50;
+    z-index: 100;
 }
 
 #img-ind-0,

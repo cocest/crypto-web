@@ -37,19 +37,19 @@
    color: white;
  }
 
+ .ux-txt-chocolate {
+   color: chocolate;
+ }
+
+ .ux-txt-chocolate.txt-hover:hover {
+   color: rgb(209, 122, 60);
+ }
+
  .ux-bg-chocolate {
    background-color: chocolate;
  }
 
  .ux-bg-chocolate.bg-hover:hover {
-   background-color: rgb(209, 122, 60);
- }
-
- .ux-txt-chocolate {
-   background-color: chocolate;
- }
-
- .ux-txt-chocolate.txt-hover:hover {
    background-color: rgb(209, 122, 60);
  }
 
@@ -114,34 +114,126 @@
  .ux-opacity-4 {
     opacity: 0.8;
  }
- /*********element opacity end*********/
 
  /*********font format**********/
- /*font format here*/
- /*********font format end**********/
+.ux-fs-px-1 {
+  font-size: 0.0625em;
+}
+
+.ux-fs-px-2 {
+  font-size: 0.125em;
+}
+
+ .ux-fs-px-3 {
+  font-size: 0.1875em;
+}
+
+.ux-fs-px-4 {
+  font-size: 0.25em;
+}
+
+.ux-fs-px-5 {
+  font-size: 0.3125em;
+}
+
+.ux-fs-px-6 {
+  font-size: 0.375em;
+}
+
+.ux-fs-px-7 {
+  font-size: 0.4375em;
+}
+
+.ux-fs-px-8 {
+  font-size: 0.5em;
+}
+
+.ux-fs-px-9 {
+  font-size: 0.5625em;
+}
+
+.ux-fs-px-10 {
+  font-size: 0.625em;
+}
+
+.ux-fs-px-11 {
+  font-size: 0.6875em;
+}
+
+.ux-fs-px-12 {
+  font-size: 0.75em;
+}
+
+.ux-fs-px-13 {
+  font-size: 0.8125em;
+}
+
+.ux-fs-px-14 {
+  font-size: 0.875em;
+}
+
+.ux-fs-px-15 {
+  font-size: 0.9375em;
+}
+
+.ux-fs-px-16 {
+  font-size: 1.0em;
+}
+
+.ux-fs-px-17 {
+  font-size: 1.0625em;
+}
+
+.ux-fs-px-18 {
+  font-size: 1.125em;
+}
+
+.ux-fs-px-19 {
+  font-size: 1.1875em;
+}
+
+.ux-fs-px-20 {
+  font-size: 1.25em;
+}
+
+.ux-fs-px-21 {
+  font-size: 1.3125em;
+}
+
+.ux-fs-px-22 {
+  font-size: 1.375em;
+}
+
+.ux-fs-px-23 {
+  font-size: 1.4375em;
+}
+
+.ux-fs-px-24 {
+  font-size: 1.5em;
+}
 
  /*********rounded corner**********/
- .ux-round-corner-1 {
+ .ux-rd-corner-1 {
      border-radius: 4px;
  }
 
- .ux-round-corner-2 {
+ .ux-rd-corner-2 {
     border-radius: 8px;
  }
 
- .ux-round-corner-3 {
+ .ux-rd-corner-3 {
     border-radius: 12px;
  }
 
- .ux-round-corner-4 {
+ .ux-rd-corner-4 {
     border-radius: 16px;
  }
 
- .ux-h-round-corner {
+ .ux-h-rd-corner {
     border-radius: 25%;
  }
 
- .ux-f-round-corner {
+ .ux-f-rd-corner {
     border-radius: 50%;
  }
  /*********rounded corner end**********/
@@ -151,30 +243,31 @@
     display: inline-block;
     text-align: center;
     width: fit-content;
-    padding: 5px 15px!important;
+    padding: 5px 15px;
     font-size: 1.0em;
+    text-decoration: none;
     box-sizing: border-box;
     cursor: default;
  }
 
  .ux-btn.small {
    font-size: 0.9em;
-   padding: 4px 8px!important;
+   padding: 4px 8px;
  }
 
  .ux-btn.medium {
    font-size: 1.2em;
-   padding: 6px 12px!important;
+   padding: 6px 12px;
  }
 
  .ux-btn.large {
    font-size: 1.5em;
-   padding: 8px 16px!important;
+   padding: 8px 16px;
  }
 
  .ux-btn.x-large {
    font-size: 2.0em;
-   padding: 10px 20px!important;
+   padding: 10px 20px;
  }
 
  .ux-btn.ux-bg-red.grad-silk {

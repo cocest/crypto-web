@@ -22,7 +22,7 @@
             let curr_page_scroll_y = 0;
 
             // start image slider animation
-            window.imageSlider(
+            /*window.imageSlider(
                 [
                     './images/anim/0908Japan09.bmp',
                     './images/anim/0908Japan13.bmp',
@@ -35,10 +35,10 @@
                     var elem_1 = document.getElementById('img-ind-' + prev_indicator_index);
                     var elem_2 = document.getElementById('img-ind-' + curr_indicator_index);
 
-                    elem_1.setAttribute('class', 'ux-bg-white ux-f-round-corner');
-                    elem_2.setAttribute('class', 'ux-bg-grayblue bg-hover ux-f-round-corner');
+                    elem_1.setAttribute('class', 'ux-bg-white ux-f-rd-corner');
+                    elem_2.setAttribute('class', 'ux-bg-grayblue bg-hover ux-f-rd-corner');
                 }
-            );
+            );*/
 
             // show and hide main top menu on scroll
             function hideAndShowMainMenu() {
@@ -106,7 +106,7 @@
                         <li><a class="link ux-txt-smokewhite txt-hover" href="#">About Us</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" href="#">Contact Us</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" href="#">FAQ</a></li>
-                        <li><a class="link ux-btn ux-bg-chocolate bg-hover ux-txt-white ux-round-corner-1" href="#">Get
+                        <li><a class="ux-btn ux-bg-chocolate bg-hover ux-txt-white ux-rd-corner-1" href="#">Get
                                 Started</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" href="#">Sign In</a></li>
                     </ul>
@@ -115,12 +115,35 @@
         </div>
     </div>
     <!--page upper section-->
-    <div id="imageslider-cont">
+    <div class="page-upper-section">
+        <div id="imageslider-cont"></div>
+        <!--headline container-->
+        <div id="headline-cont" class="page-cont-max-width">
+            <div class="headline">
+                <h1>
+                    <span class="ux-txt-white">The Crypto Currency </span>
+                    </br>
+                    <span class="ux-txt-chocolate ux-fs-px-19">You Ever Wanted</span>
+                </h1>
+            </div>
+            <div class="sub-headline">
+                <h2 style="line-height: 25px;">
+                    <span class="ux-txt-white ux-fs-px-15 sub-headline-txt">
+                        CRYENGINE makes the learning curve less steep with Full Source Code.
+                        Clear tutorials, detailed documentation, and a strong development community.
+                    </span>
+                </h2>
+            </div>
+            <div class="action-btn-cont">
+                <a class="ux-btn custom-action-btn ux-bg-chocolate bg-hover ux-txt-white ux-rd-corner-1" href="#">Join Us</a>
+            </div>
+        </div>
         <!--animated image indicator-->
         <div id="anim-img-indicator">
-            <div id="img-ind-0" class="ux-bg-grayblue bg-hover ux-f-round-corner" onclick="gotoImageSlider(0)"></div>
-            <div id="img-ind-1" class="ux-bg-white ux-f-round-corner" onclick="gotoImageSlider(1)"></div>
-            <div id="img-ind-2" class="ux-bg-white ux-f-round-corner" onclick="gotoImageSlider(2)"></div>
+            <div id="img-ind-0" class="ux-bg-grayblue bg-hover ux-f-rd-corner" onclick="gotoImageSlider(0)">
+            </div>
+            <div id="img-ind-1" class="ux-bg-white ux-f-rd-corner" onclick="gotoImageSlider(1)"></div>
+            <div id="img-ind-2" class="ux-bg-white ux-f-rd-corner" onclick="gotoImageSlider(2)"></div>
         </div>
     </div>
 </body>
