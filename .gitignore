@@ -2,7 +2,7 @@
 images/anim/
 
 # ignore background images
-images/background
+images/background/
 
 # ignore enviromental variables (.env)
 .env
