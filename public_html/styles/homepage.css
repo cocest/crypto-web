@@ -25,7 +25,7 @@
 .page-top-menu-cont {
     position: fixed;
     width: 100%;
-    z-index: 100
+    z-index: 200
 }
 
 .page-top-menu-cont.show {
@@ -39,7 +39,7 @@
 }
 
 .page-upper-section {
-    position: absolute;
+    position: relative;
     height: 600px;
     width: 100%;
     background-image: url(../images/background/architecture-blue-building-411595.jpg);
@@ -68,7 +68,7 @@
 }
 
 .sub-headline {
-    padding: 0 20px 0 20px; max-width: 600px;
+    padding: 0 20px 0 20px; max-width: 560px;
 }
 
 .sub-headline-txt {
@@ -103,4 +103,229 @@
     margin: 0 2px 0 2px;
     cursor: pointer;
     border: 1px solid white;
+}
+
+.about-crypto-img-cont {
+    display: table-cell;
+    vertical-align: top;
+    width: 50%;
+    height: auto;
+    min-width: 250px;
+    padding: 0 20px 0 20px;
+    overflow: hidden;
+}
+
+.about-crypto-img-cont,
+.about-us-img-cont {
+    position: relative;
+    top: -50px;
+}
+
+.about-crypto-img-cont img {
+    position: relative;
+    /*top: -45px;*/
+    width: 100%;
+    height: 100%;
+}
+
+.about-crypto-cont {
+    display: table-cell;
+    vertical-align: top;
+    width: 50%;
+    padding: 0 20px 0 20px;
+}
+
+.about-crypto-headline-cont {
+    position: relative;
+    left: 50%;
+    top: 40px;
+    width: 350px;
+    padding: 30px 20px 50px 20px;
+}
+
+.about-us-section,
+.about-crypto-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.about-us-headline-cont {
+    position: relative;
+    top: 40px;
+    width: 150px;
+    padding: 30px 20px 50px 20px;
+}
+
+.about-us-headline-cont h1,
+.about-crypto-headline-cont h1 {
+    margin-bottom: 6px;
+}
+
+.about-us-headline-underline, 
+.about-crypto-headline-underline {
+    width: 100%;
+    height: 4px;
+}
+
+.about-us-img-cont {
+    display: table-cell;
+    float: right;
+    vertical-align: top;
+    width: 50%;
+    height: auto;
+    min-width: 250px;
+    padding: 0 20px 0 20px;
+    overflow: hidden;
+}
+
+.about-us-img-cont img {
+    /*object-fit: cover;
+    object-position: center;*/
+    width: 100%;
+    height: 100%;
+}
+
+.about-us-cont {
+    display: table-cell;
+    vertical-align: top;
+    width: 50%;
+    padding: 0 20px 0 20px;
+}
+
+.about-us-cont p,
+.about-crypto-cont p {
+    font-size: 1.4em;
+}
+
+.testimoney-section {
+    margin-bottom: 100px;
+}
+
+.testimonial-descr-cont {
+    margin-bottom: 50px;
+}
+
+.testimonial-descr-cont h1 {
+    text-align: center;
+}
+
+.testimonial-descr-cont p {
+    text-align: center;
+    font-size: 1.4em;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.testimonial-panel-cont {
+    display: table;
+    width: 100%;
+}
+
+.testimonial-panel {
+    display: table-cell;
+    width: 25%;
+    padding: 0 10px 0 10px;
+}
+
+.testimonial-panel .cont {
+    box-shadow: 1px 3px 5px 1px rgba(87, 135, 194, 0.4);
+    /*border: 1px solid gray;*/
+}
+
+.testimonial-panel .cont img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
+    overflow: hidden;
+}
+
+.testimonial-panel .cont div {
+    height: 250px;
+    padding: 10px;
+}
+
+.footer-header-cont {
+    background-color: #4b98d8;
+    padding: 10px 10px 10px 20px;
+    color: white;
+}
+
+.footer-header-cont a {
+    text-decoration: none;
+}
+
+.footer-header-cont i {
+    font-size: 1.5em;
+}
+
+.footer-header-cont span {
+    padding-left: 10px;
+}
+
+.footer-cont {
+    display: table;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 20px 50px 20px;
+}
+
+/*.footer-col_1 {
+    width: 35%;
+}
+
+.footer-col_2 {
+    width: 35%;
+}
+
+.footer-col_3 {
+    width: 30%;
+}*/
+
+.footer-col_1,
+.footer-col_2,
+.footer-col_3 {
+    display: table-cell;
+    width: 33%;
+    font-family: Calibri;
+    font-size: 1.2em;
+    color: white;
+}
+
+.footer-col_1 h4,
+.footer-col_2 h4,
+.footer-col_3 h4 {
+    margin-bottom: 15px;
+}
+
+.footer-col_1 i {
+    font-size: 1.4em;
+}
+
+.footer-col_1 span {
+    padding-left: 15px;
+}
+
+.footer-col_3 a {
+    display: inline-block;
+    padding: 10px 20px 10px 0px;
+}
+
+.footer-col_3 i.fab {
+    font-size: 2.5em;
+}
+
+.footer-hr-line {
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px solid #005ebf;
+}
+
+.footer-base-cont {
+    /*background-color: #506c8d;*/
+    padding: 10px 20px 10px 20px;
+    font-family: Calibri;
+    font-size: 1.0em;
+    border-top: 1px solid #6cb5ff;
 }

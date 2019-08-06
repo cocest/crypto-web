@@ -78,6 +78,14 @@
     background-color: rgb(233, 175, 1);
  }
 
+ .ux-txt-grayblue {
+   color: #5787c2;
+ }
+
+ .ux-txt-grayblue.txt-hover:hover {
+   color: #698fbe;
+ }
+
  .ux-bg-grayblue {
    background-color: #5787c2;
  }
@@ -357,7 +365,8 @@
 }
 
  /************menu**************/
- ul.ux-hr-menu {
+ ul.ux-hr-menu,
+ ul.ux-vt-menu {
    list-style-type: none;
    margin: 0px;
    padding: 0px;
@@ -379,5 +388,16 @@
   display: inline-block;
   text-decoration: none;
   padding: 15px 10px;
+  font-size: 0.95em;
+}
+
+ul.ux-vt-menu li {
+  text-align: left;
+}
+
+ul.ux-vt-menu.fmt-link-med li .link {
+  display: block;
+  text-decoration: none;
+  padding: 4px 0 4px 0;
   font-size: 0.95em;
 }
