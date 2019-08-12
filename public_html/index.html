@@ -21,6 +21,109 @@
             let top_main_menu_hidden = false;
             let page_scroll_y = 0;
             let curr_page_scroll_y = 0;
+            let window_active = false;
+
+            // testimonial data list
+            let testimonies = [
+                {
+                    name: 'Attamah Celestine',
+                    profile_picture: './images/background/mimi-thian--VHQ0cw2euA-unsplash.jpg',
+                    testimoney: 'Hootsuite, which offers a social media dashboard, buckets their testimonials based on goals. For example, in one blade, they show testimonials from companies who.'
+                },
+                {
+                    name: 'Ugwumah Chigozie',
+                    profile_picture: './images/background/mimi-thian--VHQ0cw2euA-unsplash.jpg',
+                    testimoney: 'Hootsuite, which offers a social media dashboard, buckets their testimonials based on goals. For example, in one blade.'
+                },
+                {
+                    name: 'Geofrey Christian',
+                    profile_picture: './images/background/mimi-thian--VHQ0cw2euA-unsplash.jpg',
+                    testimoney: 'Hootsuite, which offers a social media dashboard, buckets their testimonials based on goals. For example, in one blade, they show testimonials from companies who have used social media to build their brand. which offers a social media dashboard, buckets their testimonials based on goals.'
+                }
+            ];
+
+            window.closeWindowPanel = function(win_id) {
+                let elem = document.getElementById(win_id);
+                elem.setAttribute('class', 'remove-elem');
+
+                window_active = false;
+            };
+
+            // display full testimoney panel
+            window.displayFullTestimoneyPanel = function(index) {
+                if (!window_active) {
+                    window_active = true;
+
+                    let panel = document.getElementById('testimonial-full-panel-cont');
+
+                    let elem = panel.querySelector('.prof-pic');
+                    elem.setAttribute('src', testimonies[index].profile_picture);
+
+                    elem = panel.querySelector('.user-name');
+                    elem.innerHTML = testimonies[index].name;
+
+                    elem = panel.querySelector('.txt');
+                    elem.innerHTML = testimonies[index].testimoney;
+
+                    // display the panel
+                    panel.removeAttribute('class');
+                }
+            };
+
+            // clip unffitted text out
+            function clipOutText(txt_length, text) {
+                let clipped_text = text;
+                let text_clipped = false;
+
+                if (txt_length < text.length) {
+                    if (text[txt_length - 1] == ' ') {
+                        clipped_text = text.substring(0, txt_length - 1);
+
+                    } else { // iterate forward until you found whitespace
+                        for (let i = txt_length; i < text.length; i++) {
+                            if (text[i] == ' ') {
+                                clipped_text = text.substring(0, i);
+                                break;
+                            }
+                        }
+                    }
+
+                    clipped_text += '...';
+                    text_clipped = true;
+                }
+
+                return [clipped_text, text_clipped];
+            }
+
+            // add testimonies' panel to page
+            function createTestimonialPanels() {
+                let elem = document.querySelector('.testimonial-panel-cont');
+                let panel, cont, clipped_text;
+
+                for (let i = 0; i < testimonies.length; i++) {
+                    clipped_text = clipOutText(250, testimonies[i].testimoney);
+
+                    panel = document.createElement('div');
+                    panel.setAttribute('class', 'testimonial-panel');
+
+                    cont = document.createElement('div');
+                    cont.setAttribute('class', 'cont');
+                    cont.innerHTML =
+                        `<div class="profile-pic-sec">
+                             <img class="prof-pic ux-f-rd-corner shadow" src="${testimonies[i].profile_picture}" alt="user's profile picture"/>
+                         </div>
+                         <div class="user-name ux-txt-grayblue">${testimonies[i].name}</div>
+                         <div class="descr-cont">
+                             <p class="ux-fs-px-18">${clipped_text[0]}</p>
+                         </div>
+                         <div class="continue-reading-cont">
+                             ${clipped_text[1] ? '<button id="tml-cont-rd-btn" class="ux-fs-px-16 ux-txt-grayblue txt-hover" onclick="displayFullTestimoneyPanel(' + i + ')">Continue Reading</button>' : ''}
+                         </div>`;
+
+                    panel.appendChild(cont);
+                    elem.appendChild(panel);
+                }
+            }
 
             // start image slider animation
             /*window.imageSlider(
@@ -76,7 +179,7 @@
             };
 
             // call after page is loaded
-            // code here
+            createTestimonialPanels();
         }
 
         //initialise the script
@@ -191,56 +294,22 @@
         <div class="testimonial-descr-cont">
             <h1 class="ux-txt-grayblue">Testimonial Page Section</h1>
             <p>
-                A testimonial page is one of the most powerful, important parts of your site. 
-                Sure, you can use your homepage to tout your company’s benefits, but it means 
+                A testimonial page is one of the most powerful, important parts of your site.
+                Sure, you can use your homepage to tout your company’s benefits, but it means
                 a whole lot more when rave reviews come from unbiased customers.
             </p>
         </div>
-        <div class="testimonial-panel-cont">
-            <div class="testimonial-panel">
-                <div class="cont">
-                    <img src="./images/background/mimi-thian--VHQ0cw2euA-unsplash.jpg" alt="user's profile picture">
-                    <div>
-                        <p class="ux-fs-px-18">
-                            Hootsuite, which offers a social media dashboard, buckets their testimonials based on goals. 
-                            For example, in one blade, they show testimonials from companies who.
-                        </p>
-                    </div>
-                </div>
+        <div class="testimonial-panel-cont"></div>
+        <div id="testimonial-full-panel-cont" class="remove-elem">
+            <div class="win-close-btn" onclick="closeWindowPanel('testimonial-full-panel-cont')">
+                <i class="fas fa-window-close"></i>
             </div>
-            <div class="testimonial-panel">
-                <div class="cont">
-                    <img src="./images/background/mimi-thian--VHQ0cw2euA-unsplash.jpg" alt="user's profile picture">
-                    <div>
-                        <p class="ux-fs-px-18">
-                            Hootsuite, which offers a social media dashboard, buckets their testimonials based on goals. 
-                            For example, in one blade.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-panel">
-                <div class="cont">
-                    <img src="./images/background/mimi-thian--VHQ0cw2euA-unsplash.jpg" alt="user's profile picture">
-                    <div>
-                        <p class="ux-fs-px-18">
-                            Hootsuite, which offers a social media dashboard, buckets their testimonials based on goals. 
-                            For example, in one blade, they show testimonials from companies who have used social media 
-                            to build their brand.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-panel">
-                <div class="cont">
-                    <img src="./images/background/mimi-thian--VHQ0cw2euA-unsplash.jpg" alt="user's profile picture">
-                    <div>
-                        <p class="ux-fs-px-18">
-                            Hootsuite, which offers a social media dashboard, buckets their testimonials based on goals. 
-                            For example, in one blade, they show testimonials from companies who have used social media.
-                        </p>
-                    </div>
-                </div>
+            <div>
+                <p class="testimony ux-fs-px-18">
+                    <img class="prof-pic ux-f-rd-corner shadow" alt="user's profile picture" />
+                    <span class="user-name ux-txt-grayblue"></span>
+                    <span class="txt"></span>
+                </p>
             </div>
         </div>
     </div>

@@ -3,6 +3,10 @@
     box-shadow: 0px 1px 8px 2px rgba(0, 0, 0, 0.4);
 }
 
+.remove-elem {
+    display: none;
+}
+
 .site-logo-cont {
     display: table-cell;
     vertical-align: middle;
@@ -205,6 +209,22 @@
     margin-bottom: 50px;
 }
 
+.testimonial-panel .continue-reading-cont {
+    text-align: center;
+    height: 50px;
+}
+
+.testimonial-panel .continue-reading-cont button {
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+}
+
+.testimonial-panel .continue-reading-cont button:focus {
+    border: none;
+    outline: none;
+}
+
 .testimonial-descr-cont h1 {
     text-align: center;
 }
@@ -221,28 +241,93 @@
     width: 100%;
 }
 
+#testimonial-full-panel-cont {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    width: 600px;
+    margin-left: -300px;
+    min-height: 320px;
+    padding: 10px;
+    background-color: white;
+    box-shadow: 2px 4px 10px 2px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    z-index: 200;
+}
+
+#testimonial-full-panel-cont .win-close-btn {
+    float: right;
+    width: 50px;
+    height: 50px;
+    margin-top: -3px;
+    margin-right: -10px;
+}
+
+#testimonial-full-panel-cont .win-close-btn i {
+    font-size: 2.5em;
+    color: #6bacda;
+}
+
+#testimonial-full-panel-cont .win-close-btn i:hover {
+    color: #e07156;
+}
+
+#testimonial-full-panel-cont .prof-pic {
+    float: left;
+    width: 120px;
+    height: 120px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    object-fit: cover;
+    object-position: center;
+    overflow: hidden;
+    border: 5px solid white;
+}
+
+#testimonial-full-panel-cont .user-name {
+    display: block;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
 .testimonial-panel {
     display: table-cell;
-    width: 25%;
+    width: 33%;
     padding: 0 10px 0 10px;
 }
 
 .testimonial-panel .cont {
-    box-shadow: 1px 3px 5px 1px rgba(87, 135, 194, 0.4);
+    box-shadow: 1px 3px 5px 1px rgba(133, 144, 156, 0.4);
     /*border: 1px solid gray;*/
 }
 
-.testimonial-panel .cont img {
+.testimonial-panel .profile-pic-sec {
     width: 100%;
     height: 200px;
+    text-align: center;
+    background-color: #4b98d8;
+}
+
+.testimonial-panel  .prof-pic {
+    position: relative;
+    top: 20px;
+    width: 150px;
+    height: 150px;
     object-fit: cover;
     object-position: center;
     overflow: hidden;
+    border: 6px solid white;
 }
 
-.testimonial-panel .cont div {
-    height: 250px;
-    padding: 10px;
+.testimonial-panel .user-name {
+    font-size: 1.2em;
+    padding: 10px 10px 0px 10px;
+}
+
+.testimonial-panel .descr-cont {
+    height: 200px;
+    padding: 0 10px;
+    overflow: hidden;
 }
 
 .footer-header-cont {

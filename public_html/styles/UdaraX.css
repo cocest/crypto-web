@@ -104,7 +104,6 @@
     background-color: rgb(255, 193, 7);
     transition: background-color 0.5s;
  }
- /*********color transition hover effect end*********/
 
  /*********element opacity*********/
  .ux-opacity-1 {
@@ -244,7 +243,6 @@
  .ux-f-rd-corner {
     border-radius: 50%;
  }
- /*********rounded corner end**********/
 
  /*********button*********/
  .ux-btn {
