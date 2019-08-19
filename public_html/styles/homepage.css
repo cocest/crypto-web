@@ -27,30 +27,37 @@
 }
 
 .page-top-menu-cont {
-    position: fixed;
     width: 100%;
     z-index: 200
 }
 
+.page-top-menu-cont.absolute {
+    position: absolute;
+}
+
+.page-top-menu-cont.fixed {
+    position: fixed;
+}
+
 .page-top-menu-cont.show {
     top: 0px;
-    transition: top 0.5s;
+    transition: top 0.3s;
 }
 
 .page-top-menu-cont.hide {
     top: -70px;
-    transition: top 0.3s;
+    transition: top 0.2s;
 }
 
 .page-upper-section {
     position: relative;
     height: 600px;
     width: 100%;
-    background-image: url(../images/background/architecture-blue-building-411595.jpg);
+    background-image: url(../images/background/crypto-bg-img.png);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    background-color: #8c8c8c;
+    background-color: #82aabd;
     background-blend-mode: multiply;
 }
 
@@ -58,6 +65,18 @@
     position: absolute;
     height: inherit;
     width: inherit;
+}
+
+.headline-left-bg-img {
+    position: absolute;
+    right: 180px;
+    top: 80px;
+    height: 493px;
+    width: 540px;
+    background-image: url(../images/background/isometric-bg-img2.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 #headline-cont {
@@ -77,6 +96,7 @@
 
 .sub-headline-txt {
     font-family: Corbel, Calibri, sans-serif;
+    font-weight: lighter;
 }
 
 .action-btn-cont {
@@ -84,7 +104,7 @@
 }
 
 .custom-action-btn {
-    padding: 6px 40px;
+    padding: 6px 60px;
     font-size: 1.2em;
 }
 
@@ -109,27 +129,129 @@
     border: 1px solid white;
 }
 
+.package-section {
+    margin-top: 80px;
+    margin-bottom: 100px;
+}
+
+.package-section .package-headline {
+    margin-bottom: 50px;
+}
+
+.package-section .package-headline .descr-txt {
+    display: inline-block;
+    padding: 0 20px;
+    max-width: 1100px;
+}
+
+.package-panel-cont {
+    display: table;
+    width: 100%;
+}
+
+.package-panel-cont .package-panel {
+    display: table-cell;
+    width: 33%;
+    padding: 0 10px;
+}
+
+.package-panel-cont .package-panel .featured-art-cont {
+    display: table-cell;
+    min-width: 75px;
+    text-align: center;
+}
+
+.package-panel-cont .package-panel .featured-art-cont i {
+    font-size: 3.5em;
+}
+
+.package-panel-cont .package-panel .content {
+    display: table-cell;
+    vertical-align: top;
+    width: 100%;
+    padding-left: 10px;
+}
+
+.package-panel-cont .package-panel .content h3 {
+    margin-top: 0px;
+    margin-bottom: 15px;
+}
+
+.service-section-cont {
+    padding-top: 50px;
+    padding-bottom: 100px;
+    background-color: lavender;
+}
+
+.service-section .service-headline {
+    margin-bottom: 40px;
+}
+
+.service-section .service-panel-cont {
+    display: table;
+    width: 100%;
+}
+
+.service-section .service-panel-cont .service-panel {
+    display: table-cell;
+    width: 25%;
+    padding: 0 10px 0 10px;
+}
+
+.service-section .service-panel-cont .service-panel .cont {
+    min-height: 300px;
+    padding-bottom: 30px;
+    border-radius: 4px;
+    background-color: white;
+    box-shadow: 1px 3px 5px 1px rgba(133, 144, 156, 0.6);
+}
+
+.service-section .service-panel-cont .service-panel .featured-art-cont {
+    text-align: center;
+    width: 100%;
+    height: 100px;
+}
+
+.service-section .service-panel-cont .service-panel .featured-art-cont i {
+    margin-top: 20px;
+    font-size: 4.5em;
+}
+
+.service-section .service-panel-cont .service-panel .title {
+    text-align: center;
+}
+
+.service-section .service-panel-cont .service-panel .txt {
+    text-align: justify;
+    font-size: 1.0em;
+    padding: 0 10px;
+}
+
+.about-crypto-section-cont {
+    width: 100%;
+    background-color: #4b98d8;
+}
+
 .about-crypto-img-cont {
     display: table-cell;
     vertical-align: top;
     width: 50%;
     height: auto;
     min-width: 250px;
-    padding: 0 20px 0 20px;
+    padding: 20px;
     overflow: hidden;
 }
 
 .about-crypto-img-cont,
 .about-us-img-cont {
     position: relative;
-    top: -50px;
+    top: -70px;
 }
 
 .about-crypto-img-cont img {
     position: relative;
-    /*top: -45px;*/
     width: 100%;
-    height: 100%;
+    box-shadow: 3px 3px 8px 1px rgb(62, 74, 88);
 }
 
 .about-crypto-cont {
@@ -198,7 +320,8 @@
 
 .about-us-cont p,
 .about-crypto-cont p {
-    font-size: 1.4em;
+    font-size: 1.25em;
+    color: white;
 }
 
 .testimoney-section {

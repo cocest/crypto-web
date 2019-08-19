@@ -19,6 +19,7 @@
         function init() {
             // define and initialise variables
             let top_main_menu_hidden = false;
+            let top_main_menu_changed = false;
             let page_scroll_y = 0;
             let curr_page_scroll_y = 0;
             let window_active = false;
@@ -42,7 +43,7 @@
                 }
             ];
 
-            window.closeWindowPanel = function(win_id) {
+            window.closeWindowPanel = function (win_id) {
                 let elem = document.getElementById(win_id);
                 elem.setAttribute('class', 'remove-elem');
 
@@ -50,7 +51,7 @@
             };
 
             // display full testimoney panel
-            window.displayFullTestimoneyPanel = function(index) {
+            window.displayFullTestimoneyPanel = function (index) {
                 if (!window_active) {
                     window_active = true;
 
@@ -145,27 +146,36 @@
             );*/
 
             // show and hide main top menu on scroll
-            function hideAndShowMainMenu() {
+            function changeMainMenuOnScroll() {
                 // get top menu container
                 let elem = document.querySelector('.page-top-menu-cont');
 
                 curr_page_scroll_y = getPageScrollTop();
 
-                //check if page is scroll down
-                if (curr_page_scroll_y - page_scroll_y > 0) {
-                    // check if menu has not been hidden
-                    if (!top_main_menu_hidden) {
-                        // hide menu
-                        elem.setAttribute('class', 'page-top-menu-cont hide ux-bg-grayblue shadow');
-                        top_main_menu_hidden = true;
+                if (curr_page_scroll_y < 70) {
+                    if (top_main_menu_changed) {
+                        elem.setAttribute('class', 'page-top-menu-cont absolute');
+                        top_main_menu_changed = false;
                     }
 
-                } else { // page is scroll up
-                    // check if menu has not been shown
-                    if (top_main_menu_hidden) {
-                        // hide menu
-                        elem.setAttribute('class', 'page-top-menu-cont show ux-bg-grayblue shadow');
-                        top_main_menu_hidden = false;
+                } else {
+                    top_main_menu_changed = true;
+
+                    if (curr_page_scroll_y - page_scroll_y > 0) { //check if page is scroll down
+                        // check if menu has not been hidden
+                        if (!top_main_menu_hidden) {
+                            // hide menu
+                            elem.setAttribute('class', 'page-top-menu-cont fixed hide ux-bg-grayblue shadow');
+                            top_main_menu_hidden = true;
+                        }
+
+                    } else { // page is scroll up
+                        // check if menu has not been shown
+                        if (top_main_menu_hidden) {
+                            // hide menu
+                            elem.setAttribute('class', 'page-top-menu-cont fixed show ux-bg-grayblue shadow');
+                            top_main_menu_hidden = false;
+                        }
                     }
                 }
 
@@ -175,7 +185,7 @@
 
             //listen to page scroll event
             window.onscroll = function (e) {
-                hideAndShowMainMenu();
+                changeMainMenuOnScroll();
             };
 
             // call after page is loaded
@@ -193,7 +203,7 @@
 </head>
 
 <body>
-    <div class="page-top-menu-cont show ux-bg-grayblue shadow">
+    <div class="page-top-menu-cont absolute">
         <!--Header menu container-->
         <div class="page-cont-max-width">
             <nav>
@@ -221,6 +231,7 @@
     <!--page upper section-->
     <div class="page-upper-section">
         <div id="imageslider-cont"></div>
+        <div class="headline-left-bg-img"></div>
         <!--headline container-->
         <div id="headline-cont" class="page-cont-max-width">
             <div class="headline">
@@ -231,7 +242,7 @@
                 </h1>
             </div>
             <div class="sub-headline">
-                <h2 style="line-height: 25px;">
+                <h2 style="line-height: 28px;">
                     <span class="ux-txt-white ux-fs-px-15 sub-headline-txt">
                         CRYENGINE makes the learning curve less steep with Full Source Code.
                         Clear tutorials, detailed documentation, and a strong development community.
@@ -239,8 +250,8 @@
                 </h2>
             </div>
             <div class="action-btn-cont">
-                <a class="ux-btn custom-action-btn ux-bg-chocolate bg-hover ux-txt-white ux-rd-corner-1" href="#">Join
-                    Us</a>
+                <a class="ux-btn custom-action-btn ux-bg-chocolate bg-hover ux-txt-white ux-rd-corner-1 shadow"
+                    href="#">Create Account</a>
             </div>
         </div>
         <!--animated image indicator-->
@@ -252,27 +263,141 @@
         </div>
     </div>
 
-    <!--About cryptocurrency section-->
-    <div class="about-crypto-section page-cont-max-width">
-        <div class="about-crypto-headline-cont">
-            <h1 class="ux-txt-grayblue">About Cryptocurrency</h1>
-            <div class="about-crypto-headline-underline ux-bg-grayblue"></div>
-        </div>
-        <div class="about-crypto-img-cont">
-            <img src="./images/background/cryptocurrency-2922058_640.jpg" alt="About cryptocurrency image" />
-        </div>
-        <div class="about-crypto-cont">
-            <p>
-                Cryptocurrency are digital asset ... (digital money). They are bit of valuable information
-                which can be transfered among users on a blockchain network. There are thousands of
-                cryptocurrency with different features and bitcoin is the oldest, which was introduced by
-                Satophi Nakemoto in 2008 and it is the most widely accepted crytocurrency.
+    <!--why choose us section-->
+    <div class="package-section page-cont-max-width">
+        <div class="package-headline ux-txt-align-ct">
+            <h1 class="ux-txt-grayblue">Why Choose Us</h1>
+            <p class="descr-txt ux-fs-px-20">
+                You have come to the right place because we have the services you always want. It is our
+                obligation to provide unparalleled services for your success. We are working 24 hours to
+                improve our service to suit your preference at best.
             </p>
+        </div>
+        <div class="package-panel-cont">
+            <div class="package-panel">
+                <div class="featured-art-cont">
+                    <i class="fas fa-shield-alt ux-txt-grayblue"></i>
+                </div>
+                <div class="content">
+                    <h3>Secure & Reliable</h3>
+                    <p class="ux-fs-px-16">
+                        Once you begin altering your site, you can easily check conversions by running Google
+                        Analytics reports. More conversions must mean something’s working.
+                    </p>
+                </div>
+            </div>
+            <div class="package-panel">
+                <div class="featured-art-cont">
+                    <i class="fas fa-box-open ux-txt-grayblue"></i>
+                </div>
+                <div class="content">
+                    <h3>10% bonus on referal</h3>
+                    <p class="ux-fs-px-16">
+                        Marketers seeking to dominate their respective niches should be focused on the best website
+                        layouts for maximum UX and conversions.
+                    </p>
+                </div>
+            </div>
+            <div class="package-panel">
+                <div class="featured-art-cont">
+                    <i class="far fa-question-circle ux-txt-grayblue"></i>
+                </div>
+                <div class="content">
+                    <h3>You already know</h3>
+                    <p class="ux-fs-px-16">
+                        If you want to infuse these best practices into your own website layout, here are a few steps to
+                        follow.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Our service section-->
+    <div class="service-section-cont">
+        <div class="service-section page-cont-max-width">
+            <div class="service-headline ux-txt-align-ct">
+                <h1 class="ux-txt-grayblue">Our Services</h1>
+            </div>
+            <div class="service-panel-cont">
+                <div class="service-panel">
+                    <div class="cont">
+                        <div class="featured-art-cont">
+                            <i class="fas fa-chart-area ux-txt-grayblue"></i>
+                        </div>
+                        <h3 class="title ux-txt-grayblue">Cryptotrading</h3>
+                        <p class="txt ux-fs-px-16">
+                            It’s said that 94% of first-impressions are design driven. Not only that, but it takes less
+                            than half a second for a visitor to form an opinion of your site.
+                        </p>
+                    </div>
+                </div>
+                <div class="service-panel">
+                    <div class="cont">
+                        <div class="featured-art-cont">
+                            <i class="fas fa-chart-pie ux-txt-grayblue"></i>
+                        </div>
+                        <h3 class="title ux-txt-grayblue">Equities and Hedge Funds management</h3>
+                        <p class="txt ux-fs-px-16">
+                            It’s said that 94% of first-impressions are design driven. Not only that, but it takes less
+                            than half a second for a visitor to form an opinion of your site.
+                        </p>
+                    </div>
+                </div>
+                <div class="service-panel">
+                    <div class="cont">
+                        <div class="featured-art-cont">
+                            <i class="fas fa-cannabis ux-txt-grayblue"></i>
+                        </div>
+                        <h3 class="title ux-txt-grayblue">Cannabis Stocks Trading</h3>
+                        <p class="txt ux-fs-px-16">
+                            It’s said that 94% of first-impressions are design driven. Not only that, but it takes less
+                            than half a second for a visitor to form an opinion of your site.
+                        </p>
+                    </div>
+                </div>
+                <div class="service-panel">
+                    <div class="cont">
+                        <div class="featured-art-cont">
+                            <i class="fas fa-hands-helping ux-txt-grayblue"></i>
+                        </div>
+                        <h3 class="title ux-txt-grayblue">OTC brokerage</h3>
+                        <p class="txt">
+                            It’s said that 94% of first-impressions are design driven. Not only that, but it takes less
+                            than half a second for a visitor to form an opinion of your site.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--About cryptocurrency section-->
+    <div class="about-crypto-section-cont">
+        <div class="about-crypto-section page-cont-max-width">
+            <div class="about-crypto-headline-cont">
+                <h1 class="ux-txt-white">About WebsiteName</h1>
+                <!--<div class="about-crypto-headline-underline ux-bg-grayblue"></div>-->
+            </div>
+            <div class="about-crypto-img-cont">
+                <img src="./images/background/about-us.jpg" alt="About cryptocurrency image" />
+            </div>
+            <div class="about-crypto-cont">
+                <p>
+                    Cryptopro investment is a financial group that help it client invest their cryptocurrency
+                    to make profitable ROI in accordance with the investment package the client subscribe to.
+                    We ... to ratify our client and help them on their journey to financial freedom while
+                    cryptocurrency are digital asset ... (digital money). They are bit of valuable information
+                    which can be transfered among users on a blockchain network. There are thousands of
+                    cryptocurrency with different features and bitcoin is the oldest, which was introduced by
+                    Satophi Nakemoto in 2008 and it is the most widely accepted crytocurrency.
+                </p>
+            </div>
         </div>
     </div>
 
     <!--About Us section-->
-    <div class="about-us-section page-cont-max-width">
+    <!--<div class="about-us-section page-cont-max-width">
         <div class="about-us-headline-cont">
             <h1 class="ux-txt-grayblue">About Us</h1>
             <div class="about-us-headline-underline ux-bg-grayblue"></div>
@@ -287,7 +412,7 @@
                 We ... to ratify our client and help them on their journey to financial freedom.
             </p>
         </div>
-    </div>
+    </div>-->
 
     <!--User Testimonial section-->
     <div class="testimoney-section page-cont-max-width">

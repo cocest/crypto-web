@@ -276,6 +276,10 @@
    padding: 10px 20px;
  }
 
+ .ux-btn.shadow {
+   box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+ }
+
  .ux-btn.ux-bg-red.grad-silk {
    background: linear-gradient(rgb(252, 118, 118), red);
  }
@@ -360,7 +364,11 @@
 
  .ux-txt-align-lt {
    text-align: left;
-}
+ }
+
+ .ux-txt-align-ct {
+   text-align: center;
+ }
 
  /************menu**************/
  ul.ux-hr-menu,
