@@ -23,6 +23,8 @@
             let page_scroll_y = 0;
             let curr_page_scroll_y = 0;
             let window_active = false;
+            let curr_tm_panel_index = 0;
+            let slide_tm_wait = false;
 
             // testimonial data list
             let testimonies = [
@@ -39,7 +41,12 @@
                 {
                     name: 'Geofrey Christian',
                     profile_picture: './images/background/mimi-thian--VHQ0cw2euA-unsplash.jpg',
-                    testimoney: 'Hootsuite, which offers a social media dashboard, buckets their testimonials based on goals. For example, in one blade, they show testimonials from companies who have used social media to build their brand. which offers a social media dashboard, buckets their testimonials based on goals.'
+                    testimoney: 'Hootsuite, which offers a social media dashboard, buckets their testimonials based on goals. For example, in one blade, they show testimonials from companies who have used social media to build their brand. which offers a social media dashboard, buckets their testimonials based on goals. Testimonials based on goals. For example, in one blade, they show testimonials'
+                },
+                {
+                    name: 'Morgan Freeman',
+                    profile_picture: './images/background/mimi-thian--VHQ0cw2euA-unsplash.jpg',
+                    testimoney: 'Hootsuite, which offers a social media dashboard, buckets their testimonials based on goals. For example, in one blade, they show testimonials from companies who.'
                 }
             ];
 
@@ -48,6 +55,134 @@
                 elem.setAttribute('class', 'remove-elem');
 
                 window_active = false;
+            };
+
+            window.displayFullTestimoney = function (btn_elem, index) {
+                let toggle = parseInt(btn_elem.getAttribute('toggle'));
+                let elem;
+
+                if (toggle == 0) {
+                    btn_elem.setAttribute('toggle', '1');
+                    btn_elem.innerHTML = "Read Less";
+
+                    elem = document.getElementById('tm-txt-cont-' + index);
+                    elem.setAttribute('class', 'txt-cont expand');
+
+                    elem = document.getElementById('tm-txt-' + index);
+                    elem.innerHTML = testimonies[index].testimoney;
+
+                } else {
+                    btn_elem.setAttribute('toggle', '0');
+                    btn_elem.innerHTML = "Read More";
+
+                    elem = document.getElementById('tm-txt-cont-' + index);
+                    elem.setAttribute('class', 'txt-cont collapse');
+
+                    elem = document.getElementById('tm-txt-' + index);
+                    elem.innerHTML = clipOutText(250, testimonies[index].testimoney)[0];
+                }
+            };
+
+            // navigate through testimonial
+            window.slideTestimonial = function(direction) {
+                // wait for the animation to finish
+                if (slide_tm_wait) {
+                    return;
+                } else {
+                    slide_tm_wait = true; // wait
+                }
+
+                let panel_cont, panels, panel, elem, scroll_index, clipped_text;
+
+                if (direction == 'next') {
+                    scroll_index = getTestimonialNextIndex('next', 3);
+                    clipped_text = clipOutText(250, testimonies[scroll_index].testimoney);
+
+                    panel_cont = document.querySelector('.testimonial-panel-cont');
+                    panels = panel_cont.getElementsByClassName('testimonial-panel');
+
+                    panel_cont.setAttribute('style', 'width: 133%;');
+
+                    panel = document.createElement('div');
+                    panel.setAttribute('class', 'testimonial-panel');
+
+                    elem = document.createElement('div');
+                    elem.setAttribute('class', 'cont');
+                    elem.innerHTML =
+                        `<i class="quote-icon fas fa-quote-left"></i>
+                         <div id="tm-txt-cont-${scroll_index}" class="txt-cont collapse">
+                             <p id="tm-txt-${scroll_index}" class="txt ux-fs-px-18">${clipped_text[0]}</p>
+                             ${clipped_text[1] ? '<div class="expand-btn ux-fs-px-18 ux-txt-grayblue" toggle="0" onclick="displayFullTestimoney(this, ' + scroll_index + ')">Read More</div>' : ''}
+                         </div>
+                         <div class="pointer"></div>
+                         <div class="profile-cont">
+                             <div class="picture-cont">
+                                 <img class="prof-pic ux-f-rd-corner" src="${testimonies[scroll_index].profile_picture}" alt="user's profile picture" />
+                             </div>
+                             <div class="name ux-txt-white ux-fs-px-20">${testimonies[scroll_index].name}</div>
+                         </div>`;
+
+                    panel.appendChild(elem)
+                    panel_cont.appendChild(panel);
+
+                    // scroll right
+                    panel_cont.setAttribute('class', 'testimonial-panel-cont scroll-right');
+
+                    // wait for 0.5 second and remove the first element at left
+                    setTimeout(function() {
+                        panel_cont.removeChild(panels[0]);
+                        panel_cont.removeAttribute('style');
+                        panel_cont.setAttribute('class', 'testimonial-panel-cont');
+
+                        slide_tm_wait = false
+
+                    }, 550);
+
+                } else { // previous
+                    scroll_index = getTestimonialNextIndex('prev', 3);
+                    clipped_text = clipOutText(250, testimonies[scroll_index].testimoney);
+
+                    panel_cont = document.querySelector('.testimonial-panel-cont');
+                    panels = panel_cont.getElementsByClassName('testimonial-panel');
+
+                    panel_cont.setAttribute('style', 'width: 133%;');
+                    panel_cont.setAttribute('class', 'testimonial-panel-cont shift-left');
+
+                    panel = document.createElement('div');
+                    panel.setAttribute('class', 'testimonial-panel');
+
+                    elem = document.createElement('div');
+                    elem.setAttribute('class', 'cont');
+                    elem.innerHTML =
+                        `<i class="quote-icon fas fa-quote-left"></i>
+                         <div id="tm-txt-cont-${scroll_index}" class="txt-cont collapse">
+                             <p id="tm-txt-${scroll_index}" class="txt ux-fs-px-18">${clipped_text[0]}</p>
+                             ${clipped_text[1] ? '<div class="expand-btn ux-fs-px-18 ux-txt-grayblue" toggle="0" onclick="displayFullTestimoney(this, ' + scroll_index + ')">Read More</div>' : ''}
+                         </div>
+                         <div class="pointer"></div>
+                         <div class="profile-cont">
+                             <div class="picture-cont">
+                                 <img class="prof-pic ux-f-rd-corner" src="${testimonies[scroll_index].profile_picture}" alt="user's profile picture" />
+                             </div>
+                             <div class="name ux-txt-white ux-fs-px-20">${testimonies[scroll_index].name}</div>
+                         </div>`;
+
+                    panel.appendChild(elem)
+                    panel_cont.insertBefore(panel, panels[0]);
+
+                    // scroll right
+                    panel_cont.setAttribute('class', 'testimonial-panel-cont shift-left scroll-left');
+
+                    // wait for 0.5 second and remove the first element at left
+                    setTimeout(function() {
+                        panel_cont.removeChild(panels[panels.length - 1]);
+                        panel_cont.removeAttribute('style');
+                        panel_cont.setAttribute('class', 'testimonial-panel-cont');
+
+                        slide_tm_wait = false
+
+                    }, 550);
+                }
             };
 
             // display full testimoney panel
@@ -70,6 +205,36 @@
                     panel.removeAttribute('class');
                 }
             };
+
+            function getTestimonialNextIndex(direction, panel_count) {
+                let index;
+                let tm_length = testimonies.length;
+
+                if (direction == 'next') {
+                    index = curr_tm_panel_index + panel_count;
+
+                    if (curr_tm_panel_index == tm_length - 1) {
+                        curr_tm_panel_index = 0;
+                    } else {
+                        curr_tm_panel_index++;
+                    }
+
+                    if (index < tm_length) {
+                        return index;
+                    } else {
+                        return index - tm_length;
+                    }
+
+                } else { // previous
+                    if (curr_tm_panel_index == 0) {
+                        curr_tm_panel_index = tm_length - 1;
+                    } else {
+                        curr_tm_panel_index--;
+                    }
+
+                    return curr_tm_panel_index;
+                }
+            }
 
             // clip unffitted text out
             function clipOutText(txt_length, text) {
@@ -101,7 +266,7 @@
                 let elem = document.querySelector('.testimonial-panel-cont');
                 let panel, cont, clipped_text;
 
-                for (let i = 0; i < testimonies.length; i++) {
+                for (let i = 0; i < 3; i++) {
                     clipped_text = clipOutText(250, testimonies[i].testimoney);
 
                     panel = document.createElement('div');
@@ -110,15 +275,17 @@
                     cont = document.createElement('div');
                     cont.setAttribute('class', 'cont');
                     cont.innerHTML =
-                        `<div class="profile-pic-sec">
-                             <img class="prof-pic ux-f-rd-corner shadow" src="${testimonies[i].profile_picture}" alt="user's profile picture"/>
+                        `<i class="quote-icon fas fa-quote-left"></i>
+                         <div id="tm-txt-cont-${i}" class="txt-cont collapse">
+                             <p id="tm-txt-${i}" class="txt ux-fs-px-18">${clipped_text[0]}</p>
+                             ${clipped_text[1] ? '<div class="expand-btn ux-fs-px-18 ux-txt-grayblue" toggle="0" onclick="displayFullTestimoney(this, ' + i + ')">Read More</div>' : ''}
                          </div>
-                         <div class="user-name ux-txt-grayblue">${testimonies[i].name}</div>
-                         <div class="descr-cont">
-                             <p class="ux-fs-px-18">${clipped_text[0]}</p>
-                         </div>
-                         <div class="continue-reading-cont">
-                             ${clipped_text[1] ? '<button id="tml-cont-rd-btn" class="ux-fs-px-16 ux-txt-grayblue txt-hover" onclick="displayFullTestimoneyPanel(' + i + ')">Continue Reading</button>' : ''}
+                         <div class="pointer"></div>
+                         <div class="profile-cont">
+                             <div class="picture-cont">
+                                 <img class="prof-pic ux-f-rd-corner" src="${testimonies[i].profile_picture}" alt="user's profile picture" />
+                             </div>
+                             <div class="name ux-txt-white ux-fs-px-20">${testimonies[i].name}</div>
                          </div>`;
 
                     panel.appendChild(cont);
@@ -415,27 +582,34 @@
     </div>-->
 
     <!--User Testimonial section-->
-    <div class="testimoney-section page-cont-max-width">
-        <div class="testimonial-descr-cont">
-            <h1 class="ux-txt-grayblue">Testimonial Page Section</h1>
-            <p>
-                A testimonial page is one of the most powerful, important parts of your site.
-                Sure, you can use your homepage to tout your company’s benefits, but it means
-                a whole lot more when rave reviews come from unbiased customers.
-            </p>
+    <div class="testimoney-section-cont">
+        <div class="testimoney-section page-cont-max-width">
+            <div class="tm-scroll-left-btn ux-f-rd-corner shadow anim-btn" onclick="slideTestimonial('prev')"><i class="fas fa-angle-left"></i></div>
+            <div class="tm-scroll-right-btn ux-f-rd-corner shadow anim-btn" onclick="slideTestimonial('next')"><i class="fas fa-angle-right"></i></div>
+            <div class="testimonial-descr-cont">
+                <h1 class="ux-txt-grayblue">Customers' Testimony</h1>
+            </div>
+            <div class="testimonial-panel-cont"></div>
+            <div id="testimonial-full-panel-cont" class="remove-elem">
+                <div class="win-close-btn" onclick="closeWindowPanel('testimonial-full-panel-cont')">
+                    <i class="fas fa-window-close"></i>
+                </div>
+                <div>
+                    <p class="testimony ux-fs-px-18">
+                        <img class="prof-pic ux-f-rd-corner shadow" alt="user's profile picture" />
+                        <span class="user-name ux-txt-grayblue"></span>
+                        <span class="txt"></span>
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class="testimonial-panel-cont"></div>
-        <div id="testimonial-full-panel-cont" class="remove-elem">
-            <div class="win-close-btn" onclick="closeWindowPanel('testimonial-full-panel-cont')">
-                <i class="fas fa-window-close"></i>
-            </div>
-            <div>
-                <p class="testimony ux-fs-px-18">
-                    <img class="prof-pic ux-f-rd-corner shadow" alt="user's profile picture" />
-                    <span class="user-name ux-txt-grayblue"></span>
-                    <span class="txt"></span>
-                </p>
-            </div>
+    </div>
+
+    <!--Achievement section-->
+    <div class="achievement-section-cont">
+        <div class="achievement-section">
+            <div></div>
+            <div></div>
         </div>
     </div>
 
