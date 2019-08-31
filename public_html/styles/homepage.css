@@ -332,6 +332,75 @@
     transition: 0.4s left, 0.4s opacity;
 }
 
+.crypto-statistics-section .title-cont {
+    margin-bottom: 50px;
+}
+
+.crypto-statistics-section-cont {
+    padding-top: 50px;
+    padding-bottom: 100px;
+}
+
+#crypto-st-table-cont .tab-btn-cont {
+    overflow: hidden;
+}
+
+#crypto-st-table-cont .tab-btn-cont .tab-btn.active {
+    background-color: #c8dee8;
+}
+
+#crypto-st-table-cont .tab-btn-cont .tab-btn {
+    float: left;
+    padding: 10px 30px;
+    color: #6094d4;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#crypto-st-table-cont .table-wrapper {
+    padding: 10px 0px 0px 0px;
+    background-color: #c8dee8;
+}
+
+#crypto-st-table-cont table, 
+#crypto-st-table-cont th, 
+#crypto-st-table-cont td {
+    border-bottom: 1px solid #c2d5ec;
+    border-collapse: collapse;
+}
+
+#crypto-st-table-cont th, 
+#crypto-st-table-cont td {
+    padding: 15px;
+}
+
+#crypto-st-table-cont tr:first-child {
+    background-color: #6094d4;
+    color: white;
+    font-family: sans-serif;
+}
+
+#crypto-st-table-cont tr {
+    background-color: white;
+}
+
+#crypto-st-table-cont td {
+    text-align: right;
+    font-size: 1.2em;
+    font-family: sans-serif;
+    color: dimgray;
+}
+
+#crypto-st-table-cont td:first-child {
+    text-align: left;
+    color: #5787c2;
+}
+
+#crypto-st-table-cont table {
+    width: 100%;
+}
+
 .tm-scroll-right-btn {
     top: 325px;
     right: -645px;
@@ -616,6 +685,93 @@
     padding: 0 10px;
     overflow: hidden;
 }*/
+
+.achievement-section-cont {
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.achievement-section .records-cont {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+}
+
+.achievement-section .records-cont .grid-item {
+    text-align: center;
+    margin: 10px;
+}
+
+.achievement-section .records-cont .grid-item .upper-sec {
+    width: 100%;
+}
+
+.achievement-section .records-cont .grid-item .icon {
+    padding-right: 10px;
+    min-width: 40px;
+}
+
+.achievement-section .records-cont .grid-item .icon i {
+    font-size: 2.5em;
+    /*color: #5787c2;*/
+    color: gray;
+}
+
+.achievement-section .records-cont .grid-item .figure {
+    font-size: 1.3em;
+    font-weight: bold;
+    /*color: #5787c2;*/
+    color: gray
+}
+
+.achievement-section .records-cont .grid-item .lower-sec h4 {
+    margin-top: 10px;
+    font-size: 1.0em;
+    /*color: #5787c2;*/
+    color: gray;
+}
+
+.achievement-section .sponsor-cont {
+    display: table;
+    width: 100%;
+    margin-top: 150px;
+}
+
+.achievement-section .sponsor-cont .grid-item {
+    display: table-cell;
+    width: 25%;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.achievement-section .sponsor-cont .grid-item .img-1 {
+    width: 50%;
+}
+
+.achievement-section .sponsor-cont .grid-item .img-2 {
+    width: 70%;
+}
+
+.achievement-section .sponsor-cont .grid-item .img-3 {
+    width: 50%;
+}
+
+.achievement-section .sponsor-cont .grid-item .img-4 {
+    width: 50%;
+}
+
+.achievement-section .sponsor-cont .grid-item .img-1,
+.achievement-section .sponsor-cont .grid-item .img-2,
+.achievement-section .sponsor-cont .grid-item .img-3,
+.achievement-section .sponsor-cont .grid-item .img-4 {
+    filter: grayscale(1);
+}
+
+.achievement-section .sponsor-cont .grid-item .img-1:hover,
+.achievement-section .sponsor-cont .grid-item .img-2:hover,
+.achievement-section .sponsor-cont .grid-item .img-3:hover,
+.achievement-section .sponsor-cont .grid-item .img-4:hover {
+    filter: none;
+}
 
 .footer-header-cont {
     background-color: #4b98d8;

@@ -25,6 +25,11 @@
             let window_active = false;
             let curr_tm_panel_index = 0;
             let slide_tm_wait = false;
+            let curr_crypto_price_btn_id = 0;
+            let update_crypto_statistics_worker;
+            let crypto_price_table_header = [
+                'NAME', 'PRICE', 'LAST UPDATE', 'MARKET CAP', 'SUPPLY', 'CHANGE PCT', 'LAST VOLUME'
+            ];
 
             // testimonial data list
             let testimonies = [
@@ -47,6 +52,130 @@
                     name: 'Morgan Freeman',
                     profile_picture: './images/background/mimi-thian--VHQ0cw2euA-unsplash.jpg',
                     testimoney: 'Hootsuite, which offers a social media dashboard, buckets their testimonials based on goals. For example, in one blade, they show testimonials from companies who.'
+                }
+            ];
+
+            // cryptocurrencies' price
+            let cryptoprices = [
+                {
+                    crypto_name: 'Bitcoin',
+                    crpto_symbol: 'BTC',
+                    usd: {
+                        price: 9459.19,
+                        last_update: 1567080149,
+                        mkt_cap: 169351898725.75,
+                        supply: 17903425,
+                        change_pct_hour: -0.032550328832298456,
+                        last_vol: 0.0027
+                    },
+                    eur: {
+                        price: 8556.79,
+                        last_update: 1567080157,
+                        mkt_cap: 153195848005.75003,
+                        supply: 17903425,
+                        change_pct_hour: -0.032550328832298456,
+                        last_vol: 0.06690278
+                    }
+                },
+                {
+                    crypto_name: 'Ethereum',
+                    crpto_symbol: 'ETH',
+                    usd: {
+                        price: 168.72,
+                        last_update: 1567080146,
+                        mkt_cap: 18140773419.14628,
+                        supply: 107519994.1865,
+                        change_pct_hour: -0.09474182851728836,
+                        last_vol: 0.20135509
+                    },
+                    eur: {
+                        price: 152.57,
+                        last_update: 1567080158,
+                        mkt_cap: 16404325513.034303,
+                        supply: 107519994.1865,
+                        change_pct_hour: -0.10476003404700884,
+                        last_vol: 9
+                    }
+                },
+                {
+                    crypto_name: 'Litecoin',
+                    crpto_symbol: 'LTC',
+                    usd: {
+                        price: 67.62,
+                        last_update: 1567085874,
+                        mkt_cap: 721141421.2462507,
+                        supply: 9005262.50307506,
+                        change_pct_hour: 0.15007503751876508,
+                        last_vol: 0.35325336
+                    },
+                    eur: {
+                        price: 72.41,
+                        last_update: 1567085170,
+                        mkt_cap: 652071057.8476651,
+                        supply: 9005262.50307506,
+                        change_pct_hour: 0.2908587257617642,
+                        last_vol: 3.5
+                    }
+                },
+                {
+                    crypto_name: 'Dash',
+                    crpto_symbol: 'DASH',
+                    usd: {
+                        price: 80.08,
+                        last_update: 1567085874,
+                        mkt_cap: 721141421.2462507,
+                        supply: 9005262.50307506,
+                        change_pct_hour: 0.15007503751876508,
+                        last_vol: 0.35325336
+                    },
+                    eur: {
+                        price: 72.41,
+                        last_update: 1567085170,
+                        mkt_cap: 652071057.8476651,
+                        supply: 9005262.50307506,
+                        change_pct_hour: 0.2908587257617642,
+                        last_vol: 3.5
+                    }
+                },
+                {
+                    crypto_name: 'Monero',
+                    crpto_symbol: 'XMR',
+                    usd: {
+                        price: 70.28,
+                        last_update: 1567085886,
+                        mkt_cap: 1207434119.038162,
+                        supply: 17180337.4934286,
+                        change_pct_hour: 0.2138884927990955,
+                        last_vol: 0.1
+                    },
+                    eur: {
+                        price: 63.27,
+                        last_update: 1567085775,
+                        mkt_cap: 1086999953.2092275,
+                        supply: 17180337.4934286,
+                        change_pct_hour: 0.20589166930630748,
+                        last_vol: 0.27835534
+                    }
+                },
+                {
+                    crypto_name: 'ZCash',
+                    crptosymbol: 'ZEC',
+                    usd: {
+                        price: 45.23,
+                        last_update: 1567085861,
+                        mkt_cap: 330038504.3125,
+                        supply: 7296893.75,
+                        change_pct_hour: -0.08835873647008228,
+                        last_vol: 2.076651
+                    },
+                    eur: {
+                        price: 40.9,
+                        last_update: 1567085818,
+                        mkt_cap: 298442954.375,
+                        supply: 7296893.75,
+                        change_pct_hour: -0.21956574774336038,
+                        last_vol: 0.44052
+                    }
                 }
             ];
 
@@ -84,7 +213,7 @@
             };
 
             // navigate through testimonial
-            window.slideTestimonial = function(direction) {
+            window.slideTestimonial = function (direction) {
                 // wait for the animation to finish
                 if (slide_tm_wait) {
                     return;
@@ -129,7 +258,7 @@
                     panel_cont.setAttribute('class', 'testimonial-panel-cont scroll-right');
 
                     // wait for 0.5 second and remove the first element at left
-                    setTimeout(function() {
+                    setTimeout(function () {
                         panel_cont.removeChild(panels[0]);
                         panel_cont.removeAttribute('style');
                         panel_cont.setAttribute('class', 'testimonial-panel-cont');
@@ -174,7 +303,7 @@
                     panel_cont.setAttribute('class', 'testimonial-panel-cont shift-left scroll-left');
 
                     // wait for 0.5 second and remove the first element at left
-                    setTimeout(function() {
+                    setTimeout(function () {
                         panel_cont.removeChild(panels[panels.length - 1]);
                         panel_cont.removeAttribute('style');
                         panel_cont.setAttribute('class', 'testimonial-panel-cont');
@@ -203,6 +332,26 @@
 
                     // display the panel
                     panel.removeAttribute('class');
+                }
+            };
+
+            // change the cryptocurrencies' price to other exchange currency
+            window.changeCryptoPriceTo = function (exchange_to, btn_id, btn) {
+                if (!(curr_crypto_price_btn_id == btn_id)) {
+                    curr_crypto_price_btn_id = btn_id;
+
+                    // current active tab button
+                    let elem = document.querySelector('#crypto-st-table-cont .tab-btn.active');
+                    elem.setAttribute('class', 'tab-btn');
+
+                    // clicked tab button
+                    btn.setAttribute('class', 'tab-btn active');
+
+                    if (exchange_to == 'usd') {
+                        addTableRowsForCrptoPrices(cryptoprices, 'US_DOLLAR');
+                    } else {
+                        addTableRowsForCrptoPrices(cryptoprices, 'EURO');
+                    }
                 }
             };
 
@@ -293,6 +442,95 @@
                 }
             }
 
+            // format cryptocurrency statistics data
+            function formatCryptoStatistics(data, data_name) {
+                switch (data_name) {
+                    case 'price':
+                    case 'supply':
+                        return window.seperateNumberBy(new Number(data).toFixed(2), ',');
+
+                    case 'last_update':
+                        return window.toSTDTimeString(new Date(data * 1000));
+
+                    case 'mkt_cap':
+                        if (data >= 1000000000) {
+                            return new Number(data / 1000000000).toFixed(2) + ' B';
+
+                        } else if (data >= 1000000) {
+                            return new Number(data / 1000000).toFixed(2) + ' M';
+
+                        } else {
+                            return window.seperateNumberBy(new Number(data).toFixed(2), ',');
+                        }
+
+                    case 'change_pct_hour':
+                    case 'last_vol':
+                        return new Number(data).toFixed(4);
+
+                    default:
+                    // shouldn't be here
+                }
+            }
+
+            // create table for cryptocurrencies' price
+            function addTableRowsForCrptoPrices(crypto_prices, exchange_currency) {
+                let obj_keys = [
+                    'crypto_name',
+                    'price',
+                    'last_update',
+                    'mkt_cap',
+                    'supply',
+                    'change_pct_hour',
+                    'last_vol'
+                ];
+                let crypto_price;
+                let tbl_column_length = crypto_price_table_header.length;
+                let tbl_dt;
+                let table_elem = document.getElementById('crypto-st-tbl');
+
+                window.removeAllChildElement(table_elem);
+
+                // add table header
+                let tbl_row = document.createElement('tr');
+
+                for (let i = 0; i < tbl_column_length; i++) {
+                    tbl_dt = document.createElement('th');
+                    tbl_dt.innerHTML = crypto_price_table_header[i];
+                    tbl_row.appendChild(tbl_dt);
+                }
+
+                table_elem.appendChild(tbl_row);
+
+
+                // add table's rows
+                for (let j = 0; j < crypto_prices.length; j++) {
+                    if (exchange_currency == 'US_DOLLAR') {
+                        crypto_price = crypto_prices[j].usd;
+
+                    } else { // EURO
+                        crypto_price = crypto_prices[j].eur;
+                    }
+
+                    tbl_row = document.createElement('tr');
+
+                    // columns
+                    for (let k = 0; k < tbl_column_length; k++) {
+                        tbl_dt = document.createElement('td');
+
+                        if (k == 0) { // crypto name
+                            tbl_dt.innerHTML = crypto_prices[j][obj_keys[k]];
+
+                        } else {
+                            tbl_dt.innerHTML = formatCryptoStatistics(crypto_price[obj_keys[k]], obj_keys[k]);
+                        }
+
+                        tbl_row.appendChild(tbl_dt);
+                    }
+
+                    table_elem.appendChild(tbl_row);
+                }
+            }
+
             // start image slider animation
             /*window.imageSlider(
                 [
@@ -355,8 +593,56 @@
                 changeMainMenuOnScroll();
             };
 
+            // utility function that execute function in loop
+            function requestForCryptoStatisticsUpdate() {
+                //checks if the worker does not exists
+                if (typeof (update_crypto_statistics_worker) === "undefined") {
+                    update_crypto_statistics_worker = new Worker("updateCryptoStatisticsWorker.js");
+
+                    //listen to when data is sent
+                    update_crypto_statistics_worker.addEventListener("message", function (event) {
+                        cryptoprices = event.data;
+                        addTableRowsForCrptoPrices(cryptoprices, curr_crypto_price_btn_id == 0 ? 'US_DOLLAR' : 'EURO');
+                    });
+                }
+            }
+
+            // utility function that fetch users' testimoney from server
+            function requestForCustomerTestimonial() {
+                let req_url = 'process_request.php';
+                let form_data = 'request=GET_CUSTOMER_TESTIMONIAL'; // request query
+
+                // send request to server
+                window.ajaxRequest(
+                    req_url,
+                    form_data,
+
+                    // listen to response from the server
+                    function (response) {
+                        response_data = JSON.parse(response);
+                        testimonies = response.testimonies;
+                        createTestimonialPanels();
+                    },
+
+                    // listen to server error
+                    function (err_status) {
+                        //check if is a timeout or server busy
+                        if (error_status === 408 ||
+                            error_status === 504 ||
+                            error_status === 503) {
+
+                            //send the request again
+                            requestForCustomerTestimonial();
+                        }
+                    }
+                );
+            }
+
             // call after page is loaded
+            addTableRowsForCrptoPrices(cryptoprices, 'US_DOLLAR'); // remove this later
+            //requestForCryptoStatisticsUpdate();
             createTestimonialPanels();
+            //requestForCustomerTestimonial();
         }
 
         //initialise the script
@@ -581,11 +867,31 @@
         </div>
     </div>-->
 
+    <!--Cryptocurrencies' price and trade statistics-->
+    <div class="crypto-statistics-section-cont">
+        <div class="crypto-statistics-section page-cont-max-width">
+            <div class="title-cont">
+                <h1 class="ux-txt-grayblue">Cryptocurrency Live Price</h1>
+            </div>
+            <div id="crypto-st-table-cont">
+                <div class="tab-btn-cont">
+                    <div class="tab-btn active" onclick="changeCryptoPriceTo('usd', 0, this)">DOLLAR</div>
+                    <div class="tab-btn" onclick="changeCryptoPriceTo('eur', 1, this)">EURO</div>
+                </div>
+                <div class="table-wrapper">
+                    <table id="crypto-st-tbl"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--User Testimonial section-->
     <div class="testimoney-section-cont">
         <div class="testimoney-section page-cont-max-width">
-            <div class="tm-scroll-left-btn ux-f-rd-corner shadow anim-btn" onclick="slideTestimonial('prev')"><i class="fas fa-angle-left"></i></div>
-            <div class="tm-scroll-right-btn ux-f-rd-corner shadow anim-btn" onclick="slideTestimonial('next')"><i class="fas fa-angle-right"></i></div>
+            <div class="tm-scroll-left-btn ux-f-rd-corner shadow anim-btn" onclick="slideTestimonial('prev')"><i
+                    class="fas fa-angle-left"></i></div>
+            <div class="tm-scroll-right-btn ux-f-rd-corner shadow anim-btn" onclick="slideTestimonial('next')"><i
+                    class="fas fa-angle-right"></i></div>
             <div class="testimonial-descr-cont">
                 <h1 class="ux-txt-grayblue">Customers' Testimony</h1>
             </div>
@@ -607,9 +913,67 @@
 
     <!--Achievement section-->
     <div class="achievement-section-cont">
-        <div class="achievement-section">
-            <div></div>
-            <div></div>
+        <div class="achievement-section page-cont-max-width">
+            <div class="records-cont">
+                <div class="grid-item">
+                    <div class="upper-sec">
+                        <span class="icon">
+                            <i class="fab fa-bitcoin"></i>
+                        </span>
+                        <span class="figure">627,403+</span>
+                    </div>
+                    <div class="lower-sec">
+                        <h4>Cryptocurrency Traded</h4>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <div class="upper-sec">
+                        <span class="icon">
+                            <i class="far fa-question-circle"></i>
+                        </span>
+                        <span class="figure">3,421+</span>
+                    </div>
+                    <div class="lower-sec">
+                        <h4>Something Here</h4>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <div class="upper-sec">
+                        <span class="icon">
+                            <i class="fas fa-users"></i>
+                        </span>
+                        <span class="figure">12,740+</span>
+                    </div>
+                    <div class="lower-sec">
+                        <h4>Registered Users</h4>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <div class="upper-sec">
+                        <span class="icon">
+                            <i class="far fa-smile"></i>
+                        </span>
+                        <span class="figure">8,204+</span>
+                    </div>
+                    <div class="lower-sec">
+                        <h4>Happy Customers</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="sponsor-cont">
+                <div class="grid-item">
+                    <img class="img-1" src="./images/organisation/fca_logo.png" alt="fca logo" />
+                </div>
+                <div class="grid-item">
+                    <img class="img-2" src="./images/organisation/fsca_logo.png" alt="fsca logo" />
+                </div>
+                <div class="grid-item">
+                    <img class="img-3" src="./images/organisation/mfsa_logo.png" alt="mfsa logo" />
+                </div>
+                <div class="grid-item">
+                    <img class="img-4" src="./images/organisation/cfpb_logo.png" alt="cfpb logo" />
+                </div>
+            </div>
         </div>
     </div>
 
@@ -681,7 +1045,7 @@
         </div>
         <div class="footer-hr-line"></div>
         <div class="footer-base-cont ux-bg-grayblue ux-txt-white">
-            Copyright &copy; WebsiteName 2019. All Rights Reserved
+            Copyright &copy; WebsiteName <?php echo date("Y");?>. All Rights Reserved
         </div>
     </div>
 </body>
