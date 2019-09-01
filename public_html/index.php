@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" href="favicon1.png" sizes="16x16">
     <link rel="icon" type="image/png" href="favicon2.png" sizes="32x32">
     <link rel="icon" type="image/png" href="favicon3.png" sizes="120x120">
-    <meta name="description" content="PrimeDesk login page">
+    <meta name="description" content="CryptoWeb official website">
     <meta name="keywords" content="sign in, login">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link type="text/css" href="./fonts/css/all.min.css" rel="stylesheet">
@@ -665,6 +665,7 @@
                         <img class="site" src="./images/logo/img1.png" alt="Site Logo" />
                     </a>
                 </div>
+                <!--for desktop view-->
                 <div class="main-menu-cont">
                     <ul class="ux-hr-menu fmt-link-med ux-txt-align-rt">
                         <li><a class="link ux-txt-smokewhite txt-hover" href="#">Home</a></li>
@@ -673,9 +674,21 @@
                         <li><a class="link ux-txt-smokewhite txt-hover" href="#">About Us</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" href="#">Contact Us</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" href="#">FAQ</a></li>
-                        <li><a class="ux-btn ux-bg-chocolate bg-hover ux-txt-white ux-rd-corner-1" href="#">Get
+                        <li><a class="ux-btn ux-bg-chocolate bg-hover ux-txt-white ux-rd-corner-1" href="./register/index.html">Get
                                 Started</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" href="#">Sign In</a></li>
+                    </ul>
+                </div>
+
+                <!--for mobile view-->
+                <div class="main-menu-cont-mobi">
+                    <ul class="ux-hr-menu fmt-link-med ux-txt-align-rt">
+                        <li><a class="link ux-txt-smokewhite txt-hover" href="#">Sign In</a></li>
+                        <li>
+                            <div class="drop-menu_icon-cont">
+                                <img class="drop-menu_icon close" src="./images/icons/drop_menu_icon.png"/>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -704,7 +717,7 @@
             </div>
             <div class="action-btn-cont">
                 <a class="ux-btn custom-action-btn ux-bg-chocolate bg-hover ux-txt-white ux-rd-corner-1 shadow"
-                    href="#">Create Account</a>
+                    href="./register/index.html">Create Account</a>
             </div>
         </div>
         <!--animated image indicator-->
