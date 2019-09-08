@@ -370,6 +370,10 @@
    text-align: center;
  }
 
+ .ux-center-elem {
+   margin: 0 auto;
+ }
+
  /************menu**************/
  ul.ux-hr-menu,
  ul.ux-vt-menu {

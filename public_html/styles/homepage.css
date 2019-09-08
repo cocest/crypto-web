@@ -25,24 +25,57 @@
     display: none;
 }
 
-.main-menu-cont-mobi .drop-menu_icon-cont {
+.main-menu-cont-mobi .drop-menu-icon-cont {
     display: inline-block;
     width: 35px;
-    padding-left: 20px;
+    margin-left: 20px;
     vertical-align: middle;
     overflow: hidden;
 }
 
-.main-menu-cont-mobi .drop-menu_icon.close {
+.main-menu-cont-mobi .drop-menu-icon.close {
     height: 25px;
     position: relative;
     right: -1px;
 }
 
-.main-menu-cont-mobi .drop-menu_icon.open {
+.main-menu-cont-mobi .drop-menu-icon.open {
     height: 25px;
     position: relative;
     right: 37px;
+}
+
+.drop-down-mobi-menu-cont {
+    position: fixed;
+    width: 100%;
+    height: 350px;
+    z-index: 150;
+}
+
+.drop-down-mobi-menu-cont.hide {
+    display: none;
+}
+
+.drop-down-mobi-menu-cont.show {
+    display: block;
+}
+
+.drop-down-mobi-menu-cont .link {
+    display: block;
+    text-decoration: none;
+    padding: 10px 25px;
+    font-family: Calibri;
+    font-size: 1.2em;
+    color: white;
+}
+
+.drop-down-mobi-menu-cont .link.active {
+    background-color: #6b9cd8;
+    border-radius: 20px;
+}
+
+.drop-down-mobi-menu-cont ul {
+    padding: 80px 20px 0px 20px;
 }
 
 .page-cont-max-width {
@@ -223,7 +256,8 @@
 }
 
 .service-section .service-panel-cont .service-panel .cont {
-    min-height: 300px;
+    min-height: 360px;
+    padding: 15px;
     padding-bottom: 30px;
     border-radius: 4px;
     background-color: white;
@@ -248,11 +282,11 @@
 .service-section .service-panel-cont .service-panel .txt {
     text-align: justify;
     font-size: 1.0em;
-    padding: 0 10px;
 }
 
 .about-crypto-section-cont {
     width: 100%;
+    padding-bottom: 50px;
     background-color: #4b98d8;
 }
 
@@ -466,16 +500,34 @@
     color: gray;
 }
 
-.testimonial-panel {
-    display: table-cell;
+.testimonial-panel-cont.view-1 .testimonial-panel {
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.testimonial-panel-cont.view-2 .testimonial-panel {
+    float: left;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+.testimonial-panel-cont.view-3 .testimonial-panel {
+    float: left;
+    width: 33.3%;
+    box-sizing: border-box;
+}
+
+.testimonial-panel-cont.view-4 .testimonial-panel {
+    float: left;
     width: 25%;
-    margin: 20px;
-    padding: 10px;
+    box-sizing: border-box;
 }
 
 .testimonial-panel .cont {
     position: relative;
     max-height: 390px;
+    margin: 10px;
     overflow-y: hidden;
     border-radius: 4px;
     background-color: white;
@@ -502,7 +554,7 @@
 }
 
 .testimonial-panel .collapse {
-    height: 220px;
+    height: 230px;
     transition: height 0.5s;
 }
 
@@ -604,8 +656,8 @@
 .testimonial-panel-cont {
     position: relative;
     left: 0%;
-    display: table;
     width: 100%;
+    overflow: hidden;
 }
 
 .testimonial-panel-cont.scroll-right {
@@ -620,6 +672,34 @@
 
 .testimonial-panel-cont.shift-left {
     margin-left: -33%;
+}
+
+.testimonial-panel-cont.scroll-right-100 {
+    margin-left: -100%;
+    transition: 0.5s margin-left;
+}
+
+.testimonial-panel-cont.scroll-left-100 {
+    left: 100%;
+    transition: 0.5s left;
+}
+
+.testimonial-panel-cont.shift-left-100 {
+    margin-left: -100%;
+}
+
+.testimonial-panel-cont.scroll-right-50 {
+    margin-left: -50%;
+    transition: 0.5s margin-left;
+}
+
+.testimonial-panel-cont.scroll-left-50 {
+    left: 50%;
+    transition: 0.5s left;
+}
+
+.testimonial-panel-cont.shift-left-50 {
+    margin-left: -50%;
 }
 
 #testimonial-full-panel-cont {
@@ -883,7 +963,7 @@
 }
 
 /*switch view to mobile*/
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1200px) {
     .main-menu-cont {
         display: none;
     }
@@ -896,9 +976,74 @@
     }
 
     .headline-left-bg-img {
-        display: none;
+        left: 100%;
+        margin-left: -550px;
     }
 
+    .package-panel-cont {
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+
+    .package-panel-cont .package-panel {
+        display: block;
+        width: unset;
+        padding-bottom: 30px;
+    }
+
+    .service-section {
+        max-width: 90%;
+    }
+
+    .service-section .service-panel-cont {
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+
+    .service-section .service-panel-cont .service-panel {
+        display: block;
+        width: unset;
+        padding-bottom: 30px;
+    }
+
+    .crypto-statistics-section .title-cont {
+        padding: 0 20px;
+    }
+
+    #crypto-st-table-cont .table-wrapper {
+        overflow-x: scroll;
+    }
+
+    #crypto-st-table-cont table {
+        min-width: 1100px;
+    }
+
+    .tm-scroll-left-btn {
+        left: -47%;
+    }
+
+    .tm-scroll-right-btn {
+        right: -47%;
+    }
+
+    .testimoney-section {
+        max-width: 90%;
+    }
+
+    .testimoney-section:hover .tm-scroll-left-btn.anim-btn {
+        left: -49%;
+    }
+    
+    .testimoney-section:hover .tm-scroll-right-btn.anim-btn {
+        right: -49%;
+    }
+
+    .achievement-section .records-cont {
+        grid-template-columns: auto auto;
+    }
+}
+
+@media only screen and (max-width: 800px) {
     #headline-cont {
         text-align: center
     }
@@ -911,16 +1056,25 @@
         margin: 0 auto;
     }
 
-    .package-panel-cont .package-panel {
-        display: block;
-        width: unset;
-        padding-bottom: 30px;
+    .headline-left-bg-img {
+        display: none;
     }
 
-    .service-panel-cont .service-panel {
-        display: block!important;
-        width: unset!important;
-        padding-bottom: 30px!important;
+    .package-panel-cont {
+        display: block;
+    }
+
+    .package-section .package-headline .descr-txt {
+        text-align: justify;
+    }
+
+    .service-section .service-panel-cont {
+        display: block;
+    }
+
+    .service-section .service-panel-cont .service-panel {
+        max-width: 400px;
+        margin: 0 auto;
     }
 
     .about-crypto-section-cont {
@@ -946,15 +1100,41 @@
         width: unset;
     }
 
-    .crypto-statistics-section .title-cont {
-        padding: 0 20px;
+    .testimoney-section {
+        max-width: 100%;
     }
 
-    #crypto-st-table-cont .table-wrapper {
-        overflow-x: scroll;
+    .tm-scroll-left-btn, 
+    .tm-scroll-right-btn {
+        display: none;
     }
 
-    #crypto-st-table-cont table {
-        min-width: 1100px;
+    .achievement-section .records-cont {
+        grid-template-columns: auto;
+    }
+
+    .achievement-section .records-cont .grid-item {
+        margin-bottom: 40px;
+    }
+
+    .achievement-section .sponsor-cont {
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+
+    .achievement-section .sponsor-cont .grid-item {
+        display: block;
+        width: unset;
+        margin-bottom: 30px;
+    }
+
+    .footer-cont {
+        display: block;
+        width: unset;
+    }
+
+    .footer-col_1, .footer-col_2, .footer-col_3 {
+        display: block;
+        width: unset;
     }
 }

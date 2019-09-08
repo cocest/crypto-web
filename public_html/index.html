@@ -9,7 +9,7 @@
     <link rel="icon" type="image/png" href="favicon3.png" sizes="120x120">
     <meta name="description" content="CryptoWeb official website">
     <meta name="keywords" content="sign in, login">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
     <link type="text/css" href="./fonts/css/all.min.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="./styles/UdaraX.css">
     <link type="text/css" rel="stylesheet" href="./styles/homepage.css">
@@ -23,10 +23,25 @@
             let page_scroll_y = 0;
             let curr_page_scroll_y = 0;
             let window_active = false;
+            let drop_mobi_menu_active = false;
+            let curr_panel_view_count = 3;
             let curr_tm_panel_index = 0;
             let slide_tm_wait = false;
+            let testimonies_ready = true; // remeber to change the value back to false
             let curr_crypto_price_btn_id = 0;
             let update_crypto_statistics_worker;
+            let requestAnimationFrame = window.requestAnimationFrame
+                || window.mozRequestAnimationFrame
+                || window.webkitRequestAnimationFrame
+                || function (fn) { return window.setTimeout(fn, 16); };
+            let cancelAnimationFrame = window.cancelAnimationFrame
+                || window.mozCancelAnimationFrame
+                || window.webkitCancelAnimationFrame
+                || function (request_id) { clearTimeout(request_id); };
+            let req_tm_anim_handler;
+            let tm_anim_running = false;
+            let touch_event_attached = false;
+            let active_touches_tm = [];
             let crypto_price_table_header = [
                 'NAME', 'PRICE', 'LAST UPDATE', 'MARKET CAP', 'SUPPLY', 'CHANGE PCT', 'LAST VOLUME'
             ];
@@ -224,13 +239,24 @@
                 let panel_cont, panels, panel, elem, scroll_index, clipped_text;
 
                 if (direction == 'next') {
-                    scroll_index = getTestimonialNextIndex('next', 3);
+                    scroll_index = getTestimonialNextIndex('next', curr_panel_view_count);
                     clipped_text = clipOutText(250, testimonies[scroll_index].testimoney);
 
                     panel_cont = document.querySelector('.testimonial-panel-cont');
                     panels = panel_cont.getElementsByClassName('testimonial-panel');
 
-                    panel_cont.setAttribute('style', 'width: 133%;');
+                    if (curr_panel_view_count == 3) {
+                        panel_cont.setAttribute('style', 'width: 133%;');
+                        panel_cont.setAttribute('class', 'testimonial-panel-cont view-4');
+
+                    } else if (curr_panel_view_count == 2) {
+                        panel_cont.setAttribute('style', 'width: 151%;');
+                        panel_cont.setAttribute('class', 'testimonial-panel-cont view-3');
+
+                    } else if (curr_panel_view_count == 1) {
+                        panel_cont.setAttribute('style', 'width: 200%;');
+                        panel_cont.setAttribute('class', 'testimonial-panel-cont view-2');
+                    }
 
                     panel = document.createElement('div');
                     panel.setAttribute('class', 'testimonial-panel');
@@ -255,27 +281,54 @@
                     panel_cont.appendChild(panel);
 
                     // scroll right
-                    panel_cont.setAttribute('class', 'testimonial-panel-cont scroll-right');
+                    if (curr_panel_view_count == 3) {
+                        panel_cont.setAttribute('class', 'testimonial-panel-cont view-4 scroll-right');
+
+                    } else if (curr_panel_view_count == 2) {
+                        panel_cont.setAttribute('class', 'testimonial-panel-cont view-3 scroll-right-50');
+
+                    } else if (curr_panel_view_count == 1) {
+                        panel_cont.setAttribute('class', 'testimonial-panel-cont view-2 scroll-right-100');
+                    }
 
                     // wait for 0.5 second and remove the first element at left
                     setTimeout(function () {
                         panel_cont.removeChild(panels[0]);
                         panel_cont.removeAttribute('style');
-                        panel_cont.setAttribute('class', 'testimonial-panel-cont');
+
+                        if (curr_panel_view_count == 3) {
+                            panel_cont.setAttribute('class', 'testimonial-panel-cont view-3');
+
+                        } else if (curr_panel_view_count == 2) {
+                            panel_cont.setAttribute('class', 'testimonial-panel-cont view-2');
+
+                        } else if (curr_panel_view_count == 1) {
+                            panel_cont.setAttribute('class', 'testimonial-panel-cont view-1');
+                        }
 
                         slide_tm_wait = false
 
                     }, 550);
 
                 } else { // previous
-                    scroll_index = getTestimonialNextIndex('prev', 3);
+                    scroll_index = getTestimonialNextIndex('prev', curr_panel_view_count);
                     clipped_text = clipOutText(250, testimonies[scroll_index].testimoney);
 
                     panel_cont = document.querySelector('.testimonial-panel-cont');
                     panels = panel_cont.getElementsByClassName('testimonial-panel');
 
-                    panel_cont.setAttribute('style', 'width: 133%;');
-                    panel_cont.setAttribute('class', 'testimonial-panel-cont shift-left');
+                    if (curr_panel_view_count == 3) {
+                        panel_cont.setAttribute('style', 'width: 133%;');
+                        panel_cont.setAttribute('class', 'testimonial-panel-cont view-4 shift-left');
+
+                    } else if (curr_panel_view_count == 2) {
+                        panel_cont.setAttribute('style', 'width: 151%;');
+                        panel_cont.setAttribute('class', 'testimonial-panel-cont view-3 shift-left-50');
+
+                    } else if (curr_panel_view_count == 1) {
+                        panel_cont.setAttribute('style', 'width: 200%;');
+                        panel_cont.setAttribute('class', 'testimonial-panel-cont view-2 shift-left-100');
+                    }
 
                     panel = document.createElement('div');
                     panel.setAttribute('class', 'testimonial-panel');
@@ -300,13 +353,30 @@
                     panel_cont.insertBefore(panel, panels[0]);
 
                     // scroll right
-                    panel_cont.setAttribute('class', 'testimonial-panel-cont shift-left scroll-left');
+                    if (curr_panel_view_count == 3) {
+                        panel_cont.setAttribute('class', 'testimonial-panel-cont view-4 shift-left scroll-left');
+
+                    } else if (curr_panel_view_count == 2) {
+                        panel_cont.setAttribute('class', 'testimonial-panel-cont view-3 shift-left-50 scroll-left-50');
+
+                    } else if (curr_panel_view_count == 1) {
+                        panel_cont.setAttribute('class', 'testimonial-panel-cont view-2 shift-left-100 scroll-left-100');
+                    }
 
                     // wait for 0.5 second and remove the first element at left
                     setTimeout(function () {
                         panel_cont.removeChild(panels[panels.length - 1]);
                         panel_cont.removeAttribute('style');
-                        panel_cont.setAttribute('class', 'testimonial-panel-cont');
+
+                        if (curr_panel_view_count == 3) {
+                            panel_cont.setAttribute('class', 'testimonial-panel-cont view-3');
+
+                        } else if (curr_panel_view_count == 2) {
+                            panel_cont.setAttribute('class', 'testimonial-panel-cont view-2');
+
+                        } else if (curr_panel_view_count == 1) {
+                            panel_cont.setAttribute('class', 'testimonial-panel-cont view-1');
+                        }
 
                         slide_tm_wait = false
 
@@ -352,6 +422,30 @@
                     } else {
                         addTableRowsForCrptoPrices(cryptoprices, 'EURO');
                     }
+                }
+            };
+
+            // display mobile menu
+            window.dropMobileMenu = function(btn) {
+                let menu_bar = document.querySelector('.page-top-menu-cont');
+                let menu_icon = btn.querySelector('.drop-menu-icon');
+                let menu_elem = document.querySelector('.drop-down-mobi-menu-cont');
+
+                if (btn.getAttribute('toggle') == '0') {
+                    menu_bar.setAttribute('class', 'page-top-menu-cont fixed show ux-bg-grayblue');
+                    menu_icon.setAttribute('class', 'drop-menu-icon open');
+                    menu_elem.setAttribute('class', 'drop-down-mobi-menu-cont show shadow ux-bg-grayblue');
+                    btn.setAttribute('toggle', '1');
+                    drop_mobi_menu_active = true;
+
+                } else {
+                    menu_bar.setAttribute('class', 'page-top-menu-cont fixed show ux-bg-grayblue shadow');
+                    menu_icon.setAttribute('class', 'drop-menu-icon close');
+                    menu_elem.setAttribute('class', 'drop-down-mobi-menu-cont hide shadow ux-bg-grayblue');
+                    btn.setAttribute('toggle', '0');
+                    drop_mobi_menu_active = false;
+                    top_main_menu_changed = true;
+                    changeMainMenuOnScroll();
                 }
             };
 
@@ -411,11 +505,14 @@
             }
 
             // add testimonies' panel to page
-            function createTestimonialPanels() {
+            function createTestimonialPanels(panel_count) {
                 let elem = document.querySelector('.testimonial-panel-cont');
                 let panel, cont, clipped_text;
 
-                for (let i = 0; i < 3; i++) {
+                window.removeAllChildElement(elem); // remove already existing testimony if there is any
+                elem.setAttribute('class', 'testimonial-panel-cont view-' + panel_count);
+
+                for (let i = 0; i < panel_count; i++) {
                     clipped_text = clipOutText(250, testimonies[i].testimoney);
 
                     panel = document.createElement('div');
@@ -439,6 +536,36 @@
 
                     panel.appendChild(cont);
                     elem.appendChild(panel);
+                }
+            }
+
+            // this function start testimonial slide animation
+            function startTMSlideAnimation() {
+                if (!tm_anim_running) { // if is not running start animation
+                    tm_anim_running = true;
+                    let elapsed_time;
+                    let time_duration = Date.now() + 6 * 1000;
+
+                    let step = () => {
+                        elapsed_time = Date.now();
+
+                        if (elapsed_time > time_duration) {
+                            time_duration = Date.now() + 6 * 1000;
+                            window.slideTestimonial('next');
+                        }
+
+                        req_tm_anim_handler = requestAnimationFrame(step);
+                    };
+
+                    step(); // start
+                }
+            }
+
+            // this function stop testimonial slide animation
+            function stopTMSlideAnimation() {
+                if (tm_anim_running) { // if is running, stop animation
+                    cancelAnimationFrame(req_tm_anim_handler);
+                    tm_anim_running = false;
                 }
             }
 
@@ -552,6 +679,11 @@
 
             // show and hide main top menu on scroll
             function changeMainMenuOnScroll() {
+                // check if drop mobile menu is active
+                if (drop_mobi_menu_active) {
+                    return;
+                }
+
                 // get top menu container
                 let elem = document.querySelector('.page-top-menu-cont');
 
@@ -588,12 +720,7 @@
                 page_scroll_y = curr_page_scroll_y;
             }
 
-            //listen to page scroll event
-            window.onscroll = function (e) {
-                changeMainMenuOnScroll();
-            };
-
-            // utility function that execute function in loop
+            // utility function that update cryptocurrency statistics at every interval
             function requestForCryptoStatisticsUpdate() {
                 //checks if the worker does not exists
                 if (typeof (update_crypto_statistics_worker) === "undefined") {
@@ -621,15 +748,27 @@
                     function (response) {
                         response_data = JSON.parse(response);
                         testimonies = response.testimonies;
-                        createTestimonialPanels();
+                        testimonies_ready = true;
+
+                        if (window.innerWidth < 600) {
+                            // change testimonial view
+                            curr_panel_view_count = 1;
+                            createTestimonialPanels(curr_panel_view_count);
+                            startTMSlideAnimation();
+
+                        } else {
+                            curr_panel_view_count = 3;
+                            stopTMSlideAnimation();
+                            createTestimonialPanels(curr_panel_view_count);
+                        }
                     },
 
                     // listen to server error
                     function (err_status) {
                         //check if is a timeout or server busy
-                        if (error_status === 408 ||
-                            error_status === 504 ||
-                            error_status === 503) {
+                        if (error_status == 408 ||
+                            error_status == 504 ||
+                            error_status == 503) {
 
                             //send the request again
                             requestForCustomerTestimonial();
@@ -638,11 +777,125 @@
                 );
             }
 
+            // utility function to get touch index in array
+            function getTouchIndexByID(id) {
+                for (let i = 0; i < active_touches_tm.length; i++) {
+                    if (active_touches_tm[i].identifier == id) {
+                        return i;
+                    }
+                }
+
+                return -1; // touch not found
+            }
+
+            // handle touch start event for testimonial
+            function handleStartTM(e) {
+                //e.preventDefault();
+                stopTMSlideAnimation(); // stop animation when user place finger(s) on scrren
+                let touches = e.changedTouches;
+
+                // we track only the first finger in the array
+                for (let i = 0; i < touches.length; i++) {
+                    active_touches_tm.push(touches[i]);
+                }
+            }
+
+            // handle touch end event for testimonial
+            function handleEndTM(e) {
+                //e.preventDefault();
+                let touches = e.changedTouches;
+
+                // check if is only one finger
+                if (active_touches_tm.length < 2) {
+                    // distance move by the finger
+                    let dx = active_touches_tm[0].pageX - touches[0].pageX; // x-direction
+                    let dy = active_touches_tm[0].pageY - touches[0].pageY; // y-direction
+                    let rad = Math.atan(dy / dx);
+
+                    // check if distance is above our set threshold and
+                    // swiping happen closely in horizontal direction; between 20 degree from horizontal
+                    if (Math.abs(dx) > 100 && Math.abs(rad) < 0.3490658503988659) {
+                        stopTMSlideAnimation();
+                        window.slideTestimonial(dx > 0 ? 'next' : 'prev');
+                    }
+
+                    // remove the touch from the array
+                    active_touches_tm = [];
+                    if (window.innerWidth < 800) startTMSlideAnimation(); // start animation since the whole finger(s) is removed
+
+                } else { // find the finger and remove it from the array
+                    for (let i = 0; i < touches.length; i++) {
+                        active_touches_tm.splice(getTouchIndexByID(touches[i].identifier), 1);
+                    }
+
+                    // check to start animation
+                    if (active_touches_tm.length < 1) {
+                        if (window.innerWidth < 800) startTMSlideAnimation();
+                    }
+                }
+            }
+
+            // add touch event handler
+            function attachTouchEventsTM() {
+                if (!touch_event_attached) {
+                    touch_event_attached = true;
+
+                    let elem = document.getElementById("testimonial-touch-surface");
+                    elem.addEventListener("touchstart", handleStartTM, false);
+                    elem.addEventListener("touchend", handleEndTM, false);
+                }
+            }
+
+            // utility function that change page layout on page resize
+            function adaptPageLayout() {
+                let win_width_size = window.innerWidth;
+
+                if (win_width_size < 1200 && win_width_size >= 800) { // tablet view
+                    // change testimonial view
+                    if (testimonies_ready) {
+                        curr_panel_view_count = 2;
+                        stopTMSlideAnimation();
+                        createTestimonialPanels(curr_panel_view_count);
+                    }
+
+                } else if (win_width_size < 800) { // mobile view
+                    // change testimonial view
+                    if (testimonies_ready) {
+                        curr_panel_view_count = 1;
+                        createTestimonialPanels(curr_panel_view_count);
+                        startTMSlideAnimation();
+                    }
+
+                } else { // desktop view
+                    // check if drop down mobile menu is active
+                    if (drop_mobi_menu_active) {
+                        dropMobileMenu(document.querySelector('.drop-menu-icon-cont'));
+                    }
+                    
+                    curr_panel_view_count = 3;
+                    stopTMSlideAnimation();
+                    createTestimonialPanels(curr_panel_view_count);
+                }
+
+                attachTouchEventsTM();
+            }
+
             // call after page is loaded
             addTableRowsForCrptoPrices(cryptoprices, 'US_DOLLAR'); // remove this later
             //requestForCryptoStatisticsUpdate();
-            createTestimonialPanels();
+            adaptPageLayout(); // remove this later
             //requestForCustomerTestimonial();
+
+            //listen to page scroll event
+            window.onscroll = function (e) {
+                changeMainMenuOnScroll();
+            };
+
+            // listen for page resize
+            window.addEventListener("resize", function (e) {
+                adaptPageLayout();
+
+            }, false);
         }
 
         //initialise the script
@@ -674,7 +927,8 @@
                         <li><a class="link ux-txt-smokewhite txt-hover" href="#">About Us</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" href="#">Contact Us</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" href="#">FAQ</a></li>
-                        <li><a class="ux-btn ux-bg-chocolate bg-hover ux-txt-white ux-rd-corner-1" href="./register/index.html">Get
+                        <li><a class="ux-btn ux-bg-chocolate bg-hover ux-txt-white ux-rd-corner-1"
+                                href="./register/index.html">Get
                                 Started</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" href="#">Sign In</a></li>
                     </ul>
@@ -685,8 +939,8 @@
                     <ul class="ux-hr-menu fmt-link-med ux-txt-align-rt">
                         <li><a class="link ux-txt-smokewhite txt-hover" href="#">Sign In</a></li>
                         <li>
-                            <div class="drop-menu_icon-cont">
-                                <img class="drop-menu_icon close" src="./images/icons/drop_menu_icon.png"/>
+                            <div class="drop-menu-icon-cont" toggle="0" onclick="dropMobileMenu(this)">
+                                <img class="drop-menu-icon close" src="./images/icons/drop_menu_icon.png" />
                             </div>
                         </li>
                     </ul>
@@ -694,6 +948,18 @@
             </nav>
         </div>
     </div>
+
+    <!--drop down mobile menu container-->
+    <div class="drop-down-mobi-menu-cont hide shadow ux-bg-grayblue">
+        <ul class="ux-vt-menu">
+            <li><a class="link active" href="#">Investment Packages</a></li>
+            <li><a class="link" href="#">Testimony</a></li>
+            <li><a class="link" href="#">About US</a></li>
+            <li><a class="link" href="#">Contact US</a></li>
+            <li><a class="link" href="#">FAQ</a></li>
+        </ul>
+    </div>
+
     <!--page upper section-->
     <div class="page-upper-section">
         <div id="imageslider-cont"></div>
@@ -908,7 +1174,7 @@
             <div class="testimonial-descr-cont">
                 <h1 class="ux-txt-grayblue">Customers' Testimony</h1>
             </div>
-            <div class="testimonial-panel-cont"></div>
+            <div id="testimonial-touch-surface" class="testimonial-panel-cont"></div>
             <div id="testimonial-full-panel-cont" class="remove-elem">
                 <div class="win-close-btn" onclick="closeWindowPanel('testimonial-full-panel-cont')">
                     <i class="fas fa-window-close"></i>
@@ -975,10 +1241,10 @@
             </div>
             <div class="sponsor-cont">
                 <div class="grid-item">
-                    <img class="img-1" src="./images/organisation/fca_logo.png" alt="fca logo" />
+                    <img class="img-2" src="./images/organisation/fsca_logo.png" alt="fsca logo" />
                 </div>
                 <div class="grid-item">
-                    <img class="img-2" src="./images/organisation/fsca_logo.png" alt="fsca logo" />
+                    <img class="img-1" src="./images/organisation/fca_logo.png" alt="fca logo" />
                 </div>
                 <div class="grid-item">
                     <img class="img-3" src="./images/organisation/mfsa_logo.png" alt="mfsa logo" />
