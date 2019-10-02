@@ -1,6 +1,23 @@
 //This script contain all the javascript utilities function
 
 (function () {
+    // utility function to return days in a month of a particular year
+    window.daysInMonth = function(m, y) { // m is 0 indexed: 0-11
+        switch (m) {
+            case 1:
+                return (y % 4 == 0 && y % 100) || y % 400 == 0 ? 29 : 28;
+
+            case 8: 
+            case 3: 
+            case 5: 
+            case 10:
+                return 30;
+
+            default:
+                return 31;
+        }
+    };
+
     //utility function for setting cookies
     window.setCookie = function (cookie_name, cookie_value, exdays = 1, path = "path=/") {
         let date = new Date();
@@ -105,14 +122,22 @@
     };
 
     // utility function to send request to server
-    window.ajaxRequest = function (_url, _form, _send_callback, _err_callback) {
+    window.ajaxRequest = function (_url, _form, _cont_type, _send_callback, _err_callback) {
         // code for IE7+, Firefox, Chrome, Opera, Safari
         let xmlhttp = new XMLHttpRequest();
+
+        if (_cont_type == null) {
+            _cont_type = "application/x-www-form-urlencoded";
+        }
 
         try {
             // send request to server
             xmlhttp.open("POST", _url, true);
-            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+            if (_cont_type != null) {
+                xmlhttp.setRequestHeader("Content-type", _cont_type);
+            }
+            
             xmlhttp.send(_form);
 
             // response on state change and return the responds

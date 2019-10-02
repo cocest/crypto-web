@@ -1,0 +1,26 @@
+# Disble directory and file listing
+Options -Indexes
+
+# Deny access to filenames starting with dot(.)
+<FilesMatch "^\.">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
+RewriteEngine on
+
+# Prevent access to folder and everything in it by redirecting client
+RewriteCond "%{REQUEST_URI}" "^/Workspace/PHP/Crypto-web/crypto-web/public_html/(includes|processor|pages|error_pages)/.*$" [NC]
+RewriteRule "^" "error_pages/404.php" [L]
+
+# Rewrite the address to point to process folder.
+# URI of this format: "/one/two" or "/one/two?a=b&c=d" 
+# whithout filename extension is what is rewritted
+RewriteCond "%{REQUEST_URI}" "^[^.]+$"
+RewriteRule "^(.*)$" "processor/$1.php?%{QUERY_STRING}" [END]
+
+# Redirect request to "pages" folder if URI matches and
+# change page or file extension to .php
+RewriteCond "%{REQUEST_FILENAME}" "!-f"
+RewriteCond "%{REQUEST_URI}" "^.+\.html$" [NC]
+RewriteRule "^(.*)\.html$" "pages/$1.php" [END]
