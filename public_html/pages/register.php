@@ -29,9 +29,9 @@ $_SESSION["csrf_token"] = $csrf_token;
     <link type="text/css" href="fonts/css/all.min.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="styles/UdaraX.css">
     <link type="text/css" rel="stylesheet" href="styles/register.css">
-    <script type="text/javascript" src="scripts/zxcvbn.js"></script>
-    <script type="text/javascript" src="scripts/utils.js"></script>
-    <script type="text/javascript" src="scripts/register.js"></script>
+    <script type="text/javascript" src="js/zxcvbn.js"></script>
+    <script type="text/javascript" src="js/utils.js"></script>
+    <script type="text/javascript" src="js/register.js"></script>
 </head>
 
 <body>
@@ -315,7 +315,7 @@ $_SESSION["csrf_token"] = $csrf_token;
                             <div class="input-cont">
                                 <h5 class="f-upload-h">
                                     Upload Your Driver's License Or International Passport. It must be in these scanned
-                                    formats: JPEG, PNG, and GIF. File size must not be greater than 5MB (Megabyte).
+                                    formats: JPEG, PNG, and GIF. File size must not be greater than 4MB (Megabyte).
                                 </h5>
                                 <div class="f-upload-input-wrapper">
                                     <input id="f-upload-input" type="file" name="file"

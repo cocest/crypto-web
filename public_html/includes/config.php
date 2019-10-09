@@ -39,6 +39,7 @@ $config = array(
     Creating constants for heavily used paths makes things a lot easier.
     ex. require_once(LIBRARY_PATH . "Paginator.php")
 */
+define("BASE_URL", "http://localhost/Workspace/PHP/Crypto-web/crypto-web/public_html/");
 defined("LIBRARY_PATH")
     or define("LIBRARY_PATH", realpath(dirname(__FILE__) . '/library'));
      

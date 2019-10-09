@@ -1,0 +1,369 @@
+/*********login css*********/
+
+/********custom wait animation********/
+.vt-bars-anim-cont {
+    display: table;
+    width: 21px;
+    height: 22px;
+    margin: 0 auto;
+    margin-bottom: 25px;
+}
+
+.vt-bars-anim-cont .vt-bar-cont {
+    display: table-cell;
+    vertical-align: middle;
+    width: 4px;
+    height: 20px;
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+.vt-bars-anim-cont .vt-bar-cont .vt-bar-1,
+.vt-bars-anim-cont .vt-bar-cont .vt-bar-2,
+.vt-bars-anim-cont .vt-bar-cont .vt-bar-3 {
+    width: 100%;
+    height: 15px;
+}
+
+.vt-bars-anim-cont .vt-bar-cont .vt-bar-1 {
+    -webkit-animation: expand-1 0.8s linear infinite;
+    animation: expand-1 0.8s linear infinite;
+}
+
+ @-webkit-keyframes expand-1 {
+   0% { height: 22px; background-color: #037ad8;}
+   33% { height: 22px; background-color: #037ad8;}
+   34% { height: 15px; background-color: #3fa0ef;}
+   100% { height: 15px; background-color: #3fa0ef;}
+ }
+ @keyframes expand-1 {
+   0% { height: 22px; background-color: #037ad8;}
+   33% { height: 22px; background-color: #037ad8;}
+   34% { height: 15px; background-color: #3fa0ef;}
+   100% { height: 15px; background-color: #3fa0ef;}
+ }
+
+ .vt-bars-anim-cont .vt-bar-cont .vt-bar-2 {
+   -webkit-animation: expand-2 0.8s linear infinite;
+   animation: expand-2 0.8s linear infinite;
+ }
+
+ @-webkit-keyframes expand-2 {
+   0% { height: 15px; background-color: #3fa0ef; }
+   33% { height: 15px; background-color: #3fa0ef; }
+   34% { height: 22px; background-color: #037ad8; }
+   66% { height: 22px; background-color: #037ad8; }
+   67% { height: 15px; background-color: #3fa0ef; }
+   100% { height: 15px; background-color: #3fa0ef; }
+ }
+ @keyframes expand-2 {
+   0% { height: 15px; background-color: #3fa0ef;}
+   33% { height: 15px; background-color: #3fa0ef;}
+   34% { height: 22px; background-color: #037ad8; }
+   66% { height: 22px; background-color: #037ad8; }
+   67% { height: 15px; background-color: #3fa0ef; }
+   100% { height: 15px; background-color: #3fa0ef; }
+ }
+
+ .vt-bars-anim-cont .vt-bar-cont .vt-bar-3 {
+   -webkit-animation: expand-3 0.8s linear infinite;
+   animation: expand-3 0.8s linear infinite;
+ }
+
+ @-webkit-keyframes expand-3 {
+   0% { height: 15px; background-color: #3fa0ef; }
+   66% { height: 15px; background-color: #3fa0ef; }
+   67% { height: 22px; background-color: #037ad8; }
+   100% { height: 22px; background-color: #037ad8; }
+ }
+ @keyframes expand-3 {
+   0% { height: 15px; background-color: #3fa0ef; }
+   66% { height: 15px; background-color: #3fa0ef; }
+   67% { height: 22px; background-color: #037ad8; }
+   100% { height: 22px; background-color: #037ad8; }
+ }
+
+.shadow {
+    box-shadow: 0px 1px 10px 2px gray;
+}
+
+.hide-elem {
+    visibility: hidden;
+}
+
+.remove-elem {
+    display: none;
+}
+
+.login-page {
+    position: relative;
+    width: 100%;
+    max-width: 350px;
+    margin-top: 2%;
+    background-color: white;
+    padding: 30px 30px;
+}
+
+.site-logo-cont {
+    margin: 0 auto;
+    width: 150px;
+    font-size: 1.5em;
+    font-weight: normal;
+    color: #047bd9;
+}
+
+.sign-in-header {
+    text-align: center;
+    color: #037ad8;
+    margin-bottom: 40px;
+}
+
+.input-cont {
+    margin-bottom: 15px;
+}
+
+.input-icon-cont {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    box-sizing: border-box;
+    margin-bottom: -30px;
+    top: -2px;
+    right: 32px;
+    margin-left: 100%;
+}
+
+.password-input-wrapper .showpasswd-btn-cont > span {
+    font-size: 1.2em;
+    padding-top: 6px;
+    padding-left: 4px;
+    cursor: pointer;
+}
+
+.password-input-wrapper .showpasswd-btn-cont.hide > span {
+    color: #9da0a2;
+}
+
+.password-input-wrapper .showpasswd-btn-cont.show > span {
+    color: #067cd9;
+}
+
+input[type=text],
+input[type=password] {
+    width: 100%;
+    height: 30px;
+    box-sizing: border-box;
+    padding-left: 15px;
+    font-family: Calibri;
+    font-size: 1.2em;
+    color: darkslategray;
+}
+
+.hr-line-input {
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #037ad8;
+}
+
+.err-hr-line-input {
+    border: none;
+    outline: none;
+    border-bottom: 1px solid red;
+}
+
+.username-input-wrapper > label,
+.password-input-wrapper > label {
+    position: relative;
+    top: 24px;
+    right: 0px;
+    padding-left: 8px;
+    font-family: Calibri;
+    font-size: 1.2em;
+    transition: top 0.2s ease-out, right 0.2s ease-out;
+}
+
+label.push-up {
+    top: 0px;
+    right: 8px;
+    transition: top 0.2s ease-out, right 0.2s ease-out;
+}
+
+.username-input-wrapper.lb-normal-color > label,
+.password-input-wrapper.lb-normal-color > label {
+    color: #037ad8;
+}
+
+#username-input:disabled,
+#password-input:disabled {
+    background-color: unset;
+    color: rgb(136, 136, 136);
+}
+
+.remember-input-cont {
+    margin-top: 40px;
+    margin-bottom: 30px;
+}
+
+#remember-input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.remember-cont {
+    display: table;
+    width: 100%;
+}
+
+.remember-cont .item-1 {
+    display: table-cell;
+    min-width: 40px;
+}
+
+.remember-cont .item-2 {
+    display: table-cell;
+    vertical-align: top;
+    width: 100%;
+}
+
+.remember-cont .item-2 > p {
+    padding: 0px;
+    margin: 0px;
+    margin-top: -3px;
+    font-family: Calibri;
+    font-size: 1.2em;
+    color: #0179d7;
+}
+
+label[for=remember-input] {
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+label[for=remember-input] > img {
+    position: relative;
+    height: 18px;
+    width: 37px;
+}
+
+#remember-input:checked + .remember-cont .item-1 label > img {
+    right: 19px;
+}
+
+input[type=submit] {
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    padding: 11px 0;
+    width: 100%;
+    border-radius: 4px;
+    font-size: 1.1em;
+    color: white;
+    cursor: default;
+    background: rgb(0, 120, 215);
+    background: -webkit-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
+    background: -o-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
+    background: -moz-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
+    background: linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
+}
+
+input[type=submit]:hover {
+    box-shadow: 0px 2px 4px 1px gray;
+}
+
+input[type=submit]:disabled:hover {
+    box-shadow: unset!important;
+}
+
+#username-input:disabled,
+#password-input:disabled {
+    background-color: unset;
+    color: rgb(136, 136, 136);
+}
+
+.forgot-pswd-cont {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+
+.forgot-pswd-cont > a {
+    text-decoration: none;
+    font-size: 1.1em;
+    color: #047bd9;
+}
+
+.forgot-pswd-cont > a:hover {
+    text-decoration: underline;
+}
+
+.create-account-cont {
+    text-align: center;
+    font-size: 1.1em;
+}
+
+.create-account-cont > p {
+    margin: 0;
+}
+
+.create-account-cont a {
+    color: #047bd9;
+}
+
+#err-msg-box {
+    position: relative;
+    top: 10px;
+    width: 100%;
+    margin-bottom: -61px;
+    min-height: 45px;
+    border-radius: 6px;
+    background-color: #ff561c;
+    box-shadow: 1px 3px 6px 2px grey;
+    z-index: 200;
+}
+
+#err-msg-box .pointer {
+    position: absolute;
+    top: -8px;
+    left: 30px;
+    width: 15px;
+    height: 15px;
+    transform: rotate(45deg);
+    background-color: #ff561c;
+}
+
+#err-msg-box .close-btn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    cursor: pointer;
+}
+
+#err-msg-box .close-btn > span {
+    font-size: 1.2em;
+    color: white;
+    padding-top: 2px;
+}
+
+#err-msg-box .msg {
+    padding: 12px;
+    padding-right: 25px;
+    font-family: Calibri;
+    font-size: 1.1em;
+    color: white;
+}
+
+.csrf-input-cont {
+    position: absolute;
+    z-index: -1;
+    visibility: hidden;
+}

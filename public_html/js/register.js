@@ -149,7 +149,7 @@ function init() {
             window.ajaxRequest(
                 req_url,
                 form_data,
-                "application/x-www-form-urlencoded",
+                { contentType: "application/x-www-form-urlencoded" },
 
                 // listen to response from the server
                 function (response) {
@@ -236,7 +236,7 @@ function init() {
             window.ajaxRequest(
                 req_url,
                 form_data,
-                "application/x-www-form-urlencoded",
+                { contentType: "application/x-www-form-urlencoded" },
 
                 // listen to response from the server
                 function (response) {
@@ -306,7 +306,7 @@ function init() {
         }
 
         // validate input
-        if (/^([a-zA-Z0-9]+)$/.test(input_elem.value)) {
+        if (/^[a-zA-Z0-9]+$/.test(input_elem.value)) {
             // disable email input
             input_elem.disabled = true;
 
@@ -323,7 +323,7 @@ function init() {
             window.ajaxRequest(
                 req_url,
                 form_data,
-                "application/x-www-form-urlencoded",
+                { contentType: "application/x-www-form-urlencoded" },
 
                 // listen to response from the server
                 function (response) {
@@ -1218,7 +1218,7 @@ function init() {
                             window.ajaxRequest(
                                 req_url,
                                 reg_form,
-                                null,
+                                { contentType: false },
 
                                 // listen to response from the server
                                 function (response) {
@@ -1234,7 +1234,7 @@ function init() {
                                         err_status == 504 ||
                                         err_status == 503) {
 
-                                        window.processRegisterationForm();
+                                        window.processRegisterationForm(e);
 
                                     } else {
                                         alert("An error occured, please try again.");
