@@ -9,12 +9,20 @@ function customError($errno, $errstr) {
     die();
 }
 
+// set the handler
+set_error_handler('customError');
+
 // import all the necessary liberaries
 require_once '../../includes/config.php';
 require_once '../../includes/utils.php'; // include utility liberary
 
+//echo 'isset: ' . isset($_SESSION['auth']) . "\n";
+//echo '$_SESSION[\'auth\'] == true): ' . ($_SESSION['auth'] == true) . "\n";
+//var_dump($_SESSION);
+//die();
+
 // check if user is authenticated
-if (!isset($_SESSION['auth']) || !$_SESSION['auth']) {
+if (!(isset($_SESSION['auth']) && $_SESSION['auth'] == true)) {
     // redirect user to login pages
     header('Location: '. BASE_URL . 'user/login.html');
     exit;
@@ -40,6 +48,6 @@ if (!isset($_SESSION['auth']) || !$_SESSION['auth']) {
     <script type="text/javascript" src="../js/login.js"></script>
     </head>
     <body>
-        // start here
+        <h1>Ikechukwu is here.</h1>
     </body>
 </html>

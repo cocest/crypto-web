@@ -82,7 +82,8 @@ function randomText( $type = 'alnum', $length = 8 ) {
 }
 
 /* 
- * Base on ruudrp answer and modified by shashank to support Internet Explorer 11
+ * Base on ruudrp answer and modified by shashank to support Internet Explorer 11, 
+ * modified by cocest to support Microsoft Edge
  * Code: http://php.net/manual/en/function.get-browser.php#101125
  */
 
@@ -116,6 +117,10 @@ function getBrowser() {
     else if(preg_match('/Firefox/i',$u_agent)) {
         $bname = 'Mozilla Firefox';
         $ub = "Firefox";
+    }
+    else if (preg_match('/Edge/i',$u_agent)) {
+        $bname = 'Microsoft Edge';
+        $ub = "Edge";
     }
     else if(preg_match('/Chrome/i',$u_agent)) {
         $bname = 'Google Chrome';
@@ -168,6 +173,36 @@ function getBrowser() {
         'platform'  => $platform,
         'pattern'    => $pattern
     );
+}
+
+function opensslEncrypt ($pure_string, $encryption_key) {
+    $cipher     = 'AES-256-CBC';
+    $options    = OPENSSL_RAW_DATA;
+    $hash_algo  = 'sha256';
+    $sha2len    = 32;
+    $ivlen = openssl_cipher_iv_length($cipher);
+    $iv = openssl_random_pseudo_bytes($ivlen);
+    $ciphertext_raw = openssl_encrypt($pure_string, $cipher, $encryption_key, $options, $iv);
+    $hmac = hash_hmac($hash_algo, $ciphertext_raw, $encryption_key, true);
+    return $iv.$hmac.$ciphertext_raw;
+}
+
+function opensslDecrypt ($encrypted_string, $encryption_key) {
+    $cipher     = 'AES-256-CBC';
+    $options    = OPENSSL_RAW_DATA;
+    $hash_algo  = 'sha256';
+    $sha2len    = 32;
+    $ivlen = openssl_cipher_iv_length($cipher);
+    $iv = substr($encrypted_string, 0, $ivlen);
+    $hmac = substr($encrypted_string, $ivlen, $sha2len);
+    $ciphertext_raw = substr($encrypted_string, $ivlen+$sha2len);
+    $original_plaintext = openssl_decrypt($ciphertext_raw, $cipher, $encryption_key, $options, $iv);
+    $calcmac = hash_hmac($hash_algo, $ciphertext_raw, $encryption_key, true);
+    if (hash_equals($hmac, $calcmac)) {
+        return $original_plaintext;
+    } else {
+        return null;
+    }
 }
 
 ?>

@@ -7,11 +7,23 @@ session_start();
 require_once '../../includes/config.php';
 require_once '../../includes/utils.php'; // include utility liberary
 
-// generate CSRF token
-$csrf_token = generateToken();
+// global variables here
+$csrf_token;
 
-// add the CSRF token to session
-$_SESSION["csrf_token"] = $csrf_token;
+// check if client should be logged-in automatically
+if (isset($_COOKIE['auto_login'])) {
+    // redirect user to login processor
+    $_SESSION['auto_login_user'] = true;
+    header('Location: ' . BASE_URL . 'login_user');
+    exit;
+
+} else {
+    // generate CSRF token
+    $csrf_token = generateToken();
+
+    // add the CSRF token to session
+    $_SESSION["csrf_token"] = $csrf_token;
+}
 
 ?>
 

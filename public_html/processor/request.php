@@ -6,6 +6,9 @@ function customError($errno, $errstr) {
     die();
 }
 
+// set the handler
+set_error_handler('customError');
+
 // import all the necessary liberaries
 require_once '../includes/config.php';
 require_once '../includes/utils.php'; // include utility liberary
@@ -13,7 +16,7 @@ require_once '../includes/utils.php'; // include utility liberary
 // check if request method is post
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // check if URL has request query
-    if (isset($_POST['req']) && isset($_POST['d'])) {
+    if (isset($_POST['req'])) {
         $db = $config['db']['mysql']; // mysql configuration
 
         // connect to database
@@ -27,6 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // process user request
         switch($_POST['req']) {
             case 'emailexist':
+                if (!isset($_POST['d'])) {
+                    trigger_error('Request URL is not properly form', E_USER_ERROR);
+                }
+
                 // generate hash of 40 characters length from user's email address
                 $search_email_hash = hash('sha1', sanitiseInput($_POST['d']));
 
@@ -58,6 +65,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 break;
 
             case 'usernameexist':
+                if (!isset($_POST['d'])) {
+                    trigger_error('Request URL is not properly form', E_USER_ERROR);
+                }
+
                 // sanitise pass in user name
                 $user_name = sanitiseInput($_POST['d']);
 
@@ -89,6 +100,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 break;
 
             case 'referralexist':
+                if (!isset($_POST['d'])) {
+                    trigger_error('Request URL is not properly form', E_USER_ERROR);
+                }
+
                 // sanitise pass in referral ID
                 $ref_id = sanitiseInput($_POST['d']);
 
@@ -116,6 +131,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // close connection to database
                 $stmt->close();
                 $conn->close();
+
+                break;
+
+            case 'get_user_testimonial':
+                $formatted_result;
+
+                // select user's testimonial from database
+                $query = 
+                    'SELECT A.testimoney, B.firstName, B.lastName, B.smallProfilePictureURL, A.time 
+                     FROM user_testimonies AS A LEFT JOIN users AS B 
+                     ON A.userID = B.id ORDER BY RAND() LIMIT 10';
+
+                $stmt = $conn->prepare($query); // prepare statement
+
+                // check if statement compile
+                if ($stmt === false) {
+                    trigger_error('Wrong SQL: '.$query.' Error: '.$conn->error, E_USER_ERROR);
+                }
+
+                $stmt->execute();
+                $result = $stmt->get_result();
+                if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        $formatted_result[] = 
+                            [
+                                'name' => $row['lastName'] . ' ' . $row['firstName'],
+                                'profile_picture' => $row['smallProfilePictureURL'],
+                                'testimoney' => $row['testimoney'],
+                                'time' => $row['time']
+                            ];
+                    }
+
+                    // send result to client testimonies
+                    $formatted_result = ['testimonies' => $formatted_result];
+                    echo json_encode($formatted_result);
+
+                } else {
+                    echo '{"testimonies": []}';
+                }
 
                 break;
 

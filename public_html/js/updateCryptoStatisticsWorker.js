@@ -4,7 +4,7 @@
  * 
  */
 
-importScripts('./scripts/webworker_utils.js');
+importScripts('./webworker_utils.js');
 
 const req_url = 'process_request.php';
 let form_data = 'request=GET_CRYPTO_PRICES'; // request query

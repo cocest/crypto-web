@@ -9,6 +9,9 @@ function customError($errno, $errstr) {
     die();
 }
 
+// set the handler
+set_error_handler('customError');
+
 // import all the necessary liberaries
 require_once '../includes/config.php';
 require_once '../includes/utils.php'; // include utility liberary
@@ -24,19 +27,13 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
     if (empty($_POST['leaveitempty']) && sanitiseInput($_POST['acceptterms']) == 1) {
         // check if submitted form's input is correct
         if (!validateUserFormInputs($_POST)) {
-            die(); // exit script
+            die(); // stop script
         }
-
-        // generate referral ID for the user
-        $user_ref_id = randomText('distinct', 24);
-
-        // generate hash of 40 characters length from user's email address
-        $search_email_hash = hash('sha1', sanitiseInput($_POST['email']));
 
         $db = $config['db']['mysql']; // mysql configuration
         
         // enable mysql exception
-        mysqli_report(MYSQLI_REPORT_STRICT | MYSQLI_REPORT_ALL);
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
         // connect to database
         $conn = new mysqli($db['host'], $db['username'], $db['password'], $db['dbname']);
@@ -47,6 +44,15 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
         }
 
         try {
+            // generate referral ID for the user
+            $user_ref_id = randomText('distinct', 24);
+
+            // generate hash of 40 characters length from user's email address
+            $search_email_hash = hash('sha1', $_POST['email']);
+
+            // start transaction
+            $conn->begin_transaction();
+
             // create new user
             $query = 
             'INSERT INTO users (
@@ -79,18 +85,32 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             );
     
             $stmt->execute();
-            $stmt->store_result(); // needed for affected row
+            $new_user_id = $stmt->insert_id;
+            $stmt->close();
 
-            // check if user is created successfully
-            if ($stmt->affected_rows > 0) {
-                // redirect user to there home page
-                echo 'Your are registered';
-            }
+            // insert user's login credential into table
+            $password_hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
+            $query = 'INSERT INTO user_authentication (userID, username, password) VALUES(?, ?, ?)';
+            $stmt = $conn->prepare($query); // prepare statement
+            $stmt->bind_param('iss', $new_user_id, $_POST['userrname'], $password_hash);
+            $stmt->execute();
+
+            // commit all the transaction
+            $conn->commit();
+
+            // close connection to database
+            $stmt->close();
+            $conn->close();
+
+            // create login session and redirect user to their page
+            $_SESSION['auth'] = true;
+            header('Location: ' . BASE_URL . 'user/home.php');
+            exit;
 
         } catch (mysqli_sql_exception $e) { // catch only mysqli exceptions
             // $e->getMessage(); 
             // $e->getCode();
-            // handle mysqli exception here
+            $conn->rollback(); // remove all queries from queue if error occured (undo)
 
         } catch (Exception $e) { // catch other exception
             echo 'Caught exception: ',  $e->getMessage(), "\n";
@@ -109,62 +129,64 @@ function validateUserFormInputs($inputs) {
         switch($input_name) {
             case 'firstname':
             case 'lastname':
-                if (!preg_match("/^([a-zA-Z]|[a-zA-Z]+[']?[a-zA-Z]+)$/", sanitiseInput($input_value))) {
+                if (!preg_match("/^([a-zA-Z]|[a-zA-Z]+[']?[a-zA-Z]+)$/", $input_value)) {
                     return false;
                 }
 
                 break;
 
-            case 'country': 
-                if (!preg_match("/^.+$/", sanitiseInput($input_value))) {
+            case 'country':
+            case 'password':
+            case 'confirmpasswd': 
+                if (!preg_match("/^.+$/", $input_value)) {
                     return false;
                 }
 
                 break;
 
             case 'countrycode':
-                if (!preg_match("/^\+\d+$/", sanitiseInput($input_value))) {
+                if (!preg_match("/^\+\d+$/", $input_value)) {
                     return false;
                 }
 
                 break;
 
             case 'phonenumber':
-                if (!preg_match("/^\d+$/", sanitiseInput($input_value))) {
+                if (!preg_match("/^\d+$/", $input_value)) {
                     return false;
                 }
 
                 break;
 
             case 'email':
-                if (!filter_var(sanitiseInput($input_value), FILTER_VALIDATE_EMAIL)) {
+                if (!filter_var($input_value, FILTER_VALIDATE_EMAIL)) {
                     return false;
                 }
 
                 break;
 
             case 'birthdate': {
-                if (!preg_match("/^(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])\/[1-9]\d{3}$/", sanitiseInput($input_value))) {
+                if (!preg_match("/^(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])\/[1-9]\d{3}$/", $input_value)) {
                     return false;
                 }
             }
 
             case 'gender':
-                if (!preg_match("/^(male|female|others)$/i", sanitiseInput($input_value))) {
+                if (!preg_match("/^(male|female|others)$/i", $input_value)) {
                     return false;
                 }
 
                 break;
 
             case 'username':
-                if (!preg_match("/^([a-zA-Z0-9]+|[a-zA-Z0-9]+@?[a-zA-Z0-9]+)$/", sanitiseInput($input_value))) {
+                if (!preg_match("/^([a-zA-Z0-9]+|[a-zA-Z0-9]+@?[a-zA-Z0-9]+)$/", $input_value)) {
                     return false;
                 }
 
                 break;
 
             case 'referralid':
-                if (!preg_match("/^[a-zA-Z0-9]+$/", sanitiseInput($input_value))) {
+                if (!preg_match("/^[a-zA-Z0-9]+$/", $input_value)) {
                     return false;
                 }
 
