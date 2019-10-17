@@ -140,8 +140,8 @@ try {
             exit;
         }
 
-        // update crypto data after 2 minutes has elapsed
-        $wait_time_update = 60 * 2;
+        // update crypto data after a minute has elapsed
+        $wait_time_update = 60 * 1;
 
         // check if request is successfully
         if ($response->success && $response->status_code == 200) {
