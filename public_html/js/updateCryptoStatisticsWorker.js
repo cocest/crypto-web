@@ -9,7 +9,7 @@ importScripts('./webworker_utils.js');
 const req_url = '../crypto_currency_stat';
 let response_data;
 let interval_running = false;
-let call_interval = 60000 * 1 // every 1 minute
+let call_interval = 30000 // every 30 seconds
 let wait = false;
 
 // send request to server at every interval
@@ -17,7 +17,7 @@ function sendRequestAtInterval() {
     setInterval(function() {
         sendRequest();
 
-    }, call_interval); // every 1 minute
+    }, call_interval); // every 30 seconds
 }
 
 function sendRequest() {
