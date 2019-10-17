@@ -148,7 +148,12 @@
             }
 
             // send request to server
-            xmlhttp.send(_form);
+            if (_form == null) {
+                xmlhttp.send();
+
+            } else {
+                xmlhttp.send(_form);
+            }
 
             // response on state change and return the responds
             xmlhttp.onreadystatechange = function () {

@@ -114,11 +114,6 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
 
         } catch (Exception $e) { // catch other exception
             echo 'Caught exception: ',  $e->getMessage(), "\n";
-
-        } finally {
-            // close connection to database
-            $stmt->close();
-            $conn->close();
         }
     }
 }

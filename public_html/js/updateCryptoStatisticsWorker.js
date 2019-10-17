@@ -6,18 +6,18 @@
 
 importScripts('./webworker_utils.js');
 
-const req_url = 'process_request.php';
-let form_data = 'request=GET_CRYPTO_PRICES'; // request query
+const req_url = '../crypto_currency_stat';
 let response_data;
 let interval_running = false;
-let call_interval = 60000 * 2; // every 2 minutes
+let call_interval = 60000 * 1 // every 1 minute
+let wait = false;
 
 // send request to server at every interval
 function sendRequestAtInterval() {
     setInterval(function() {
         sendRequest();
 
-    }, call_interval); // every 2 minutes
+    }, call_interval); // every 1 minute
 }
 
 function sendRequest() {
@@ -32,7 +32,8 @@ function sendRequest() {
     // send request to server
     ajaxRequest(
         req_url,
-        form_data,
+        null,
+        {contentType: null},
 
         // listen to response from the server
         function (response) {

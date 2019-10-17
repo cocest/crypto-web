@@ -30,128 +30,7 @@ function init() {
     let testimonies;
 
     // cryptocurrencies' price
-    let cryptoprices = [
-        {
-            crypto_name: 'Bitcoin',
-            crpto_symbol: 'BTC',
-            usd: {
-                price: 9459.19,
-                last_update: 1567080149,
-                mkt_cap: 169351898725.75,
-                supply: 17903425,
-                change_pct_hour: -0.032550328832298456,
-                last_vol: 0.0027
-            },
-            eur: {
-                price: 8556.79,
-                last_update: 1567080157,
-                mkt_cap: 153195848005.75003,
-                supply: 17903425,
-                change_pct_hour: -0.032550328832298456,
-                last_vol: 0.06690278
-            }
-        },
-        {
-            crypto_name: 'Ethereum',
-            crpto_symbol: 'ETH',
-            usd: {
-                price: 168.72,
-                last_update: 1567080146,
-                mkt_cap: 18140773419.14628,
-                supply: 107519994.1865,
-                change_pct_hour: -0.09474182851728836,
-                last_vol: 0.20135509
-            },
-            eur: {
-                price: 152.57,
-                last_update: 1567080158,
-                mkt_cap: 16404325513.034303,
-                supply: 107519994.1865,
-                change_pct_hour: -0.10476003404700884,
-                last_vol: 9
-            }
-        },
-        {
-            crypto_name: 'Litecoin',
-            crpto_symbol: 'LTC',
-            usd: {
-                price: 67.62,
-                last_update: 1567085874,
-                mkt_cap: 721141421.2462507,
-                supply: 9005262.50307506,
-                change_pct_hour: 0.15007503751876508,
-                last_vol: 0.35325336
-            },
-            eur: {
-                price: 72.41,
-                last_update: 1567085170,
-                mkt_cap: 652071057.8476651,
-                supply: 9005262.50307506,
-                change_pct_hour: 0.2908587257617642,
-                last_vol: 3.5
-            }
-        },
-        {
-            crypto_name: 'Dash',
-            crpto_symbol: 'DASH',
-            usd: {
-                price: 80.08,
-                last_update: 1567085874,
-                mkt_cap: 721141421.2462507,
-                supply: 9005262.50307506,
-                change_pct_hour: 0.15007503751876508,
-                last_vol: 0.35325336
-            },
-            eur: {
-                price: 72.41,
-                last_update: 1567085170,
-                mkt_cap: 652071057.8476651,
-                supply: 9005262.50307506,
-                change_pct_hour: 0.2908587257617642,
-                last_vol: 3.5
-            }
-        },
-        {
-            crypto_name: 'Monero',
-            crpto_symbol: 'XMR',
-            usd: {
-                price: 70.28,
-                last_update: 1567085886,
-                mkt_cap: 1207434119.038162,
-                supply: 17180337.4934286,
-                change_pct_hour: 0.2138884927990955,
-                last_vol: 0.1
-            },
-            eur: {
-                price: 63.27,
-                last_update: 1567085775,
-                mkt_cap: 1086999953.2092275,
-                supply: 17180337.4934286,
-                change_pct_hour: 0.20589166930630748,
-                last_vol: 0.27835534
-            }
-        },
-        {
-            crypto_name: 'ZCash',
-            crptosymbol: 'ZEC',
-            usd: {
-                price: 45.23,
-                last_update: 1567085861,
-                mkt_cap: 330038504.3125,
-                supply: 7296893.75,
-                change_pct_hour: -0.08835873647008228,
-                last_vol: 2.076651
-            },
-            eur: {
-                price: 40.9,
-                last_update: 1567085818,
-                mkt_cap: 298442954.375,
-                supply: 7296893.75,
-                change_pct_hour: -0.21956574774336038,
-                last_vol: 0.44052
-            }
-        }
-    ];
+    let cryptoprices;
 
     window.closeWindowPanel = function (win_id) {
         let elem = document.getElementById(win_id);
@@ -682,13 +561,15 @@ function init() {
     // utility function that update cryptocurrency statistics at every interval
     function requestForCryptoStatisticsUpdate() {
         //checks if the worker does not exists
-        if (typeof (update_crypto_statistics_worker) === "undefined") {
+        if (typeof update_crypto_statistics_worker == "undefined") {
             update_crypto_statistics_worker = new Worker("js/updateCryptoStatisticsWorker.js");
 
             //listen to when data is sent
             update_crypto_statistics_worker.addEventListener("message", function (event) {
                 cryptoprices = event.data;
-                addTableRowsForCrptoPrices(cryptoprices, curr_crypto_price_btn_id == 0 ? 'US_DOLLAR' : 'EURO');
+                if (cryptoprices.length > 0) {
+                    addTableRowsForCrptoPrices(cryptoprices, curr_crypto_price_btn_id == 0 ? 'US_DOLLAR' : 'EURO');
+                }
             });
         }
     }
@@ -864,8 +745,8 @@ function init() {
     }
 
     // call after page is loaded
-    addTableRowsForCrptoPrices(cryptoprices, 'US_DOLLAR'); // remove this later
-    //requestForCryptoStatisticsUpdate();
+    //addTableRowsForCrptoPrices(cryptoprices, 'US_DOLLAR'); // remove this later
+    requestForCryptoStatisticsUpdate();
     requestForCustomerTestimonial();
 
     //listen to page scroll event
