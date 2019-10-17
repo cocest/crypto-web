@@ -240,7 +240,7 @@
 
     <!--Cryptocurrencies' price and trade statistics-->
     <div class="crypto-statistics-section-cont">
-        <div class="crypto-statistics-section page-cont-max-width">
+        <div class="crypto-statistics-section page-cont-max-width remove-elem">
             <div class="title-cont">
                 <h1 class="ux-txt-grayblue">Cryptocurrency Live Price</h1>
             </div>
@@ -252,6 +252,22 @@
                 <div class="table-wrapper">
                     <table id="crypto-st-tbl"></table>
                 </div>
+            </div>
+        </div>
+        <div class="crypto-statistics-loading-cont">
+            <div class="vt-bars-anim-cont">
+                <div class="vt-bar-cont">
+                    <div class="vt-bar-1"></div>
+                </div>
+                <div class="vt-bar-cont">
+                    <div class="vt-bar-2"></div>
+                </div>
+                <div class="vt-bar-cont">
+                    <div class="vt-bar-3"></div>
+                </div>
+            </div>
+            <div class="loading-txt-cont ux-txt-grayblue ux-fs-px-24">
+                Loading statistics
             </div>
         </div>
     </div>

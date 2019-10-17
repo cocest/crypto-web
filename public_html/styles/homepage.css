@@ -1,4 +1,84 @@
 /* custom css for the website should be place here */
+
+/********custom wait animation********/
+.vt-bars-anim-cont {
+    display: table;
+}
+
+.vt-bars-anim-cont .vt-bar-cont {
+    display: table-cell;
+    vertical-align: middle;
+    width: 8px;
+    height: 30px;
+    padding-left: 2px;
+    padding-right: 1px;
+}
+
+.vt-bars-anim-cont .vt-bar-cont .vt-bar-1,
+.vt-bars-anim-cont .vt-bar-cont .vt-bar-2,
+.vt-bars-anim-cont .vt-bar-cont .vt-bar-3 {
+    width: 100%;
+    height: 20px;
+}
+
+.vt-bars-anim-cont .vt-bar-cont .vt-bar-1 {
+    -webkit-animation: expand-1 0.8s linear infinite;
+    animation: expand-1 0.8s linear infinite;
+}
+
+ @-webkit-keyframes expand-1 {
+   0% { height: 30px; background-color: #037ad8;}
+   33% { height: 30px; background-color: #037ad8;}
+   34% { height: 20px; background-color: #3fa0ef;}
+   100% { height: 20px; background-color: #3fa0ef;}
+ }
+ @keyframes expand-1 {
+   0% { height: 30px; background-color: #037ad8;}
+   33% { height: 30px; background-color: #037ad8;}
+   34% { height: 20px; background-color: #3fa0ef;}
+   100% { height: 20px; background-color: #3fa0ef;}
+ }
+
+ .vt-bars-anim-cont .vt-bar-cont .vt-bar-2 {
+   -webkit-animation: expand-2 0.8s linear infinite;
+   animation: expand-2 0.8s linear infinite;
+ }
+
+ @-webkit-keyframes expand-2 {
+   0% { height: 20px; background-color: #3fa0ef; }
+   33% { height: 20px; background-color: #3fa0ef; }
+   34% { height: 30px; background-color: #037ad8; }
+   66% { height: 30px; background-color: #037ad8; }
+   67% { height: 20px; background-color: #3fa0ef; }
+   100% { height: 20px; background-color: #3fa0ef; }
+ }
+ @keyframes expand-2 {
+   0% { height: 20px; background-color: #3fa0ef;}
+   33% { height: 20px; background-color: #3fa0ef;}
+   34% { height: 30px; background-color: #037ad8; }
+   66% { height: 30px; background-color: #037ad8; }
+   67% { height: 20px; background-color: #3fa0ef; }
+   100% { height: 20px; background-color: #3fa0ef; }
+ }
+
+ .vt-bars-anim-cont .vt-bar-cont .vt-bar-3 {
+   -webkit-animation: expand-3 0.8s linear infinite;
+   animation: expand-3 0.8s linear infinite;
+ }
+
+ @-webkit-keyframes expand-3 {
+   0% { height: 20px; background-color: #3fa0ef; }
+   66% { height: 20px; background-color: #3fa0ef; }
+   67% { height: 30px; background-color: #037ad8; }
+   100% { height: 30px; background-color: #037ad8; }
+ }
+ @keyframes expand-3 {
+   0% { height: 20px; background-color: #3fa0ef; }
+   66% { height: 20px; background-color: #3fa0ef; }
+   67% { height: 30px; background-color: #037ad8; }
+   100% { height: 30px; background-color: #037ad8; }
+ }
+
 .shadow {
     box-shadow: 0px 1px 8px 2px rgba(0, 0, 0, 0.4);
 }
@@ -397,6 +477,21 @@
 .crypto-statistics-section-cont {
     padding-top: 50px;
     padding-bottom: 100px;
+}
+
+.crypto-statistics-loading-cont {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.crypto-statistics-loading-cont .vt-bars-anim-cont {
+    width: 37px;
+    margin: 0 auto;
+    margin-bottom: 15px;
+}
+
+.crypto-statistics-loading-cont .loading-txt-cont {
+    text-align: center;
 }
 
 #crypto-st-table-cont .tab-btn-cont {

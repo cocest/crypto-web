@@ -11,6 +11,7 @@ function init() {
     let slide_tm_wait = false;
     let testimonies_ready = false;
     let curr_crypto_price_btn_id = 0;
+    let is_crypto_stat_loading = true;
     let update_crypto_statistics_worker;
     let requestAnimationFrame = window.requestAnimationFrame
         || window.mozRequestAnimationFrame
@@ -566,8 +567,13 @@ function init() {
 
             //listen to when data is sent
             update_crypto_statistics_worker.addEventListener("message", function (event) {
-                cryptoprices = event.data;
-                if (cryptoprices.length > 0) {
+                if (event.data.length > 0) {
+                    cryptoprices = event.data;
+                    if (is_crypto_stat_loading) {
+                        is_crypto_stat_loading = false;
+                        document.querySelector('.crypto-statistics-loading-cont').setAttribute('class', 'crypto-statistics-loading-cont remove-elem');
+                        document.querySelector('.crypto-statistics-section').setAttribute('class', 'crypto-statistics-section page-cont-max-width');
+                    }
                     addTableRowsForCrptoPrices(cryptoprices, curr_crypto_price_btn_id == 0 ? 'US_DOLLAR' : 'EURO');
                 }
             });
