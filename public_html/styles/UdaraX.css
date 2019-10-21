@@ -411,3 +411,52 @@ ul.ux-vt-menu.fmt-link-med li .link {
   padding: 4px 0 4px 0;
   font-size: 0.95em;
 }
+
+/*************layout************/
+.ux-layout-grid.columns-1,
+.ux-layout-grid.columns-2,
+.ux-layout-grid.columns-3,
+.ux-layout-grid.columns-4,
+.ux-layout-grid.columns-5,
+.ux-layout-grid.columns-6 {
+  display: block;
+  width: 100%;
+  box-sizing: content-box;
+  overflow: hidden;
+}
+
+.ux-layout-grid.columns-1 .grid-item {
+  float: left;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ux-layout-grid.columns-2 .grid-item {
+  float: left;
+  width: 50%;
+  box-sizing: border-box;
+}
+
+.ux-layout-grid.columns-3 .grid-item {
+  float: left;
+  width: 33%;
+  box-sizing: border-box;
+}
+
+.ux-layout-grid.columns-4 .grid-item {
+  float: left;
+  width: 25%;
+  box-sizing: border-box;
+}
+
+.ux-layout-grid.columns-5 .grid-item {
+  float: left;
+  width: 20%;
+  box-sizing: border-box;
+}
+
+.ux-layout-grid.columns-6 .grid-item {
+  float: left;
+  width: 16.6%;
+  box-sizing: border-box;
+}

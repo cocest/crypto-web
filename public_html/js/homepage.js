@@ -10,6 +10,7 @@ function init() {
     let curr_tm_panel_index = 0;
     let slide_tm_wait = false;
     let testimonies_ready = false;
+    let less_more_pkgs_toggle = false;
     let curr_crypto_price_btn_id = 0;
     let is_crypto_stat_loading = true;
     let update_crypto_statistics_worker;
@@ -286,6 +287,47 @@ function init() {
             top_main_menu_changed = true;
             changeMainMenuOnScroll();
         }
+    };
+
+    window.showMoreOrLessInvestmentPackages = function () {
+        let elem = document.querySelector('.inv-pkg-exp-col-btn-cont');
+        let btn_icon = elem.querySelector('.img-cont');
+        let btn_text = elem.querySelector('.text-cont');
+        let packages;
+
+        if (less_more_pkgs_toggle) { // show less
+            less_more_pkgs_toggle = false;
+            btn_icon.setAttribute('class', 'img-cont expand');
+            btn_text.innerHTML = "See More";
+
+            if (window.innerWidth < 800) {
+                resizeInvestmentPackages("mobile");
+            } else if (window.innerWidth < 1200) {
+                resizeInvestmentPackages("tablet")
+            } else {
+                resizeInvestmentPackages("desktop");
+            }
+
+        } else { // show more
+            less_more_pkgs_toggle = true;
+            btn_icon.setAttribute('class', 'img-cont collapse');
+            btn_text.innerHTML = "See Less";
+
+            elem = document.querySelector('.inv-pkg-list-cont');
+            packages = elem.querySelectorAll('.grid-item');
+
+            for (let i = 0; i < packages.length; i++) {
+                packages[i].removeAttribute('style');
+            }
+        }
+    };
+
+    // store user's selection on cookies and redirect to login page
+    window.investmentPkgsSelected = function(investment) {
+        // code for cookies here
+
+        // redirect user
+        window.location.href = "user/login.html";
     };
 
     function getTestimonialNextIndex(direction, panel_count) {
@@ -683,75 +725,117 @@ function init() {
         }
     }
 
+    function resizeInvestmentPackages(adapt_to) {
+        if (less_more_pkgs_toggle) {
+            window.showMoreOrLessInvestmentPackages();
+            return;
+        }
+
+        let elem = document.querySelector('.inv-pkg-list-cont');
+        let packages = elem.querySelectorAll('.grid-item');
+        let start_index;
+
+        if (adapt_to == "mobile") {
+            start_index = 2;
+            elem.setAttribute('class', 'inv-pkg-list-cont ux-layout-grid columns-1');
+
+        } else if (adapt_to == "tablet") {
+            start_index = 4;
+            elem.setAttribute('class', 'inv-pkg-list-cont ux-layout-grid columns-2');
+
+        } else { // desktop
+            start_index = 4;
+            elem.setAttribute('class', 'inv-pkg-list-cont ux-layout-grid columns-4');
+        }
+
+        // hide remaining element
+        for (let i = 0; i < packages.length; i++) {
+            if (i < start_index) {
+                packages[i].removeAttribute('style');
+
+            } else {
+                packages[i].setAttribute('style', 'display: none;');
+            }
+        }
+    }
+
     // utility function that change page layout on page resize
     function adaptPageLayout() {
         let win_width_size = window.innerWidth;
 
         if (win_width_size < 800) { // mobile view
-            // testimonies varible must contain one testimoney
-            if (testimonies.length == 0) {
-                // hide the testimoney panel
-                document.querySelector('.testimoney-section-cont').setAttribute('class', 'testimoney-section-cont remove-elem');
-                return;
-
-            } else {
-                // show the testimoney panel
-                document.querySelector('.testimoney-section-cont').setAttribute('class', 'testimoney-section-cont');
-            }
+            resizeInvestmentPackages("mobile");
 
             // change testimonial view
             if (testimonies_ready) {
                 curr_panel_view_count = 1;
+                // testimonies varible must contain one testimoney
+                if (testimonies.length == 0) {
+                    // hide the testimoney panel
+                    document.querySelector('.testimoney-section-cont').setAttribute('class', 'testimoney-section-cont remove-elem');
+                    return;
+
+                } else {
+                    // show the testimoney panel
+                    document.querySelector('.testimoney-section-cont').setAttribute('class', 'testimoney-section-cont');
+                }
+
                 createTestimonialPanels(curr_panel_view_count);
                 startTMSlideAnimation();
             }
 
         } else if (win_width_size < 1200) { // tablet view
-            // testimonies varible must contain atleast two testimoney
-            if (testimonies.length < 2) {
-                // hide the testimoney panel
-                document.querySelector('.testimoney-section-cont').setAttribute('class', 'testimoney-section-cont remove-elem');
-                return;
-
-            } else {
-                // show the testimoney panel
-                document.querySelector('.testimoney-section-cont').setAttribute('class', 'testimoney-section-cont');
-            }
+            resizeInvestmentPackages("tablet");
 
             // change testimonial view
             if (testimonies_ready) {
                 curr_panel_view_count = 2;
+                // testimonies varible must contain atleast two testimoney
+                if (testimonies.length < 2) {
+                    // hide the testimoney panel
+                    document.querySelector('.testimoney-section-cont').setAttribute('class', 'testimoney-section-cont remove-elem');
+                    return;
+
+                } else {
+                    // show the testimoney panel
+                    document.querySelector('.testimoney-section-cont').setAttribute('class', 'testimoney-section-cont');
+                }
+
                 stopTMSlideAnimation();
                 createTestimonialPanels(curr_panel_view_count);
             }
 
         } else { // desktop view
-            // testimonies varible must contain atleast three testimoney
-            if (testimonies.length < 3) {
-                // hide the testimoney panel
-                document.querySelector('.testimoney-section-cont').setAttribute('class', 'testimoney-section-cont remove-elem');
-                return;
-
-            } else {
-                // show the testimoney panel
-                document.querySelector('.testimoney-section-cont').setAttribute('class', 'testimoney-section-cont');
-            }
+            resizeInvestmentPackages("desktop");
 
             // check if drop down mobile menu is active
             if (drop_mobi_menu_active) {
                 dropMobileMenu(document.querySelector('.drop-menu-icon-cont'));
             }
 
-            curr_panel_view_count = 3;
-            stopTMSlideAnimation();
-            createTestimonialPanels(curr_panel_view_count);
+            if (testimonies_ready) {
+                curr_panel_view_count = 3;
+                // testimonies varible must contain atleast three testimoney
+                if (testimonies.length < 3) {
+                    // hide the testimoney panel
+                    document.querySelector('.testimoney-section-cont').setAttribute('class', 'testimoney-section-cont remove-elem');
+                    return;
+
+                } else {
+                    // show the testimoney panel
+                    document.querySelector('.testimoney-section-cont').setAttribute('class', 'testimoney-section-cont');
+                }
+
+                stopTMSlideAnimation();
+                createTestimonialPanels(curr_panel_view_count);
+            }
         }
 
         attachTouchEventsTM();
     }
 
     // call after page is loaded
-    //addTableRowsForCrptoPrices(cryptoprices, 'US_DOLLAR'); // remove this later
+    adaptPageLayout();
     requestForCryptoStatisticsUpdate();
     requestForCustomerTestimonial();
 

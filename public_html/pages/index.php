@@ -1,3 +1,19 @@
+<?php 
+
+// error handler function
+function customError($errno, $errstr) {
+    echo "<b>Error:</b> [$errno] $errstr<br>";
+    die();
+}
+
+// set the handler
+set_error_handler('customError');
+
+// import all the necessary liberaries
+require_once '../includes/config.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en-US">
 
@@ -40,14 +56,14 @@
                         <li><a class="ux-btn ux-bg-chocolate bg-hover ux-txt-white ux-rd-corner-1"
                                 href="./register.html">Get
                                 Started</a></li>
-                        <li><a class="link ux-txt-smokewhite txt-hover" href="#">Sign In</a></li>
+                        <li><a class="link ux-txt-smokewhite txt-hover" href="./user/login.html">Sign In</a></li>
                     </ul>
                 </div>
 
                 <!--for mobile view-->
                 <div class="main-menu-cont-mobi">
                     <ul class="ux-hr-menu fmt-link-med ux-txt-align-rt">
-                        <li><a class="link ux-txt-smokewhite txt-hover" href="#">Sign In</a></li>
+                        <li><a class="link ux-txt-smokewhite txt-hover" href="./user/login.html">Sign In</a></li>
                         <li>
                             <div class="drop-menu-icon-cont" toggle="0" onclick="dropMobileMenu(this)">
                                 <img class="drop-menu-icon close" src="./images/icons/drop_menu_icon.png" />
@@ -210,6 +226,86 @@
                         </p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Investment packages section-->
+    <div class="inv-pkg-section-cont">
+        <div class="inv-pkg-section page-cont-max-width">
+            <div class="headline-cont ux-txt-align-ct">
+                <h1 class="ux-txt-grayblue">Investment Packages</h1>
+            </div>
+            <div class="inv-pkg-list-cont ux-layout-grid columns-4">
+                <?php 
+
+                // generate investment packages from database
+
+                // mysql configuration
+                $db = $config['db']['mysql'];
+        
+                // enable mysql exception
+                mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
+                try {
+                    // connect to database
+                    $conn = new mysqli($db['host'], $db['username'], $db['password'], $db['dbname']);
+
+                    //check connection
+                    if ($conn->connect_error) {
+                        throw new mysqli_sql_exception('Database connection failed: '.$conn->connect_error);
+                    }
+
+                    // fetch data from database
+                    $query = 'SELECT * FROM crypto_investment_packages';
+                    $stmt = $conn->prepare($query); // prepare statement
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $counter = 0;
+
+                    while ($row = $result->fetch_assoc()) {
+                        $package = 
+                            '<div class="grid-item">
+                                <div class="package-cont">
+                                    <div class="upper-sec">
+                                        <div class="pkg-name-cont ' . strtolower($row['package']) . '">
+                                            <h2>' . $row['package'] . '</h2>
+                                        </div>
+                                        <div class="header-img-cont ' . strtolower($row['package']) . '">
+                                            <img src="./images/icons/package_icon_sprint.png" />
+                                        </div>
+                                    </div>
+                                    <div class="lower-sec">
+                                        <h2 class="price">$' . number_format($row['minAmount']) . ' - ' . ($row['maxAmount'] == 0 ? 'unlimited' : '$' . number_format($row['maxAmount'])) . '</h2>
+                                        <ul class="benefit-list">
+                                            <li>Monthly ROI - ' . intval($row['monthlyROI']) . '%</li>
+                                            <li>Monthly Bonuses - ' . ($row['bonuses'] == 1 ? 'Yes' : 'No') . '</li>
+                                        </ul>
+                                        <button onclick="investmentPkgsSelected(' . $counter . ')">Invest</button>
+                                    </div>
+                                </div>
+                             </div>';
+
+                        echo $package;
+                        $counter++; // increment by one
+                    }
+
+                } catch (mysqli_sql_exception $e) {
+                    echo 'Mysql error: ' . $e->getMessage() . PHP_EOL;
+                
+                } catch (Exception $e) { // catch other exception
+                    echo 'Caught exception: ' .  $e->getMessage() . PHP_EOL;
+                }
+
+                ?>
+            </div>
+            <div class="inv-pkg-exp-col-btn-cont">
+                <button onclick="showMoreOrLessInvestmentPackages()">
+                    <div class="img-cont expand">
+                       <img src="./images/icons/expand_and_collapse.png" />
+                    </div>
+                    <div class="text-cont">See More</div>
+                </button>
             </div>
         </div>
     </div>
