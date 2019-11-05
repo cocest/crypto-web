@@ -1,0 +1,421 @@
+/* custom css for the website should be place here */
+
+.shadow {
+    box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.4);
+}
+
+.remove-elem {
+    display: none;
+}
+
+.page-top-menu-cont {
+    padding: 0 20px 0 20px;
+    background-color: white;
+    box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+}
+
+.site-logo-cont {
+    float: left;
+}
+
+ul.menu-link-cont {
+    float: right;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+ul.menu-link-cont > li {
+    display: inline-block;
+    margin: 16px 0 16px 25px;
+}
+
+ul.menu-link-cont .help-cont {
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 2px solid #6fb3ea;
+    color: #6fb3ea;
+    cursor: default;
+}
+
+ul.menu-link-cont .help-cont:hover {
+    border: 2px solid #3d9eee;
+    color: #3d9eee;
+}
+
+ul.menu-link-cont .help-cont > .fa-question-circle {
+    font-size: 1.8em;
+    padding-right: 4px;
+}
+
+ul.menu-link-cont .help-cont > .txt {
+    font-size: 1.2em;
+    position: relative;
+    top: -3px;
+}
+
+ul.menu-link-cont .notification-cont {
+    position: relative;
+    cursor: default;
+}
+
+ul.menu-link-cont .notification-cont > .fa-bell {
+    font-size: 1.5em;
+    color: gray;
+}
+
+ul.menu-link-cont .notification-cont:hover > .fa-bell {
+    color: #5f5f5f;
+}
+
+ul.menu-link-cont .notification-cont > .count {
+    position: absolute;
+    top: -8px;
+    left: 15px;
+    background-color: red;
+    border: 1px solid white;
+    text-align: center;
+    min-width: 17px;
+    font-size: 0.8em;
+    color: white;
+}
+
+ul.menu-link-cont .user-cont {
+    cursor: default;
+}
+
+ul.menu-link-cont .user-cont > img {
+    height: 35px;
+    width: 35px;
+    margin-bottom: -10px;
+    margin-right: 5px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    overflow: hidden;
+    background-color: #dadada;
+    border: 2px solid white;
+}
+
+ul.menu-link-cont .user-cont > .user {
+    display: inline-block;
+}
+
+ul.menu-link-cont .user-cont .name {
+    display: inline-block;
+    min-width: 80px;
+    margin-right: 10px;
+    font-family: sans-serif;
+    font-size: 1.3em;
+    color: gray;
+}
+
+ul.menu-link-cont .user-cont .fa-caret-down {
+    color: gray;
+}
+
+ul.menu-link-cont .user-cont:hover > img {
+    border: 2px solid lightgray;
+}
+
+ul.menu-link-cont .user-cont:hover .fa-caret-down {
+    color: rgb(88, 88, 88);
+}
+
+.user-drop-down-menu-cont {
+    position: absolute;
+    right: 10px;
+    width: 300px;
+    margin-top: 10px;
+    padding-top: 40px;
+    padding-bottom: 80px;
+    border-top: 1px solid lightgray;
+    box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.4);
+    background-color: white;
+}
+
+.user-drop-down-menu-cont .pointer {
+    position: absolute;
+    top: -7px;
+    right: 80px;
+    width: 15px;
+    height: 15px;
+    border-left: 1px solid lightgray;
+    border-top: 1px solid lightgray;
+    transform: rotate(45deg);
+    background-color: white;
+}
+
+.help-drop-down-menu-cont {
+    position: absolute;
+    right: 70px;
+    width: 300px;
+    margin-top: 10px;
+    padding-top: 40px;
+    padding-bottom: 80px;
+    border-top: 1px solid lightgray;
+    box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.4);
+    background-color: white;
+}
+
+.help-drop-down-menu-cont .pointer {
+    position: absolute;
+    top: -7px;
+    left: 40px;
+    width: 15px;
+    height: 15px;
+    border-left: 1px solid lightgray;
+    border-top: 1px solid lightgray;
+    transform: rotate(45deg);
+    background-color: white;
+}
+
+.user-drop-down-menu-cont .menu-list-cont,
+.help-drop-down-menu-cont .menu-list-cont {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.user-drop-down-menu-cont .menu-list-cont > li,
+.help-drop-down-menu-cont .menu-list-cont > li {
+    padding: 8px 0 4px 40px;
+    cursor: pointer;
+}
+
+.user-drop-down-menu-cont .menu-list-cont a,
+.help-drop-down-menu-cont .menu-list-cont a {
+    display: inline-block;
+    width: 100%;
+    text-decoration: none;
+}
+
+.user-drop-down-menu-cont .menu-list-cont > li:hover,
+.help-drop-down-menu-cont .menu-list-cont > li:hover {
+    background-color: whitesmoke;
+}
+
+.user-drop-down-menu-cont .profile-icon-cont,
+.user-drop-down-menu-cont .settings-icon-cont,
+.user-drop-down-menu-cont .signout-icon-cont,
+.help-drop-down-menu-cont .writeus-icon-cont,
+.help-drop-down-menu-cont .faq-icon-cont {
+    display: inline-block;
+    width: 34px;
+    height: 30px;
+    margin-right: 20px;
+    overflow: hidden;
+}
+
+.user-drop-down-menu-cont .profile-icon-cont > img {
+    width: 243px;
+    height: 30px;
+}
+
+.user-drop-down-menu-cont .settings-icon-cont > img {
+    position: relative;
+    left: -40px;
+    width: 243px;
+    height: 30px;
+}
+
+.user-drop-down-menu-cont .signout-icon-cont > img {
+    position: relative;
+    left: -79px;
+    width: 243px;
+    height: 30px;
+}
+
+.help-drop-down-menu-cont .writeus-icon-cont > img {
+    position: relative;
+    left: -174px;
+    width: 243px;
+    height: 30px;
+}
+
+.help-drop-down-menu-cont .faq-icon-cont > img {
+    position: relative;
+    left: -213px;
+    width: 243px;
+    height: 30px;
+}
+
+.user-drop-down-menu-cont .link-name,
+.help-drop-down-menu-cont .link-name {
+    position: relative;
+    top: -7px;
+    font-family: sans-serif;
+    font-size: 1.2em;
+    color: #3d9eee;
+}
+
+#notification-win-cont {
+    position: absolute;
+    right: 10px;
+    width: 450px;
+    min-height: 200px;
+    margin-top: 10px;
+    padding: 0 10px 10px 10px;
+    border-top: 1px solid lightgray;
+    box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.4);
+    background-color: white;
+}
+
+#notification-win-cont .title-bar-cont {
+    overflow: hidden;
+}
+
+#notification-win-cont .title-bar-cont > .title {
+    float: left;
+    margin: 8px 0;
+    font-family: sans-serif;
+    font-size: 1.4em;
+}
+
+#notification-win-cont .title-bar-cont > .close-btn {
+    float: right;
+    position: relative;
+    width: 25px;
+    height: 25px;
+    margin: 8px 0;
+    overflow: hidden;
+    background-color: #6cb6f3;
+    cursor: default;
+}
+
+#notification-win-cont .title-bar-cont > .close-btn > img {
+    position: relative;
+    top: 1px;
+    left: 6.8px;
+    width: 34.7px;
+    height: 12px;
+}
+
+#notification-win-cont .title-bar-cont > .close-btn:hover {
+    background-color: rgb(255, 70, 70);
+}
+
+/*#notification-win-cont .title-bar-cont > .close-btn:hover > img {
+    left: -15.7px;
+}*/
+
+#notification-win-cont .scroll-list-cont {
+    min-height: 100px;
+    max-height: 400px;
+    margin-top: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#notification-list-cont > .item-cont {
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+}
+
+#notification-list-cont > .item-cont .title-bar-cont {
+    overflow: hidden;
+}
+
+#notification-list-cont > .item-cont .title-bar-cont > .msg-title {
+    float: left;
+    font-family: Calibri, sans-serif;
+    font-size: 1.3em;
+    color: #3d9eee;
+    font-weight: bold;
+}
+
+#notification-list-cont > .item-cont .title-bar-cont > ul.msg-action-btn-cont {
+    float: right;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+#notification-list-cont > .item-cont .title-bar-cont > ul.msg-action-btn-cont .mark-msg,
+#notification-list-cont > .item-cont .title-bar-cont > ul.msg-action-btn-cont .delete-msg {
+    display: inline-block;
+    position: relative;
+    width: 30px;
+    height: 26px;
+    margin-left: 5px;
+    overflow: hidden;
+    cursor: default;
+}
+
+#notification-list-cont > .item-cont .title-bar-cont > ul.msg-action-btn-cont .mark-msg:hover,
+#notification-list-cont > .item-cont .title-bar-cont > ul.msg-action-btn-cont .delete-msg:hover {
+    background-color: rgb(235, 235, 235);
+}
+
+#notification-list-cont > .item-cont .title-bar-cont > ul.msg-action-btn-cont .mark-msg > img {
+    position: relative;
+    top: 5px;
+    width: 165px;
+    height: 18px;
+}
+
+#notification-list-cont > .item-cont .title-bar-cont > ul.msg-action-btn-cont .mark-msg.no-read > img {
+    left: 3px;
+}
+
+#notification-list-cont > .item-cont .title-bar-cont > ul.msg-action-btn-cont .mark-msg.read > img {
+    left: -35px;
+}
+
+#notification-list-cont > .item-cont .title-bar-cont > ul.msg-action-btn-cont .delete-msg > img {
+    position: relative;
+    top: 3px;
+    left: -85px;
+    width: 181px;
+    height: 20px;
+}
+
+#notification-list-cont > .item-cont .msg-body {
+    padding: 10px 0 15px 0;
+    font-family: Calibri, sans-serif;
+    font-size: 1.2em;
+}
+
+#notification-list-cont > .item-cont .footer {
+    overflow: hidden;
+}
+
+#notification-list-cont > .item-cont .footer > .expand-msg-btn {
+    float: left;
+    position: relative;
+    width: 30px;
+    height: 20px;
+    overflow: hidden;
+    cursor: default;
+}
+
+#notification-list-cont > .item-cont .footer > .expand-msg-btn:hover {
+    background-color: rgb(235, 235, 235);
+}
+
+#notification-list-cont > .item-cont .footer > .expand-msg-btn > img {
+    position: relative;
+    width: 226px;
+    height: 25px
+}
+
+#notification-list-cont > .item-cont .footer > .expand-msg-btn.expand > img {
+    top: -2px;
+    left: -154px;
+}
+
+#notification-list-cont > .item-cont .footer > .expand-msg-btn.collapse > img {
+    top: -2px;
+    left: -199px;
+}
+
+#notification-list-cont > .item-cont .footer > .msg-date {
+    float: right;
+    font-family: sans-serif;
+    font-size: 1.0em;
+    color: #3d9eee
+}

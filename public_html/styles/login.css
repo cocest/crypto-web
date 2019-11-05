@@ -330,7 +330,7 @@ input[type=submit]:disabled:hover {
 
 #err-msg-box .pointer {
     position: absolute;
-    top: -8px;
+    top: -6px;
     left: 30px;
     width: 15px;
     height: 15px;

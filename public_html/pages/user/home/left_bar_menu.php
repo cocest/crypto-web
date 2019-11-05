@@ -1,0 +1,1 @@
+<div>Left bar menu</div>

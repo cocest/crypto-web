@@ -323,7 +323,7 @@ function init() {
     };
 
     // store user's selection on cookies and redirect to login page
-    window.investmentPkgsSelected = function(investment) {
+    window.investmentPkgsSelected = function (investment) {
         // code for cookies here
 
         // redirect user
