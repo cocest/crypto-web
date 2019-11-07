@@ -40,7 +40,7 @@ require_once '../../../includes/utils.php'; // include utility liberary
                 </li>
                 <li class="notification-cont" onclick="openWin('notification-win-cont')">
                     <span class="fas fa-bell"></span>
-                    <div id="unread-msg-counter" class="count">2<div>
+                    <div id="unread-msg-counter" class="count remove-elem"><div>
                 </li>
                 <li class="user-cont" onclick="showUserDropDownMenu()">
                     <img src="../../images/icons/profile_pic.png" />
@@ -113,29 +113,21 @@ require_once '../../../includes/utils.php'; // include utility liberary
         </div>
         <div class="scroll-list-cont">
             <div id="notification-list-cont">
-                <div class="item-cont">
-                    <div class="title-bar-cont">
-                        <div class="msg-title">Verify Your Email</div>
-                        <ul class="msg-action-btn-cont">
-                            <li class="mark-msg no-read">
-                                <img src="../../images/icons/icons_sprite_2.png" />
-                            </li>
-                            <li class="delete-msg">
-                                <img src="../../images/icons/icons_sprite_2.png" />
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="msg-body">
-                        Dear Okpe Ikechukwu, Please verify your email address 
-                        to start enjoying our exclusive packages. Thank you.
-                    </div>
-                    <div class="footer">
-                        <div class="expand-msg-btn expand">
-                            <img src="../../images/icons/icons_sprite_2.png" />
+                <div id="load-prev-notification" class="remove-elem" onclick="loadPreviousNotfication()">Load more</div>
+                <div id="loading-notification-anim-cont">
+                    <div class="vt-bars-anim-cont">
+                        <div class="vt-bar-cont">
+                            <div class="vt-bar-1"></div>
                         </div>
-                        <div class="msg-date">10/18/2019 08:22 PM</div>
+                        <div class="vt-bar-cont">
+                            <div class="vt-bar-2"></div>
+                        </div>
+                        <div class="vt-bar-cont">
+                            <div class="vt-bar-3"></div>
+                        </div>
                     </div>
                 </div>
+                <div id="notification-status-msg" class="remove-elem">No notification</div>
             </div>
         </div>
     </div>

@@ -1,5 +1,84 @@
 /* custom css for the website should be place here */
 
+/********custom wait animation********/
+.vt-bars-anim-cont {
+    display: table;
+}
+
+.vt-bars-anim-cont .vt-bar-cont {
+    display: table-cell;
+    vertical-align: middle;
+    width: 4px;
+    height: 16px;
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+.vt-bars-anim-cont .vt-bar-cont .vt-bar-1,
+.vt-bars-anim-cont .vt-bar-cont .vt-bar-2,
+.vt-bars-anim-cont .vt-bar-cont .vt-bar-3 {
+    width: 100%;
+    height: 10px;
+}
+
+.vt-bars-anim-cont .vt-bar-cont .vt-bar-1 {
+    -webkit-animation: expand-1 0.8s linear infinite;
+    animation: expand-1 0.8s linear infinite;
+}
+
+ @-webkit-keyframes expand-1 {
+   0% { height: 16px; background-color: #037ad8;}
+   33% { height: 16px; background-color: #037ad8;}
+   34% { height: 10px; background-color: #3fa0ef;}
+   100% { height: 10px; background-color: #3fa0ef;}
+ }
+ @keyframes expand-1 {
+   0% { height: 16px; background-color: #037ad8;}
+   33% { height: 16px; background-color: #037ad8;}
+   34% { height: 10px; background-color: #3fa0ef;}
+   100% { height: 10px; background-color: #3fa0ef;}
+ }
+
+ .vt-bars-anim-cont .vt-bar-cont .vt-bar-2 {
+   -webkit-animation: expand-2 0.8s linear infinite;
+   animation: expand-2 0.8s linear infinite;
+ }
+
+ @-webkit-keyframes expand-2 {
+   0% { height: 10px; background-color: #3fa0ef; }
+   33% { height: 10px; background-color: #3fa0ef; }
+   34% { height: 16px; background-color: #037ad8; }
+   66% { height: 16px; background-color: #037ad8; }
+   67% { height: 10px; background-color: #3fa0ef; }
+   100% { height: 10px; background-color: #3fa0ef; }
+ }
+ @keyframes expand-2 {
+   0% { height: 10px; background-color: #3fa0ef;}
+   33% { height: 10px; background-color: #3fa0ef;}
+   34% { height: 16px; background-color: #037ad8; }
+   66% { height: 16px; background-color: #037ad8; }
+   67% { height: 10px; background-color: #3fa0ef; }
+   100% { height: 10px; background-color: #3fa0ef; }
+ }
+
+ .vt-bars-anim-cont .vt-bar-cont .vt-bar-3 {
+   -webkit-animation: expand-3 0.8s linear infinite;
+   animation: expand-3 0.8s linear infinite;
+ }
+
+ @-webkit-keyframes expand-3 {
+   0% { height: 10px; background-color: #3fa0ef; }
+   66% { height: 10px; background-color: #3fa0ef; }
+   67% { height: 16px; background-color: #037ad8; }
+   100% { height: 16px; background-color: #037ad8; }
+ }
+ @keyframes expand-3 {
+   0% { height: 10px; background-color: #3fa0ef; }
+   66% { height: 10px; background-color: #3fa0ef; }
+   67% { height: 16px; background-color: #037ad8; }
+   100% { height: 16px; background-color: #037ad8; }
+ }
+
 .shadow {
     box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.4);
 }
@@ -322,6 +401,7 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 
 #notification-list-cont > .item-cont .title-bar-cont > .msg-title {
     float: left;
+    max-width: 300px;
     font-family: Calibri, sans-serif;
     font-size: 1.3em;
     color: #3d9eee;
@@ -346,7 +426,7 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     cursor: default;
 }
 
-#notification-list-cont > .item-cont .title-bar-cont > ul.msg-action-btn-cont .mark-msg:hover,
+#notification-list-cont > .item-cont .title-bar-cont > ul.msg-action-btn-cont .mark-msg.no-read:hover,
 #notification-list-cont > .item-cont .title-bar-cont > ul.msg-action-btn-cont .delete-msg:hover {
     background-color: rgb(235, 235, 235);
 }
@@ -418,4 +498,41 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     font-family: sans-serif;
     font-size: 1.0em;
     color: #3d9eee
+}
+
+#load-prev-notification {
+    padding: 10px;
+    margin-top: 35px;
+    border: 1px solid lightgray;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 1.2em;
+    color: #3d9eee;
+    cursor: default;
+}
+
+#load-prev-notification:hover {
+    border: 1px solid #3d9eee;
+}
+
+#loading-notification-anim-cont {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-top: 35px;
+}
+
+#loading-notification-anim-cont .vt-bars-anim-cont {
+    width: 20px;
+    height: 16px;
+    margin: 0 auto;
+}
+
+#notification-status-msg {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-top: 35px;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 1.2em;
+    color: gray;
 }
