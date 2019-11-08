@@ -1,1 +1,1 @@
-<div>Left bar menu</div>
+    <div>Left bar menu</div>

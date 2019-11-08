@@ -143,6 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     // create login session and send redirect url to client
                     $_SESSION['auth'] = true;
+                    $_SESSION['user_id'] = $user_id;
                     $redirect_url = BASE_URL . 'user/home.php';
                     echo '{"success": true, "redirect_url": "' . $redirect_url . '"}';
                     exit; // exit script

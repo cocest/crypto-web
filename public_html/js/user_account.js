@@ -1,7 +1,11 @@
 function init() {
     // variables here
-    let user_menu_active = false;
-    let help_menu_active = false;
+    let close_element_handler = null;
+    let close_element_id;
+    let close_element_toggle_state = {
+        "help-drop-down-menu": false,
+        "user-drop-down-menu": false
+    };
     let notification_msg_map = new Map();
     let notification_max_list = 5;
     let load_prev_msg_offset;
@@ -35,35 +39,59 @@ function init() {
     }
 
     // show user drop down menu
-    window.showUserDropDownMenu = function () {
-        let elem = document.querySelector('.user-drop-down-menu-cont');
+    window.showUserDropDownMenu = function (e) {
+        let elem = document.getElementById('user-drop-down-menu-cont');
 
-        if (user_menu_active) {
-            user_menu_active = false;
-            elem.setAttribute("class", "user-drop-down-menu-cont remove-elem");
+        // close active menu
+        if (close_element_handler != null && close_element_id != 'user-drop-down-menu') {
+            close_element_handler.setAttribute("class", "remove-elem");
+            close_element_handler = null;
+            close_element_toggle_state[close_element_id] = false;
+        }
+
+        if (close_element_toggle_state['user-drop-down-menu']) {
+            close_element_toggle_state['user-drop-down-menu'] = false;
+            elem.setAttribute("class", "remove-elem");
 
         } else {
-            user_menu_active = true;
-            elem.setAttribute("class", "user-drop-down-menu-cont");
+            close_element_toggle_state['user-drop-down-menu'] = true;
+            elem.removeAttribute("class");
         }
+
+        close_element_id = "user-drop-down-menu";
+        close_element_handler = elem;
+        console.log("test 1 U");
     };
 
     // show help drop down menu
     window.showHelpDropDownMenu = function () {
-        let elem = document.querySelector('.help-drop-down-menu-cont');
+        let elem = document.getElementById('help-drop-down-menu-cont');
 
-        if (help_menu_active) {
-            help_menu_active = false;
-            elem.setAttribute("class", "help-drop-down-menu-cont remove-elem");
+        // close active menu
+        if (close_element_handler != null && close_element_id != 'help-drop-down-menu') {
+            close_element_handler.setAttribute("class", "remove-elem");
+            close_element_handler = null;
+            close_element_toggle_state[close_element_id] = false;
+        }
+
+        if (close_element_toggle_state['help-drop-down-menu']) {
+            close_element_toggle_state['help-drop-down-menu'] = false;
+            elem.setAttribute("class", "remove-elem");
 
         } else {
-            help_menu_active = true;
-            elem.setAttribute("class", "help-drop-down-menu-cont");
+            close_element_toggle_state['help-drop-down-menu'] = true;
+            elem.removeAttribute("class");
         }
+
+        close_element_id = "help-drop-down-menu";
+        close_element_handler = elem;
+        console.log("test 1 H");
     };
 
     // open window
     window.openWin = function (win) {
+        closeActiveMenu();
+        
         let elem = document.getElementById(win);
         elem.removeAttribute("class");
     };
@@ -78,7 +106,7 @@ function init() {
     window.loadPreviousNotification = function () {
         let req_url = 'request';
         let form_data =
-            'req=get_notification&offset=' + load_prev_msg_offset +
+            'req=get_prev_notification&offset=' + load_prev_msg_offset +
             '&limit= ' + notification_max_list; // request query
 
         // hide load more button and show loading animation
@@ -346,6 +374,22 @@ function init() {
             }, false);
         }
     }
+
+    // utility function to close menu window
+    function closeActiveMenu (){
+        if (close_element_handler != null) {
+            close_element_handler.setAttribute("class", "remove-elem");
+            close_element_handler = null;
+            close_element_toggle_state[close_element_id] = false;
+        }
+
+        console.log("test 2");
+    }
+
+    // listen to when user click the section
+    window.sectionClickEvent = function (e) {
+        closeActiveMenu();
+    };
 }
 
 //initialise the script

@@ -1,5 +1,8 @@
 <?php 
 
+// start session
+session_start();
+
 // error handler function
 function customError($errno, $errstr) {
     echo "<b>Error:</b> [$errno] $errstr<br>";
@@ -25,7 +28,53 @@ $db = $config['db']['mysql'];
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 try {
-    // code here
+    // connect to database
+    $conn = new mysqli($db['host'], $db['username'], $db['password'], $db['dbname']);
+
+    //check connection
+    if ($conn->connect_error) {
+        throw new mysqli_sql_exception('Database connection failed: '.$conn->connect_error);
+    }
+
+    $unread_msg_count = 0;
+    $messages = []; // list of notification
+
+    // count unread notification
+    $query = 'SELECT COUNT(*) AS total FROM users_notification WHERE userID = ? AND readState = ?';
+    $stmt = $conn->prepare($query); // prepare statement
+    $stmt->bind_param('ii', $_SESSION['user_id'], 0);
+    $stmt->execute();
+    $stmt->bind_result($unread_msg_count);
+    $stmt->fetch();
+    $stmt->close();
+
+    // fetch notification
+    $query = 'SELECT * FROM users_notification WHERE userID = ? AND time > ? ORDER BY time DESC LIMIT ?';
+    $stmt = $conn->prepare($query); // prepare statement
+    $stmt->bind_param('ii', $_SESSION['user_id'], $_POST['time_offset'], $_POST['limit']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // iterate through the result
+    while ($row = $result->fetch_assoc()) {
+        $messages[] = [
+            'id' => $row['msgID'],
+            'title' => $row['title'],
+            'content' => $row['content'],
+            'read' => $row['readState'],
+            'time' => $row['time']
+        ];
+    }
+    
+    $user_notification = [
+        'unread_msg_count' => $unread_msg_count,
+        'messages' => $messages
+    ];
+
+    $stmt->close();
+
+    // send result to client
+    echo json_encode($user_notification);
 
 } catch (mysqli_sql_exception $e) {
     echo 'Mysql error: ' . $e->getMessage() . PHP_EOL;

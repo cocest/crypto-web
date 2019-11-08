@@ -6,8 +6,7 @@ require_once 'left_bar_menu.php';
 
 ?>
 
-<h1>My Investment</h1>
-
+        <h1>My Investment</h1>
 <?php
 
 // page footer

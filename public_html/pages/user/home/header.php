@@ -54,7 +54,7 @@ require_once '../../../includes/utils.php'; // include utility liberary
     </div>
 
     <!--user menu-->
-    <div class="user-drop-down-menu-cont remove-elem">
+    <div id="user-drop-down-menu-cont" class="remove-elem">
         <div class="pointer"></div>
         <ul class="menu-list-cont">
             <li>
@@ -83,7 +83,7 @@ require_once '../../../includes/utils.php'; // include utility liberary
     </div>
 
     <!--help menu-->
-    <div class="help-drop-down-menu-cont remove-elem">
+    <div id="help-drop-down-menu-cont" class="remove-elem">
         <div class="pointer"></div>
         <ul class="menu-list-cont">
             <li>
@@ -131,4 +131,7 @@ require_once '../../../includes/utils.php'; // include utility liberary
             </div>
         </div>
     </div>
+
+    <!--listen to mouse click event on particular section of the page-->
+    <div onclick="sectionClickEvent(event)">
     
