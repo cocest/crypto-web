@@ -1,5 +1,8 @@
 <?php 
 
+// start session
+session_start();
+
 // error handler function
 function customError($errno, $errstr) {
     echo "<b>Error:</b> [$errno] $errstr<br>";
@@ -31,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         switch($_POST['req']) {
             case 'emailexist':
                 if (!isset($_POST['d'])) {
-                    trigger_error('Request URL is not properly form', E_USER_ERROR);
+                    trigger_error('Request is not properly formed', E_USER_ERROR);
                 }
 
                 // generate hash of 40 characters length from user's email address
@@ -66,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             case 'usernameexist':
                 if (!isset($_POST['d'])) {
-                    trigger_error('Request URL is not properly form', E_USER_ERROR);
+                    trigger_error('Request is not properly formed', E_USER_ERROR);
                 }
 
                 // sanitise pass in user name
@@ -101,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             case 'referralexist':
                 if (!isset($_POST['d'])) {
-                    trigger_error('Request URL is not properly form', E_USER_ERROR);
+                    trigger_error('Request is not properly formed', E_USER_ERROR);
                 }
 
                 // sanitise pass in referral ID
@@ -173,12 +176,84 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 break;
 
+            case 'get_prev_notification':
+                if (!(isset($_POST['time_offset']) && isset($_POST['limit']))) {
+                    trigger_error('Request is not properly formed', E_USER_ERROR);
+                }
+
+                $messages = []; // list of notification
+
+                // fetch notification
+                $query = 'SELECT * FROM users_notification WHERE userID = ? AND time < ? ORDER BY time DESC LIMIT ?';
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->bind_param('iii', $_SESSION['user_id'], $_POST['time_offset'], $_POST['limit']);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                // iterate through the result
+                while ($row = $result->fetch_assoc()) {
+                    $messages[] = [
+                        'id' => $row['msgID'],
+                        'title' => $row['title'],
+                        'content' => $row['content'],
+                        'read' => $row['readState'],
+                        'time' => $row['time']
+                    ];
+                }
+    
+                $user_notification = [
+                    'messages' => $messages
+                ];
+
+                $stmt->close();
+                $conn->close();
+
+                // send result to client
+                echo json_encode($user_notification);
+
+                break;
+
+            case 'read_notification':
+                if (!isset($_POST['msg_id'])) {
+                    trigger_error('Request is not properly formed', E_USER_ERROR);
+                }
+
+                // mark message as read
+                $query = 'UPDATE users_notification SET readState = ? WHERE msgID = ? LIMIT 1';
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->bind_param('is', $read_state, $_POST['msg_id']);
+                $read_state = 1;
+                $stmt->execute();
+                $stmt->close();
+                $conn->close();
+
+                echo 'SUCCESS';
+                
+                break;
+
+            case 'delete_notification':
+                if (!isset($_POST['msg_id'])) {
+                    trigger_error('Request is not properly formed', E_USER_ERROR);
+                }
+
+                // delete a message
+                $query = 'DELETE FROM users_notification WHERE msgID = ? AND userID = ? LIMIT 1';
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->bind_param('si', $_POST['msg_id'], $_SESSION['user_id']);
+                $stmt->execute();
+                $stmt->close();
+                $conn->close();
+
+                echo 'SUCCESS';
+                
+                break;
+
             default:
                 // you shouldn't be here
         }
 
     } else {
-        trigger_error('Request URL is not properly form', E_USER_ERROR);
+        trigger_error('Request is not properly formed', E_USER_ERROR);
     }
 }
 

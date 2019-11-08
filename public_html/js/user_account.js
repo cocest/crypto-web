@@ -60,7 +60,6 @@ function init() {
 
         close_element_id = "user-drop-down-menu";
         close_element_handler = elem;
-        console.log("test 1 U");
     };
 
     // show help drop down menu
@@ -85,13 +84,12 @@ function init() {
 
         close_element_id = "help-drop-down-menu";
         close_element_handler = elem;
-        console.log("test 1 H");
     };
 
     // open window
     window.openWin = function (win) {
         closeActiveMenu();
-        
+
         let elem = document.getElementById(win);
         elem.removeAttribute("class");
     };
@@ -106,7 +104,7 @@ function init() {
     window.loadPreviousNotification = function () {
         let req_url = 'request';
         let form_data =
-            'req=get_prev_notification&offset=' + load_prev_msg_offset +
+            'req=get_prev_notification&time_offset=' + load_prev_msg_offset +
             '&limit= ' + notification_max_list; // request query
 
         // hide load more button and show loading animation
@@ -177,7 +175,7 @@ function init() {
 
         // check if there is loaded message
         if (messages.length > 0) {
-            load_prev_msg_offset = messages[messages.length - 1];
+            load_prev_msg_offset = messages[messages.length - 1].time;
         }
 
         // append the message to the list
@@ -236,7 +234,7 @@ function init() {
             notification_first_run = false;
 
             // hide loading animation
-            ref_child_elem.setAttribute("class", "remove-elem");
+            document.getElementById("loading-notification-anim-cont").setAttribute("class", "remove-elem");
 
             // check if user has no notification
             if (data.messages.length < 1) {
@@ -363,7 +361,7 @@ function init() {
     // fetch new notification from server
     function fetchNewNotification() {
         if (typeof fetch_new_notification == "undefined") {
-            fetch_new_notification = new Worker("js/fetchNewNotificationWorker.js");
+            fetch_new_notification = new Worker("../../js/fetchNewNotificationWorker.js");
 
             // initialise fetch of new notification
             fetch_new_notification.postMessage({ msg_limit: notification_max_list });
@@ -376,20 +374,21 @@ function init() {
     }
 
     // utility function to close menu window
-    function closeActiveMenu (){
+    function closeActiveMenu() {
         if (close_element_handler != null) {
             close_element_handler.setAttribute("class", "remove-elem");
             close_element_handler = null;
             close_element_toggle_state[close_element_id] = false;
         }
-
-        console.log("test 2");
     }
 
     // listen to when user click the section
     window.sectionClickEvent = function (e) {
         closeActiveMenu();
     };
+
+    // call function onload
+    fetchNewNotification();
 }
 
 //initialise the script

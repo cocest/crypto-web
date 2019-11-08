@@ -38,11 +38,12 @@ try {
 
     $unread_msg_count = 0;
     $messages = []; // list of notification
+    $unread_msg = 0;
 
     // count unread notification
     $query = 'SELECT COUNT(*) AS total FROM users_notification WHERE userID = ? AND readState = ?';
     $stmt = $conn->prepare($query); // prepare statement
-    $stmt->bind_param('ii', $_SESSION['user_id'], 0);
+    $stmt->bind_param('ii', $_SESSION['user_id'], $unread_msg);
     $stmt->execute();
     $stmt->bind_result($unread_msg_count);
     $stmt->fetch();
@@ -51,7 +52,7 @@ try {
     // fetch notification
     $query = 'SELECT * FROM users_notification WHERE userID = ? AND time > ? ORDER BY time DESC LIMIT ?';
     $stmt = $conn->prepare($query); // prepare statement
-    $stmt->bind_param('ii', $_SESSION['user_id'], $_POST['time_offset'], $_POST['limit']);
+    $stmt->bind_param('iii', $_SESSION['user_id'], $_POST['time_offset'], $_POST['limit']);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -72,6 +73,7 @@ try {
     ];
 
     $stmt->close();
+    $conn->close();
 
     // send result to client
     echo json_encode($user_notification);
