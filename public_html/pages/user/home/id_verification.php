@@ -52,15 +52,15 @@ try {
         $stmt->fetch();
         $stmt->close();
 
-        // check if personal identification is not verified
-        if ($is_email_verified == 1 && $is_id_verified == 0) {
+        // check if user mail is not verified
+        if ($is_email_verified == 0) {
             $conn->close(); // close connection to database
 
             // redirect user
-            header('Location: '. BASE_URL . 'user/home/id_verification.html');
+            header('Location: '. BASE_URL . 'user/home/email_verification.html');
             exit;
 
-        } else if ($is_email_verified == 1 && $is_id_verified == 1) { // user account has been verified
+        } else if ($is_id_verified == 1) { // user account has been verified
             $query = 'DELETE FROM user_account_verification WHERE userID = ? LIMIT 1';
             $stmt = $conn->prepare($query); // prepare statement
             $stmt->bind_param('i', $_SESSION['user_id']);
@@ -97,7 +97,7 @@ try {
     echo 'Caught exception: ' .  $e->getMessage() . PHP_EOL;
 }
 
-// assemble all the part of the page
+// assemble all the part
 require_once 'header.php';
 require_once 'left_bar_menu.php';
 
@@ -108,21 +108,14 @@ require_once 'left_bar_menu.php';
         <div class="content-body-cont">
             <div class="header-description-cont">
                 <div class="sub-section-hd">
-                    <h4 class="section-group-header">Email Verification</h4>
+                    <h4 class="section-group-header">Personal Identification</h4>
                 </div>
-                <div class="courrent-step-indicator">Step 1 of 2</div>
+                <div class="courrent-step-indicator">Step 2 of 2</div>
             </div>
             <p class="p1 txt-block-fmt">
-                Please verify your email by clicking the link sent 
-                to your email address <span class="txt-decor">attamahcelestine@gmail.com</span>.
+                Your uploaded identification will be verified within 12 hours. 
+                Please, exercise patient for verification to complete
             </p>
-            <p class="p2 txt-block-fmt">
-                Note: If you don’t receive any email after 5 minutes 
-                click the below button to resend.
-            </p>
-            <div class="email-resend-btn-cont">
-                <input class="fmt-btn" type="button" value="Resend" onclick="resendEmailVerification()" />
-            </div>
         </div>
 <?php
 

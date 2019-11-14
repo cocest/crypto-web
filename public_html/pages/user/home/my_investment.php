@@ -6,7 +6,9 @@ require_once 'left_bar_menu.php';
 
 ?>
 
-        <h1>My Investment</h1>
+    <div class="page-content-cont">
+        <h1 class="page-title-hd">My Investment</h1>
+        <div>This is going to be cool</div>
 <?php
 
 // page footer

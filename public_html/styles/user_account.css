@@ -87,15 +87,58 @@
     display: none;
 }
 
+.txt-block-fmt {
+    font-family: Calibri;
+    font-size: 1.3em;
+    color: #545454;
+}
+
+h4.section-group-header {
+    margin: 0px;
+    font-family: Calibri;
+    font-size: 1.4em;
+    font-weight: normal;
+    color: #3fa0ef;
+}
+
+.fmt-btn {
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    padding: 8px 0;
+    width: 100%;
+    border-radius: 4px;
+    font-size: 1.0em;
+    color: white;
+    cursor: default;
+    background: rgb(0, 120, 215);
+    background: -webkit-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
+    background: -o-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
+    background: -moz-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
+    background: linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
+}
+
+.fmt-btn:hover {
+    box-shadow: 0px 2px 4px 1px gray;
+}
+
+.fmt-btn:disabled:hover {
+    box-shadow: unset!important;
+}
+
 .page-top-menu-cont {
-    padding: 0 20px 0 20px;
+    position: fixed;
+    top: 0px;
+    width: 100%;
     background-color: white;
     box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.4);
     overflow: hidden;
+    z-index: 100;
 }
 
 .site-logo-cont {
     float: left;
+    margin-left: 25px;
 }
 
 ul.menu-link-cont {
@@ -103,6 +146,7 @@ ul.menu-link-cont {
     list-style-type: none;
     margin: 0px;
     padding: 0px;
+    margin-right: 25px;
 }
 
 ul.menu-link-cont > li {
@@ -203,7 +247,8 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 }
 
 #user-drop-down-menu-cont {
-    position: absolute;
+    position: fixed;
+    top: 75px;
     right: 10px;
     width: 300px;
     margin-top: 10px;
@@ -227,7 +272,8 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 }
 
 #help-drop-down-menu-cont {
-    position: absolute;
+    position: fixed;
+    top: 75px;
     right: 70px;
     width: 300px;
     margin-top: 10px;
@@ -330,7 +376,8 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 }
 
 #notification-win-cont {
-    position: absolute;
+    position: fixed;
+    top: 75px;
     right: 10px;
     width: 450px;
     min-height: 200px;
@@ -339,6 +386,7 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     border-top: 1px solid lightgray;
     box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.4);
     background-color: white;
+    z-index: 200;
 }
 
 #notification-win-cont .title-bar-cont {
@@ -535,4 +583,171 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     font-family: sans-serif;
     font-size: 1.2em;
     color: gray;
+}
+
+.page-left-menu-cont {
+    position: fixed;
+    top: 0px;
+    width: 350px;
+    height: 100%;
+    background-color: #5787c2;
+}
+
+.page-left-menu-cont #scroll-wrapper {
+    margin-top: 72px;
+    overflow-y: auto;
+}
+
+.page-left-menu-cont ul.menu-list-cont {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    padding-top: 85px;
+}
+
+.page-left-menu-cont ul.menu-list-cont > li {
+    display: block;
+    padding: 10px 0 10px 6px;
+}
+
+.page-left-menu-cont ul.menu-list-cont > li.enable:hover {
+    background-color: #6b96ca;
+}
+
+.page-left-menu-cont ul.menu-list-cont .active-link-indicator {
+    border-left: 6px solid white;
+    padding-left: 0px;
+    background-color: #6b96ca;
+}
+
+.page-left-menu-cont ul.menu-list-cont a {
+    display: inline-block;
+    width: 100%;
+    text-decoration: none;
+}
+
+.page-left-menu-cont ul.menu-list-cont li.disable a {
+    cursor: default;
+}
+
+.page-left-menu-cont ul.menu-list-cont .link-icon-cont-1,
+.page-left-menu-cont ul.menu-list-cont .link-icon-cont-2,
+.page-left-menu-cont ul.menu-list-cont .link-icon-cont-3,
+.page-left-menu-cont ul.menu-list-cont .link-icon-cont-4,
+.page-left-menu-cont ul.menu-list-cont .link-icon-cont-5,
+.page-left-menu-cont ul.menu-list-cont .link-icon-cont-6 {
+    display: inline-block;
+    width: 35px;
+    height: 30px;
+    margin-left: 20px;
+    margin-right: 15px;
+    overflow: hidden;
+}
+
+.page-left-menu-cont ul.menu-list-cont .link-icon-cont-1 > img {
+    position: relative;
+    width: 274px;
+    height: 30px;
+}
+
+.page-left-menu-cont ul.menu-list-cont .link-icon-cont-2 > img {
+    position: relative;
+    left: -46px;
+    width: 274px;
+    height: 30px;
+}
+
+.page-left-menu-cont ul.menu-list-cont .link-icon-cont-3 > img {
+    position: relative;
+    left: -91px;
+    width: 274px;
+    height: 30px;
+}
+
+.page-left-menu-cont ul.menu-list-cont .link-icon-cont-4 > img {
+    position: relative;
+    left: -139px;
+    width: 274px;
+    height: 30px;
+}
+
+.page-left-menu-cont ul.menu-list-cont .link-icon-cont-5 > img {
+    position: relative;
+    left: -189px;
+    width: 274px;
+    height: 30px;
+}
+
+.page-left-menu-cont ul.menu-list-cont .link-icon-cont-6 > img {
+    position: relative;
+    left: -241px;
+    width: 274px;
+    height: 30px;
+}
+
+.page-left-menu-cont ul.menu-list-cont .link-name {
+    position: relative;
+    top: -7px;
+    font-size: 1.1em;
+}
+
+.page-left-menu-cont ul.menu-list-cont li.enable .link-name {
+    color: white;
+}
+
+.page-left-menu-cont ul.menu-list-cont li.disable .link-name {
+    color: #a8b9ce;
+}
+
+.page-content-cont {
+    padding: 70px 20px 20px 20px;
+    margin-left: 350px;
+    /*width: 100%;*/
+    background-color: lightgray;
+}
+
+.page-title-hd {
+    margin-top: 35px;
+    font-family: Calibri;
+    font-size: 1.7em;
+}
+
+.content-body-cont {
+    min-height: 500px;
+    padding: 20px;
+    background-color: white;
+}
+
+.content-body-cont .header-description-cont {
+    overflow: hidden;
+    margin-bottom: 50px;
+}
+
+.content-body-cont .header-description-cont .sub-section-hd {
+    float: left;
+}
+
+.content-body-cont .header-description-cont .courrent-step-indicator {
+    float: right;
+    font-family: Calibri;
+    font-size: 1.4em;
+    color: #3fa0ef;
+}
+
+.content-body-cont .p1,
+.content-body-cont .p2 {
+    max-width: 510px;
+}
+
+.content-body-cont .p1 {
+    margin-bottom: 45px;
+}
+
+.content-body-cont .p1 .txt-decor {
+    color: #6fb3ea;
+}
+
+.email-resend-btn-cont {
+    width: 140px;
+    margin-top: 30px;
 }

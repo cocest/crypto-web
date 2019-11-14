@@ -78,6 +78,21 @@ try {
     // send result to client
     echo json_encode($user_notification);
 
+    /*$messages = [
+        'unread_msg_count' => '2',
+        'messages' => [
+            [
+                'id' => '1',
+                'title' => 'Okpe and Cocest',
+                'content' => 'We are chilling under the evening sun kghjr urig rkutigirg riogmr krohr ruigor rhpr riihkpr huigned',
+                'read' => false,
+                'time' => '1573715706'
+            ]
+        ]
+    ];
+
+    echo json_encode($messages);*/
+
 } catch (mysqli_sql_exception $e) {
     echo 'Mysql error: ' . $e->getMessage() . PHP_EOL;
 

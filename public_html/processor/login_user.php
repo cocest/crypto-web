@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $count;
             $del_user_limit = false;
 
-            // check if user has failed login
+            // check if user has failed to login
             $query = 'SELECT loginAttempt, count, retryTime FROM limit_login_throttling WHERE username = ? LIMIT 1';
             $stmt = $conn->prepare($query); // prepare statement
             $stmt->bind_param('s', $_POST['username']);
@@ -138,13 +138,63 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         setrawcookie('auto_login', $login_token, $token_expires, '/', '', false, true);
                     }
 
-                    // close connection to database
-                    $conn->close();
+                    // check if user's account is not yet activated
+                    $query = 'SELECT email, identification FROM user_account_verification WHERE userID = ? LIMIT 1';
+                    $stmt = $conn->prepare($query); // prepare statement
+                    $stmt->bind_param('i', $user_id);
+                    $stmt->execute();
+                    $stmt->store_result(); // needed for num_rows
 
                     // create login session and send redirect url to client
                     $_SESSION['auth'] = true;
                     $_SESSION['user_id'] = $user_id;
-                    $redirect_url = BASE_URL . 'user/home.php';
+
+                    if ($stmt->num_rows > 0) {
+                        $stmt->bind_result($is_email_verified, $is_id_verified);
+                        $stmt->fetch();
+                        $stmt->close();
+
+                        if ($is_email_verified == 0) {
+                            $redirect_url = BASE_URL . 'user/home/email_verification.html';
+                            echo '{"success": true, "redirect_url": "' . $redirect_url . '"}';
+
+                            // close connection to database
+                            $conn->close();
+
+                            exit; // exit script
+
+                        } else if ($is_id_verified == 0) {
+                            $redirect_url = BASE_URL . 'user/home/id_verification.html';
+                            echo '{"success": true, "redirect_url": "' . $redirect_url . '"}';
+
+                            // close connection to database
+                            $conn->close();
+
+                            exit; // exit script
+
+                        } else {
+                            // delete account verification
+                            $query = 'DELETE FROM user_account_verification WHERE userID = ? LIMIT 1';
+                            $stmt = $conn->prepare($query); // prepare statement
+                            $stmt->bind_param('i', $user_id);
+                            $stmt->execute();
+                            $stmt->close();
+
+                            // set user account to activated
+                            $query = 'UPDATE users SET accountActivated = ? WHERE userID = ? LIMIT 1';
+                            $stmt = $conn->prepare($query); // prepare statement
+                            $stmt->bind_param('ii', $account_activated, $user_id);
+                            $account_activated = 1;
+                            $stmt->execute();
+
+                        }
+                    }
+
+                    // close connection to database
+                    $stmt->close();
+                    $conn->close();
+
+                    $redirect_url = BASE_URL . 'user/home/my_investment.html';
                     echo '{"success": true, "redirect_url": "' . $redirect_url . '"}';
                     exit; // exit script
                 }
@@ -252,10 +302,65 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 if ($token_id_valid) {
                     // check if token hasn't expired
                     if (time() < $expires) {
-                        // create login session and redirect user to their page
+                        // check if user's account is not yet activated
+                        $query = 'SELECT email, identification FROM user_account_verification WHERE userID = ? LIMIT 1';
+                        $stmt = $conn->prepare($query); // prepare statement
+                        $stmt->bind_param('i', $user_id);
+                        $stmt->execute();
+                        $stmt->store_result(); // needed for num_rows
+
+                        // create login session and send redirect url to client
                         $_SESSION['auth'] = true;
-                        header('Location: ' . BASE_URL . 'user/home.php');
-                        exit;
+                        $_SESSION['user_id'] = $user_id;
+
+                        if ($stmt->num_rows > 0) {
+                            $stmt->bind_result($is_email_verified, $is_id_verified);
+                            $stmt->fetch();
+                            $stmt->close();
+
+                            if ($is_email_verified == 0) {
+                                $redirect_url = BASE_URL . 'user/home/email_verification.html';
+                                echo '{"success": true, "redirect_url": "' . $redirect_url . '"}';
+
+                                // close connection to database
+                                $conn->close();
+
+                                exit; // exit script
+
+                            } else if ($is_id_verified == 0) {
+                                $redirect_url = BASE_URL . 'user/home/id_verification.html';
+                                echo '{"success": true, "redirect_url": "' . $redirect_url . '"}';
+
+                                // close connection to database
+                                $conn->close();
+
+                                exit; // exit script
+
+                            } else {
+                                // delete account verification
+                                $query = 'DELETE FROM user_account_verification WHERE userID = ? LIMIT 1';
+                                $stmt = $conn->prepare($query); // prepare statement
+                                $stmt->bind_param('i', $user_id);
+                                $stmt->execute();
+                                $stmt->close();
+
+                                // set user account to activated
+                                $query = 'UPDATE users SET accountActivated = ? WHERE userID = ? LIMIT 1';
+                                $stmt = $conn->prepare($query); // prepare statement
+                                $stmt->bind_param('ii', $account_activated, $user_id);
+                                $account_activated = 1;
+                                $stmt->execute();
+
+                            }
+                        }
+
+                        // close connection to database
+                        $stmt->close();
+                        $conn->close();
+
+                        $redirect_url = BASE_URL . 'user/home/my_investment.html';
+                        echo '{"success": true, "redirect_url": "' . $redirect_url . '"}';
+                        exit; // exit script
 
                     } else { // token has expired
                         // remove the token from the database
@@ -274,7 +379,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 setrawcookie('auto_login', '', time() - 3600);
 
                 // redirect user to login page
-                header('Location: ' . BASE_URL . 'user/login.php');
+                header('Location: ' . BASE_URL . 'user/login.html');
                 exit;
             }
 
@@ -282,7 +387,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             die();
 
         } else { // redirect user to login page
-            header('Location: ' . BASE_URL . 'user/login.php');
+            header('Location: ' . BASE_URL . 'user/login.html');
             exit;
         }
 

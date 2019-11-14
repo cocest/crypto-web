@@ -15,6 +15,12 @@ set_error_handler('customError');
 // import all the necessary liberaries
 require_once '../includes/config.php';
 require_once '../includes/utils.php'; // include utility liberary
+require_once '../includes/Nnochi.php';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+require_once '../includes/PHPMailer/Exception.php';
+require_once '../includes/PHPMailer/PHPMailer.php';
+require_once '../includes/PHPMailer/SMTP.php';
 
 // check if request method is post
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -246,6 +252,80 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 echo 'SUCCESS';
                 
+                break;
+
+            case 'resend_email_verification':
+                $query = 'SELECT email, accountActivated, firstName, lastName FROM users WHERE id = ? LIMIT 1';
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->bind_param('i', $_SESSION['user_id']);
+                $stmt->execute();
+                $stmt->store_result(); // needed for num_rows
+
+                // check if is empty
+                if ($stmt->num_rows > 0) {
+                    $stmt->bind_result($user_email, $account_activated, $first_name, $last_name);
+                    $stmt->fetch();
+
+                    // check if account is not activated
+                    if ($account_activated == 0) {
+                        // generate 16 digit unique key plus user ID
+                        $verification_token = generateToken();
+                        $token = $_SESSION['user_id'] . ':' . $verification_token;
+
+                        $encrypted_token = opensslEncrypt($token, OPENSSL_ENCR_KEY); // encrypt the token
+                        $username = $last_name . ' ' . $first_name;
+                        $verification_url = BASE_URL . 'verify_email?token=' . base64_encode($encrypted_token);
+
+                        // add the token to the database for later verification
+                        $stmt->close(); // close previous
+                        $query = 'INSERT INTO verify_user_email (userID, token) VALUES(?, ?)';
+                        $stmt = $conn->prepare($query); // prepare statement
+                        $stmt->bind_param('is', $_SESSION['user_id'], $verification_token);
+                        $stmt->execute();
+
+                        // template parser
+                        $nnochi = new Nnochi();
+
+                        // send email to user
+                        $mail = new PHPMailer;
+
+                        // server settings
+                        $mail->isSMTP();
+                        $mail->Host = SMTP_HOST;
+                        $mail->Port = SMTP_PORT;
+                        $mail->SMTPAuth = true;
+                        $mail->Username = SMTP_USERNAME;
+                        $mail->Password = SMTP_PASSWORD;
+                        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryption
+                       
+                        // recipient
+                        $mail->setFrom(SENDER_EMAIL, SENDER_NAME); // sender mail
+                        $mail->addAddress($user_email);
+
+                        // content
+                        $mail->isHTML(true);
+                        $mail->Subject = 'Email Verification';
+                        $mail->Body = $nnochi->render(
+                            '../templates/email_verification.html',
+                            [
+                                'username' => $username,
+                                'verification_url' => $verification_url,
+                                'year' => date('Y')
+                            ]
+                        );
+    
+                        if (!$mail->send()) {
+                            echo 'Mailer Error: ' . $mail->ErrorInfo;
+                            exit;
+                        }
+                    }
+                }
+
+                $stmt->close();
+                $conn->close();
+
+                echo 'SUCCESS';
+
                 break;
 
             default:

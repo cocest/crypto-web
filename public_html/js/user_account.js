@@ -102,7 +102,7 @@ function init() {
 
     // load previous notification if there is any
     window.loadPreviousNotification = function () {
-        let req_url = 'request';
+        let req_url = '../../request';
         let form_data =
             'req=get_prev_notification&time_offset=' + load_prev_msg_offset +
             '&limit= ' + notification_max_list; // request query
@@ -146,16 +146,20 @@ function init() {
 
     // expand notification message
     window.expandNotificationMsg = function (msg_id) {
-        let elem = document.getElementById(msg_id).querySelector('.msg-body');
+        let elem = document.getElementById(msg_id);
+        let msg_body = elem.querySelector('.msg-body');
+        let expand_btn = elem.querySelector('.expand-msg-btn');
 
-        if (elem.getAttribute("toggle") == 0) { // expand
-            elem.innerHTML = notification_msg_map.get(msg_id);
-            elem.setAttribute("toggle", "1");
+        if (msg_body.getAttribute("toggle") == 0) { // expand
+            msg_body.innerHTML = notification_msg_map.get(msg_id);
+            msg_body.setAttribute("toggle", "1");
+            expand_btn.setAttribute("class", "expand-msg-btn collapse");
 
         } else { // collapse
             let [clipped_text, is_text_clipped] = clipOutText(90, notification_msg_map.get(msg_id));
-            elem.innerHTML = clipped_text;
-            elem.setAttribute("toggle", "0");
+            msg_body.innerHTML = clipped_text;
+            msg_body.setAttribute("toggle", "0");
+            expand_btn.setAttribute("class", "expand-msg-btn expand");
         }
     };
 
@@ -180,7 +184,7 @@ function init() {
 
         // append the message to the list
         for (let i = 0; i < messages.length; i++) {
-            msg_date = new Date(messages[i].time);
+            msg_date = new Date(parseInt(data.messages[i].time) * 1000);
             let [clipped_text, is_text_clipped] = clipOutText(90, messages[i].content);
 
             item = document.createElement("div");
@@ -206,7 +210,7 @@ function init() {
                     '    <img src="../../images/icons/icons_sprite_2.png" />' +
                     '</div>' : ''
                 }
-                    <div class="msg-date">${msg_date.getDate()}/${msg_date.getDay() + 1}/${msg_date.getFullYear()} ${window.toSTDTimeString(msg_date)}</div>
+                <div class="msg-date">${msg_date.getMonth() + 1}/${msg_date.getDate()}/${msg_date.getFullYear()} ${window.toSTDTimeString(msg_date, false)}</div>
                 </div>`;
 
             // add message to list
@@ -264,7 +268,7 @@ function init() {
 
         // append the message to the list
         for (let i = 0; i < data.messages.length; i++) {
-            msg_date = new Date(data.messages[i].time);
+            msg_date = new Date(parseInt(data.messages[i].time) * 1000);
             let [clipped_text, is_text_clipped] = clipOutText(90, data.messages[i].content);
 
             item = document.createElement("div");
@@ -290,7 +294,7 @@ function init() {
                     '    <img src="../../images/icons/icons_sprite_2.png" />' +
                     '</div>' : ''
                 }
-                    <div class="msg-date">${msg_date.getDate()}/${msg_date.getDay() + 1}/${msg_date.getFullYear()} ${window.toSTDTimeString(msg_date)}</div>
+                    <div class="msg-date">${msg_date.getMonth() + 1}/${msg_date.getDate()}/${msg_date.getFullYear()} ${window.toSTDTimeString(msg_date, false)}</div>
                 </div>`;
 
             // add message to list
@@ -308,7 +312,7 @@ function init() {
     window.processUserCommandNotification = function (msg_id, command, count_down) {
         let list_cont = document.getElementById("notification-list-cont");
         let unread_msg_counter_label = document.getElementById("unread-msg-counter");
-        let req_url = 'request';
+        let req_url = '../../request';
         let form_data;
 
         if (command == "markAsRead") {
@@ -323,7 +327,7 @@ function init() {
             form_data = "req=delete_notification&msg_id=" + msg_id;
 
             // delete the notification
-            list_cont.removeAttribute(document.getElementById(msg_id));
+            list_cont.removeChild(document.getElementById(msg_id));
             notification_msg_map.delete(msg_id);
         }
 
@@ -335,10 +339,6 @@ function init() {
                 unread_msg_counter_label.innerHTML = parseInt(unread_msg_counter_label.innerText) - 1;
             }
         }
-
-        // hide "load more button" and show loading animation
-        document.getElementById("load-prev-notification").setAttribute("class", "remove-elem");
-        document.getElementById("loading-notification-anim-cont").removeAttribute("class");
 
         // send request to server
         window.ajaxRequest(
@@ -354,6 +354,48 @@ function init() {
             // listen to server error
             function (err_status) {
                 // leave it empty
+            }
+        );
+    };
+
+    // resend verification to user's email again
+    window.resendEmailVerification = function () {
+        let req_url = '../../request';
+        let form_data = 'req=resend_email_verification'; // request query
+
+        // disable resend button
+        let resend_btn = document.querySelector('.email-resend-btn-cont .fmt-btn');
+        resend_btn.disable = true;
+
+        // send request to server
+        window.ajaxRequest(
+            req_url,
+            form_data,
+            { contentType: "application/x-www-form-urlencoded" },
+
+            // listen to response from the server
+            function (response) {
+                // enable resend button
+                resend_btn.disable = false;
+            },
+
+            // listen to server error
+            function (err_status) {
+                // check if is timeout error
+                if (err_status == 408 && err_status == 504) {
+                    window.loadPreviousNotification();
+
+                } else if (err_status == 503) { // check if server is busy or unavalaible
+                    // wait for 2 minutes
+                    setTimeout(function () {
+                        window.resendEmailVerification();
+
+                    }, 60000 * 2);
+
+                } else {
+                    // enable resend button
+                    resend_btn.disable = false;
+                }
             }
         );
     };
@@ -382,13 +424,45 @@ function init() {
         }
     }
 
+    // adapt page content height
+    function adaptPageContent () {
+        let elem = document.querySelector('.page-content-cont');
+        elem.removeAttribute("style");
+        let padding_h = 90; // content top + bottom padding
+        let ch = elem.offsetHeight;
+        let wh = window.innerHeight;
+
+        // check to fit content height to window height
+        if (ch < wh) {
+            elem.setAttribute("style", "height: " + (wh - padding_h) + "px;");
+        }
+    }
+
+    // set page side menu scroll wrapper height on page load or resize
+    function adaptPageSideMenu () {
+        let page_top_menu_height = document.querySelector('.page-top-menu-cont').offsetHeight;
+        let wh = window.innerHeight;
+        let elem = document.querySelector('.page-left-menu-cont #scroll-wrapper');
+
+        // set container height
+        elem.setAttribute("style", "height: " + (wh - page_top_menu_height) + "px;");
+    }
+
     // listen to when user click the section
     window.sectionClickEvent = function (e) {
         closeActiveMenu();
     };
 
     // call function onload
+    adaptPageSideMenu();
+    adaptPageContent();
     fetchNewNotification();
+
+    // listen to page resize
+    window.onresize = function (e) {
+        adaptPageSideMenu();
+        adaptPageContent();
+    };
 }
 
 //initialise the script

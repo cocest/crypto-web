@@ -86,7 +86,7 @@
     };
 
     // utility function to format time 12 hours with AM or PM
-    window.toSTDTimeString = function (date = new Date()) {
+    window.toSTDTimeString = function (date = new Date(), include_seconds = true) {
         let hours = date.getHours();
         let minutes = date.getMinutes();
         let seconds = date.getSeconds();
@@ -95,8 +95,11 @@
         hours = hours ? hours : 12; // the hour '0' should be '12'
         minutes = ('0' + minutes).slice(-2);
         seconds = ('0' + seconds).slice(-2);
-        let strTime = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
-        return strTime;
+        if (include_seconds) {
+            return hours + ':' + minutes + ':' + seconds + ' ' + ampm;
+        } else {
+            return hours + ':' + minutes + ' ' + ampm;
+        }
     };
 
     // utility function to seperate number by thousands

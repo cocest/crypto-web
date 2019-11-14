@@ -205,4 +205,35 @@ function opensslDecrypt ($encrypted_string, $encryption_key) {
     }
 }
 
-?>
+// Send email to client using "PHPMailer"
+function sendEmailTo($recipient_email, $recipient_name, $msg_subject, $msg_content, $attachments = []) {
+    require_once 'PHPMailer/Exception.php';
+    require_once 'PHPMailer/PHPMailer.php';
+    require_once 'PHPMailer/SMTP.php';
+
+    $mail = new PHPMailer;
+    $mail->isSMTP();
+    // $mail->SMTPDebug = 2; // Set it to 0 in the final version to avoid the end user from seeing the SMTP delivery report.
+    $mail->Host = 'smtp.hostinger.com';
+    $mail->Port = 587;
+    $mail->SMTPAuth = true;
+    $mail->Username = 'test@hostinger-tutorials.com';
+    $mail->Password = 'EMAIL_ACCOUNT_PASSWORD';
+    $mail->setFrom('test@hostinger-tutorials.com', 'website name'); // sender mail
+    // $mail->addReplyTo('reply-box@hostinger-tutorials.com', 'Your Name');
+    $mail->addAddress($recipient_email, $recipient_name);
+    $mail->Subject = $msg_subject;
+    $mail->msgHTML(file_get_contents('message.html'), __DIR__);
+    // $mail->AltBody = 'This is a plain text message body';
+
+    // add attachment
+    for ($i = 0; $i < count($attachments); $i++) {
+        $mail->addAttachment($attachments[$i]); // url of file to attach
+    }
+    
+    if (!$mail->send()) {
+        echo 'Mailer Error: ' . $mail->ErrorInfo;
+    } else {
+        echo 'Message sent!';
+    }
+}
