@@ -1,5 +1,10 @@
 <?php 
 
+/*
+ * utils library
+ * Author: Attamah Celestine
+ */
+
 // This function sanitise user input
 function sanitiseInput($input) {
     return htmlspecialchars(trim(stripslashes($input)));
@@ -25,6 +30,43 @@ function getUserIpAddress(){
     }
 
     return $ip;
+}
+
+// Convert pass seconds to days
+function convertSecondsToDays($seconds){
+    return floor($seconds / 86400);
+}
+
+/*
+ * Convert number to shorthand format.
+ * Example: 1250 to 1.25K etc
+ */
+function cladNumberFormat($number, $decimal = 2, $lower_case = false) {
+    if ($number < 1000) { // hundred, tens and unit
+        return round($number, $decimal, PHP_ROUND_HALF_DOWN);
+
+    } else if ($number < 1000000) { // thousand
+        return round($number / 1000, $decimal, PHP_ROUND_HALF_DOWN) . ($lower_case ? 'k' : 'K');
+
+    } else if ($number < 1000000000) { // million
+        return round($number / 1000000, $decimal, PHP_ROUND_HALF_DOWN) . ($lower_case ? 'm' : 'M');
+
+    } else if ($number < 1000000000000) { // billion
+        return round($number / 1000000000, $decimal, PHP_ROUND_HALF_DOWN) . ($lower_case ? 'b' : 'B');
+        
+    } else {
+        return round($number / 1000000000000, $decimal, PHP_ROUND_HALF_DOWN) . ($lower_case ? 't' : 'T');
+    }
+}
+
+// Calculate numbers of the page for list items
+function pageCountForListItem($view_count, $list_count) {
+    $page_count = $list_count / $view_count;
+    if ($page_count % 1 == 0) {
+        return floor($page_count);
+    }
+
+    return floor($page_count) + 1;
 }
 
 /*
@@ -202,38 +244,5 @@ function opensslDecrypt ($encrypted_string, $encryption_key) {
         return $original_plaintext;
     } else {
         return null;
-    }
-}
-
-// Send email to client using "PHPMailer"
-function sendEmailTo($recipient_email, $recipient_name, $msg_subject, $msg_content, $attachments = []) {
-    require_once 'PHPMailer/Exception.php';
-    require_once 'PHPMailer/PHPMailer.php';
-    require_once 'PHPMailer/SMTP.php';
-
-    $mail = new PHPMailer;
-    $mail->isSMTP();
-    // $mail->SMTPDebug = 2; // Set it to 0 in the final version to avoid the end user from seeing the SMTP delivery report.
-    $mail->Host = 'smtp.hostinger.com';
-    $mail->Port = 587;
-    $mail->SMTPAuth = true;
-    $mail->Username = 'test@hostinger-tutorials.com';
-    $mail->Password = 'EMAIL_ACCOUNT_PASSWORD';
-    $mail->setFrom('test@hostinger-tutorials.com', 'website name'); // sender mail
-    // $mail->addReplyTo('reply-box@hostinger-tutorials.com', 'Your Name');
-    $mail->addAddress($recipient_email, $recipient_name);
-    $mail->Subject = $msg_subject;
-    $mail->msgHTML(file_get_contents('message.html'), __DIR__);
-    // $mail->AltBody = 'This is a plain text message body';
-
-    // add attachment
-    for ($i = 0; $i < count($attachments); $i++) {
-        $mail->addAttachment($attachments[$i]); // url of file to attach
-    }
-    
-    if (!$mail->send()) {
-        echo 'Mailer Error: ' . $mail->ErrorInfo;
-    } else {
-        echo 'Message sent!';
     }
 }

@@ -36,8 +36,17 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             die(); // stop script
         }
 
-        // handle file upload here
-        // start here
+        // check if upload file is valid
+        if (!validateUploadedImage($_FILES)) {
+            // delete the file
+            die(); // stop script
+        }
+
+        // directory to move uploaded file
+        $target_dir = USER_ID_UPLOAD_DIR . basename($_FILES['file']['name']);
+
+        // move file to targeted directory
+        move_uploaded_file($_FILES['file']['tmp_name'], $target_dir);
 
         $db = $config['db']['mysql']; // mysql configuration
         
@@ -95,6 +104,13 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
     
             $stmt->execute();
             $new_user_id = $stmt->insert_id;
+            $stmt->close();
+
+            // add uploaded file information into table
+            $query = 'INSERT INTO user_identification (userID, identificationURL) VALUES(?, ?)';
+            $stmt = $conn->prepare($query); // prepare statement
+            $stmt->bind_param('is', $new_user_id, basename($_FILES['file']['name']));
+            $stmt->execute();
             $stmt->close();
 
             // insert user's login credential into table
@@ -177,9 +193,8 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             exit;
 
         } catch (mysqli_sql_exception $e) { // catch only mysqli exceptions
-            // $e->getMessage(); 
-            // $e->getCode();
-            $conn->rollback(); // remove all queries from queue if error occured (undo)
+            $conn->rollback(); // remove all queries from queue if error occured (undo)            
+            unlink($target_dir); // delete uploaded image
 
         } catch (Exception $e) { // catch other exception
             echo 'Caught exception: ',  $e->getMessage(), "\n";
@@ -262,6 +277,20 @@ function validateUserFormInputs($inputs) {
     }
 
     return true;
+}
+
+// utility function to validate user's uploaded file
+function validateUploadedImage($uploaded_files) {
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $type = finfo_file($finfo, $uploaded_files['file']['tmp_name']);
+
+    if (isset($type) && in_array($type, ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'])) {
+        if ($uploaded_files['file']['size'] / 1048576 < 4) { // less than 4 megabytes
+            return true;
+        }
+    }
+
+    return false;
 }
 
 ?>

@@ -48,10 +48,6 @@ define("SMTP_USERNAME", "website@gmail.com");
 define("SMTP_PASSWORD", "password");
 define("SENDER_EMAIL", "website@gmail.com");
 define("SENDER_NAME", "Thecitadelcapital.com");
-defined("LIBRARY_PATH")
-    or define("LIBRARY_PATH", realpath(dirname(__FILE__) . '/library'));
-     
-defined("TEMPLATES_PATH")
-    or define("TEMPLATES_PATH", realpath(dirname(__FILE__) . '/templates'));
+define("USER_ID_UPLOAD_DIR", "/Workspace/PHP/Crypto-web/crypto-web/public_html/uploads/users/identification/");
  
 ?>

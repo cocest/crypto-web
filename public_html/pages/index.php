@@ -278,8 +278,8 @@ require_once '../includes/config.php';
                                     <div class="lower-sec">
                                         <h2 class="price">$' . number_format($row['minAmount']) . ' - ' . ($row['maxAmount'] == 0 ? 'unlimited' : '$' . number_format($row['maxAmount'])) . '</h2>
                                         <ul class="benefit-list">
-                                            <li>Monthly ROI - ' . intval($row['monthlyROI']) . '%</li>
-                                            <li>Monthly Bonuses - ' . ($row['bonuses'] == 1 ? 'Yes' : 'No') . '</li>
+                                            <li>' . $row['durationInMonth'] . ' Month ROI - ' . intval($row['monthlyROI']) . '%</li>
+                                            <li>Bonus - ' . (intval($row['bonus']) == 0 ? 'No' : intval($row['bonus']) . '%') . '</li>
                                         </ul>
                                         <button onclick="investmentPkgsSelected(' . $counter . ')">Invest</button>
                                     </div>
