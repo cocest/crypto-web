@@ -59,6 +59,8 @@ try {
 
     /*if ($account_activated == 0) {
         // account not yet activated
+        $conn->close(); // close connection
+
         // redirect user
         header('Location: '. BASE_URL . 'user/home/email_verification.html');
         exit;
@@ -261,7 +263,7 @@ require_once 'page_left_menu.php';
             <div class="current-inv-tbl-cont">
                 <table class="current-inv-tbl">
                     <tr>
-                        <td class="col-min-width">Package:</td>
+                        <td>Package:</td>
                         <td><?php echo $data_for_page_rendering['current_investment']['package']; ?></td>
                     </tr>
                     <tr>
@@ -348,7 +350,8 @@ require_once 'page_left_menu.php';
                 </div>
             </div>
             <div class="cash-out-btn-cont">
-                <input id="make-tansfer" class="cash-out-btn" type="button" value="Cashout" />
+                <!--<input id="make-tansfer" class="cash-out-btn" type="button" value="Cashout" />-->
+                <a id="make-tansfer" class="cash-out-btn" href="cashout.html">Cashout</a>
             </div>
         </div>
         <div class="current-inv-sec-3">

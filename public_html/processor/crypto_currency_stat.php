@@ -36,7 +36,7 @@ try {
 
     //check connection
     if ($conn->connect_error) {
-        throw new Exception('Database connection failed: '.$conn->connect_error);
+        throw new mysqli_sql_exception('Database connection failed: '.$conn->connect_error);
     }
 
     // check if cryptocurrency statistics table is updated

@@ -102,7 +102,7 @@ h4.section-group-header {
 }
 
 .fmt-btn,
-.cash-out-btn {
+.cashout-proceed-btn {
     box-sizing: border-box;
     border: none;
     outline: none;
@@ -120,12 +120,12 @@ h4.section-group-header {
 }
 
 .fmt-btn:hover,
-.cash-out-btn:hover {
+.cashout-proceed-btn:hover {
     box-shadow: 0px 2px 4px 1px gray;
 }
 
 .fmt-btn:disabled:hover,
-.cash-out-btn:disabled:hover {
+.cashout-proceed-btn:disabled:hover {
     box-shadow: unset!important;
 }
 
@@ -400,7 +400,7 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     float: left;
     margin: 8px 0;
     font-family: sans-serif;
-    font-size: 1.4em;
+    font-size: 1.3em;
 }
 
 #notification-win-cont .title-bar-cont > .close-btn {
@@ -588,6 +588,62 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     color: gray;
 }
 
+#msg-win-cont {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    width: 100%;
+    max-width: 450px;
+    min-height: 140px;
+    margin-left: -255px;
+    margin-top: 10px;
+    padding: 0 10px 10px 10px;
+    border-top: 1px solid lightgray;
+    border-radius: 10px;
+    box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.4);
+    background-color: white;
+    z-index: 200;
+}
+
+#msg-win-cont .title-bar-cont {
+    overflow: hidden;
+}
+
+#msg-win-cont .title-bar-cont > .title {
+    float: left;
+    margin: 8px 0;
+    font-family: sans-serif;
+    font-size: 1.3em;
+}
+
+#msg-win-cont .title-bar-cont > .close-btn {
+    float: right;
+    position: relative;
+    width: 25px;
+    height: 25px;
+    margin: 8px 0;
+    overflow: hidden;
+    background-color: #6cb6f3;
+    cursor: default;
+}
+
+#msg-win-cont .title-bar-cont > .close-btn:hover {
+    background-color: rgb(255, 70, 70);
+}
+
+#msg-win-cont .title-bar-cont > .close-btn > img {
+    position: relative;
+    top: 1px;
+    left: 6.8px;
+    width: 34.7px;
+    height: 12px;
+}
+
+#msg-win-cont .body-cont {
+    font-size: 1.1em;
+    padding: 0px 10px;
+}
+
 .page-left-menu-cont {
     position: fixed;
     top: 0px;
@@ -758,7 +814,9 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 
 .current-inv-sec-1,
 .current-inv-sec-2,
-.current-inv-sec-3 {
+.current-inv-sec-3,
+.cashout-inv-sec-1,
+.cashout-inv-sec-2 {
     padding: 15px 15px;
     margin-bottom: 20px;
     background-color: white;
@@ -779,7 +837,7 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     font-size: 1.2em;
 }
 
-.current-inv-tbl .col-min-width {
+.current-inv-tbl tr > td:first-child {
     min-width: 200px;
 }
 
@@ -865,8 +923,29 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     font-size: 1.0em;
 }
 
-.cash-out-btn-cont {
-    width: 140px;
+.cash-out-btn {
+    display: inline-block;
+    text-decoration: none;
+    box-sizing: border-box;
+    padding: 8px 50px;
+    border-radius: 4px;
+    font-family: sans-serif;
+    font-size: 1.1em;
+    color: white;
+    cursor: default;
+    background: rgb(0, 120, 215);
+    background: -webkit-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
+    background: -o-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
+    background: -moz-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
+    background: linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
+}
+
+.cash-out-btn:hover {
+    box-shadow: 0px 2px 4px 1px gray;
+}
+
+.cash-out-btn:disabled:hover {
+    box-shadow: unset!important;
 }
 
 .inv-overview-cont {
@@ -941,4 +1020,152 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 .overview-tbl-navi-cont .navi-btn-cont > button > span {
     font-size: 1.4em;
     color: #505050;
+}
+
+.cashout-account-tbl-cont {
+    margin-top: 25px;
+}
+
+#cashout-account-tbl {
+    border-collapse: collapse;
+}
+
+#cashout-account-tbl tr > td:first-child {
+    min-width: 175px;
+}
+
+#cashout-account-tbl td {
+    padding: 5px;
+    font-family: Calibri;
+    font-size: 1.2em;
+}
+
+.select-input-descr {
+    font-size: 1.1em;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+.select-crypto-cont {
+    margin-bottom: 25px;
+}
+
+.select-crypto-cont .select-input-descr {
+    max-width: 350px;
+}
+
+#btc-crypto-input,
+#eth-crypto-input,
+#xrp-crypto-input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+#btc-crypto-input + label,
+#eth-crypto-input + label,
+#xrp-crypto-input + label {
+    position: relative;
+    display: inline-block;
+    padding: 4px 8px;
+    padding-bottom: 0px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    border: 2px solid lightgray;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+#btc-crypto-input + label .marker,
+#eth-crypto-input + label .marker,
+#xrp-crypto-input + label .marker {
+    position: absolute;
+    top: -11px;
+    right: -11px;
+    width: 20px;
+    height: 20px;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+#btc-crypto-input + label .crypto-icon,
+#eth-crypto-input + label .crypto-icon,
+#xrp-crypto-input + label .crypto-icon {
+    width: 30px;
+    height: 30px;
+}
+
+#btc-crypto-input + label .crypt-name,
+#eth-crypto-input + label .crypt-name,
+#xrp-crypto-input + label .crypt-name {
+    display: inline-block;
+    position: relative;
+    margin-left: 2px;
+    top: -9px;
+    font-size: 1.0em;
+    font-weight: 500;
+}
+
+#btc-crypto-input:checked + label,
+#eth-crypto-input:checked + label,
+#xrp-crypto-input:checked + label {
+    border: 2px solid #3fa0ef;
+}
+
+#btc-crypto-input:checked + label .marker,
+#eth-crypto-input:checked + label .marker,
+#xrp-crypto-input:checked + label .marker {
+    background-color: #3fa0ef;
+}
+
+.crypto-input-cont {
+    margin-bottom: 20px;
+}
+
+.crypto-input-cont > label {
+    font-size: 1.1em;
+}
+
+.crypto-input-cont > input {
+    width: 100%;
+    max-width: 350px;
+    height: 35px;
+    box-sizing: border-box;
+    margin-top: 10px;
+    padding-left: 10px;
+    font-family: Calibri;
+    font-size: 1.2em;
+    color: #4c4e50;
+    border: 1px solid #bdbdbd;
+    border-radius: 4px;
+}
+
+.cashout-proceed-btn-cont {
+    max-width: 140px;
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+
+.cashout-anim-cont {
+    margin-top: 42px;
+    margin-bottom: 11px;
+    overflow: hidden;
+}
+
+.cashout-anim-cont .vt-bars-anim-cont {
+    float: left;
+    width: 21px;
+    height: 32px;
+    margin-left: 20px;
+}
+
+.cashout-anim-cont .anim-txt {
+    margin-left: 65px;
+    margin-top: 2px;
+    font-size: 1.1em;
+    font-weight: 500;
+    color: #399ced;
 }

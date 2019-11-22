@@ -132,6 +132,17 @@ require_once '../../../includes/utils.php'; // include utility liberary
         </div>
     </div>
 
+    <!--message window-->
+    <div id="msg-win-cont" class="remove-elem">
+        <div class="title-bar-cont">
+            <div class="title">Message</div>
+            <div class="close-btn ux-f-rd-corner" onclick="closeActiveWin('msg-win-cont')">
+                <img src="../../images/icons/notification_icons.png" />
+            </div>
+        </div>
+        <div class="body-cont"></div>
+    </div>
+
     <!--listen to mouse click event on particular section of the page-->
     <div onclick="sectionClickEvent(event)">
     

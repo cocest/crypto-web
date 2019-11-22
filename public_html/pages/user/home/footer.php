@@ -1,5 +1,4 @@
-            <div>Page footer</div>
-        </div>
+        <div>Page footer</div>
     </div>
 </body>
 

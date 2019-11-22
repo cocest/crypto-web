@@ -42,6 +42,8 @@ $config = array(
 define("BASE_URL", "http://localhost/Workspace/PHP/Crypto-web/crypto-web/public_html/");
 define("OPENSSL_ENCR_KEY", "dkf!WEqpmW_@4rt#&&kit");
 define("CRYPTOCOMPARE_API_KEY", "47185550897ae8bea409af434ae0fdfb0262b788a4ea4145a12527378a6c5cd9");
+define("CPS_PRIVATE_KEY", "keyhere");
+define("CPS_PUBLIC_KEY", "keyhere");
 define("SMTP_HOST", "smtp.gmail.com");
 define("SMTP_PORT", 587);
 define("SMTP_USERNAME", "website@gmail.com");
