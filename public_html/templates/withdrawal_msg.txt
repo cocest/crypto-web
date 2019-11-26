@@ -1,0 +1,2 @@
+<%= amount %> <%= currency %> (<%= amount_in_usd %> USD) was successfully sent to wallet address: <%= address %>.
+Balance: <%= balance %> USD. Transaction ID: <%= txn_id %>.

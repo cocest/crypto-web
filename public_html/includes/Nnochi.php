@@ -5,7 +5,7 @@
  * 
  * Simple template engine that replace variables in the template
  * This library for now can only replace variable. 
- * Insert value into template use this tag fromat: <h1><%= page_title %></h1>
+ * Insert value into template using this tag fromat: <h1><%= page_title %></h1>
  * This fromat is not yet supported <h1><%= user.age %></h1>
  * 
  * Author: Attamah Celestine

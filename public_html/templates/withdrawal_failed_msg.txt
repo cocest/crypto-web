@@ -1,0 +1,2 @@
+Withdrawal of <%= amount %> <%= currency %> (<%= amount_in_usd %> USD) to 
+wallet address: <%= address %> could not be completed.

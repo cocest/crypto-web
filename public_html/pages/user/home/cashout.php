@@ -37,6 +37,9 @@ $db = $config['db']['mysql'];
 // enable mysql exception
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
+// fetch result for page rendering
+$data_for_page_rendering = null;
+
 try {
     // connect to database
     $conn = new mysqli($db['host'], $db['username'], $db['password'], $db['dbname']);
@@ -63,6 +66,23 @@ try {
         header('Location: '. BASE_URL . 'user/home/email_verification.html');
         exit;
     }*/
+
+    // get user's account
+    $query = 'SELECT totalBalance, availableBalance FROM user_account WHERE userID = ? LIMIT 1';
+    $stmt = $conn->prepare($query); // prepare statement
+    $stmt->bind_param('i', $_SESSION['user_id']);
+    $stmt->execute();
+    $stmt->bind_result($total_balance, $available_balance);
+    $stmt->fetch();
+    $stmt->close();
+
+    // append result
+    $data_for_page_rendering = [
+        'total_balance' => $total_balance,
+        'available_balance' => $available_balance
+    ];
+
+    $conn->close(); // close connection
 
 } catch (mysqli_sql_exception $e) {
     echo 'Mysql error: ' . $e->getMessage() . PHP_EOL;
@@ -95,11 +115,15 @@ require_once 'page_left_menu.php';
                 <table id="cashout-account-tbl">
                     <tr>
                         <td>Total Balance:</td>
-                        <td>12,090 USD</td>
+                        <td id="total-bal">
+                            <?php echo number_format($data_for_page_rendering['total_balance'], 2) . ' USD'; ?>
+                        </td>
                     </tr>
                     <tr>
                         <td>Available Balance:</td>
-                        <td>8,240 USD</td>
+                        <td id="available-bal">
+                            <?php echo number_format($data_for_page_rendering['available_balance'], 2) . ' USD'; ?>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -133,12 +157,12 @@ require_once 'page_left_menu.php';
                     </div>
                 </div>
                 <div class="crypto-input-cont">
-                    <label for="amount">Amount in USD (available balance)</label></br>
-                    <input id="amount" type="number" name="amount" min="0"  attachevent />
+                    <label for="crypto-amount">Amount in USD (available balance)</label></br>
+                    <input id="crypto-amount" type="number" name="amount" min="0"  attachevent />
                 </div>
                 <div class="crypto-input-cont">
-                    <label for="walletaddress">Wallet Address</label></br>
-                    <input id="walletaddress" type="text" name="walletaddress" attachevent />
+                    <label for="crypto-wallet-address">Wallet Address</label></br>
+                    <input id="crypto-wallet-address" type="text" name="walletaddress" attachevent />
                 </div>
                 <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
                 <div class="cashout-proceed-btn-cont">
@@ -184,6 +208,9 @@ require_once 'page_left_menu.php';
                     return false;
                 }
 
+                let req_url = '../../process_withdrawal';
+                let reg_form = new FormData(form);
+
                 // hide proceed button and show processing animation
                 document.querySelector('.cashout-proceed-btn-cont').setAttribute("class", "cashout-proceed-btn-cont remove-elem");
                 document.querySelector('.cashout-anim-cont').setAttribute("class", "cashout-anim-cont");
@@ -194,9 +221,6 @@ require_once 'page_left_menu.php';
                     elem.disabled = true;
                 });
 
-                let req_url = '../../process_withdrawal';
-                let reg_form = new FormData(form);
-
                 // send request to server
                 window.ajaxRequest(
                     req_url,
@@ -205,9 +229,37 @@ require_once 'page_left_menu.php';
 
                     // listen to response from the server
                     function (response) {
-                        response_data = JSON.parse(response);
+                        let response_data = JSON.parse(response);
 
-                        // start here
+                        // check if withdraw order is placed successfully
+                        if (response_data.success) {
+                            // update display available balance
+                            document.getElementById("available-bal").innerHTML = response_data.available_balance + ' USD';
+
+                            // show message to client
+                            let msg_elem = document.getElementById("msg-win-cont");
+                            msg_elem.querySelector('.title').innerHTML = "Withdrawal";
+                            msg_elem.querySelector('.body-cont').innerHTML = 
+                                "Withraw order has been placed successfully. You will receive notification once the order is completed.";
+                            msg_elem.removeAttribute("class");
+
+                        } else { // order can't be place due to error
+                            // show error message to user
+                            let msg_elem = document.getElementById("msg-win-cont");
+                            msg_elem.querySelector('.title').innerHTML = "Withdrawal Error";
+                            msg_elem.querySelector('.body-cont').innerHTML = response_data.error_msg;
+                            msg_elem.removeAttribute("class");
+                        }
+
+                        // show proceed button and hide processing animation
+                        document.querySelector('.cashout-proceed-btn-cont').setAttribute("class", "cashout-proceed-btn-cont");
+                        document.querySelector('.cashout-anim-cont').setAttribute("class", "cashout-anim-cont remove-elem");
+
+                        // enable input
+                        let input_elems = document.querySelectorAll('.crypto-input-cont > input');
+                        input_elems.forEach(function (elem) {
+                            elem.disabled = false;
+                        });
                     },
 
                     // listen to server error
@@ -283,7 +335,7 @@ require_once 'page_left_menu.php';
             document.querySelectorAll('.crypto-currency-cont > input').forEach(function (elem) {
                 // remove red border line
                 elem.onclick = function (e) {
-                    document.getElementById("walletaddress").removeAttribute("style");
+                    document.getElementById("crypto-wallet-address").removeAttribute("style");
                 };
             });
 

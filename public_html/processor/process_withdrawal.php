@@ -15,13 +15,9 @@ set_error_handler('customError');
 // import all the necessary liberaries
 require_once '../includes/config.php';
 require_once '../includes/utils.php'; // include utility liberary
-require_once '../includes/library/Requests.php';
 require_once '../includes/coinpayment/CoinpaymentsAPI.php';
 require_once '../includes/coinpayment/CoinpaymentsCurlRequest.php';
 require_once '../includes/coinpayment/CoinpaymentsValidator.php';
-
-// make sure Requests can load internal classes
-Requests::register_autoloader();
 
 // check if request method is post
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
@@ -29,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 }
 
 // check if we are the one that serve the page
-if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
     die(); // stop script
 }
 
@@ -61,12 +57,11 @@ try {
         throw new mysqli_sql_exception('Database connection failed: ' . $conn->connect_error);
     }
 
-    // user's entered withdrawal amount in USD
-    $user_entered_usd = round($_POST['amount'], 2, PHP_ROUND_HALF_DOWN);
+    $user_entered_usd = round($_POST['amount'], 2, PHP_ROUND_HALF_DOWN); // user's entered withdrawal amount in USD
     $crypto_withdraw_amount = 0;
 
     // check if crypto currency is supported
-    $query = 'SELECT symbol FROM crypto_currency_supported LIMIT 1';
+    $query = 'SELECT 1 FROM crypto_currency_supported WHERE symbol = ?  LIMIT 1';
     $stmt = $conn->prepare($query); // prepare statement
     $stmt->bind_param('s', $_POST['currency']);
     $stmt->execute();
@@ -86,7 +81,7 @@ try {
         exit;
     }
 
-    $stm->close();
+    $stmt->close();
 
     // check if user's placed withdrawal amount is available
     $query = 'SELECT totalBalance, availableBalance FROM user_account WHERE userID = ? LIMIT 1';
@@ -96,7 +91,7 @@ try {
     $stmt->bind_result($total_balance, $available_balance);
     $stmt->fetch();
 
-    if ($user_entered_usd > round($total_balance, 2, PHP_ROUND_HALF_DOWN)) {
+    if ($user_entered_usd > round($available_balance, 2, PHP_ROUND_HALF_DOWN)) {
         // close connection to database
         $stmt->close();
         $conn->close();
@@ -104,7 +99,7 @@ try {
         // send error message back to client
         echo json_encode([
             'success' => false,
-            'error_msg' => 'Requested withdraw amount is greater than your available balance.'
+            'error_msg' => 'Your available balance is insufficient for the requested amount.'
         ]);
 
         exit;
@@ -131,7 +126,7 @@ try {
         $query = 'UPDATE crypto_exchange_rate_status SET isUpdating = ?, nextUpdateTime = ? LIMIT 1';
         $ext_status_stmt = $conn->prepare($query); // prepare statement
         $ext_status_stmt->bind_param('ii', $status_update_state, $status_next_update_time);
-        $update_state = 1;
+        $status_update_state = 1;
         $status_next_update_time = $next_update_time;
         $ext_status_stmt->execute();
 
@@ -139,15 +134,19 @@ try {
         try {
             $response = $cps_api->GetShortRates();
 
-            // extract the needed convert rate
-            $response = json_decode($response, true); // decode to associative array
-            $user_currency_rate_btc = $response[$_POST['currency']]['rate_btc'];
-            $usd_rate_btc = $response['USD']['rate_btc']; // dollar
-            $btc_rate_btc = $response['BTC']['rate_btc']; // bitcoin
-            $eth_rate_btc = $response['ETH']['rate_btc']; // ethereum
-            $xrp_rate_btc = $response['XRP']['rate_btc']; // ripple
+            // check for API call success
+            if ($response['error'] != 'ok') {
+                throw new Exception($response['error']);
+            }
 
-            // convert user's entered USD to choose cryptocurrency exchange amount
+            // extract the needed convert rate
+            $user_currency_rate_btc = $response['result'][$_POST['currency']]['rate_btc'];
+            $usd_rate_btc = $response['result']['USD']['rate_btc']; // dollar
+            $btc_rate_btc = $response['result']['BTC']['rate_btc']; // bitcoin
+            $eth_rate_btc = $response['result']['ETH']['rate_btc']; // ethereum
+            $xrp_rate_btc = $response['result']['XRP']['rate_btc']; // ripple
+
+            // convert user's entered USD to chosen cryptocurrency exchange amount
             $crypto_withdraw_amount = ($user_entered_usd * $usd_rate_btc) / $user_currency_rate_btc;
 
             // update convert rate table
@@ -178,21 +177,20 @@ try {
             $stmt->close();
 
             // notify other request that convert rate table is updated
-            $update_state = 0;
-            $status_next_update_time = time() + (15 * 60); // update should occure in next 15 minutes
+            $status_update_state = 0;
+            $status_next_update_time = time() + (10 * 60); // update should occure in next 10 minutes
             $ext_status_stmt->execute();
             $ext_status_stmt->close();
 
         } catch (Exception $e) {
-            // close connection to database
-            $stmt->close();
-            $conn->close();
-
             // reset table update status
-            $update_state = 0;
+            $status_update_state = 0;
             $status_next_update_time = $next_update_time;
             $ext_status_stmt->execute();
             $ext_status_stmt->close();
+
+            // close connection to database
+            $conn->close();
             
             // send error message back to client
             echo json_encode([
@@ -206,7 +204,7 @@ try {
     } else { // convert rate is up to date
         // fetch convert rate from table
         $query = 'SELECT * FROM crypto_exchange_rate';
-        $stmt = $db_connection->prepare($query); // prepare statement
+        $stmt = $conn->prepare($query); // prepare statement
         $stmt->execute();
         $result = $stmt->get_result();
         $crypto_exchange_rates = [];
@@ -237,15 +235,17 @@ try {
         'add_tx_fee' => 1, //  If set to 1, add the coin TX fee to the withdrawal amount so the sender pays the TX fee instead of the receiver
         'address' => $_POST['walletaddress'], // start here
         'auto_confirm' => 1,
-        'ipn_url' => BASE_URL . 'ipn_handler' // Coinpayments API call this url for each transaction
+        'ipn_url' => BASE_URL . 'ipn_handler' // Coinpayments API call this url after completion or failure
     ];
 
     // request for withdrawal
     try {
         $response = $cps_api->CreateWithdrawal($withdrawal);
 
-        // send response back to client
-        $response = json_decode($response);
+        // check for API call success
+        if ($response['error'] != 'ok') {
+            throw new Exception($response['error']);
+        }
         
         // add withdrawal to user's transactions table
         $query = 
@@ -255,16 +255,16 @@ try {
         $stmt = $conn->prepare($query); // prepare statement
         $stmt->bind_param(
             'sissddii', 
-            $response->id, 
+            $response['result']['id'], 
             $_SESSION['user_id'], 
             $_POST['currency'], 
             $transaction_type, 
-            $$response->amount,
+            $response['result']['amount'],
             $user_entered_usd, 
             $transaction_committed, 
             $transaction_time
         );
-        $transaction_type = 'debit';
+        $transaction_type = 'withdrawal';
         $transaction_committed = 0;
         $transaction_time = time();
         $stmt->execute();
@@ -307,7 +307,7 @@ try {
 
 // utility function to validate user's submitted form
 function validatedSubmittedForm() {
-    if (!preg_match("/^[A-Z]$/", $_POST['currency'])) {
+    if (!preg_match("/^[A-Z]+$/", $_POST['currency'])) {
         return false;
 
     } else if (!preg_match("/^([0-9]+|[0-9]+.?[0-9]+)$/", $_POST['amount'])) {

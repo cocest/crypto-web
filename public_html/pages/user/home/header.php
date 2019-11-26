@@ -30,7 +30,7 @@ require_once '../../../includes/utils.php'; // include utility liberary
         <nav>
             <div class="site-logo-cont">
                 <a href="./my_investment.html">
-                    <img src="#" alt="site logo" />
+                    <img src="site_logo.png" alt="site logo" />
                 </a>
             </div>
             <ul class="menu-link-cont">
