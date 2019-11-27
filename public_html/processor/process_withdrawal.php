@@ -52,7 +52,7 @@ try {
     // connect to database
     $conn = new mysqli($db['host'], $db['username'], $db['password'], $db['dbname']);
 
-    //check connection
+    // check connection
     if ($conn->connect_error) {
         throw new mysqli_sql_exception('Database connection failed: ' . $conn->connect_error);
     }

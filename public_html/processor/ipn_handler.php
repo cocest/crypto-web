@@ -154,6 +154,13 @@ try {
                         $stmt->execute();
                         $stmt->close();
 
+                        // update user's account
+                        $query = 'UPDATE user_account SET availableBalance = ? WHERE userID = ? LIMIT 1';
+                        $stmt = $conn->prepare($query); // prepare statement
+                        $stmt->bind_param('di', $new_available_balance, $user_id);
+                        $stmt->execute();
+                        $stmt->close();
+
                         // update or create new user's investment
                         $start_time = time();
                         $end_time = $start_time + ($duration_in_month * 2592000); // current time + (number of month * seconds in 30 day)
