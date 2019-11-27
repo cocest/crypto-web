@@ -16,6 +16,7 @@ set_error_handler('customError');
 require_once '../includes/config.php';
 require_once '../includes/utils.php'; // include utility liberary
 require_once '../includes/Nnochi.php';
+require_once '../includes/ImageResize/ImageResize.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 require_once '../includes/PHPMailer/Exception.php';
@@ -42,11 +43,15 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             die(); // stop script
         }
 
-        // directory to move uploaded file
-        $target_dir = USER_ID_UPLOAD_DIR . basename($_FILES['file']['name']);
+        // directory to save uploaded file
+        $img_ext = pathinfo($_FILES['file']['tmp_name'], PATHINFO_EXTENSION);
+        $file_name = randomText('hexdec', 32) . $img_ext;
+        $target_dir = USER_ID_UPLOAD_DIR . $file_name;
 
-        // move file to targeted directory
-        move_uploaded_file($_FILES['file']['tmp_name'], $target_dir);
+        // now resize the new uploaded image
+        $img_resize = new ImageResize($_FILES['file']['tmp_name']);
+        $img_resize->resizeTo(480, 480);
+        $img_resize->saveImage($target_dir);
 
         $db = $config['db']['mysql']; // mysql configuration
         
@@ -106,10 +111,17 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             $new_user_id = $stmt->insert_id;
             $stmt->close();
 
+            // create user's account
+            $query = 'INSERT INTO user_account (userID) VALUES(?)';
+            $stmt = $conn->prepare($query); // prepare statement
+            $stmt->bind_param('i', $new_user_id);
+            $stmt->execute();
+            $stmt->close();
+
             // add uploaded file information into table
             $query = 'INSERT INTO user_identification (userID, identificationURL) VALUES(?, ?)';
             $stmt = $conn->prepare($query); // prepare statement
-            $stmt->bind_param('is', $new_user_id, basename($_FILES['file']['name']));
+            $stmt->bind_param('is', $new_user_id, $file_name);
             $stmt->execute();
             $stmt->close();
 
