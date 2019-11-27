@@ -68,7 +68,7 @@ try {
 
     // get user's current investment
     $query = 
-        'SELECT A.packageID, A.amountInvested, A.startTime, A.endTime, B.package, B.durationInMonth, B.monthlyROI, B.bonus 
+        'SELECT A.packageID, A.amountInvested, A.profitCollected, A.startTime, A.endTime, B.package, B.durationInMonth, B.monthlyROI, B.bonus 
          FROM user_current_investment AS A LEFT JOIN crypto_investment_packages AS B 
          ON A.packageID = B.id WHERE A.userID = ? LIMIT 1';
     $investment_stmt = $conn->prepare($query); // prepare statement
@@ -78,7 +78,7 @@ try {
 
     if ($investment_row = $investment_result->fetch_assoc()) {
         // check if investment has due
-        if (time() > $investment_row['endTime']) {
+        if (time() > $investment_row['endTime'] && $investment_row['profitCollected'] < 1) {
             // total revenue from current investment
             $bonus = $investment_row['amountInvested'] * ($investment_row['bonus'] / 100);
             $revenue_of_investment = $investment_row['amountInvested'] * ($investment_row['monthlyROI'] / 100);
@@ -121,10 +121,11 @@ try {
                 $stmt->execute();
                 $stmt->close();
 
-                // delete user's investment
-                $query = 'DELETE FROM user_current_investment WHERE userID = ? LIMIT 1';
+                // update user's investment
+                $query = 'UPDATE user_current_investment SET profitCollected = ? WHERE userID = ? LIMIT 1';
                 $stmt = $conn->prepare($query); // prepare statement
-                $stmt->bind_param('i', $_SESSION['user_id']);
+                $stmt->bind_param('ii', $profit_collected, $_SESSION['user_id']);
+                $profit_collected = 1;
                 $stmt->execute();
                 $stmt->close();
 

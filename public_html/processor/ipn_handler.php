@@ -163,7 +163,7 @@ try {
 
                         // update or create new user's investment
                         $start_time = time();
-                        $end_time = $start_time + ($duration_in_month * 2592000); // current time + (number of month * seconds in 30 day)
+                        $end_time = $start_time + ($duration_in_month * 2592000); // current time + (number of month * seconds in 30 days)
 
                         if ($update_current_investment) {
                             $query = 
