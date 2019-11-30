@@ -102,7 +102,8 @@ h4.section-group-header {
 }
 
 .fmt-btn,
-.cashout-proceed-btn {
+.cashout-proceed-btn,
+.invest-on-pkg-btn {
     box-sizing: border-box;
     border: none;
     outline: none;
@@ -120,12 +121,14 @@ h4.section-group-header {
 }
 
 .fmt-btn:hover,
-.cashout-proceed-btn:hover {
+.cashout-proceed-btn:hover,
+.invest-on-pkg-btn:hover {
     box-shadow: 0px 2px 4px 1px gray;
 }
 
 .fmt-btn:disabled:hover,
-.cashout-proceed-btn:disabled:hover {
+.cashout-proceed-btn:disabled:hover,
+.invest-on-pkg-btn:disabled:hover {
     box-shadow: unset!important;
 }
 
@@ -816,7 +819,10 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 .current-inv-sec-2,
 .current-inv-sec-3,
 .cashout-inv-sec-1,
-.cashout-inv-sec-2 {
+.cashout-inv-sec-2,
+.packages-sec-1,
+.payment-pkg-sec-1,
+.payment-method-sec-2 {
     padding: 15px 15px;
     margin-bottom: 20px;
     background-color: white;
@@ -1168,4 +1174,92 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     font-size: 1.1em;
     font-weight: 500;
     color: #399ced;
+}
+
+.package-descr-cont {
+    font-size: 1.1em;
+    max-width: 520px;
+    margin-bottom: 80px;
+}
+
+.package-list-wrapper .grid-item {
+    padding: 15px;
+    padding-bottom: 50px;
+}
+
+.package-list-wrapper .package-cont {
+    box-shadow: 0px 1px 10px 2px rgba(133, 144, 156, 0.6);
+    overflow: hidden;
+    border-radius: 6px;
+}
+
+.package-list-wrapper .package-cont.item-1 .upper-sec {
+    border-bottom: 3px solid lightgray;
+}
+
+.package-list-wrapper .package-cont.item-2 .upper-sec {
+    border-bottom: 3px solid #d58042;
+}
+
+.package-list-wrapper .package-cont.item-3 .upper-sec {
+    border-bottom: 3px solid #a85d18;
+}
+
+.package-list-wrapper .package-cont.item-4 .upper-sec {
+    border-bottom: 3px solid #a9abae;
+}
+
+.package-list-wrapper .package-cont.item-5 .upper-sec {
+    border-bottom: 3px solid #d9b800;
+}
+
+.package-list-wrapper .package-cont .upper-sec {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.package-list-wrapper .package-cont .title {
+    margin: 0;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.package-list-wrapper .package-cont .price-range {
+    font-size: 1.4em;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.package-list-wrapper .package-cont .duration-cont {
+    font-size: 1.4em;
+    font-weight: 500;
+}
+
+.package-list-wrapper .package-cont .duration-cont .duration {
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+.package-list-wrapper .package-cont .lower-sec {
+    min-height: 160px;
+    padding: 10px 15px;
+    padding-bottom: 40px;
+}
+
+.package-list-wrapper .package-cont .pkg-features-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.package-list-wrapper .package-cont .pkg-features-list > li {
+    padding: 8px 0px;
+    text-align: center;
+    font-size: 1.0em;
+    border-bottom: 2px solid lightgray;
+}
+
+.package-list-wrapper .package-cont .invest-btn-cont {
+    padding: 15px;
 }

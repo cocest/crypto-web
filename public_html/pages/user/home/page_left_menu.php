@@ -10,7 +10,7 @@
                 </a>
             </li>
             <li class="enable <?php  echo $left_menu_active_links['packages'] ? 'active-link-indicator' : ''; ?>">
-                <a href="package.html">
+                <a href="packages.html">
                     <div class="link-icon-cont-3">
                         <img src="../../images/icons/icons_sprite_4.png" />
                     </div>
