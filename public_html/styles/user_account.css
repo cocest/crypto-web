@@ -103,7 +103,8 @@ h4.section-group-header {
 
 .fmt-btn,
 .cashout-proceed-btn,
-.invest-on-pkg-btn {
+.invest-on-pkg-btn,
+.payment-proceed-btn {
     box-sizing: border-box;
     border: none;
     outline: none;
@@ -122,13 +123,15 @@ h4.section-group-header {
 
 .fmt-btn:hover,
 .cashout-proceed-btn:hover,
-.invest-on-pkg-btn:hover {
+.invest-on-pkg-btn:hover
+.payment-proceed-btn:hover {
     box-shadow: 0px 2px 4px 1px gray;
 }
 
 .fmt-btn:disabled:hover,
 .cashout-proceed-btn:disabled:hover,
-.invest-on-pkg-btn:disabled:hover {
+.invest-on-pkg-btn:disabled:hover,
+.payment-proceed-btn:disabled:hover {
     box-shadow: unset!important;
 }
 
@@ -1149,26 +1152,30 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     border-radius: 4px;
 }
 
-.cashout-proceed-btn-cont {
+.cashout-proceed-btn-cont,
+.payment-proceed-btn-cont {
     max-width: 140px;
     margin-top: 40px;
     margin-bottom: 10px;
 }
 
-.cashout-anim-cont {
+.cashout-anim-cont,
+.payment-anim-cont {
     margin-top: 42px;
     margin-bottom: 11px;
     overflow: hidden;
 }
 
-.cashout-anim-cont .vt-bars-anim-cont {
+.cashout-anim-cont .vt-bars-anim-cont,
+.payment-anim-cont .vt-bars-anim-cont {
     float: left;
     width: 21px;
     height: 32px;
     margin-left: 20px;
 }
 
-.cashout-anim-cont .anim-txt {
+.cashout-anim-cont .anim-txt,
+.payment-anim-cont .anim-txt {
     margin-left: 65px;
     margin-top: 2px;
     font-size: 1.1em;
@@ -1262,4 +1269,55 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 
 .package-list-wrapper .package-cont .invest-btn-cont {
     padding: 15px;
+}
+
+.inv-cont {
+    margin-top: 40px;
+}
+
+.inv-img-cont {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+    overflow: hidden;
+}
+
+.inv-img-cont > img {
+    height: 50px;
+    width: auto;
+}
+
+.inv-img-cont.pkg-1 > img {
+    position: relative;
+    left: 0px;
+}
+
+.inv-name-cont {
+    display: inline-block;
+}
+
+.inv-name-cont > h2 {
+    position: relative;
+    top: -15px;
+    margin: 0;
+    font-size: 2.0em;
+    font-weight: 500;
+}
+
+.inv-feature-list-cont > h3 {
+    font-weight: 500;
+}
+
+.inv-feature-list-cont {
+    max-width: 500px;
+}
+
+.inv-feature-list {
+    padding-left: 22px;
+}
+
+.inv-feature-list > li {
+    font-size: 1.1em;
+    margin-bottom: 5px;
 }
