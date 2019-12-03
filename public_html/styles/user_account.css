@@ -104,7 +104,11 @@ h4.section-group-header {
 .fmt-btn,
 .cashout-proceed-btn,
 .invest-on-pkg-btn,
-.payment-proceed-btn {
+.payment-proceed-btn,
+.payment-sent-btn {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
     box-sizing: border-box;
     border: none;
     outline: none;
@@ -123,15 +127,17 @@ h4.section-group-header {
 
 .fmt-btn:hover,
 .cashout-proceed-btn:hover,
-.invest-on-pkg-btn:hover
-.payment-proceed-btn:hover {
+.invest-on-pkg-btn:hover,
+.payment-proceed-btn:hover,
+.payment-sent-btn:hover {
     box-shadow: 0px 2px 4px 1px gray;
 }
 
 .fmt-btn:disabled:hover,
 .cashout-proceed-btn:disabled:hover,
 .invest-on-pkg-btn:disabled:hover,
-.payment-proceed-btn:disabled:hover {
+.payment-proceed-btn:disabled:hover,
+.payment-sent-btn:disabled:hover {
     box-shadow: unset!important;
 }
 
@@ -601,7 +607,7 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     width: 100%;
     max-width: 450px;
     min-height: 140px;
-    margin-left: -255px;
+    margin-left: -225px;
     margin-top: 10px;
     padding: 0 10px 10px 10px;
     border-top: 1px solid lightgray;
@@ -1293,6 +1299,26 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     left: 0px;
 }
 
+.inv-img-cont.pkg-2 > img {
+    position: relative;
+    left: -62px;
+}
+
+.inv-img-cont.pkg-3 > img {
+    position: relative;
+    left: -124px;
+}
+
+.inv-img-cont.pkg-4 > img {
+    position: relative;
+    left: -185px;
+}
+
+.inv-img-cont.pkg-5 > img {
+    position: relative;
+    left: -247px;
+}
+
 .inv-name-cont {
     display: inline-block;
 }
@@ -1320,4 +1346,95 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 .inv-feature-list > li {
     font-size: 1.1em;
     margin-bottom: 5px;
+}
+
+#payment-win-cont {
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    width: 100%;
+    max-width: 450px;
+    min-height: 140px;
+    margin-left: -225px;
+    margin-top: 10px;
+    padding: 0 10px 10px 10px;
+    border-top: 1px solid lightgray;
+    border-radius: 10px;
+    box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.4);
+    background-color: white;
+    z-index: 200;
+}
+
+#payment-win-cont .title-bar-cont {
+    overflow: hidden;
+}
+
+#payment-win-cont .title-bar-cont > .title {
+    float: left;
+    margin: 8px 0;
+    font-family: sans-serif;
+    font-size: 1.3em;
+}
+
+#payment-win-cont .title-bar-cont > .close-btn {
+    float: right;
+    position: relative;
+    width: 25px;
+    height: 25px;
+    margin: 8px 0;
+    overflow: hidden;
+    background-color: #6cb6f3;
+    cursor: default;
+}
+
+#payment-win-cont .title-bar-cont > .close-btn:hover {
+    background-color: rgb(255, 70, 70);
+}
+
+#payment-win-cont .title-bar-cont > .close-btn > img {
+    position: relative;
+    top: 1px;
+    left: 6.8px;
+    width: 34.7px;
+    height: 12px;
+}
+
+#payment-win-cont .body-cont {
+    font-size: 1.1em;
+    padding: 0px 10px;
+}
+
+.payment-details-tbl {
+    border-collapse: collapse;
+}
+
+.payment-details-tbl tr > td:first-child {
+    min-width: 100px;
+    font-weight: 500;
+}
+
+.payment-details-tbl td {
+    padding: 5px;
+}
+
+.payment-details-tbl-cont {
+    margin-bottom: 30px;
+}
+
+.payment-qr-code-cont {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.payment-qr-code {
+    width: 150px;
+    height: 150px;
+}
+
+.payment-qr-code-cont .qr-text {
+    font-size: 0.8em;
+}
+
+.payment-sent-btn-cont {
+    margin-bottom: 10px;
 }

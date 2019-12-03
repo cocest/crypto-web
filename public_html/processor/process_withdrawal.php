@@ -278,8 +278,10 @@ try {
         $stmt->execute();
         $stmt->close();
 
+        // close connection to database
+        $conn->close();
+
         // return successfully response back to client
-        // send error message back to client
         echo json_encode([
             'success' => true,
             'available_balance' => $new_available_balance

@@ -291,7 +291,7 @@ require_once 'page_left_menu.php';
                         }
                     }
                 );
-            }
+            };
 
             // utility function to validate user's input
             function requiredInputLeftEmptyOrInvalid(input_name_and_regex) {
