@@ -1277,6 +1277,19 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     padding: 15px;
 }
 
+.investment-error-cont {
+    padding: 15px 15px;
+    padding-bottom: 100px;
+    margin-bottom: 20px;
+    background-color: white;
+}
+
+.investment-error-cont .err-msg {
+    max-width: 520px;
+    font-size: 1.1em;
+    line-height: 26px;
+}
+
 .inv-cont {
     margin-top: 40px;
 }

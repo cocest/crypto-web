@@ -25,14 +25,16 @@ $_SESSION["csrf_token"] = $csrf_token;
 // get user chose package
 $chose_package_id = sanitiseInput($_GET['package_id']); // filter this data first
 
+date_default_timezone_set('UTC');
+
 // mysql configuration
 $db = $config['db']['mysql'];
         
 // enable mysql exception
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-// fetch result for page rendering
-$data_for_page_rendering = null;
+$data_for_page_rendering = null; // fetch result for page rendering
+$user_has_active_investment = false;
 
 try {
     // connect to database
@@ -43,38 +45,58 @@ try {
         throw new mysqli_sql_exception('Database connection failed: '.$conn->connect_error);
     }
 
-    // check if user choose trial package
-    if ($chose_package_id == 1) {
-        // check if user haven't invest before
-        $query = 'SELECT 1 FROM user_invested_package_records WHERE userID = ? LIMIT 1';
-        $stmt = $conn->prepare($query); // prepare statement
-        $stmt->bind_param('i', $_SESSION['user_id']);
-        $stmt->execute();
-        $stmt->store_result(); // needed for num_rows
+    // check if user has an active investment
+    $query = 'SELECT endTime FROM user_current_investment WHERE userID = ? LIMIT 1';
+    $stmt = $conn->prepare($query); // prepare statement
+    $stmt->bind_param('i', $_SESSION['user_id']);
+    $stmt->execute();
+    $stmt->store_result(); // needed for num_rows
 
-        if ($stmt->num_rows > 0) {
-            // close database connection
-            $stmt->close();
-            $conn->close();
+    if ($stmt->num_rows > 0) {
+        $stmt->bind_result($investment_end_time);
+        $stmt->fetch();
 
-            // redirect user back to packages page
-            header('Location: packages.html');
-            exit;
+        if (time() < $investment_end_time) {
+            $user_has_active_investment = true;
         }
     }
 
-    // fetch package from database
-    $query = "SELECT * FROM crypto_investment_packages WHERE id = ? LIMIT 1";
-    $stmt = $conn->prepare($query); // prepare statement
-    $stmt->bind_param('i', $chose_package_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    while ($row = $result->fetch_assoc()) {
-        $data_for_page_rendering = $row;
-    }
-
     $stmt->close();
+
+    if (!$user_has_active_investment) {
+        // check if user choose trial package
+        if ($chose_package_id == 1) {
+            // check if user haven't invest before
+            $query = 'SELECT 1 FROM user_invested_package_records WHERE userID = ? LIMIT 1';
+            $stmt = $conn->prepare($query); // prepare statement
+            $stmt->bind_param('i', $_SESSION['user_id']);
+            $stmt->execute();
+            $stmt->store_result(); // needed for num_rows
+
+            if ($stmt->num_rows > 0) {
+                // close database connection
+                $stmt->close();
+                $conn->close();
+
+                // redirect user back to packages page
+                header('Location: packages.html');
+                exit;
+            }
+        }
+
+        // fetch package from database
+        $query = "SELECT * FROM crypto_investment_packages WHERE id = ? LIMIT 1";
+        $stmt = $conn->prepare($query); // prepare statement
+        $stmt->bind_param('i', $chose_package_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $data_for_page_rendering = $row;
+        }
+
+        $stmt->close();
+    }
 
     // close database connection
     $conn->close();
@@ -139,6 +161,18 @@ require_once 'page_left_menu.php';
         </div>
 
         <h1 class="page-title-hd">Make Payment</h1>
+        <?php 
+            if ($user_has_active_investment) {
+        ?>
+        <div class="investment-error-cont">
+            <p class="err-msg">
+                Sorry, you already have an active investment. You can only invest on another package
+                when your current investment has matured.
+            </p>
+        </div>
+        <?php
+            } else {
+        ?>
         <div class="payment-pkg-sec-1">
             <h4 class="section-group-header">Investment</h4>
             <div class="inv-cont">
@@ -224,6 +258,9 @@ require_once 'page_left_menu.php';
                 </div>
             </form>
         </div>
+        <?php 
+            }
+        ?>
         <script>
             window.processPaymentForm = function(e) {
                 e.preventDefault(); // prevent default behaviour
