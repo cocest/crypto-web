@@ -7,8 +7,25 @@ session_start();
 require_once '../../../includes/config.php';
 require_once '../../../includes/utils.php'; // include utility liberary
 
+date_default_timezone_set('UTC');
+
 // check if user is authenticated
-if (!(isset($_SESSION['auth']) && $_SESSION['auth'] == true)) {
+if (isset($_SESSION['auth']) && $_SESSION['auth'] == true) {
+    if (isset($_SESSION['last_auth_time']) && time() < $_SESSION['last_auth_time']) {
+        // update the time
+        $_SESSION['last_auth_time'] = time() + 1800; // expire in 30 minutes
+    
+    } else {
+        // clear the user's login session
+        unset($_SESSION['auth']);
+        unset($_SESSION['user_id']);
+
+        // redirect user to login pages
+        header('Location: '. BASE_URL . 'user/login.html');
+        exit;
+    }
+
+} else {
     // redirect user to login pages
     header('Location: '. BASE_URL . 'user/login.html');
     exit;
@@ -22,8 +39,6 @@ function customError($errno, $errstr) {
 
 // set the handler
 set_error_handler('customError');
-
-date_default_timezone_set('UTC');
 
 // mysql configuration
 $db = $config['db']['mysql'];
@@ -57,14 +72,14 @@ try {
     $stmt->fetch();
     $stmt->close();
 
-    /*if ($account_activated == 0) {
+    if ($account_activated == 0) {
         // account not yet activated
         $conn->close(); // close connection
 
         // redirect user
         header('Location: '. BASE_URL . 'user/home/email_verification.html');
         exit;
-    }*/
+    }
 
     // get user's current investment
     $query = 

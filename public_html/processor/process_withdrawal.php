@@ -29,6 +29,22 @@ if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
     die(); // stop script
 }
 
+date_default_timezone_set('UTC');
+
+if (isset($_SESSION['last_auth_time']) && time() < $_SESSION['last_auth_time']) {
+    // update the time
+    $_SESSION['last_auth_time'] = time() + 1800; // expire in 30 minutes
+
+} else {
+    // clear the user's login session
+    unset($_SESSION['auth']);
+    unset($_SESSION['user_id']);
+
+    // redirect user to login pages
+    header('Location: '. BASE_URL . 'user/login.html');
+    exit;
+}
+
 // validate user submitted form
 if (!validatedSubmittedForm()) {
     // send error message back to client
@@ -39,8 +55,6 @@ if (!validatedSubmittedForm()) {
 
     exit;
 }
-
-date_default_timezone_set('UTC');
 
 // mysql configuration
 $db = $config['db']['mysql'];

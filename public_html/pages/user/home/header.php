@@ -74,10 +74,12 @@ require_once '../../../includes/utils.php'; // include utility liberary
                 </a>
             </li>
             <li>
-                <div class="signout-icon-cont">
-                    <img src="../../images/icons/icons_sprite_1.png" />
-                </div>
-                <span class="link-name">Sign out</span>
+                <a href="<?php echo BASE_URL.'logout_user'; ?>">
+                    <div class="signout-icon-cont">
+                        <img src="../../images/icons/icons_sprite_1.png" />
+                    </div>
+                    <span class="link-name">Sign out</span>
+                </a>
             </li>
         </ul>
     </div>

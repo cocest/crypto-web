@@ -16,16 +16,42 @@ function customError($errno, $errstr) {
 // set the handler
 set_error_handler('customError');
 
+// get user chose package
+if (isset($_GET['package_id'])) {
+    $chose_package_id = sanitiseInput($_GET['package_id']); // filter this data first
+} else {
+    die();
+}
+
+date_default_timezone_set('UTC');
+
+// check if user is authenticated
+if (isset($_SESSION['auth']) && $_SESSION['auth'] == true) {
+    if (isset($_SESSION['last_auth_time']) && time() < $_SESSION['last_auth_time']) {
+        // update the time
+        $_SESSION['last_auth_time'] = time() + 1800; // expire in 30 minutes
+    
+    } else {
+        // clear the user's login session
+        unset($_SESSION['auth']);
+        unset($_SESSION['user_id']);
+
+        // redirect user to login pages
+        header('Location: '. BASE_URL . 'user/login.html');
+        exit;
+    }
+
+} else {
+    // redirect user to login pages
+    header('Location: '. BASE_URL . 'user/login.html');
+    exit;
+}
+
 // generate CSRF token
 $csrf_token = randomText('hexdec', 16);
 
 // add the CSRF token to session
 $_SESSION["csrf_token"] = $csrf_token;
-
-// get user chose package
-$chose_package_id = sanitiseInput($_GET['package_id']); // filter this data first
-
-date_default_timezone_set('UTC');
 
 // mysql configuration
 $db = $config['db']['mysql'];
@@ -43,6 +69,24 @@ try {
     //check connection
     if ($conn->connect_error) {
         throw new mysqli_sql_exception('Database connection failed: '.$conn->connect_error);
+    }
+
+    // check if user has activated his account
+    $query = 'SELECT accountActivated FROM users WHERE id = ? LIMIT 1';
+    $stmt = $conn->prepare($query); // prepare statement
+    $stmt->bind_param('i', $_SESSION['user_id']);
+    $stmt->execute();
+    $stmt->bind_result($account_activated);
+    $stmt->fetch();
+    $stmt->close();
+
+    if ($account_activated == 0) {
+        // account not yet activated
+        $conn->close(); // close connection
+
+        // redirect user
+        header('Location: '. BASE_URL . 'user/home/email_verification.html');
+        exit;
     }
 
     // check if user has an active investment

@@ -6,8 +6,25 @@ session_start();
 // import all the necessary liberaries
 require_once '../../../includes/config.php';
 
+date_default_timezone_set('UTC');
+
 // check if user is authenticated
-if (!(isset($_SESSION['auth']) && $_SESSION['auth'] == true)) {
+if (isset($_SESSION['auth']) && $_SESSION['auth'] == true) {
+    if (isset($_SESSION['last_auth_time']) && time() < $_SESSION['last_auth_time']) {
+        // update the time
+        $_SESSION['last_auth_time'] = time() + 1800; // expire in 30 minutes
+    
+    } else {
+        // clear the user's login session
+        unset($_SESSION['auth']);
+        unset($_SESSION['user_id']);
+
+        // redirect user to login pages
+        header('Location: '. BASE_URL . 'user/login.html');
+        exit;
+    }
+
+} else {
     // redirect user to login pages
     header('Location: '. BASE_URL . 'user/login.html');
     exit;
@@ -49,14 +66,14 @@ try {
     $stmt->fetch();
     $stmt->close();
 
-    /*if ($account_activated == 0) {
+    if ($account_activated == 0) {
         // account not yet activated
         $conn->close(); // close connection
 
         // redirect user
         header('Location: '. BASE_URL . 'user/home/email_verification.html');
         exit;
-    }*/
+    }
 
     // check if user has invested on any package before
     $query = 'SELECT 1 FROM user_invested_package_records WHERE userID = ? LIMIT 1';

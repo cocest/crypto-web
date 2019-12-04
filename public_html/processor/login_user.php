@@ -148,6 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     // create login session and send redirect url to client
                     $_SESSION['auth'] = true;
                     $_SESSION['user_id'] = $user_id;
+                    $_SESSION['last_auth_time'] = time() + 1800; // expire in 30 minutes
 
                     if ($stmt->num_rows > 0) {
                         $stmt->bind_result($is_email_verified, $is_id_verified);
@@ -312,6 +313,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         // create login session and send redirect url to client
                         $_SESSION['auth'] = true;
                         $_SESSION['user_id'] = $user_id;
+                        $_SESSION['last_auth_time'] = time() + 1800; // expire in 30 minutes
 
                         if ($stmt->num_rows > 0) {
                             $stmt->bind_result($is_email_verified, $is_id_verified);
