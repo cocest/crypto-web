@@ -38,18 +38,23 @@ try {
     // decrypt the verification token
     $decrypted_token = opensslDecrypt(base64_decode($_GET['token']), OPENSSL_ENCR_KEY);
 
+    if ($decrypted_token == null) {
+        die(); // stop the script
+    }
+
     list($user_id, $verification_token) = explode(':', $decrypted_token);
 
     // validate the token
-    $query = 'SELECT time FROM verify_user_email WHERE userID = ? AND token = ? LIMIT 1';
+    $query = 'SELECT 1 FROM verify_user_email WHERE userID = ? AND token = ? LIMIT 1';
     $stmt = $conn->prepare($query); // prepare statement
     $stmt->bind_param('is', $user_id, $verification_token);
     $stmt->execute();
     $stmt->store_result(); // needed for num_rows
-    $stmt->close();
 
     // check if token exist
     if ($stmt->num_rows > 0) {
+        $stmt->close(); // close previous prepared statement
+
         try {
             $conn->begin_transaction(); // start transaction
 
@@ -74,19 +79,32 @@ try {
             // redirect user to personal identification page
             $_SESSION['auth'] = true;
             $_SESSION['user_id'] = $user_id;
-            header('Location: ' . BASE_URL . 'user/home/id_verification.php');
+            $_SESSION['last_auth_time'] = time() + 1800; // expire in 30 minutes
+            header('Location: ' . BASE_URL . 'user/home/id_verification.html');
             exit;
 
         } catch (Exception $e) {
             $conn->rollback(); // remove all queries from queue if error occured (undo)
+            $conn->close(); // close connection to database
+
+            // log the error to a file
+            error_log('Mysql error: '.$e->getMessage(), 3, CUSTOM_ERR_DIR.'custom_errors.log');
+
+            exit;
         }
     }
 
+    // close connection to database
+    $stmt->close();
+    $conn->close();
+
 } catch (mysqli_sql_exception $e) {
-    echo 'Mysql error: ' . $e->getMessage() . PHP_EOL;
+    // log the error to a file
+    error_log('Mysql error: '.$e->getMessage().PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
 
 } catch (Exception $e) { // catch other exception
-    echo 'Caught exception: ' .  $e->getMessage() . PHP_EOL;
+    // log the error to a file
+    error_log('Caught exception: '.$e->getMessage().PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
 }
 
 ?>

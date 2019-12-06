@@ -1222,9 +1222,16 @@ function init() {
 
                                 // listen to response from the server
                                 function (response) {
-                                    //response_data = JSON.parse(response);
+                                    response_data = JSON.parse(response);
 
-                                    alert("Still working on user page's and dashboard");
+                                    // check if registeration was succesfull
+                                    if (response_data.success) {
+                                        // redirect user
+                                        window.location.replace(response_data.redirect_url);
+
+                                    } else {
+                                        alert(response_data.error_msg);
+                                    }
                                 },
 
                                 // listen to server error

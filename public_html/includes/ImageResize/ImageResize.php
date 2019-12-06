@@ -7,7 +7,7 @@
  * Max height size while keep aspect ratio
  * Automatic while keep aspect ratio
  * 
- * This is a DZone code. 
+ * This is a DZone code, modified by Attamah Celestine. 
  * This is the link to source code: https://dzone.com/articles/resize-image-class-php
  */
 class ImageResize
@@ -140,6 +140,9 @@ class ImageResize
 			  			 $this->resizeWidth  = $width;
 					} else if( $this->origWidth < $this->origHeight ) {
 						$this->resizeWidth  = $this->resizeWidthByHeight($height);
+						$this->resizeHeight = $height;
+					} else {
+						$this->resizeWidth = $width;
 						$this->resizeHeight = $height;
 					}
 				} else {

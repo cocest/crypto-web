@@ -7,7 +7,7 @@ session_start();
 require_once '../includes/utils.php'; // include utility liberary
 
 // generate CSRF token
-$csrf_token = generateToken();
+$csrf_token = randomText('hexdec', 16);
 
 // add the CSRF token to session
 $_SESSION["csrf_token"] = $csrf_token;

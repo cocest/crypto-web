@@ -2,7 +2,7 @@
         <div id="scroll-wrapper">
         <ul class="menu-list-cont">
             <li class="enable active-link-indicator">
-                <a href="#">
+                <a href="email_verification.html">
                     <div class="link-icon-cont-1">
                         <img src="../../images/icons/icons_sprite_4.png" />
                     </div>

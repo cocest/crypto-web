@@ -47,12 +47,13 @@ define("CPS_PRIVATE_KEY", "keyhere");
 define("CPS_PUBLIC_KEY", "keyhere");
 define("CPS_MERCHANT_ID", "idhere");
 define("CPS_IPN_SECRET", "87yRHfdcb_@45ah#");
-define("SMTP_HOST", "smtp.gmail.com");
+define("SMTP_HOST", "smtp.sendgrid.net");
 define("SMTP_PORT", 587);
-define("SMTP_USERNAME", "website@gmail.com");
-define("SMTP_PASSWORD", "password");
-define("SENDER_EMAIL", "website@gmail.com");
+define("SMTP_USERNAME", "apikey");
+define("SMTP_PASSWORD", "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");
+define("SENDER_EMAIL", "attamahcelestine@gmail.com");
 define("SENDER_NAME", "Thecitadelcapital.com");
-define("USER_ID_UPLOAD_DIR", "/Workspace/PHP/Crypto-web/crypto-web/public_html/uploads/users/identification/");
+define("USER_ID_UPLOAD_DIR", dirname(__DIR__, 1)."/uploads/users/identification/");
+define("CUSTOM_ERR_DIR", dirname(__DIR__, 1)."/errors/");
  
 ?>

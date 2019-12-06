@@ -90,9 +90,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $stmt = $conn->prepare($query); // prepare statement
                         $stmt->bind_param('s', $_POST['username']);
                         $stmt->execute();
+                        $stmt->close();
                     }
-
-                    $stmt->close(); // close previous prepared statement
 
                     // check if user tick remember me login
                     if (isset($_POST['remember'])) {
@@ -135,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                         // set the auto-login cookies
                         // Note: remember to change secure to true
-                        setrawcookie('auto_login', $login_token, $token_expires, '/', '', false, true);
+                        setrawcookie('auto_login', urlencode(base64_encode($login_token)), $token_expires, '/', '', false, true);
                     }
 
                     // check if user's account is not yet activated
@@ -242,11 +241,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } catch (mysqli_sql_exception $e) { // catch only mysqli exceptions
             // $e->getMessage(); 
             // $e->getCode();
-            // handle mysqli exception here
-            echo 'Mysql error: ' . $e->getMessage() . PHP_EOL;
+            // log the error to a file
+            error_log('Mysql error: '.$e->getMessage().PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
 
         } catch (Exception $e) { // catch other exception
-            echo 'Caught exception: ' . $e->getMessage() . PHP_EOL;
+            // log the error to a file
+            error_log('Caught exception: '.$e->getMessage().PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
         }
     }
 
@@ -256,7 +256,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die(); // exit script
     }
 
-    $token_parts = explode(':', $_COOKIE['auto_login']);
+    $token_parts = explode(':', base64_decode(urldecode($_COOKIE['auto_login'])));
 
     // mysql configuration
     $db = $config['db']['mysql'];
@@ -394,13 +394,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
     } catch (mysqli_sql_exception $e) { // catch only mysqli exceptions
-        // $e->getMessage(); 
-        // $e->getCode();
-        // handle mysqli exception here
-        echo 'Mysql error: ' . $e->getMessage() . PHP_EOL;
+        // log the error to a file
+        error_log('Mysql error: '.$e->getMessage().PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
 
     } catch (Exception $e) { // catch other exception
-        echo 'Caught exception: ' . $e->getMessage() . PHP_EOL;
+        // log the error to a file
+        error_log('Caught exception: '.$e->getMessage().PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
     }
 }
 

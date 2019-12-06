@@ -34,23 +34,34 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
     if (empty($_POST['leaveitempty']) && sanitiseInput($_POST['acceptterms']) == 1) {
         // check if submitted form's input is correct
         if (!validateUserFormInputs($_POST)) {
-            die(); // stop script
+            // send message to the client
+            echo json_encode([
+                'success' => false,
+                'error_msg' => 'Registeration was unsuccessfull.'
+            ]);
+        
+            exit; // stop script
         }
 
         // check if upload file is valid
         if (!validateUploadedImage($_FILES)) {
-            // delete the file
-            die(); // stop script
+            // send message to the client
+            echo json_encode([
+                'success' => false,
+                'error_msg' => 'Registeration was unsuccessfull.'
+            ]);
+        
+            exit; // stop script
         }
 
         // directory to save uploaded file
-        $img_ext = pathinfo($_FILES['file']['tmp_name'], PATHINFO_EXTENSION);
-        $file_name = randomText('hexdec', 32) . $img_ext;
+        $img_ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+        $file_name = randomText('hexdec', 32) .'.'.$img_ext;
         $target_dir = USER_ID_UPLOAD_DIR . $file_name;
 
         // now resize the new uploaded image
         $img_resize = new ImageResize($_FILES['file']['tmp_name']);
-        $img_resize->resizeTo(480, 480);
+        $img_resize->resizeTo(500, 500);
         $img_resize->saveImage($target_dir);
 
         $db = $config['db']['mysql']; // mysql configuration
@@ -102,8 +113,8 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
                 $_POST['email'],
                 $search_email_hash,
                 $_POST['country'],
-                $_POST['phoneCountryCode'],
-                $_POST['phoneNumber'],
+                $_POST['countrycode'],
+                $_POST['phonenumber'],
                 $_POST['gender']
             );
     
@@ -129,7 +140,7 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             $password_hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
             $query = 'INSERT INTO user_authentication (userID, username, password) VALUES(?, ?, ?)';
             $stmt = $conn->prepare($query); // prepare statement
-            $stmt->bind_param('iss', $new_user_id, $_POST['userrname'], $password_hash);
+            $stmt->bind_param('iss', $new_user_id, $_POST['username'], $password_hash);
             $stmt->execute();
             $stmt->close();
 
@@ -142,12 +153,12 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
 
             // send verification email to the user
             // generate 16 digit unique key plus user ID
-            $verification_token = generateToken();
+            $verification_token = randomText('hexdec', 32);
             $token = $new_user_id . ':' . $verification_token;
 
             $encrypted_token = opensslEncrypt($token, OPENSSL_ENCR_KEY); // encrypt the token
             $username = $_POST['lastname'] . ' ' . $_POST['firstname'];
-            $verification_url = BASE_URL . 'verify_email?token=' . base64_encode($encrypted_token);
+            $verification_url = BASE_URL . 'verify_email?token=' . urlencode(base64_encode($encrypted_token));
 
             // add the token to the database for later verification
             $query = 'INSERT INTO verify_user_email (userID, token) VALUES(?, ?)';
@@ -194,22 +205,48 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             );
 
             if (!$mail->send()) {
-                echo 'Mailer Error: ' . $mail->ErrorInfo;
-                exit;
+                // log the error to a file
+                error_log('Mailer Error: '.$mail->ErrorInfo.PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
             }
 
             // create login session and redirect user to email verification page
             $_SESSION['auth'] = true;
             $_SESSION['user_id'] = $new_user_id;
-            header('Location: ' . BASE_URL . 'user/home/email_verification.html');
+            $_SESSION['last_auth_time'] = time() + 1800; // expire in 30 minutes
+
+            echo json_encode([
+                'success' => true,
+                'redirect_url' => BASE_URL . 'user/home/email_verification.html'
+            ]);
+        
             exit;
 
         } catch (mysqli_sql_exception $e) { // catch only mysqli exceptions
             $conn->rollback(); // remove all queries from queue if error occured (undo)            
             unlink($target_dir); // delete uploaded image
 
+            // log the error to a file
+            error_log('Mysql error: '.$e->getMessage().PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
+
+            // send message to the client
+            echo json_encode([
+                'success' => false,
+                'error_msg' => 'Registeration was unsuccessfull.'
+            ]);
+        
+            exit;
+
         } catch (Exception $e) { // catch other exception
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
+            // log the error to a file
+            error_log('Caught exception: '.$e->getMessage().PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
+
+            // send message to the client
+            echo json_encode([
+                'success' => false,
+                'error_msg' => 'Registeration was unsuccessfull.'
+            ]);
+        
+            exit;
         }
     }
 }
@@ -260,6 +297,8 @@ function validateUserFormInputs($inputs) {
                 if (!preg_match("/^(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])\/[1-9]\d{3}$/", $input_value)) {
                     return false;
                 }
+
+                break;
             }
 
             case 'gender':
@@ -277,7 +316,7 @@ function validateUserFormInputs($inputs) {
                 break;
 
             case 'referralid':
-                if (!preg_match("/^[a-zA-Z0-9]+$/", $input_value)) {
+                if (!empty($input_value) && !preg_match("/^[a-zA-Z0-9]+$/", $input_value)) {
                     return false;
                 }
 

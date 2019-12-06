@@ -824,6 +824,11 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     margin-top: 30px;
 }
 
+.resend-email-anim-cont {
+    margin-top: 30px;
+    overflow: hidden;
+}
+
 .current-inv-sec-1,
 .current-inv-sec-2,
 .current-inv-sec-3,
@@ -1173,7 +1178,8 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 }
 
 .cashout-anim-cont .vt-bars-anim-cont,
-.payment-anim-cont .vt-bars-anim-cont {
+.payment-anim-cont .vt-bars-anim-cont,
+.resend-email-anim-cont .vt-bars-anim-cont {
     float: left;
     width: 21px;
     height: 32px;
@@ -1181,7 +1187,8 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 }
 
 .cashout-anim-cont .anim-txt,
-.payment-anim-cont .anim-txt {
+.payment-anim-cont .anim-txt,
+.resend-email-anim-cont .anim-txt {
     margin-left: 65px;
     margin-top: 2px;
     font-size: 1.1em;

@@ -91,10 +91,12 @@ try {
     }
 
 } catch (mysqli_sql_exception $e) {
-    echo 'Mysql error: ' . $e->getMessage() . PHP_EOL;
+    // log the error to a file
+    error_log('Mysql error: '.$e->getMessage().PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
 
 } catch (Exception $e) { // catch other exception
-    echo 'Caught exception: ' .  $e->getMessage() . PHP_EOL;
+    // log the error to a file
+    error_log('Caught exception: '.$e->getMessage().PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
 }
 
 // assemble all the part of the page
@@ -122,6 +124,20 @@ require_once 'left_bar_menu.php';
             </p>
             <div class="email-resend-btn-cont">
                 <input class="fmt-btn" type="button" value="Resend" onclick="resendEmailVerification()" />
+            </div>
+            <div class="resend-email-anim-cont remove-elem">
+                <div class="vt-bars-anim-cont">
+                    <div class="vt-bar-cont">
+                        <div class="vt-bar-1"></div>
+                    </div>
+                    <div class="vt-bar-cont">
+                        <div class="vt-bar-2"></div>
+                    </div>
+                    <div class="vt-bar-cont">
+                        <div class="vt-bar-3"></div>
+                    </div>
+                </div>
+                <div class="anim-txt">Resending...</div>
             </div>
         </div>
 <?php

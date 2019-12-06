@@ -91,10 +91,12 @@ try {
     }
 
 } catch (mysqli_sql_exception $e) {
-    echo 'Mysql error: ' . $e->getMessage() . PHP_EOL;
+    // log the error to a file
+    error_log('Mysql error: '.$e->getMessage().PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
 
 } catch (Exception $e) { // catch other exception
-    echo 'Caught exception: ' .  $e->getMessage() . PHP_EOL;
+    // log the error to a file
+    error_log('Caught exception: '.$e->getMessage().PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
 }
 
 // assemble all the part
@@ -114,7 +116,7 @@ require_once 'left_bar_menu.php';
             </div>
             <p class="p1 txt-block-fmt">
                 Your uploaded identification will be verified within 12 hours. 
-                Please, exercise patient for verification to complete
+                Please, exercise patient for verification to complete.
             </p>
         </div>
 <?php

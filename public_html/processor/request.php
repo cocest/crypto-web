@@ -269,12 +269,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     // check if account is not activated
                     if ($account_activated == 0) {
                         // generate 16 digit unique key plus user ID
-                        $verification_token = generateToken();
+                        $verification_token = randomText('hexdec', 32);
                         $token = $_SESSION['user_id'] . ':' . $verification_token;
 
                         $encrypted_token = opensslEncrypt($token, OPENSSL_ENCR_KEY); // encrypt the token
                         $username = $last_name . ' ' . $first_name;
-                        $verification_url = BASE_URL . 'verify_email?token=' . base64_encode($encrypted_token);
+                        $verification_url = BASE_URL . 'verify_email?token=' . urlencode(base64_encode($encrypted_token));
 
                         // add the token to the database for later verification
                         $stmt->close(); // close previous
@@ -287,7 +287,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $nnochi = new Nnochi();
 
                         // send email to user
-                        $mail = new PHPMailer;
+                        $mail = new PHPMailer();
 
                         // server settings
                         $mail->isSMTP();
@@ -315,8 +315,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         );
     
                         if (!$mail->send()) {
-                            echo 'Mailer Error: ' . $mail->ErrorInfo;
-                            exit;
+                            // log the error to a file
+                            error_log('Mailer Error: '.$mail->ErrorInfo.PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
                         }
                     }
                 }

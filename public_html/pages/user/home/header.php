@@ -2,7 +2,50 @@
 
 // import all the necessary liberaries
 require_once '../../../includes/config.php';
-require_once '../../../includes/utils.php'; // include utility liberary
+
+// mysql configuration
+$db = $config['db']['mysql'];
+        
+// enable mysql exception
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
+// fetch result for page rendering
+$data_for_header_rendering = null;
+
+try {
+    // connect to database
+    $conn = new mysqli($db['host'], $db['username'], $db['password'], $db['dbname']);
+
+    //check connection
+    if ($conn->connect_error) {
+        throw new mysqli_sql_exception('Database connection failed: '.$conn->connect_error);
+    }
+
+    // fetch user name
+    // validate the token
+    $query = 'SELECT firstName FROM users WHERE id = ? LIMIT 1';
+    $stmt = $conn->prepare($query); // prepare statement
+    $stmt->bind_param('i', $_SESSION['user_id']);
+    $stmt->execute();
+    $stmt->bind_result($user_firstname);
+    $stmt->fetch();
+
+    $data_for_header_rendering = [
+        'firstname' => $user_firstname
+    ];
+
+    // close connection to database
+    $stmt->close();
+    $conn->close();
+
+} catch (mysqli_sql_exception $e) {
+    // log the error to a file
+    error_log('Mysql error: '.$e->getMessage().PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
+
+} catch (Exception $e) { // catch other exception
+    // log the error to a file
+    error_log('Caught exception: '.$e->getMessage().PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
+}
 
 ?>
 
@@ -45,7 +88,9 @@ require_once '../../../includes/utils.php'; // include utility liberary
                 <li class="user-cont" onclick="showUserDropDownMenu()">
                     <img src="../../images/icons/profile_pic.png" />
                     <div class="user">
-                        <div class="name">Cocest</div>
+                        <div class="name">
+                            <?php echo $data_for_header_rendering['firstname']; ?>
+                        </div>
                         <span class="fas fa-caret-down"></span>
                     </div>
                 </li>

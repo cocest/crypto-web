@@ -363,9 +363,9 @@ function init() {
         let req_url = '../../request';
         let form_data = 'req=resend_email_verification'; // request query
 
-        // disable resend button
-        let resend_btn = document.querySelector('.email-resend-btn-cont .fmt-btn');
-        resend_btn.disable = true;
+        // hide resend button and show resending animation
+        document.querySelector('.email-resend-btn-cont').setAttribute("class", "email-resend-btn-cont remove-elem");
+        document.querySelector('.resend-email-anim-cont').setAttribute("class", "resend-email-anim-cont");
 
         // send request to server
         window.ajaxRequest(
@@ -375,15 +375,16 @@ function init() {
 
             // listen to response from the server
             function (response) {
-                // enable resend button
-                resend_btn.disable = false;
+                // show resend button and hide resending animation
+                document.querySelector('.email-resend-btn-cont').setAttribute("class", "email-resend-btn-cont");
+                document.querySelector('.resend-email-anim-cont').setAttribute("class", "resend-email-anim-cont remove-elem");
             },
 
             // listen to server error
             function (err_status) {
                 // check if is timeout error
                 if (err_status == 408 && err_status == 504) {
-                    window.loadPreviousNotification();
+                    window.resendEmailVerification();
 
                 } else if (err_status == 503) { // check if server is busy or unavalaible
                     // wait for 2 minutes
@@ -393,8 +394,9 @@ function init() {
                     }, 60000 * 2);
 
                 } else {
-                    // enable resend button
-                    resend_btn.disable = false;
+                    // show resend button and hide resending animation
+                    document.querySelector('.email-resend-btn-cont').setAttribute("class", "email-resend-btn-cont");
+                    document.querySelector('.resend-email-anim-cont').setAttribute("class", "resend-email-anim-cont remove-elem");
                 }
             }
         );
