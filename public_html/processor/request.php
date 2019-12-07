@@ -328,6 +328,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 break;
 
+            case 'delete_testimony':
+                if (!isset($_POST['id'])) {
+                    trigger_error('Request is not properly formed', E_USER_ERROR);
+                }
+
+                $query = 'DELETE FROM  user_testimonies WHERE id = ? AND userID = ? LIMIT 1';
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->bind_param('ii', $_POST['id'], $_SESSION['user_id']);
+                $stmt->execute();
+
+                echo 'SUCCESS';
+
+                break;
+
             default:
                 // you shouldn't be here
         }

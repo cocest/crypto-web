@@ -105,7 +105,8 @@ h4.section-group-header {
 .cashout-proceed-btn,
 .invest-on-pkg-btn,
 .payment-proceed-btn,
-.payment-sent-btn {
+.payment-sent-btn,
+.testimony-publish-btn {
     display: inline-block;
     text-align: center;
     text-decoration: none;
@@ -129,7 +130,8 @@ h4.section-group-header {
 .cashout-proceed-btn:hover,
 .invest-on-pkg-btn:hover,
 .payment-proceed-btn:hover,
-.payment-sent-btn:hover {
+.payment-sent-btn:hover,
+.testimony-publish-btn:hover {
     box-shadow: 0px 2px 4px 1px gray;
 }
 
@@ -137,7 +139,8 @@ h4.section-group-header {
 .cashout-proceed-btn:disabled:hover,
 .invest-on-pkg-btn:disabled:hover,
 .payment-proceed-btn:disabled:hover,
-.payment-sent-btn:disabled:hover {
+.payment-sent-btn:disabled:hover,
+.testimony-publish-btn:disabled:hover {
     box-shadow: unset!important;
 }
 
@@ -272,6 +275,7 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     border-top: 1px solid lightgray;
     box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.4);
     background-color: white;
+    z-index: 50;
 }
 
 #user-drop-down-menu-cont .pointer {
@@ -297,6 +301,7 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     border-top: 1px solid lightgray;
     box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.4);
     background-color: white;
+    z-index: 50;
 }
 
 #help-drop-down-menu-cont .pointer {
@@ -836,7 +841,8 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 .cashout-inv-sec-2,
 .packages-sec-1,
 .payment-pkg-sec-1,
-.payment-method-sec-2 {
+.payment-method-sec-2,
+.testimony-sec-1 {
     padding: 15px 15px;
     margin-bottom: 20px;
     background-color: white;
@@ -1457,4 +1463,110 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 
 .payment-sent-btn-cont {
     margin-bottom: 10px;
+}
+
+.testimony-list-cont {
+    overflow-y: auto;
+    margin-top: 50px;
+    margin-bottom: 40px;
+    max-height: 500px;
+}
+
+#testimony-list-wrapper {
+    overflow: hidden;
+    max-width: 700px;
+}
+
+.testimony-item {
+    padding: 10px;
+    margin: 2px 5px 15px 5px;
+    background-color: white;
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+    box-shadow: 0px 2px 7px 0px rgba(133, 144, 156, 0.6);
+}
+
+.testimony-item .top-bar-cont .delete-btn-cont {
+    float: right;
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+    border: 1px solid lightgray;
+    overflow: hidden;
+}
+
+.testimony-item .top-bar-cont .delete-btn-cont:hover {
+    background-color: #e8e8e8;
+    cursor: default;
+}
+
+.testimony-item .top-bar-cont .delete-btn-cont > img {
+    position: relative;
+    top: 4px;
+    left: -84px;
+    height: 20px;
+    width: 181px;
+}
+
+.testimony-item .msg-body {
+    font-size: 1.1em;
+    padding-right: 40px;
+    margin-bottom: 20px;
+    min-height: 30px;
+}
+
+.testimony-item .footer-bar-cont {
+    overflow: hidden;
+}
+
+.testimony-item .footer-bar-cont .write-time-label {
+    float: right;
+    font-size: 1.0em;
+    color: #3d9eee;
+}
+
+#no-testimony-msg {
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: 500;
+    padding: 15px 0px;
+    border: 1px solid lightgray;
+    background-color: #e8e8e8;
+}
+
+.testimony-text-input-cont .textarea-cont {
+    max-width: 700px;
+    margin-bottom: 20px;
+}
+
+.testimony-text-input-cont .textarea-cont > label {
+    display: inline-block;
+    font-size: 1.0em;
+    margin-left: 10px;
+    margin-bottom: 5px;
+}
+
+#testimony-textarea {
+    resize: none;
+    overflow-y: hidden;
+    width: 100%;
+    min-height: 80px;
+    padding: 10px 15px;
+    margin: 0px;
+    border: 1px solid #b9b9b9;
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-family: Calibri, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.2em;
+    color: #4a4a4a;
+}
+
+#testimony-textarea:focus {
+    outline: none;
+    border: 1px solid #8e8e8e;
+}
+
+.publish-btn-cont {
+    max-width: 140px;
+    margin-bottom: 40px;
 }
