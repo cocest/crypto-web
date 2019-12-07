@@ -207,7 +207,7 @@ require_once 'page_left_menu.php';
 
                         // check if is a last testimony in the list
                         if (list_cont_elem.childElementCount < 2) {
-                            list_cont_elem.removeAttribute("class");
+                            document.getElementById("no-testimony-msg").removeAttribute("class");
                         }
                     },
 
