@@ -13,9 +13,14 @@ RewriteEngine on
 RewriteCond "%{REQUEST_URI}" "^/Workspace/PHP/Crypto-web/crypto-web/public_html/(includes|processor|pages|templates|error_pages)/.*$" [NC]
 RewriteRule "^" "error_pages/404.php" [L]
 
+# Redirect user to homepage if user entered the domain name
+# without no proceeding directory name.
+RewriteCond "%{REQUEST_URI}" "^(|/)$" [NC]
+RewriteRule "^" "pages/index.php" [END]
+
 # Rewrite the address to point to process folder.
-# URI of this format: "/one/two" or "/one/two?a=b&c=d" 
-# whithout filename extension is what is rewritted
+# URI of this format: "/one/two" or "/one/two?a=b&c=d" whithout 
+# filename extension is what is rewritted
 RewriteCond "%{REQUEST_URI}" "^[^.]+$"
 RewriteRule "^(.*)$" "processor/$1.php?%{QUERY_STRING}" [END]
 

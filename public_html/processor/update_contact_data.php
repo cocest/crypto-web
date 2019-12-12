@@ -37,10 +37,9 @@ if (isset($_SESSION['last_auth_time']) && time() < $_SESSION['last_auth_time']) 
     exit;
 }
 
-// check if testimony is empty
-if (isset($_POST['testimony']) && preg_match("/^[ ]*$/", $_POST['testimony'])) {
-    echo '{"success":false}';
-    exit; // exit script
+// check if submitted form's input is correct
+if (!validateUserFormInputs($_POST)) {
+    die(); // exit script
 }
 
 // mysql configuration
@@ -58,30 +57,16 @@ try {
         throw new mysqli_sql_exception('Database connection failed: ' . $conn->connect_error);
     }
 
-    // sanitise and reformat user's testimony
-    $fmt_testimony = sanitiseInput(substr($_POST['testimony'], 0, 1500));
-
-    // insert testimony to the database
-    $query = 'INSERT INTO user_testimonies (userID, testimoney, time) VALUES(?, ?, ?)';
+    // update user's personal information
+    $query = 'UPDATE users SET email = ?, phoneCountryCode = ?, phoneNumber = ? WHERE id = ? LIMIT 1';
     $stmt = $conn->prepare($query); // prepare statement
-    $stmt->bind_param('isi', $_SESSION['user_id'], $fmt_testimony, $testimony_time);
-    $testimony_time = time();
+    $stmt->bind_param('sssi', $_POST['email'], $_POST['countrycode'], $_POST['phonenumber'], $_SESSION['user_id']);
     $stmt->execute();
-    $new_testimony_id = $stmt->insert_id;
-    $stmt->close();
-
-    // send response back to client
-    echo json_encode(
-        [
-            'success' => true,
-            'testimony_id' => $new_testimony_id,
-            'time' => $testimony_time,
-            'testimony' => $fmt_testimony
-        ]
-    );
 
     // close connection to database
     $conn->close();
+
+    echo 'SUCCESS';
 
 } catch (mysqli_sql_exception $e) {
     // log the error to a file
@@ -90,6 +75,39 @@ try {
 } catch (Exception $e) { // catch other exception
     // log the error to a file
     error_log('Caught exception: '.$e->getMessage().PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
+}
+
+// utility function to validate form inputs
+function validateUserFormInputs($inputs) {
+    foreach ($inputs as $input_name => $input_value) {
+        switch($input_name) {
+            case 'countrycode':
+                if (!preg_match("/^\+\d+$/", $input_value)) {
+                    return false;
+                }
+
+                break;
+
+            case 'phonenumber':
+                if (!preg_match("/^\d+$/", $input_value)) {
+                    return false;
+                }
+
+                break;
+
+            case 'email':
+                if (!filter_var($input_value, FILTER_VALIDATE_EMAIL)) {
+                    return false;
+                }
+
+                break;
+
+            default:
+                // shouldn't be here
+        }
+    }
+
+    return true;
 }
 
 ?>

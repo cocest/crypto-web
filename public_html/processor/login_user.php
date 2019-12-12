@@ -181,7 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             $stmt->close();
 
                             // set user account to activated
-                            $query = 'UPDATE users SET accountActivated = ? WHERE userID = ? LIMIT 1';
+                            $query = 'UPDATE users SET accountActivated = ? WHERE id = ? LIMIT 1';
                             $stmt = $conn->prepare($query); // prepare statement
                             $stmt->bind_param('ii', $account_activated, $user_id);
                             $account_activated = 1;
@@ -347,7 +347,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 $stmt->close();
 
                                 // set user account to activated
-                                $query = 'UPDATE users SET accountActivated = ? WHERE userID = ? LIMIT 1';
+                                $query = 'UPDATE users SET accountActivated = ? WHERE id = ? LIMIT 1';
                                 $stmt = $conn->prepare($query); // prepare statement
                                 $stmt->bind_param('ii', $account_activated, $user_id);
                                 $account_activated = 1;

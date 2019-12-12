@@ -257,10 +257,7 @@ require_once 'page_left_menu.php';
                             let list_cont_elem = document.getElementById("testimony-list-wrapper");
 
                             // create testimony and add it to the list
-                            list_cont_elem.insertBefore(
-                                createTestimonyElem(response_data), 
-                                document.getElementById("no-testimony-msg")
-                            );
+                            list_cont_elem.appendChild(createTestimonyElem(response_data));
 
                             // remove no testimony message
                             document.getElementById("no-testimony-msg").setAttribute("class", "remove-elem");
@@ -286,7 +283,7 @@ require_once 'page_left_menu.php';
                             document.querySelector('.testimony-publish-btn').disabled = false;
                         }
                     }
-                )
+                );
             };
 
             // get textarea element

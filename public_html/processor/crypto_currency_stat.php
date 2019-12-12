@@ -40,13 +40,12 @@ try {
     }
 
     // check if cryptocurrency statistics table is updated
-    $query = 'SELECT updating, lastUpdatedTime FROM crypto_currency_update_state LIMIT 1';
+    $query = 'SELECT updating, lastUpdatedTime FROM crypto_currency_update_state WHERE id = 1 LIMIT 1';
     $stmt = $conn->prepare($query); // prepare statement
     $stmt->execute();
     $stmt->store_result(); // needed for num_rows
 
     $req_crypto_data; // crypto data to send to client
-    $insert_table_row = false;
 
     // check if is empty
     if ($stmt->num_rows > 0) {
@@ -56,7 +55,6 @@ try {
     } else { // table is empty
         $last_updated_time = 0;
         $is_updating = 0;
-        $insert_table_row = true;
     }
 
     $stmt->close();
@@ -108,13 +106,7 @@ try {
 
     } else { // fetch crypto data using API
         // notify other request that data is updating
-        if ($insert_table_row) {
-            $query = 'INSERT INTO crypto_currency_update_state (updating, lastUpdatedTime) VALUES(?, ?)';
-
-        } else {
-            $query = 'UPDATE crypto_currency_update_state SET updating = ?, lastUpdatedTime = ? LIMIT 1';
-        }
-        
+        $query = 'UPDATE crypto_currency_update_state SET updating = ?, lastUpdatedTime = ? WHERE id = 1 LIMIT 1';
         $stmt = $conn->prepare($query); // prepare statement
         $stmt->bind_param('ii', $updating_state, $updated_time);
         $updating_state = 1;
@@ -148,21 +140,9 @@ try {
             $crypto_data = json_decode($response->body, true); // decode to associative array
 
             // update "crypto_currency_update_state" table
-            if ($insert_table_row) {
-                $stmt->close(); // close previous statement
-                $query = 'UPDATE crypto_currency_update_state SET updating = ?, lastUpdatedTime = ? LIMIT 1';
-                $stmt = $conn->prepare($query); // prepare statement
-                $stmt->bind_param('ii', $updating_state, $updated_time);
-                $updating_state = 0;
-                $updated_time = time() + $wait_time_update;
-                $stmt->execute();
-
-            } else {
-                $updating_state = 0;
-                $updated_time = time() + $wait_time_update;
-                $stmt->execute();
-            }
-
+            $updating_state = 0;
+            $updated_time = time() + $wait_time_update;
+            $stmt->execute();
             $stmt->close();
 
             try {

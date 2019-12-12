@@ -146,10 +146,12 @@ try {
     $conn->close();
 
 } catch (mysqli_sql_exception $e) {
-    echo 'Mysql error: ' . $e->getMessage() . PHP_EOL;
+    // log the error to a file
+    error_log('Mysql error: '.$e->getMessage().PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
     
 } catch (Exception $e) { // catch other exception
-    echo 'Caught exception: ' .  $e->getMessage() . PHP_EOL;
+    // log the error to a file
+    error_log('Caught exception: '.$e->getMessage().PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
 }
 
 // set page left menu active menu

@@ -42,15 +42,15 @@ $config = array(
 define("BASE_URL", "http://localhost/Workspace/PHP/Crypto-web/crypto-web/public_html/");
 define("DEBUG_EMAIL", "attamahcelestine@gmail.com"); // don't forget to change this
 define("OPENSSL_ENCR_KEY", "dkf!WEqpmW_@4rt#&&kit");
-define("CRYPTOCOMPARE_API_KEY", "47185550897ae8bea409af434ae0fdfb0262b788a4ea4145a12527378a6c5cd9");
+define("CRYPTOCOMPARE_API_KEY", "here");
 define("CPS_PRIVATE_KEY", "keyhere");
 define("CPS_PUBLIC_KEY", "keyhere");
 define("CPS_MERCHANT_ID", "idhere");
 define("CPS_IPN_SECRET", "87yRHfdcb_@45ah#");
 define("SMTP_HOST", "smtp.sendgrid.net");
 define("SMTP_PORT", 587);
-define("SMTP_USERNAME", "apikey");
-define("SMTP_PASSWORD", "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");
+define("SMTP_USERNAME", "here");
+define("SMTP_PASSWORD", "here");
 define("SENDER_EMAIL", "attamahcelestine@gmail.com");
 define("SENDER_NAME", "Thecitadelcapital.com");
 define("USER_ID_UPLOAD_DIR", dirname(__DIR__, 1)."/uploads/users/identification/");

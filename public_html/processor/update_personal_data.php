@@ -37,10 +37,9 @@ if (isset($_SESSION['last_auth_time']) && time() < $_SESSION['last_auth_time']) 
     exit;
 }
 
-// check if testimony is empty
-if (isset($_POST['testimony']) && preg_match("/^[ ]*$/", $_POST['testimony'])) {
-    echo '{"success":false}';
-    exit; // exit script
+// check if submitted form's input is correct
+if (!validateUserFormInputs($_POST)) {
+    die(); // exit script
 }
 
 // mysql configuration
@@ -58,30 +57,18 @@ try {
         throw new mysqli_sql_exception('Database connection failed: ' . $conn->connect_error);
     }
 
-    // sanitise and reformat user's testimony
-    $fmt_testimony = sanitiseInput(substr($_POST['testimony'], 0, 1500));
-
-    // insert testimony to the database
-    $query = 'INSERT INTO user_testimonies (userID, testimoney, time) VALUES(?, ?, ?)';
+    // update user's personal information
+    $query = 'UPDATE users SET firstName = ?, lastName = ?, birthdate = ?, gender = ? WHERE id = ? LIMIT 1';
     $stmt = $conn->prepare($query); // prepare statement
-    $stmt->bind_param('isi', $_SESSION['user_id'], $fmt_testimony, $testimony_time);
-    $testimony_time = time();
+    $stmt->bind_param('ssssi', $_POST['firstname'], $_POST['lastname'], $birth_date, $_POST['gender'], $_SESSION['user_id']);
+    $splitted_birth_date = explode('/', $_POST['birthdate']);
+    $birth_date = $splitted_birth_date[2].'-'.$splitted_birth_date[0].'-'.$splitted_birth_date[1];
     $stmt->execute();
-    $new_testimony_id = $stmt->insert_id;
-    $stmt->close();
-
-    // send response back to client
-    echo json_encode(
-        [
-            'success' => true,
-            'testimony_id' => $new_testimony_id,
-            'time' => $testimony_time,
-            'testimony' => $fmt_testimony
-        ]
-    );
 
     // close connection to database
     $conn->close();
+
+    echo 'SUCCESS';
 
 } catch (mysqli_sql_exception $e) {
     // log the error to a file
@@ -90,6 +77,41 @@ try {
 } catch (Exception $e) { // catch other exception
     // log the error to a file
     error_log('Caught exception: '.$e->getMessage().PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
+}
+
+// utility function to validate form inputs
+function validateUserFormInputs($inputs) {
+    foreach ($inputs as $input_name => $input_value) {
+        switch($input_name) {
+            case 'firstname':
+            case 'lastname':
+                if (!preg_match("/^([a-zA-Z]|[a-zA-Z]+[']?[a-zA-Z]+)$/", $input_value)) {
+                    return false;
+                }
+
+                break;
+
+            case 'birthdate': {
+                if (!preg_match("/^(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])\/[1-9]\d{3}$/", $input_value)) {
+                    return false;
+                }
+
+                break;
+            }
+
+            case 'gender':
+                if (!preg_match("/^(male|female|others)$/i", $input_value)) {
+                    return false;
+                }
+
+                break;
+
+            default:
+                // shouldn't be here
+        }
+    }
+
+    return true;
 }
 
 ?>

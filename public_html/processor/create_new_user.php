@@ -79,7 +79,7 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
 
         try {
             // generate referral ID for the user
-            $user_ref_id = randomText('distinct', 24);
+            $user_ref_id = randomText('distinct', 16);
 
             // generate hash of 40 characters length from user's email address
             $search_email_hash = hash('sha1', $_POST['email']);
@@ -99,13 +99,14 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
                 country,
                 phoneCountryCode,
                 phoneNumber,
+                birthdate,
                 gender
-            ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+            ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
             $stmt = $conn->prepare($query); // prepare statement
             
             $stmt->bind_param(
-                'sssssssiis', 
+                'sssssssiiss', 
                 $user_ref_id,
                 $_POST['firstname'],
                 $_POST['lastname'],
@@ -115,9 +116,12 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
                 $_POST['country'],
                 $_POST['countrycode'],
                 $_POST['phonenumber'],
+                $birth_date,
                 $_POST['gender']
             );
     
+            $splitted_birth_date = explode('/', $_POST['birthdate']);
+            $birth_date = $splitted_birth_date[2].'-'.$splitted_birth_date[0].'-'.$splitted_birth_date[1];
             $stmt->execute();
             $new_user_id = $stmt->insert_id;
             $stmt->close();

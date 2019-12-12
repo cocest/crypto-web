@@ -842,7 +842,10 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 .packages-sec-1,
 .payment-pkg-sec-1,
 .payment-method-sec-2,
-.testimony-sec-1 {
+.testimony-sec-1,
+.profile-sec-1,
+.profile-sec-2,
+.profile-sec-3 {
     padding: 15px 15px;
     margin-bottom: 20px;
     background-color: white;
@@ -1569,4 +1572,215 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 .publish-btn-cont {
     max-width: 140px;
     margin-bottom: 40px;
+}
+
+.account-profile-cont {
+    margin-top: 20px;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.profile-pic-cont {
+    float: left;
+    position: relative;
+    width: 130px;
+    height: 130px;
+    margin-right: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #d4d4d4;
+    border: 5px solid #dedede;
+}
+
+.profile-pic-cont > img.default-pic {
+    width: 130px;
+    height: 167px;
+}
+
+.profile-pic-cont > img.user-pic {
+    width: 130px;
+    height: 130px;
+}
+
+.profile-pic-cont:hover .upload-profile-pic {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -24px;
+    margin-left: -22px;
+    padding: 10px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.35);
+    cursor: pointer;
+}
+
+.upload-profile-pic > span {
+    font-size: 1.5em;
+    color: white;
+}
+
+.account-details-cont {
+    float: left;;
+}
+
+.account-details-cont > .name {
+    margin: 15px 0px 10px 0px;
+    font-size: 1.4em;
+    font-weight: 500;
+}
+
+.account-details-cont > .username,
+.account-details-cont > .ref-id,
+.account-details-cont > .location {
+    font-family: sans-serif;
+    font-size: 1.2em;
+    margin-bottom: 8px;
+}
+
+.account-details-cont > .username > span,
+.account-details-cont > .ref-id > span {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.95em;
+}
+
+.account-details-cont > .username span,
+.account-details-cont > .ref-id span {
+    color: #868686;
+    padding-right: 30px;
+}
+
+.account-details-cont > .location {
+    margin-top: 10px;
+}
+
+.account-details-cont > .location span {
+    font-size: 1.2em;
+    color: #3d9eee;
+    padding-right: 15px;
+}
+
+.header-title-cont {
+    max-width: 400px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.header-title {
+    display: inline-block;
+    font-size: 1.3em;
+    font-weight: 500;
+    color: #3fa0ef;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.edit-sec-btn {
+    float: right;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.edit-sec-btn > span {
+    font-size: 1.2em;
+    color: #3fa0ef;
+}
+
+.edit-profile-input-cont {
+    display: table;
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 15px;
+}
+
+.edit-profile-input-cont > label {
+    display: table-cell;
+    width: 140px;
+    font-size: 1.1em;
+    color: #868686;
+}
+
+.edit-profile-input-cont > input,
+.edit-profile-input-cont > #profile-gender-input {
+    display: table-cell;
+    width: 100%;
+    height: 35px;
+    font-family: sans-serif;
+    font-size: 1.2em;
+    color: #525252;
+    border: 0;
+    outline: 0;
+    padding-left: 5px;
+    border-bottom: 1px solid #949494;
+    box-sizing: border-box;
+    background-color: white;
+}
+
+.edit-profile-input-cont > #profile-gender-input {
+    max-width: 150px;
+}
+
+.edit-profile-input-cont > .cover-select-icon {
+    display: none;
+}
+
+.edit-profile-input-cont > select:disabled + .cover-select-icon {
+    display: block;
+    position: relative;
+    width: 50px;
+    height: 20px;
+    margin-top: -30px;
+    margin-left: 115px;
+    background-color: white;
+}
+
+.edit-profile-input-cont > input:disabled,
+.edit-profile-input-cont > select:disabled {
+    border-bottom: none!important;
+}
+
+.personal-info-save-btn-cont,
+.contact-info-save-btn-cont {
+    min-height: 50px;
+    max-width: 400px;
+    margin-top: 25px;
+    overflow: hidden;
+}
+
+#personal-info-save-btn-wrapper .cancel-btn-cont,
+#contact-info-save-btn-wrapper .cancel-btn-cont {
+    float: right;
+    margin-right: 10px;
+}
+
+#personal-info-save-btn-wrapper .save-btn-cont,
+#contact-info-save-btn-wrapper .save-btn-cont {
+    float: right;
+}
+
+#personal-info-save-btn-wrapper .cancel-btn-cont > button,
+#personal-info-save-btn-wrapper .save-btn-cont > button,
+#contact-info-save-btn-wrapper .cancel-btn-cont > button,
+#contact-info-save-btn-wrapper .save-btn-cont > button {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana;
+    font-size: 1.0em;
+    font-weight: 500;
+    color: #3d9eee;
+    padding: 10px;
+    border: 0;
+    outline: 0;
+    background-color: white;
+}
+
+#personal-info-save-btn-wrapper .cancel-btn-cont > button:hover,
+#personal-info-save-btn-wrapper .save-btn-cont > button:hover,
+#contact-info-save-btn-wrapper .cancel-btn-cont > button:hover,
+#contact-info-save-btn-wrapper .save-btn-cont > button:hover {
+    color: #2582ce;
+}
+
+#personal-info-save-btn-wrapper .cancel-btn-cont > button:disabled:hover,
+#personal-info-save-btn-wrapper .save-btn-cont > button:disabled:hover,
+#contact-info-save-btn-wrapper .cancel-btn-cont > button:disabled:hover,
+#contact-info-save-btn-wrapper .save-btn-cont > button:disabled:hover {
+    color: #3d9eee; /*default color*/
 }

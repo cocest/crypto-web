@@ -37,7 +37,7 @@ function convertSecondsToDays($seconds){
     return floor($seconds / 86400);
 }
 
-/*
+/**
  * Convert number to shorthand format.
  * Example: 1250 to 1.25K etc
  */
