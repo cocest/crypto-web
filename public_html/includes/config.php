@@ -54,6 +54,7 @@ define("SMTP_PASSWORD", "here");
 define("SENDER_EMAIL", "attamahcelestine@gmail.com");
 define("SENDER_NAME", "Thecitadelcapital.com");
 define("USER_ID_UPLOAD_DIR", dirname(__DIR__, 1)."/uploads/users/identification/");
+define("USER_PROFILE_DIR", dirname(__DIR__, 1)."/uploads/users/profile/");
 define("CUSTOM_ERR_DIR", dirname(__DIR__, 1)."/errors/");
  
 ?>

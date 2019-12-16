@@ -58,9 +58,9 @@ try {
     }
 
     // update user's personal information
-    $query = 'UPDATE users SET email = ?, phoneCountryCode = ?, phoneNumber = ? WHERE id = ? LIMIT 1';
+    $query = 'UPDATE users SET phoneCountryCode = ?, phoneNumber = ? WHERE id = ? LIMIT 1';
     $stmt = $conn->prepare($query); // prepare statement
-    $stmt->bind_param('sssi', $_POST['email'], $_POST['countrycode'], $_POST['phonenumber'], $_SESSION['user_id']);
+    $stmt->bind_param('ssi', $_POST['countrycode'], $_POST['phonenumber'], $_SESSION['user_id']);
     $stmt->execute();
 
     // close connection to database

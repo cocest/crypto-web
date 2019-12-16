@@ -7,6 +7,12 @@ session_start();
 require_once '../../../includes/config.php';
 require_once '../../../includes/utils.php'; // include utility liberary
 
+// generate CSRF token
+$csrf_token = randomText('hexdec', 16);
+
+// add the CSRF token to session
+$_SESSION["csrf_token"] = $csrf_token;
+
 date_default_timezone_set('UTC');
 
 // check if user is authenticated
@@ -122,16 +128,52 @@ require_once 'page_left_menu.php';
 ?>
 
     <div class="page-content-cont">
+        <!--image editor window-->
+        <div id="img-editor-win-cont" class="remove-elem">
+            <div class="title-bar-cont">
+                <div class="close-btn ux-f-rd-corner" onclick="closeImgEditorWin()">
+                    <img src="../../images/icons/notification_icons.png" />
+                </div>
+            </div>
+            <div class="profile-img-cont">
+                <div class="profile-img-wrapper">
+                    <img id="new-profile-pic" />
+                </div>
+                <div id="profile-img-drag-event" class="img-clip-marker">
+                    <div class="vt-bars-anim-cont remove-elem">
+                        <div class="vt-bar-cont">
+                            <div class="vt-bar-1"></div>
+                        </div>
+                        <div class="vt-bar-cont">
+                            <div class="vt-bar-2"></div>
+                        </div>
+                        <div class="vt-bar-cont">
+                            <div class="vt-bar-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-btn-cont">
+                <div class="apply-btn-cont">
+                    <input type="button" value="Upload" onclick="uploadProfilePicture(this)" />
+                </div>
+            </div>
+        </div>
         <h1 class="page-title-hd">Profile</h1>
         <div class="profile-sec-1">
             <div class="account-profile-cont">
-                <div class="profile-pic-cont">
-                    <img class="default-pic" 
-                         src="<?php echo empty($data_for_page_rendering['mediumProfilePictureURL']) ? '../../images/icons/profile_pic2.png' : '../../uploads/users/profile/'.$data_for_page_rendering['mediumProfilePictureURL']; ?>" />
-                    <div class="upload-profile-pic" title="Click to upload.">
-                        <span class="fas fa-camera"></span>
+                <form name="new-profile-pic-form">
+                    <div class="profile-pic-cont">
+                        <img id="user-profile-picture" 
+                            class="<?php echo empty($data_for_page_rendering['mediumProfilePictureURL']) ? 'default' : 'user-pic'; ?>" 
+                            src="<?php echo empty($data_for_page_rendering['mediumProfilePictureURL']) ? '../../images/icons/profile_pic2.png' : '../../uploads/users/profile/'.$data_for_page_rendering['mediumProfilePictureURL']; ?>" />
+                        <input id="upload-profile-pic-input" type="file" name="file" accept="image/png, image/jpeg, image/gif">
+                        <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+                        <label for="upload-profile-pic-input" class="upload-profile-pic" title="Click to upload.">
+                            <span class="fas fa-camera"></span>
+                        </label>
                     </div>
-                </div>
+                </form>
                 <div class="account-details-cont">
                     <h3 class="name"><?php echo $data_for_page_rendering['lastName'].' '.$data_for_page_rendering['firstName']; ?></h3>
                     <div class="username">
@@ -240,6 +282,119 @@ require_once 'page_left_menu.php';
                 ["11", "Nov"],
                 ["12", "Dec"]
             ]);
+            let max_img_scr_up = 0;
+            let max_img_scr_left = 0;
+            let img_pos_x = 0;
+            let img_pos_y = 0;
+            let is_mouse_down = false;
+            let mouse_start_point = {x: 0, y: 0};
+            let profile_img_editing_disable = false;
+            let profile_img_scale_factor = 1;
+
+            // close profile picture editor
+            window.closeImgEditorWin = function () {
+                if (profile_img_editing_disable) {
+                    return;
+                }
+
+                // close the window
+                document.getElementById("new-profile-pic").removeAttribute("style");
+                document.getElementById("img-editor-win-cont").setAttribute("class", "remove-elem");
+
+                // reset file input element
+                document.getElementById("upload-profile-pic-input").value = null;
+            };
+
+            // upload new profile image
+            window.uploadProfilePicture = function (upload_btn) {
+                profile_img_editing_disable = true;
+
+                // get user filled form
+                let form = document.forms["new-profile-pic-form"];
+
+                let req_url = '../../profile_picture';
+                let reg_form = new FormData(form);
+
+                // add new data
+                let new_profile_img = document.getElementById("new-profile-pic");
+                let img_crop_info = {
+                    clip_rect: {
+                        x: Math.abs(img_pos_x), 
+                        y: Math.abs(img_pos_y), 
+                        w: 250, 
+                        h: 250
+                    },
+                    scale_factor: profile_img_scale_factor
+                };
+
+                reg_form.append("imgcropinfo", JSON.stringify(img_crop_info))
+
+                // disable upload button
+                upload_btn.disabled = true;
+
+                // show upload animation
+                document.querySelector('#img-editor-win-cont .img-clip-marker .vt-bars-anim-cont').setAttribute("class", "vt-bars-anim-cont");
+
+
+                // send request to server
+                window.ajaxRequest(
+                    req_url,
+                    reg_form,
+                    { contentType: false },
+                    
+                    // listen to response from the server
+                    function (response) {
+                        let response_data = JSON.parse(response);
+
+                        if (response_data.success) {
+                            let elem = document.getElementById("user-profile-picture");
+                            elem.setAttribute("class", "user-pic");
+                            elem.setAttribute("src", response_data.medium_img_url);
+
+                            // set profile image in the page header menu
+                            document.getElementById("header-profile-image").setAttribute("src", response_data.small_img_url);
+                        }
+
+                        // enable upload button
+                        upload_btn.disabled = false;
+
+                        // hide upload animation and close the window
+                        document.querySelector('#img-editor-win-cont .img-clip-marker .vt-bars-anim-cont').setAttribute("class", "vt-bars-anim-cont remove-elem");
+                        document.getElementById("new-profile-pic").removeAttribute("style");
+                        document.getElementById("img-editor-win-cont").setAttribute("class", "remove-elem");
+
+                        // reset file input element
+                        document.getElementById("upload-profile-pic-input").value = null;
+
+                        profile_img_editing_disable = false;
+                    },
+
+                    // listen to server error
+                    function (err_status) {
+                        //check if is a timeout or server busy
+                        if (err_status == 408 ||
+                            err_status == 504 ||
+                            err_status == 503) {
+
+                            window.uploadProfilePicture(upload_btn);
+
+                        } else {
+                            // enable upload button
+                            upload_btn.disabled = false;
+
+                            // hide upload animation and close the window
+                            document.querySelector('#img-editor-win-cont .img-clip-marker .vt-bars-anim-cont').setAttribute("class", "vt-bars-anim-cont remove-elem");
+                            document.getElementById("new-profile-pic").removeAttribute("style");
+                            document.getElementById("img-editor-win-cont").setAttribute("class", "remove-elem");
+
+                            // reset file input element
+                            document.getElementById("upload-profile-pic-input").value = null;
+
+                            profile_img_editing_disable = false;
+                        }
+                    }
+                );
+            };
 
             // edit user's personal info
             window.editPersonalInfo = function (e) {
@@ -286,7 +441,6 @@ require_once 'page_left_menu.php';
 
                 let form = document.forms["contact-info-form"];
                 let input_name = [
-                    'email',
                     'countrycode',
                     'phonenumber'
                 ];
@@ -338,7 +492,6 @@ require_once 'page_left_menu.php';
 
                     let form = document.forms["contact-info-form"];
                     let input_name = [
-                        'email',
                         'countrycode',
                         'phonenumber'
                     ];
@@ -452,7 +605,6 @@ require_once 'page_left_menu.php';
                 if (requiredInputLeftEmptyOrInvalid(
                     form,
                     [
-                        {name: 'email', regex: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/},
                         {name: 'countrycode', regex: /^\+\d+$/},
                         {name: 'phonenumber', regex: /^\d+$/}
                     ]
@@ -480,7 +632,6 @@ require_once 'page_left_menu.php';
                         
                         // disable input
                         let input_name = [
-                            'email',
                             'countrycode',
                             'phonenumber'
                         ];
@@ -542,6 +693,183 @@ require_once 'page_left_menu.php';
                         // you don't suppose to be here
                 }
             }
+
+            // utility function to validate file input
+            function validFileType(file, file_types) {
+                for (let i = 0; i < file_types.length; i++) {
+                    if (file.type == file_types[i]) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            // setup window for image editing
+            function initImageEditorPanel(image) {
+                let w = 250;
+                let h = 250;
+                let o_w = image.width;
+                let o_h = image.height;
+                let n_h = Math.floor((w * o_h) / o_w);
+                let n_w = Math.floor((h * o_w) / o_h);
+                img_pos_x = 0;
+                img_pos_y = 0;
+                max_img_scr_up = 0;
+                max_img_scr_left = 0;
+
+                // get image element
+                let img_elem = document.getElementById("new-profile-pic");
+
+                // check to fit the image by width
+                if (n_h >= h) { // fit the width
+                    // set image attribute
+                    img_elem.setAttribute("width", w);
+                    img_elem.setAttribute("height", n_h);
+                    img_elem.setAttribute("src", image.src);
+
+                    // set the maximum image can scroll up
+                    max_img_scr_up = n_h - h;
+
+                    profile_img_scale_factor = o_w / w;
+
+                } else { // fit the height
+                    // set image attribute
+                    img_elem.setAttribute("width", n_w);
+                    img_elem.setAttribute("height", h);
+                    img_elem.setAttribute("src", image.src);
+
+                    // set the maximum image can scroll left
+                    max_img_scr_left = n_w - w;
+
+                    profile_img_scale_factor = o_h / h;
+                }
+
+                // show the image editor
+                document.getElementById("img-editor-win-cont").removeAttribute("class");
+            }
+
+            function processSelectedProfileImage(e) {
+                let img_exts = ["image/jpg", "image/jpeg", "image/png", "image/gif"]; //supported image extension
+                let files = e.target.files; // FileList object
+                is_uploaded_file_valid = false;
+
+                if (files.length > 0) { // check if file is selected
+                    //check if selected file is supported
+                    if (validFileType(files[0], img_exts)) {
+                        // check if file size is less than 4mb
+                        if ((files[0].size / 1048576) < 4) {
+                            let reader = new FileReader(); // read the image
+                            reader.onload = function(event) {
+                                // get selected image dimension
+                                let img = new Image();
+                                img.onload = function() { 
+                                    // initialise image editor panel
+                                    initImageEditorPanel(img);
+                                }
+
+                                img.src = event.target.result;
+                            };
+
+                            // Read in the image file as a data URL.
+                            reader.readAsDataURL(files[0]);
+
+                        } else { // file size is too large
+                            let msg_elem = document.getElementById("msg-win-cont");
+                            msg_elem.querySelector('.title').innerHTML = "Profile Image";
+                            msg_elem.querySelector('.body-cont').innerHTML = 
+                                "Selected profile image has exceeded maximum size of 4 megabytes.";
+                            msg_elem.removeAttribute("class");
+
+                            // reset file input
+                            e.target.value = null;
+                        }
+
+                    } else { // file is not supported
+                        // show error message to user
+                        let msg_elem = document.getElementById("msg-win-cont");
+                        msg_elem.querySelector('.title').innerHTML = "Profile Image";
+                        msg_elem.querySelector('.body-cont').innerHTML = 
+                            "Selected profile image is not supported.";
+                        msg_elem.removeAttribute("class");
+
+                        // reset file input
+                        e.target.value = null;
+                    }
+                }
+            };
+
+            // listen to drag event (simulated drag event for desktop)
+            let profile_img = document.getElementById("profile-img-drag-event");
+            profile_img.onmousemove = function (e) {
+                if (profile_img_editing_disable) {
+                    return;
+                }
+
+                if (is_mouse_down) {
+                    let img_scr_x = e.offsetX - mouse_start_point.x;
+                    let img_scr_y = e.offsetY - mouse_start_point.y;
+
+                    // scroll image and apply scroll constraint
+                    if (img_scr_x < 0) { // left
+                        if (Math.abs(img_pos_x + img_scr_x) > max_img_scr_left) {
+                            img_pos_x = max_img_scr_left * -1;
+                        } else {
+                            img_pos_x = img_pos_x + img_scr_x;
+                        }
+
+                    } else { // right
+                        if ((img_pos_x + img_scr_x) > 0) {
+                            img_pos_x = 0;
+                        } else {
+                            img_pos_x = img_pos_x + img_scr_x;
+                        }
+                    }
+
+                    if (img_scr_y < 0) { // up
+                        if (Math.abs(img_pos_y + img_scr_y) > max_img_scr_up) {
+                            img_pos_y = max_img_scr_up * -1;
+                        } else {
+                            img_pos_y = img_pos_y + img_scr_y;
+                        }
+
+                    } else { // down
+                        if ((img_pos_y + img_scr_y) > 0) {
+                            img_pos_y = 0;
+                        } else {
+                            img_pos_y = img_pos_y + img_scr_y;
+                        }
+                    }
+
+                    // position the image
+                    let profile_img = document.getElementById("new-profile-pic");
+                    profile_img.setAttribute("style", "top: " + img_pos_y + "px; left: " + img_pos_x + "px;");
+
+                    // reposition start point
+                    mouse_start_point.x = e.offsetX;
+                    mouse_start_point.y = e.offsetY;
+                }
+            };
+
+            profile_img.onmousedown = function (e) {
+                if (!is_mouse_down) {
+                    is_mouse_down = true;
+                }
+
+                mouse_start_point.x = e.offsetX;
+                mouse_start_point.y = e.offsetY;
+            };
+
+            profile_img.onmouseup = function (e) {
+                if (is_mouse_down) {
+                    is_mouse_down = false;
+                }
+            };
+
+            // add change event listener to file input
+            document.getElementById('upload-profile-pic-input').addEventListener(
+                'change', processSelectedProfileImage, false
+            );
 
             // attach event listener to input or select element
             function attachEventsToInputs(input_elements) {

@@ -106,7 +106,8 @@ h4.section-group-header {
 .invest-on-pkg-btn,
 .payment-proceed-btn,
 .payment-sent-btn,
-.testimony-publish-btn {
+.testimony-publish-btn,
+#img-editor-win-cont .apply-btn-cont > input {
     display: inline-block;
     text-align: center;
     text-decoration: none;
@@ -131,7 +132,8 @@ h4.section-group-header {
 .invest-on-pkg-btn:hover,
 .payment-proceed-btn:hover,
 .payment-sent-btn:hover,
-.testimony-publish-btn:hover {
+.testimony-publish-btn:hover,
+#img-editor-win-cont .apply-btn-cont > input:hover {
     box-shadow: 0px 2px 4px 1px gray;
 }
 
@@ -140,7 +142,8 @@ h4.section-group-header {
 .invest-on-pkg-btn:disabled:hover,
 .payment-proceed-btn:disabled:hover,
 .payment-sent-btn:disabled:hover,
-.testimony-publish-btn:disabled:hover {
+.testimony-publish-btn:disabled:hover,
+#img-editor-win-cont .apply-btn-cont > input:disabled:hover {
     box-shadow: unset!important;
 }
 
@@ -1602,6 +1605,15 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     height: 130px;
 }
 
+#upload-profile-pic-input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
 .profile-pic-cont:hover .upload-profile-pic {
     position: absolute;
     top: 50%;
@@ -1783,4 +1795,110 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 #contact-info-save-btn-wrapper .cancel-btn-cont > button:disabled:hover,
 #contact-info-save-btn-wrapper .save-btn-cont > button:disabled:hover {
     color: #3d9eee; /*default color*/
+}
+
+#img-editor-win-cont {
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    width: 100%;
+    max-width: 400px;
+    min-height: 140px;
+    margin-left: -200px;
+    margin-top: 10px;
+    padding: 0 10px 10px 10px;
+    border-top: 1px solid lightgray;
+    box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.4);
+    background-color: white;
+    z-index: 200;
+}
+
+#img-editor-win-cont .title-bar-cont {
+    overflow: hidden;
+}
+
+#img-editor-win-cont .title-bar-cont > .close-btn {
+    float: right;
+    position: relative;
+    width: 25px;
+    height: 25px;
+    margin: 8px 0;
+    overflow: hidden;
+    background-color: #6cb6f3;
+    cursor: default;
+}
+
+#img-editor-win-cont .title-bar-cont > .close-btn:hover {
+    background-color: rgb(255, 70, 70);
+}
+
+#img-editor-win-cont .title-bar-cont > .close-btn > img {
+    position: relative;
+    top: 1px;
+    left: 6.8px;
+    width: 34.7px;
+    height: 12px;
+}
+
+#img-editor-win-cont .profile-img-cont {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 50px;
+    overflow: hidden;
+    border: 1px solid lightgray;
+}
+
+#img-editor-win-cont .profile-img-wrapper {
+    position: relative;
+    top: 25px;
+    left: 25px;
+    width: 250px;
+    height: 250px;
+}
+
+#img-editor-win-cont .profile-img-wrapper > img {
+    position: relative;
+}
+
+#img-editor-win-cont .img-clip-marker {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    width: 250px;
+    height: 250px;
+    outline: 25px solid rgba(25, 25, 25, 0.4);
+    border: 1px dashed #565656;
+    cursor: move;
+}
+
+#img-editor-win-cont .img-clip-marker .vt-bars-anim-cont {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -10px;
+    width: 20px;
+    height: 16px;
+}
+
+#img-editor-win-cont .profile-btn-cont {
+    width: 300px;
+    height: 40px;
+    margin: auto;
+    margin-bottom: 40px;
+}
+
+#img-editor-win-cont .cancel-btn-cont {
+    float: right;
+    width: 100%;
+    max-width: 100px;
+    margin-right: 15px;
+}
+
+#img-editor-win-cont .apply-btn-cont {
+    float: right;
+    width: 100%;
+    max-width: 100px;
 }

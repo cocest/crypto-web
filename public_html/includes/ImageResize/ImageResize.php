@@ -26,20 +26,19 @@ class ImageResize
 	 */
 	public function __construct( $filename )
 	{
-		if(file_exists($filename))
-		{
-			$this->setImage( $filename );
-		} else {
-			throw new Exception('Image ' . $filename . ' can not be found, try another image.');
-		}
+		$this->setImage( $filename );
 	}
 	/**
 	 * Set the image variable by using image create
 	 *
 	 * @param string $filename - The image filename
 	 */
-	private function setImage( $filename )
+	public function setImage( $filename )
 	{
+		if(!file_exists($filename)) {
+			throw new Exception('Image ' . $filename . ' can not be found, try another image.');
+		}
+
 		$size = getimagesize($filename);
 		$this->ext = $size['mime'];
 		switch($this->ext)
@@ -153,6 +152,13 @@ class ImageResize
 		}
 		$this->newImage = imagecreatetruecolor($this->resizeWidth, $this->resizeHeight);
     	imagecopyresampled($this->newImage, $this->image, 0, 0, 0, 0, $this->resizeWidth, $this->resizeHeight, $this->origWidth, $this->origHeight);
+	}
+	/**
+	 * Crop and resize the image
+	 */
+	public function cropResize($src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h) {
+		$this->newImage = imagecreatetruecolor($dst_w, $dst_h);
+    	imagecopyresampled($this->newImage, $this->image, 0, 0, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
 	}
 	/**
 	 * Get the resized height from the width keeping the aspect ratio

@@ -56,8 +56,8 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
 
         // directory to save uploaded file
         $img_ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
-        $file_name = randomText('hexdec', 32) .'.'.$img_ext;
-        $target_dir = USER_ID_UPLOAD_DIR . $file_name;
+        $file_name = randomText('hexdec', 32).'.'.$img_ext;
+        $target_dir = USER_ID_UPLOAD_DIR.$file_name;
 
         // now resize the new uploaded image
         $img_resize = new ImageResize($_FILES['file']['tmp_name']);

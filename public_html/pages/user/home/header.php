@@ -23,15 +23,16 @@ try {
 
     // fetch user name
     // validate the token
-    $query = 'SELECT firstName FROM users WHERE id = ? LIMIT 1';
+    $query = 'SELECT firstName, smallProfilePictureURL FROM users WHERE id = ? LIMIT 1';
     $stmt = $conn->prepare($query); // prepare statement
     $stmt->bind_param('i', $_SESSION['user_id']);
     $stmt->execute();
-    $stmt->bind_result($user_firstname);
+    $stmt->bind_result($user_firstname, $profile_img_url);
     $stmt->fetch();
 
     $data_for_header_rendering = [
-        'firstname' => $user_firstname
+        'firstname' => $user_firstname,
+        'profile_img' => $profile_img_url
     ];
 
     // close connection to database
@@ -86,7 +87,7 @@ try {
                     <div id="unread-msg-counter" class="count remove-elem"><div>
                 </li>
                 <li class="user-cont" onclick="showUserDropDownMenu()">
-                    <img src="../../images/icons/profile_pic.png" />
+                    <img id="header-profile-image" src="<?php echo empty($data_for_header_rendering['profile_img']) ? '../../images/icons/profile_pic.png' : '../../uploads/users/profile/'.$data_for_header_rendering['profile_img']; ?>" />
                     <div class="user">
                         <div class="name">
                             <?php echo $data_for_header_rendering['firstname']; ?>
