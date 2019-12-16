@@ -669,7 +669,7 @@ require_once 'page_left_menu.php';
 
                     // validate input
                     if (!input_name_and_regex[i].regex.test(input.value)) {
-                        // underline input with wrong input
+                        // underline input with wrong value
                         input.setAttribute("style", "border-bottom: 1px solid #ff7878;");
                         invalid_input = input;
 

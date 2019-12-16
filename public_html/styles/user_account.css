@@ -79,6 +79,26 @@
    100% { height: 16px; background-color: #037ad8; }
  }
 
+.passwd-strength-indicator-cont .ind-wrapper .indicator.str-clr-1 {
+    background-color: #ff2a2a!important;
+    transition: background-color 0.5s;
+}
+
+.passwd-strength-indicator-cont .ind-wrapper .indicator.str-clr-2 {
+    background-color: #ff762a!important;
+    transition: background-color 0.5s;
+}
+
+.passwd-strength-indicator-cont .ind-wrapper .indicator.str-clr-3 {
+    background-color: #a6ff2a!important;
+    transition: background-color 0.5s;
+}
+
+.passwd-strength-indicator-cont .ind-wrapper .indicator.str-clr-4 {
+    background-color: #2aff42!important;
+    transition: background-color 0.5s;
+}
+
 .shadow {
     box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.4);
 }
@@ -107,7 +127,8 @@ h4.section-group-header {
 .payment-proceed-btn,
 .payment-sent-btn,
 .testimony-publish-btn,
-#img-editor-win-cont .apply-btn-cont > input {
+#img-editor-win-cont .apply-btn-cont > input,
+.settings-passwd-submit-btn {
     display: inline-block;
     text-align: center;
     text-decoration: none;
@@ -133,7 +154,8 @@ h4.section-group-header {
 .payment-proceed-btn:hover,
 .payment-sent-btn:hover,
 .testimony-publish-btn:hover,
-#img-editor-win-cont .apply-btn-cont > input:hover {
+#img-editor-win-cont .apply-btn-cont > input:hover,
+.settings-passwd-submit-btn:hover {
     box-shadow: 0px 2px 4px 1px gray;
 }
 
@@ -143,7 +165,8 @@ h4.section-group-header {
 .payment-proceed-btn:disabled:hover,
 .payment-sent-btn:disabled:hover,
 .testimony-publish-btn:disabled:hover,
-#img-editor-win-cont .apply-btn-cont > input:disabled:hover {
+#img-editor-win-cont .apply-btn-cont > input:disabled:hover,
+.settings-passwd-submit-btn:disabled:hover {
     box-shadow: unset!important;
 }
 
@@ -848,7 +871,8 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 .testimony-sec-1,
 .profile-sec-1,
 .profile-sec-2,
-.profile-sec-3 {
+.profile-sec-3,
+.settings-sec-1 {
     padding: 15px 15px;
     margin-bottom: 20px;
     background-color: white;
@@ -1901,4 +1925,119 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     float: right;
     width: 100%;
     max-width: 100px;
+}
+
+.settings-header-title {
+    margin: 0px;
+    font-size: 1.3em;
+    font-weight: 500;
+    color: #3fa0ef;
+    margin-top: 15px;
+}
+
+.change-password-input-cont {
+    margin-top: 30px;
+}
+
+.settings-input-cont {
+    display: table;
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    margin-bottom: 15px;
+}
+
+.settings-input-cont > label {
+    display: table-cell;
+    width: 175px;
+    font-size: 1.1em;
+    color: #868686;
+}
+
+.settings-input-cont > input {
+    display: table-cell;
+    width: 100%;
+    height: 35px;
+    font-family: sans-serif;
+    font-size: 1.2em;
+    color: #525252;
+    border: 0;
+    outline: 0;
+    padding-left: 5px;
+    border-bottom: 1px solid #949494;
+    box-sizing: border-box;
+    background-color: white;
+}
+
+#settings-show-passwd-cont {
+    position: absolute;
+    right: 4px;
+    width: 30px;
+    height: 30px;
+    margin-top: -35px;
+}
+
+#settings-show-passwd-cont.hide > span {
+    font-size: 1.2em;
+    padding-top: 6px;
+    padding-left: 4px;
+    cursor: pointer;
+    color: #9da0a2
+}
+
+#settings-show-passwd-cont.show > span {
+    font-size: 1.2em;
+    padding-top: 6px;
+    padding-left: 4px;
+    cursor: pointer;
+    color: #3c9eee;
+}
+
+.settings-input-cont .passwd-strength-indicator-cont {
+    display: table;
+    width: 100%;
+    margin-top: 14px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.settings-input-cont .passwd-strength-indicator-cont .ind-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.settings-input-cont .passwd-strength-indicator-cont .ind-wrapper .indicator {
+    height: 6px;
+    margin-left: 3px;
+    margin-right: 3px;
+    border-radius: 10px;
+    background-color: lightgray;
+}
+
+.settings-input-cont .passwd-strength-indicator-cont .txt-ind-wrapper {
+    display: table-cell;
+    width: 35%;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.settings-input-cont .passwd-strength-indicator-cont .txt-ind-wrapper > span {
+    position: relative;
+    top: -3px;
+    font-size: 1.0em;
+    color: #3c9eee;
+    /*color: #949494;*/
+}
+
+.settings-passwd-submit-btn-cont {
+    min-height: 50px;
+    max-width: 480px;
+    margin-top: 50px;
+    overflow: hidden;
+}
+
+.settings-passwd-submit-btn-wrapper {
+    float: right;
+    width: 100%;
+    max-width: 120px;
 }
