@@ -29,10 +29,31 @@ function init() {
     let crypto_price_table_header = [
         'NAME', 'PRICE', 'LAST UPDATE', 'MARKET CAP', 'SUPPLY', 'CHANGE PCT', 'LAST VOLUME'
     ];
+    let exchange_currencies = [
+        'US_DOLLAR', 'EURO', 'BRITISH_POUNDS'
+    ];
     let testimonies;
 
     // cryptocurrencies' price
     let cryptoprices;
+
+    let prev_active_link = document.querySelector('.drop-down-mobi-menu-cont .active');
+    let page_sections = [];
+    page_sections[0] = document.querySelector('.page-upper-section');
+    page_sections[1] = document.querySelector('.inv-pkg-section-cont');
+    page_sections[2] = document.querySelector('.page-footer-section');
+
+    // scroll to the page to section
+    window.scrollToSection = function (index, link_elem) {
+        window.smoothScroll(page_sections[index], 1000, 0, function(elem) {
+            if (window.innerWidth <= 1200) { // for desktop don't mark the link
+                prev_active_link.setAttribute("class", "link"); // reset previousely clicked link
+
+                link_elem.setAttribute("class", "link active"); // select the click link
+                prev_active_link = link_elem;
+            }
+        });
+    };
 
     window.closeWindowPanel = function (win_id) {
         let elem = document.getElementById(win_id);
@@ -259,8 +280,10 @@ function init() {
 
             if (exchange_to == 'usd') {
                 addTableRowsForCrptoPrices(cryptoprices, 'US_DOLLAR');
-            } else {
+            } else if (exchange_to == 'eur') {
                 addTableRowsForCrptoPrices(cryptoprices, 'EURO');
+            } else { // gbp
+                addTableRowsForCrptoPrices(cryptoprices, 'BRITISH_POUNDS');
             }
         }
     };
@@ -515,8 +538,11 @@ function init() {
             if (exchange_currency == 'US_DOLLAR') {
                 crypto_price = crypto_prices[j].usd;
 
-            } else { // EURO
+            } else if (exchange_currency == 'EURO') { // EURO
                 crypto_price = crypto_prices[j].eur;
+
+            } else { // BRITISH_POUNDS
+                crypto_price = crypto_prices[j].gbp;
             }
 
             tbl_row = document.createElement('tr');
@@ -616,7 +642,8 @@ function init() {
                         document.querySelector('.crypto-statistics-loading-cont').setAttribute('class', 'crypto-statistics-loading-cont remove-elem');
                         document.querySelector('.crypto-statistics-section').setAttribute('class', 'crypto-statistics-section page-cont-max-width');
                     }
-                    addTableRowsForCrptoPrices(cryptoprices, curr_crypto_price_btn_id == 0 ? 'US_DOLLAR' : 'EURO');
+                    
+                    addTableRowsForCrptoPrices(cryptoprices, exchange_currencies[curr_crypto_price_btn_id]);
                 }
             });
         }

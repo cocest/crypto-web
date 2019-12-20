@@ -79,6 +79,10 @@
    100% { height: 30px; background-color: #037ad8; }
  }
 
+ h1 {
+     font-weight: 500;
+ }
+
 .shadow {
     box-shadow: 0px 1px 8px 2px rgba(0, 0, 0, 0.4);
 }
@@ -91,7 +95,12 @@
     display: table-cell;
     vertical-align: middle;
     overflow: hidden;
-    padding-left: 30px;
+    padding-left: 20px;
+}
+
+.site-logo-cont img {
+    height: 40px;
+    width: 291px;
 }
 
 .main-menu-cont {
@@ -103,6 +112,11 @@
 
 .main-menu-cont-mobi {
     display: none;
+}
+
+.main-menu-cont a,
+.main-menu-cont-mobi a {
+    cursor: pointer;
 }
 
 .main-menu-cont-mobi .drop-menu-icon-cont {
@@ -128,7 +142,7 @@
 .drop-down-mobi-menu-cont {
     position: fixed;
     width: 100%;
-    height: 350px;
+    height: 440px;
     z-index: 150;
 }
 
@@ -155,7 +169,7 @@
 }
 
 .drop-down-mobi-menu-cont ul {
-    padding: 80px 20px 0px 20px;
+    padding: 130px 20px 0px 20px;
 }
 
 .page-cont-max-width {
@@ -182,20 +196,18 @@
 }
 
 .page-top-menu-cont.hide {
-    top: -70px;
+    top: -90px;
     transition: top 0.2s;
 }
 
 .page-upper-section {
     position: relative;
-    height: 600px;
+    height: 740px;
     width: 100%;
-    background-image: url(../images/background/crypto-bg-img.png);
+    background-image: url(../images/background/crypto-bg-img2.png);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    background-color: #82aabd;
-    background-blend-mode: multiply;
 }
 
 #imageslider-cont {
@@ -204,12 +216,22 @@
     width: inherit;
 }
 
+.headline-left-bg-img-cont {
+    position: absolute;
+    height: inherit;
+    width: 100%;
+    max-width: 1250px;
+    left: 50%;
+    margin-left: -625px;
+}
+
 .headline-left-bg-img {
     position: absolute;
-    right: 200px;
-    top: 80px;
+    right: 0px;
+    top: 150px;
     height: 493px;
     width: 540px;
+    margin-right: 20px;
     background-image: url(../images/background/isometric-bg-img2.png);
     background-repeat: no-repeat;
     background-position: center;
@@ -224,7 +246,7 @@
 }
 
 .headline {
-    padding: 150px 20px 0 20px;
+    padding: 230px 20px 0 20px;
 }
 
 .sub-headline {
@@ -241,11 +263,13 @@
 }
 
 .custom-action-btn {
-    padding: 6px 60px;
-    font-size: 1.2em;
+    padding: 12px 60px;
+    font-size: 1.5em;
+    font-weight: 500;
 }
 
 #anim-img-indicator {
+    display: none; /*remeber to remove this, when necessary*/
     position: absolute;
     left: -32px;
     bottom: 10px;
@@ -279,6 +303,7 @@
     display: inline-block;
     padding: 0 20px;
     max-width: 1100px;
+    line-height: 30px;
 }
 
 .package-panel-cont {
@@ -306,12 +331,18 @@
     display: table-cell;
     vertical-align: top;
     width: 100%;
-    padding-left: 10px;
+    padding-left: 20px;
 }
 
 .package-panel-cont .package-panel .content h3 {
     margin-top: 0px;
     margin-bottom: 15px;
+    font-size: 1.5em;
+    font-weight: 500;
+}
+
+.package-panel-cont .package-panel .content p {
+    line-height: 28px;
 }
 
 .service-section-cont {
@@ -324,44 +355,38 @@
     margin-bottom: 40px;
 }
 
-.service-section .service-panel-cont {
-    display: table;
-    width: 100%;
+.service-panel-cont > .grid-item {
+    padding: 10px 10px 50px 10px;
+    min-height: 240px;
 }
 
-.service-section .service-panel-cont .service-panel {
+.service-panel-cont .featured-art-cont {
     display: table-cell;
-    width: 25%;
-    padding: 0 10px 0 10px;
-}
-
-.service-section .service-panel-cont .service-panel .cont {
-    min-height: 360px;
-    padding: 15px;
-    padding-bottom: 30px;
-    border-radius: 4px;
-    background-color: white;
-    box-shadow: 1px 3px 5px 1px rgba(133, 144, 156, 0.6);
-}
-
-.service-section .service-panel-cont .service-panel .featured-art-cont {
+    min-width: 75px;
     text-align: center;
+}
+
+.service-panel-cont .featured-art-cont i {
+    font-size: 3.5em;
+}
+
+.service-panel-cont .content {
+    display: table-cell;
+    vertical-align: top;
     width: 100%;
-    height: 100px;
+    padding-left: 20px;
 }
 
-.service-section .service-panel-cont .service-panel .featured-art-cont i {
-    margin-top: 20px;
-    font-size: 4.5em;
+.service-panel-cont .content h3 {
+    margin-top: 0px;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+    font-weight: 500;
+    max-width: 400px;
 }
 
-.service-section .service-panel-cont .service-panel .title {
-    text-align: center;
-}
-
-.service-section .service-panel-cont .service-panel .txt {
-    text-align: justify;
-    font-size: 1.0em;
+.service-panel-cont .content p {
+    line-height: 28px;
 }
 
 .inv-pkg-section-cont {
@@ -383,7 +408,7 @@
     background-color: white;
     box-shadow: 0px 1px 6px 1px rgba(133, 144, 156, 0.6);
     overflow: hidden;
-    cursor: pointer;
+    cursor: default;
 }
 
 .inv-pkg-list-cont .package-cont:hover {
@@ -493,12 +518,12 @@
     list-style-type: none;
     margin: 0px;
     padding: 0px;
-    margin-bottom: 50px;
+    margin-bottom: 70px;
 }
 
 .inv-pkg-list-cont .package-cont .benefit-list > li {
     text-align: center;
-    font-size: 1.0em;
+    font-size: 1.2em;
     color: #037ad8;
     padding: 5px 0px;
     border-bottom: 1px solid #037ad8;
@@ -508,12 +533,12 @@
     box-sizing: border-box;
     border: none;
     outline: none;
-    padding: 8px 0;
+    padding: 10px 0;
     width: 100%;
     border-radius: 4px;
     font-size: 1.1em;
     color: white;
-    cursor: default;
+    cursor: pointer;
     background: rgb(0, 120, 215);
     background: -webkit-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
     background: -o-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
@@ -664,6 +689,7 @@
 .about-crypto-cont p {
     font-size: 1.25em;
     color: white;
+    line-height: 32px;
 }
 
 .tm-scroll-left-btn {
@@ -1094,14 +1120,8 @@
     padding-bottom: 100px;
 }
 
-.achievement-section .records-cont {
-    display: grid;
-    grid-template-columns: auto auto auto auto;
-}
-
 .achievement-section .records-cont .grid-item {
     text-align: center;
-    margin: 10px;
 }
 
 .achievement-section .records-cont .grid-item .upper-sec {
@@ -1134,15 +1154,10 @@
 }
 
 .achievement-section .sponsor-cont {
-    display: table;
-    width: 100%;
     margin-top: 150px;
 }
 
 .achievement-section .sponsor-cont .grid-item {
-    display: table-cell;
-    width: 25%;
-    vertical-align: middle;
     text-align: center;
 }
 
@@ -1176,75 +1191,90 @@
     filter: none;
 }
 
-.footer-header-cont {
-    background-color: #4b98d8;
-    padding: 10px 10px 10px 20px;
-    color: white;
-}
-
-.footer-header-cont a {
-    text-decoration: none;
-}
-
-.footer-header-cont i {
-    font-size: 1.5em;
-}
-
-.footer-header-cont span {
-    padding-left: 10px;
-}
-
 .footer-cont {
     display: table;
     width: 100%;
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 20px 20px 50px 20px;
+    padding: 30px 20px 50px 20px;
+    box-sizing: border-box;
 }
 
-/*.footer-col_1 {
-    width: 35%;
-}
-
-.footer-col_2 {
-    width: 35%;
-}
-
-.footer-col_3 {
-    width: 30%;
-}*/
-
-.footer-col_1,
-.footer-col_2,
-.footer-col_3 {
+.footer-col-1,
+.footer-col-2,
+.footer-col-3,
+.footer-col-4 {
     display: table-cell;
-    width: 33%;
+    width: 25%;
     font-family: Calibri;
     font-size: 1.2em;
     color: white;
 }
 
-.footer-col_1 h4,
-.footer-col_2 h4,
-.footer-col_3 h4 {
+.footer-col-1 {
+    width: 30%;
+}
+
+.footer-col-2 {
+    width: 20%;
+}
+.footer-col-3 {
+    width: 30%;
+}
+
+.footer-col-4 {
+    width: 20%;
+}
+
+.footer-col-1 h4,
+.footer-col-2 h4,
+.footer-col-3 h4 {
     margin-bottom: 15px;
 }
 
-.footer-col_1 i {
+.site-logo-in-footer {
+    margin-top: 20px;
+}
+
+.site-logo-in-footer img {
+    position: relative;
+    top: 10px;
+    height: 35px;
+    width: 254px;
+}
+
+.contact-in-footer,
+.phone-in-footer {
+    padding: 4px 10px 10px 0;
+    font-size: 0.95em;
+    color: #e0e0e0;
+    cursor: default;
+}
+
+.contact-in-footer i,
+.phone-in-footer i {
     font-size: 1.4em;
 }
 
-.footer-col_1 span {
+.contact-in-footer span,
+.phone-in-footer span {
     padding-left: 15px;
 }
 
-.footer-col_3 a {
+.footer-col-4 a {
     display: inline-block;
     padding: 10px 20px 10px 0px;
 }
 
-.footer-col_3 i.fab {
+.footer-col-4 i.fab {
     font-size: 2.5em;
+}
+
+.address-in-footer {
+    padding: 4px 10px 20px 0;
+    font-size: 0.95em;
+    color: #e0e0e0;
+    cursor: default;
 }
 
 .footer-hr-line {
@@ -1274,14 +1304,11 @@
         vertical-align: middle;
     }
 
-    .headline-left-bg-img {
-        left: 100%;
-        margin-left: -550px;
-    }
-
     .package-panel-cont {
         display: grid;
         grid-template-columns: auto auto;
+        max-width: 90%;
+        margin: 0 auto;
     }
 
     .package-panel-cont .package-panel {
@@ -1290,20 +1317,16 @@
         padding-bottom: 30px;
     }
 
-    .service-section,
+    .service-section {
+        max-width: 90%;
+    }
+
     .inv-pkg-section {
         max-width: 80%;
     }
 
-    .service-section .service-panel-cont {
-        display: grid;
-        grid-template-columns: auto auto;
-    }
-
-    .service-section .service-panel-cont .service-panel {
-        display: block;
-        width: unset;
-        padding-bottom: 30px;
+    .service-panel-cont .grid-item {
+        min-height: 330px;
     }
 
     .crypto-statistics-section .title-cont {
@@ -1337,20 +1360,21 @@
     .testimoney-section:hover .tm-scroll-right-btn.anim-btn {
         right: -49%;
     }
-
-    .achievement-section .records-cont {
-        grid-template-columns: auto auto;
-    }
 }
 
 /*switch view to mobile*/
 @media only screen and (max-width: 800px) {
+    .site-logo-wrapper {
+        width: 45px;
+        overflow: hidden;
+    }
+
     #headline-cont {
         text-align: center
     }
 
     #headline-cont .headline {
-        padding: 130px 20px 0 20px;
+        padding: 150px 20px 0 20px;
     }
 
     #headline-cont .sub-headline {
@@ -1363,23 +1387,21 @@
 
     .package-panel-cont {
         display: block;
+        max-width: 98%;
+        margin: 0 auto;
     }
 
     .package-section .package-headline .descr-txt {
         text-align: justify;
     }
 
-    .service-section .service-panel-cont {
-        display: block;
-    }
-
-    .service-section .service-panel-cont .service-panel {
-        max-width: 400px;
-        margin: 0 auto;
-    }
-
     .service-section {
-        max-width: 90%;
+        max-width: 98%;
+    }
+
+    .service-panel-cont .grid-item {
+        width: 100%!important;
+        min-height: unset;
     }
 
     .inv-pkg-section {
@@ -1418,22 +1440,13 @@
         display: none;
     }
 
-    .achievement-section .records-cont {
-        grid-template-columns: auto;
-    }
-
     .achievement-section .records-cont .grid-item {
+        width: 100%;
         margin-bottom: 40px;
     }
 
-    .achievement-section .sponsor-cont {
-        display: grid;
-        grid-template-columns: auto auto;
-    }
-
     .achievement-section .sponsor-cont .grid-item {
-        display: block;
-        width: unset;
+        width: 50%;
         margin-bottom: 30px;
     }
 
@@ -1442,8 +1455,20 @@
         width: unset;
     }
 
-    .footer-col_1, .footer-col_2, .footer-col_3 {
+    .footer-col-1, .footer-col-2, .footer-col-3, .footer-col-4 {
         display: block;
         width: unset;
+    }
+    
+    .site-logo-in-footer img {
+        margin-bottom: 30px;
+    }
+}
+
+/*for right image container in upper page section*/
+@media only screen and (max-width: 1250px) {
+    .headline-left-bg-img-cont {
+        left: 0%;
+        margin-left: 1px;
     }
 }

@@ -74,6 +74,7 @@ try {
         while ($counter < $result->num_rows) {
             $row1 = $result->fetch_assoc();
             $row2 = $result->fetch_assoc();
+            $row3 = $result->fetch_assoc();
             $req_crypto_data[] = 
                 [
                     'crypto_name' => $row1['name'],
@@ -95,10 +96,19 @@ try {
                             'supply' => $row2['supply'],
                             'change_pct_hour' => $row2['changePCT'],
                             'last_vol' => $row2['lastVolume']
+                        ],
+                    strtolower($row3['currency']) => 
+                        [
+                            'price' => $row2['price'],
+                            'last_update' => $row2['lastUpdate'],
+                            'mkt_cap' => $row2['marketCap'],
+                            'supply' => $row2['supply'],
+                            'change_pct_hour' => $row2['changePCT'],
+                            'last_vol' => $row2['lastVolume']
                         ]
                 ];
 
-            $counter += 2; // increment counter by two
+            $counter += 3; // increment counter by two
         }
 
         // send result to client
@@ -116,7 +126,7 @@ try {
         try {
             // requset for crypto data
             list ($crypto_name_id, $crypto_symbols) = getCryptoNameIdAndSymbols($conn);
-            $req_url = 'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=' . $crypto_symbols . '&tsyms=USD,EUR';
+            $req_url = 'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=' . $crypto_symbols . '&tsyms=USD,EUR,GBP';
             $headers = ['authorization' => 'Apikey ' . CRYPTOCOMPARE_API_KEY];
             $response = Requests::get($req_url, $headers);
 

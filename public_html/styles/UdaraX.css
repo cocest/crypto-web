@@ -390,7 +390,7 @@
  ul.ux-hr-menu.fmt-link-med li .link {
    display: inline-block;
    text-decoration: none;
-   padding: 22px 12px;
+   padding: 30px 12px;
    font-size: 0.95em;
  }
 
@@ -408,7 +408,7 @@ ul.ux-vt-menu li {
 ul.ux-vt-menu.fmt-link-med li .link {
   display: block;
   text-decoration: none;
-  padding: 4px 0 4px 0;
+  padding: 4px 0 10px 0;
   font-size: 0.95em;
 }
 

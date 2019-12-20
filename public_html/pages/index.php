@@ -20,9 +20,9 @@ require_once '../includes/config.php';
 <head>
     <meta charset="UTF-8">
     <title>CrytoWeb - Homepage</title>
-    <link rel="icon" type="image/png" href="favicon1.png" sizes="16x16">
-    <link rel="icon" type="image/png" href="favicon2.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="favicon3.png" sizes="120x120">
+    <link rel="icon" type="image/png" href="./images/icons/favicon1.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="./images/icons/favicon2.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="./images/icons/favicon3.png" sizes="120x120">
     <meta name="description" content="CryptoWeb official website">
     <meta name="keywords" content="sign in, login">
     <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -32,6 +32,7 @@ require_once '../includes/config.php';
     <script type="text/javascript" src="./js/utils.js"></script>
     <script type="text/javascript" src="./js/slider.js"></script>
     <script type="text/javascript" src="./js/homepage.js"></script>
+    <script type="text/javascript" src="./js/smoothScroll.js"></script>
 </head>
 
 <body>
@@ -40,18 +41,19 @@ require_once '../includes/config.php';
         <div class="page-cont-max-width">
             <nav>
                 <div class="site-logo-cont">
-                    <a href="./index.html">
-                        <img class="site" src="./images/logo/img1.png" alt="Site Logo" />
-                    </a>
+                    <div class="site-logo-wrapper">
+                        <a href="./index.html">
+                            <img class="site" src="./images/icons/w_citadel_capital_logo.png" alt="thecitadelcapital" />
+                        </a>
+                    </div>
                 </div>
                 <!--for desktop view-->
                 <div class="main-menu-cont">
                     <ul class="ux-hr-menu fmt-link-med ux-txt-align-rt">
-                        <li><a class="link ux-txt-smokewhite txt-hover" href="#">Home</a></li>
-                        <li><a class="link ux-txt-smokewhite txt-hover" href="#">Investment Packages</a></li>
-                        <li><a class="link ux-txt-smokewhite txt-hover" href="#">Testimoney</a></li>
+                        <li><a class="link ux-txt-smokewhite txt-hover" onclick="scrollToSection(0, this)">Home</a></li>
+                        <li><a class="link ux-txt-smokewhite txt-hover" onclick="scrollToSection(1, this)">Investment Packages</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" href="#">About Us</a></li>
-                        <li><a class="link ux-txt-smokewhite txt-hover" href="#">Contact Us</a></li>
+                        <li><a class="link ux-txt-smokewhite txt-hover" onclick="scrollToSection(2, this)">Contact Us</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" href="#">FAQ</a></li>
                         <li><a class="ux-btn ux-bg-chocolate bg-hover ux-txt-white ux-rd-corner-1"
                                 href="./register.html">Get
@@ -78,10 +80,10 @@ require_once '../includes/config.php';
     <!--drop down mobile menu container-->
     <div class="drop-down-mobi-menu-cont hide shadow ux-bg-grayblue">
         <ul class="ux-vt-menu">
-            <li><a class="link active" href="#">Investment Packages</a></li>
-            <li><a class="link" href="#">Testimony</a></li>
+            <li><a class="link active" onclick="scrollToSection(0, this)">Home</a></li>
+            <li><a class="link" onclick="scrollToSection(1, this)">Investment Packages</a></li>
             <li><a class="link" href="#">About US</a></li>
-            <li><a class="link" href="#">Contact US</a></li>
+            <li><a class="link" onclick="scrollToSection(2, this)">Contact US</a></li>
             <li><a class="link" href="#">FAQ</a></li>
         </ul>
     </div>
@@ -89,21 +91,24 @@ require_once '../includes/config.php';
     <!--page upper section-->
     <div class="page-upper-section">
         <div id="imageslider-cont"></div>
-        <div class="headline-left-bg-img"></div>
+        <div class="headline-left-bg-img-cont">
+            <div class="headline-left-bg-img"></div>
+        </div>
         <!--headline container-->
         <div id="headline-cont" class="page-cont-max-width">
             <div class="headline">
                 <h1>
-                    <span class="ux-txt-white">The Crypto Currency </span>
+                    <span class="ux-txt-white ux-fs-px-18">Cryptocurrencies Hedge Funds</span>
                     </br>
-                    <span class="ux-txt-chocolate ux-fs-px-19">You Ever Wanted</span>
+                    <span class="ux-txt-chocolate ux-fs-px-20">You Ever Wanted</span>
                 </h1>
             </div>
             <div class="sub-headline">
                 <h2 style="line-height: 28px;">
                     <span class="ux-txt-white ux-fs-px-15 sub-headline-txt">
-                        CRYENGINE makes the learning curve less steep with Full Source Code.
-                        Clear tutorials, detailed documentation, and a strong development community.
+                        We provide investment packages that you can invest your cryptocurrencies 
+                        on and we do rest for you. Many have benefited from our services, why not you. 
+                        Register today to enjoy all the exclusive.
                     </span>
                 </h2>
             </div>
@@ -125,10 +130,10 @@ require_once '../includes/config.php';
     <div class="package-section page-cont-max-width">
         <div class="package-headline ux-txt-align-ct">
             <h1 class="ux-txt-grayblue">Why Choose Us</h1>
-            <p class="descr-txt ux-fs-px-20">
-                You have come to the right place because we have the services you always want. It is our
-                obligation to provide unparalleled services for your success. We are working 24 hours to
-                improve our service to suit your preference at best.
+            <p class="descr-txt ux-fs-px-18">
+                You have come to the right place because we have the services you always want. It's our 
+                obligation for providing unparalleled services for your success. We are working 24 hours 
+                to improve our service to suit your preference at best.
             </p>
         </div>
         <div class="package-panel-cont">
@@ -138,21 +143,9 @@ require_once '../includes/config.php';
                 </div>
                 <div class="content">
                     <h3>Secure & Reliable</h3>
-                    <p class="ux-fs-px-16">
-                        Once you begin altering your site, you can easily check conversions by running Google
-                        Analytics reports. More conversions must mean something’s working.
-                    </p>
-                </div>
-            </div>
-            <div class="package-panel">
-                <div class="featured-art-cont">
-                    <i class="fas fa-box-open ux-txt-grayblue"></i>
-                </div>
-                <div class="content">
-                    <h3>10% bonus on referal</h3>
-                    <p class="ux-fs-px-16">
-                        Marketers seeking to dominate their respective niches should be focused on the best website
-                        layouts for maximum UX and conversions.
+                    <p class="ux-fs-px-18">
+                        Our web technology adhered to the best security practices. All your sensitive 
+                        data are encrypted to ward off hacks and other cyber attacks.
                     </p>
                 </div>
             </div>
@@ -161,10 +154,21 @@ require_once '../includes/config.php';
                     <i class="far fa-question-circle ux-txt-grayblue"></i>
                 </div>
                 <div class="content">
-                    <h3>You already know</h3>
-                    <p class="ux-fs-px-16">
-                        If you want to infuse these best practices into your own website layout, here are a few steps to
-                        follow.
+                    <h3>Great Client Relationship</h3>
+                    <p class="ux-fs-px-18">
+                        We offer 24/7 client support every week. We are always glad to aid you through 
+                        any difficulties you may encounter. We have the interest of our partners at heart.
+                    </p>
+                </div>
+            </div>
+            <div class="package-panel">
+                <div class="featured-art-cont">
+                    <i class="fas fa-box-open ux-txt-grayblue"></i>
+                </div>
+                <div class="content">
+                    <h3>Referral Bonus</h3>
+                    <p class="ux-fs-px-18">
+                        We offer 2% referral bonuses for new partners that register through your referral id.
                     </p>
                 </div>
             </div>
@@ -177,52 +181,52 @@ require_once '../includes/config.php';
             <div class="service-headline ux-txt-align-ct">
                 <h1 class="ux-txt-grayblue">Our Services</h1>
             </div>
-            <div class="service-panel-cont">
-                <div class="service-panel">
-                    <div class="cont">
-                        <div class="featured-art-cont">
-                            <i class="fas fa-chart-area ux-txt-grayblue"></i>
-                        </div>
-                        <h3 class="title ux-txt-grayblue">Cryptotrading</h3>
-                        <p class="txt ux-fs-px-16">
-                            It’s said that 94% of first-impressions are design driven. Not only that, but it takes less
-                            than half a second for a visitor to form an opinion of your site.
+            <div class="service-panel-cont ux-layout-grid columns-2">
+                <div class="grid-item">
+                    <div class="featured-art-cont">
+                        <i class="fas fa-cloud ux-txt-grayblue"></i>
+                    </div>
+                    <div class="content">
+                        <h3 class="ux-txt-grayblue">Cloud mining</h3>
+                        <p class="ux-fs-px-18">
+                            We offer private investors the opportunity to invest in cryptocurrency mining. We pool 
+                            resources together with other global investors to make this achievable and profitable.
                         </p>
                     </div>
                 </div>
-                <div class="service-panel">
-                    <div class="cont">
-                        <div class="featured-art-cont">
-                            <i class="fas fa-chart-pie ux-txt-grayblue"></i>
-                        </div>
-                        <h3 class="title ux-txt-grayblue">Equities and Hedge Funds management</h3>
-                        <p class="txt ux-fs-px-16">
-                            It’s said that 94% of first-impressions are design driven. Not only that, but it takes less
-                            than half a second for a visitor to form an opinion of your site.
+                <div class="grid-item">
+                    <div class="featured-art-cont">
+                        <i class="fas fa-hands-helping ux-txt-grayblue"></i>
+                    </div>
+                    <div class="content">
+                        <h3 class="ux-txt-grayblue">Blockchain Startups and ICOs</h3>
+                        <p class="ux-fs-px-18">
+                            We identify new and budding companies with huge potential in the crypto space 
+                            and invest in them to generate returns.
                         </p>
                     </div>
                 </div>
-                <div class="service-panel">
-                    <div class="cont">
-                        <div class="featured-art-cont">
-                            <i class="fas fa-cannabis ux-txt-grayblue"></i>
-                        </div>
-                        <h3 class="title ux-txt-grayblue">Cannabis Stocks Trading</h3>
-                        <p class="txt ux-fs-px-16">
-                            It’s said that 94% of first-impressions are design driven. Not only that, but it takes less
-                            than half a second for a visitor to form an opinion of your site.
+                <div class="grid-item">
+                    <div class="featured-art-cont">
+                        <i class="fas fa-chart-pie ux-txt-grayblue"></i>
+                    </div>
+                    <div class="content">
+                        <h3 class="ux-txt-grayblue">Cryptocurrencies and Crypto derivatives Trading</h3>
+                        <p class="ux-fs-px-18">
+                            We use the latest strategies, techniques, and equipment to trade cryptocurrencies and 
+                            crypto derivatives, generating outstanding returns with a 90% profitable return rate.
                         </p>
                     </div>
                 </div>
-                <div class="service-panel">
-                    <div class="cont">
-                        <div class="featured-art-cont">
-                            <i class="fas fa-hands-helping ux-txt-grayblue"></i>
-                        </div>
-                        <h3 class="title ux-txt-grayblue">OTC brokerage</h3>
-                        <p class="txt">
-                            It’s said that 94% of first-impressions are design driven. Not only that, but it takes less
-                            than half a second for a visitor to form an opinion of your site.
+                <div class="grid-item">
+                    <div class="featured-art-cont">
+                        <i class="fas fa-cannabis ux-txt-grayblue"></i>
+                    </div>
+                    <div class="content">
+                        <h3 class="ux-txt-grayblue">Cannabis stocks and REITS</h3>
+                        <p class="ux-fs-px-18">
+                            We invest in upcoming and profitable sectors like the cannabis industry and real 
+                            estate trusts to generate outstanding ROIs.
                         </p>
                     </div>
                 </div>
@@ -278,10 +282,10 @@ require_once '../includes/config.php';
                                     <div class="lower-sec">
                                         <h2 class="price">$' . number_format($row['minAmount']) . ' - ' . ($row['maxAmount'] == 0 ? 'unlimited' : '$' . number_format($row['maxAmount'])) . '</h2>
                                         <ul class="benefit-list">
-                                            <li>' . $row['durationInMonth'] . ' Month ROI - ' . intval($row['monthlyROI']) . '%</li>
+                                            <li>' . ($row['durationInMonth'] > 2 ? 'Quarterly ROI - ' : $row['durationInMonth'] . ' Month ROI - ') . intval($row['monthlyROI']) . '%</li>
                                             <li>Bonus - ' . (intval($row['bonus']) == 0 ? 'No' : intval($row['bonus']) . '%') . '</li>
                                         </ul>
-                                        <button onclick="investmentPkgsSelected(' . $counter . ')">Invest</button>
+                                        <button onclick="investmentPkgsSelected(' . $counter . ')">INVEST NOW</button>
                                     </div>
                                 </div>
                              </div>';
@@ -314,7 +318,7 @@ require_once '../includes/config.php';
     <div class="about-crypto-section-cont">
         <div class="about-crypto-section page-cont-max-width">
             <div class="about-crypto-headline-cont">
-                <h1 class="ux-txt-white">About WebsiteName</h1>
+                <h1 class="ux-txt-white">About Us</h1>
                 <!--<div class="about-crypto-headline-underline ux-bg-grayblue"></div>-->
             </div>
             <div class="about-crypto-img-cont">
@@ -322,13 +326,17 @@ require_once '../includes/config.php';
             </div>
             <div class="about-crypto-cont">
                 <p>
-                    Cryptopro investment is a financial group that help it client invest their cryptocurrency
-                    to make profitable ROI in accordance with the investment package the client subscribe to.
-                    We ... to ratify our client and help them on their journey to financial freedom while
-                    cryptocurrency are digital asset ... (digital money). They are bit of valuable information
-                    which can be transfered among users on a blockchain network. There are thousands of
-                    cryptocurrency with different features and bitcoin is the oldest, which was introduced by
-                    Satophi Nakemoto in 2008 and it is the most widely accepted crytocurrency.
+                    Citadel Capital Partners is one of the leading investors in the global alternative 
+                    and financial markets. Founded in 1996 for the aim of ensuring capital appreciation 
+                    as well as wealth protection, we have delivered investment returns to our partners 
+                    for over a decade, aligning our interests for a profitable and lasting partnership. 
+                    With over $10 billion in AUM and using the latest management strategies, 
+                    technology, and trading techniques, we harness the brainpower of the smartest 
+                    individuals, building on a platform of discipline, integrity, and teamwork to 
+                    identify and utilize the latest opportunities to deliver groundbreaking returns. 
+                    With the establishment and boom of cryptocurrencies, Citadel Capital identifies the 
+                    promise shown inthe industry and has since served as an alternative to just holding, 
+                    generating returns in the short and long terms.
                 </p>
             </div>
         </div>
@@ -342,8 +350,9 @@ require_once '../includes/config.php';
             </div>
             <div id="crypto-st-table-cont">
                 <div class="tab-btn-cont">
-                    <div class="tab-btn active" onclick="changeCryptoPriceTo('usd', 0, this)">DOLLAR</div>
+                    <div class="tab-btn active" onclick="changeCryptoPriceTo('usd', 0, this)">USD</div>
                     <div class="tab-btn" onclick="changeCryptoPriceTo('eur', 1, this)">EURO</div>
+                    <div class="tab-btn" onclick="changeCryptoPriceTo('gbp', 2, this)">GBP</div>
                 </div>
                 <div class="table-wrapper">
                     <table id="crypto-st-tbl"></table>
@@ -397,7 +406,7 @@ require_once '../includes/config.php';
     <!--Achievement section-->
     <div class="achievement-section-cont">
         <div class="achievement-section page-cont-max-width">
-            <div class="records-cont">
+            <div class="records-cont ux-layout-grid columns-4">
                 <div class="grid-item">
                     <div class="upper-sec">
                         <span class="icon">
@@ -443,7 +452,7 @@ require_once '../includes/config.php';
                     </div>
                 </div>
             </div>
-            <div class="sponsor-cont">
+            <div class="sponsor-cont ux-layout-grid columns-4">
                 <div class="grid-item">
                     <img class="img-2" src="./images/organisation/fsca_logo.png" alt="fsca logo" />
                 </div>
@@ -461,34 +470,14 @@ require_once '../includes/config.php';
     </div>
 
     <!--page footer section-->
-    <div class="ux-bg-grayblue">
-        <div class="footer-header-cont">
-            <a href="#" class="ux-txt-smokewhite txt-hover">
-                <i class="fas fa-user-cog"></i><span>Admin Sign In</span>
-            </a>
-        </div>
+    <div class="page-footer-section ux-bg-grayblue">
         <div class="footer-cont">
-            <div class="footer-col_1">
-                <h4>CONTACT US</h4>
-                <ul class="ux-vt-menu fmt-link-med">
-                    <li>
-                        <a href="#" class="link ux-txt-smokewhite txt-hover">
-                            <i class="fas fa-map-marker-alt"></i><span>10A Enugu, Nigeria</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="link ux-txt-smokewhite txt-hover">
-                            <!--<i class="fas fa-envelope"></i>-->officialwebsite@gmail.com
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="link ux-txt-smokewhite txt-hover">
-                            <!--<i class="fas fa-phone-square-alt"></i>-->+234 8156654434
-                        </a>
-                    </li>
-                </ul>
+            <div class="footer-col-1">
+                <div class="site-logo-in-footer">
+                    <img src="./images/icons/w_citadel_capital_logo.png" alt="thecitadelcapital" />
+                </div>
             </div>
-            <div class="footer-col_2">
+            <div class="footer-col-2">
                 <h4>TERMS</h4>
                 <ul class="ux-vt-menu fmt-link-med">
                     <li>
@@ -505,7 +494,27 @@ require_once '../includes/config.php';
                     </li>
                 </ul>
             </div>
-            <div class="footer-col_3">
+            <div class="footer-col-3">
+                <h4>CONTACT US</h4>
+                <ul class="ux-vt-menu fmt-link-med">
+                    <li>
+                        <div class="address-in-footer">
+                            10 address, state, country here
+                        </div>
+                    </li>
+                    <li>
+                        <div class="contact-in-footer">
+                            <i class="fas fa-envelope"></i><span>contact@thecitadelcapital.com</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="phone-in-footer">
+                            <i class="fas fa-phone-square-alt"></i><span>+234 8156654434</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-col-4">
                 <h4>CONNECT WITH US</h4>
                 <ul class="ux-hr-menu">
                     <li>
@@ -528,7 +537,7 @@ require_once '../includes/config.php';
         </div>
         <div class="footer-hr-line"></div>
         <div class="footer-base-cont ux-bg-grayblue ux-txt-white">
-            Copyright &copy; WebsiteName <?php echo date("Y");?>. All Rights Reserved
+            Copyright &copy; Thecitadelcapital <?php echo date("Y");?>. All Rights Reserved
         </div>
     </div>
 </body>
