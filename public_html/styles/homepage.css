@@ -202,7 +202,7 @@
 
 .page-upper-section {
     position: relative;
-    height: 740px;
+    height: 800px;
     width: 100%;
     background-image: url(../images/background/crypto-bg-img2.png);
     background-repeat: no-repeat;
@@ -247,6 +247,7 @@
 
 .headline {
     padding: 230px 20px 0 20px;
+    max-width: 530px;
 }
 
 .sub-headline {

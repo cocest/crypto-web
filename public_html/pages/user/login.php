@@ -47,8 +47,10 @@ if (isset($_COOKIE['auto_login'])) {
 </head>
 
 <body>
-    <div class="login-page ux-center-elem shadow ux-rd-corner-2">
-        <div class="site-logo-cont">Websitename</div>
+    <div class="login-page ux-rd-corner-1">
+        <div class="site-logo-cont">
+            <img src="../images/icons/citadel_capital_logo.png" alt="thecitadelcapital" />
+        </div>
         <h2 class="sign-in-header">Sign In</h2>
         <form name="login-form" onsubmit="return processLoginForm(event)" autocomplete="off" novalidate>
             <div class="input-cont">
@@ -113,6 +115,9 @@ if (isset($_COOKIE['auto_login'])) {
                 <p>You don't have account? <a href="../register.html">create one</a></p>
             </div>
         </form>
+    </div>
+    <div class="login-footer">
+        &copy; <?php echo date("Y");?> Thecitadelcapital. All Rights Reserved
     </div>
 </body>
 

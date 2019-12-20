@@ -100,7 +100,7 @@ require_once '../includes/config.php';
                 <h1>
                     <span class="ux-txt-white ux-fs-px-18">Cryptocurrencies Hedge Funds</span>
                     </br>
-                    <span class="ux-txt-chocolate ux-fs-px-20">You Ever Wanted</span>
+                    <span class="ux-txt-chocolate ux-fs-px-20">Helping Partners Achieve Their Financial</span>
                 </h1>
             </div>
             <div class="sub-headline">

@@ -4,7 +4,7 @@
 .vt-bars-anim-cont {
     display: table;
     width: 21px;
-    height: 22px;
+    height: 23px;
     margin: 0 auto;
     margin-bottom: 25px;
 }
@@ -99,23 +99,32 @@
     position: relative;
     width: 100%;
     max-width: 350px;
-    margin-top: 2%;
+    margin: 0 auto;
+    margin-top: 4%;
     background-color: white;
     padding: 30px 30px;
+    box-shadow: 0px 1px 10px 2px grey;
 }
 
 .site-logo-cont {
+    width: 67px;
+    height: 65px;
     margin: 0 auto;
-    width: 150px;
+    margin-bottom: 35px;
     font-size: 1.5em;
     font-weight: normal;
-    color: #047bd9;
+    overflow: hidden;
+}
+
+.site-logo-cont img {
+    height: 65px;
+    width: 377px;
 }
 
 .sign-in-header {
     text-align: center;
-    color: #037ad8;
-    margin-bottom: 40px;
+    color: #219bd9;
+    font-weight: 500;
 }
 
 .input-cont {
@@ -155,14 +164,14 @@ input[type=password] {
     box-sizing: border-box;
     padding-left: 15px;
     font-family: Calibri;
-    font-size: 1.2em;
-    color: darkslategray;
+    font-size: 1.4em;
+    color: #6f6f6f;
 }
 
 .hr-line-input {
     border: none;
     outline: none;
-    border-bottom: 1px solid #037ad8;
+    border-bottom: 1px solid #219bda;
 }
 
 .err-hr-line-input {
@@ -178,7 +187,7 @@ input[type=password] {
     right: 0px;
     padding-left: 8px;
     font-family: Calibri;
-    font-size: 1.2em;
+    font-size: 1.3em;
     transition: top 0.2s ease-out, right 0.2s ease-out;
 }
 
@@ -190,7 +199,7 @@ label.push-up {
 
 .username-input-wrapper.lb-normal-color > label,
 .password-input-wrapper.lb-normal-color > label {
-    color: #037ad8;
+    color: #219bd9;
 }
 
 #username-input:disabled,
@@ -261,7 +270,7 @@ input[type=submit] {
     box-sizing: border-box;
     border: none;
     outline: none;
-    padding: 11px 0;
+    padding: 12px 0;
     width: 100%;
     border-radius: 4px;
     margin-top: 50px;
@@ -320,7 +329,7 @@ input[type=submit]:disabled:hover {
 
 #err-msg-box {
     position: relative;
-    top: 10px;
+    top: 0px;
     width: 100%;
     margin-bottom: -61px;
     min-height: 45px;
@@ -368,4 +377,27 @@ input[type=submit]:disabled:hover {
     position: absolute;
     z-index: -1;
     visibility: hidden;
+}
+
+.login-footer {
+    text-align: center;
+    font-family: Calibri;
+    font-size: 1.2em;
+    padding: 20px 0px;
+    margin-top: 20px;
+}
+
+@media only screen and (max-width: 500px) {
+    .login-page {
+        width: unset;
+        max-width: unset;
+        padding: 25px 25px;
+        padding-top: 40px;
+        margin: unset;
+        box-shadow: unset;
+    }
+
+    .login-footer {
+        display: none;
+    }
 }
