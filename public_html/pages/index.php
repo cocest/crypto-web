@@ -19,7 +19,7 @@ require_once '../includes/config.php';
 
 <head>
     <meta charset="UTF-8">
-    <title>CrytoWeb - Homepage</title>
+    <title>Thecitadelcapital - Homepage</title>
     <link rel="icon" type="image/png" href="./images/icons/favicon1.png" sizes="16x16">
     <link rel="icon" type="image/png" href="./images/icons/favicon2.png" sizes="32x32">
     <link rel="icon" type="image/png" href="./images/icons/favicon3.png" sizes="120x120">
@@ -100,15 +100,15 @@ require_once '../includes/config.php';
                 <h1>
                     <span class="ux-txt-white ux-fs-px-18">Cryptocurrencies Hedge Funds</span>
                     </br>
-                    <span class="ux-txt-chocolate ux-fs-px-20">Helping Partners Achieve Their Financial</span>
+                    <span class="ux-txt-chocolate ux-fs-px-20">Creating Profitable And Lasting Partnerships</span>
                 </h1>
             </div>
             <div class="sub-headline">
                 <h2 style="line-height: 28px;">
                     <span class="ux-txt-white ux-fs-px-15 sub-headline-txt">
-                        We provide investment packages that you can invest your cryptocurrencies 
-                        on and we do rest for you. Many have benefited from our services, why not you. 
-                        Register today to enjoy all the exclusive.
+                        We provide an alternative means of Holding generating profits for our 
+                        partners in both the short and long terms. You too can become one of 
+                        our partners now!
                     </span>
                 </h2>
             </div>
@@ -156,7 +156,7 @@ require_once '../includes/config.php';
                 <div class="content">
                     <h3>Great Client Relationship</h3>
                     <p class="ux-fs-px-18">
-                        We offer 24/7 client support every week. We are always glad to aid you through 
+                        We offer 24/7 client support. We are always glad to aid you through 
                         any difficulties you may encounter. We have the interest of our partners at heart.
                     </p>
                 </div>
@@ -499,7 +499,7 @@ require_once '../includes/config.php';
                 <ul class="ux-vt-menu fmt-link-med">
                     <li>
                         <div class="address-in-footer">
-                            10 address, state, country here
+                            392 Triq il Kanun, Santa Venera, Malta
                         </div>
                     </li>
                     <li>
@@ -509,7 +509,7 @@ require_once '../includes/config.php';
                     </li>
                     <li>
                         <div class="phone-in-footer">
-                            <i class="fas fa-phone-square-alt"></i><span>+234 8156654434</span>
+                            <i class="fas fa-phone-square-alt"></i><span>+356 21250666</span>
                         </div>
                     </li>
                 </ul>
@@ -518,7 +518,7 @@ require_once '../includes/config.php';
                 <h4>CONNECT WITH US</h4>
                 <ul class="ux-hr-menu">
                     <li>
-                        <a href="#" class="ux-txt-smokewhite txt-hover">
+                        <a href="https://web.facebook.com/thecitadelcapitalpartners/" class="ux-txt-smokewhite txt-hover">
                             <i class="fab fa-facebook-square"></i>
                         </a>
                     </li>

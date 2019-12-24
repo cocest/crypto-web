@@ -93,21 +93,33 @@
     display: none;
 }
 
+.header-site-logo-cont {
+    display: none;
+    text-align: center;
+    margin-top: 35px;
+}
+
+.header-site-logo-cont img {
+    height: 45px;
+    width: 261px;
+}
+
 .signup-cont {
     display: table;
     width: 100%;
-    max-width: 730px;
+    max-width: 780px;
     min-width: 330px;
-    height: 530px;
+    height: 550px;
     margin-top: 5%;
     background-color: white;
+    box-shadow: 0px 1px 8px 2px grey;
 }
 
 .signup-cont .left-section-cont {
     position: relative;
     display: table-cell;
     vertical-align: top;
-    min-width: 300px;
+    min-width: 340px;
     border-radius: 8px 0 0 8px;
     overflow: hidden;
 }
@@ -148,9 +160,9 @@
 .signup-cont .left-section-cont .bg-image {
     position: absolute;
     top: 120px;
-    left: 70px;
-    width: 164px;
-    height: 300px;
+    left: 82px;
+    width: 180px;
+    height: 330px;
     background-image: url(../images/background/isometric-bg-img3.png);
     background-repeat: no-repeat;
     background-position: center;
@@ -171,6 +183,11 @@
     color: white;
 }
 
+.signup-cont .left-section-cont .site-logo-cont img {
+    height: 40px;
+    width: 291px;
+}
+
 .signup-cont .left-section-cont .headline-cont {
     padding: 0 20px;
 }
@@ -178,17 +195,15 @@
 .signup-cont .left-section-cont .headline-cont p {
     text-align: left;
     font-family: Calibri;
-    font-size: 1.0em;
+    font-size: 1.2em;
     color: white;
-    font-weight: lighter;
 }
 
 .signup-cont .left-section-cont .copyright {
     position: absolute;
     bottom: 0px;
     width: 100%;
-    font-size: 0.8em;
-    font-weight: lighter;
+    font-size: 1.0em;
     color: white;
     margin-bottom: 20px;
 }
@@ -243,9 +258,9 @@
 #form-slide-wrapper .form-header-title {
     text-align: center;
     font-family: Calibri;
-    font-size: 1.3em;
+    font-size: 1.5em;
     font-weight: normal;
-    color: #037ad8;
+    color: #369bec;
     margin-top: 40px;
 }
 
@@ -321,8 +336,9 @@ select {
     box-sizing: border-box;
     padding-left: 8px;
     font-family: Calibri;
-    font-size: 1.1em;
-    color: darkslategray;
+    font-size: 1.2em;
+    color: #5a5a5a;
+    background-color: white;
 }
 
 .hr-line-input {
@@ -393,11 +409,11 @@ select {
 }
 
 .countrycode-input-wrapper {
-    width: 35%;
+    width: 40%;
 }
 
 .phonenumber-input-wrapper {
-    width: 65%;
+    width: 70%;
 }
 
 .email-input-wrapper .reload-btn-cont > span,
@@ -510,7 +526,7 @@ select {
     right: 0px;
     padding-left: 8px;
     font-family: Calibri;
-    font-size: 1.0em;
+    font-size: 1.1em;
     transition: top 0.2s ease-out, right 0.2s ease-out;
 }
 
@@ -532,7 +548,7 @@ label.push-up {
 .password-input-wrapper.lb-normal-color > label,
 .confirmpasswd-input-wrapper.lb-normal-color > label,
 .referralid-input-wrapper.lb-normal-color > label {
-    color: #037ad8;
+    color: #3096ea;
 }
 
 #email-input:disabled,
@@ -548,7 +564,7 @@ label.push-up {
     font-family: Calibri;
     font-size: 0.95em;
     font-weight: normal;
-    color: #0178d7;
+    color: #3197ea;
 }
 
 #f-upload-input,
@@ -563,10 +579,10 @@ label.push-up {
 
 #f-upload-input + label {
     display: inline-block;
-    padding: 6px 20px;
+    padding: 7px 25px;
     border-radius: 5px;
     font-family: Calibri;
-    font-size: 1.0em;
+    font-size: 1.2em;
     color: white;
     cursor: default;
     background: rgb(0, 120, 215);
@@ -631,8 +647,8 @@ label.push-up {
     padding: 0px;
     margin: 0px;
     font-family: Calibri;
-    font-size: 1.0em;
-    color: #0179d7;
+    font-size: 1.1em;
+    color: #3197ea;
 }
 
 label[for=acceptterms-input] {
@@ -658,15 +674,15 @@ label[for=acceptterms-input] > img {
 }
 
 .acceppterms-cont .terms-link {
-    color: #0179d7;
+    color: #3197ea;
 }
 
 .form-navigation-cont .form-navi-btn {
     display: inline-block;
     position: relative;
     text-align: center;
-    width: 42px;
-    height: 42px;
+    width: 50px;
+    height: 50px;
     box-sizing: border-box;
     border: none;
     outline: none;
@@ -697,12 +713,13 @@ label[for=acceptterms-input] > img {
 }
 
 .form-navi-btn-cont {
-    padding: 0 20px 0 40px;
+    padding: 0 30px 0 40px;
     margin-bottom: 18px;
 }
 
 .form-progress-bar-cont {
     padding: 0 26px 0 40px;
+    padding-right: 27px;
     margin-bottom: 15px;
 }
 
@@ -712,13 +729,13 @@ label[for=acceptterms-input] > img {
 }
 
 .form-progress-bar-cont .progress-bar-bg {
-    height: 7px;
+    height: 9px;
     border-radius: 10px;
     background-color: rgb(153, 179, 221);
 }
 
 .form-progress-bar-cont .progress-bar {
-    height: 7px;
+    height: 9px;
     border-radius: 10px;
     background: -webkit-linear-gradient(120deg, rgb(0, 120, 215), rgb(65, 161, 240)); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(120deg, rgb(0, 120, 215), rgb(65, 161, 240)); /* For Opera 11.1 to 12.0 */
@@ -743,10 +760,10 @@ label[for=acceptterms-input] > img {
 
 .form-progress-bar-cont .progress-number {
     display: table-cell;
-    min-width: 45px;
+    min-width: 50px;
     text-align: right;
     font-family: Calibri;
-    font-size: 1.0em;
+    font-size: 1.1em;
     color: #057bd9;
 }
 
@@ -759,10 +776,10 @@ label[for=acceptterms-input] > img {
     box-sizing: border-box;
     border: none;
     outline: none;
-    padding: 8px 50px;
-    border-radius: 20px;
+    padding: 7px 50px;
+    border-radius: 30px;
     font-family: Calibri;
-    font-size: 1.0em;
+    font-size: 1.2em;
     color: white;
     cursor: default;
     background: rgb(0, 120, 215);
@@ -776,4 +793,40 @@ label[for=acceptterms-input] > img {
     position: absolute;
     z-index: -1;
     visibility: hidden;
+}
+
+.footer-copyright {
+    display: none;
+    text-align: center;
+    margin-top: 160px;
+    font-size: 1.0em;
+    padding: 10px 0px;
+    background-color: #e4e4e4;
+    width: 100%;
+}
+
+@media only screen and (max-width: 500px) {
+    .signup-cont {
+        box-shadow: unset;
+        margin-top: unset;
+    }
+
+    .signup-cont .left-section-cont {
+        display: none;
+    }
+
+    #form-slide-wrapper .form-1, 
+    #form-slide-wrapper .form-2, 
+    #form-slide-wrapper .form-3 {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .footer-copyright {
+        display: block;
+    }
+
+    .header-site-logo-cont {
+        display: block;
+    }
 }

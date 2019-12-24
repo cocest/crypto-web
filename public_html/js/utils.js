@@ -124,6 +124,39 @@
         return formatted_number + fraction;
     };
 
+    // get caret or cursor position in text input element
+    window.getCaretPosition = function (txt_elem) {
+        var caret_pos = 0;
+
+        if (txt_elem.selectionStart || txt_elem.selectionStart == 0) {// Standard.
+            caret_pos = txt_elem.selectionStart;
+        }
+        else if (document.selection) {// Legacy IE
+            txt_elem.focus();
+            var sel = document.selection.createRange();
+            sel.moveStart('character', txt_elem.value.length * -1);
+            caret_pos = sel.text.length;
+        }
+
+        return (caret_pos);
+    }
+
+
+    // position caret or cursor to a set text offset in text input element
+    window.setCaretPosition = function (txt_elem, pos) {
+        if (txt_elem.setSelectionRange) {
+            txt_elem.focus();
+            txt_elem.setSelectionRange(pos, pos);
+        }
+        else if (txt_elem.createTextRange) {
+            var range = txt_elem.createTextRange();
+            range.collapse(true);
+            range.moveEnd('character', pos);
+            range.moveStart('character', pos);
+            range.select();
+        }
+    }
+
     // utility function to send request to server
     window.ajaxRequest = function (_url, _form, _settings, _send_callback, _err_callback) {
         // code for IE7+, Firefox, Chrome, Opera, Safari

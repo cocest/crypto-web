@@ -19,7 +19,7 @@ $_SESSION["csrf_token"] = $csrf_token;
 
 <head>
     <meta charset="UTF-8">
-    <title>CryptoWeb - Registeration</title>
+    <title>Thecitadelcapital - Registeration</title>
     <link rel="icon" type="image/png" href="favicon1.png" sizes="16x16">
     <link rel="icon" type="image/png" href="favicon2.png" sizes="32x32">
     <link rel="icon" type="image/png" href="favicon3.png" sizes="120x120">
@@ -36,7 +36,10 @@ $_SESSION["csrf_token"] = $csrf_token;
 
 <body>
     <div class="page-cont">
-        <div class="signup-cont ux-center-elem shadow ux-rd-corner-2">
+        <div class="header-site-logo-cont">
+            <img src="./images/icons/citadel_capital_logo.png" alt="thecitadelcapital" />
+        </div>
+        <div class="signup-cont ux-center-elem ux-rd-corner-2">
             <div class="left-section-cont">
                 <div class="bg-pattern-wrapper">
                     <div class="bg-circle-1 ux-f-rd-corner"></div>
@@ -45,9 +48,11 @@ $_SESSION["csrf_token"] = $csrf_token;
                 </div>
                 <div class="bg-image"></div>
                 <div class="text-layer ux-txt-align-ct">
-                    <div class="site-logo-cont">Websitename</div>
+                    <div class="site-logo-cont">
+                        <img src="./images/icons/w_citadel_capital_logo.png" alt="thecitadelcapital" />
+                    </div>
                     <div class="headline-cont">
-                        <p>Register to enjoy our great packages and services exclusively design for you.</p>
+                        <p>Register today to enjoy our great packages and services exclusively design for you.</p>
                     </div>
                     <div class="copyright">
                         Copyright &copy; <?php echo date("Y");?>. All Rights Reserved
@@ -367,6 +372,9 @@ $_SESSION["csrf_token"] = $csrf_token;
                 </div>
             </div>
         </div>
+    </div>
+    <div class="footer-copyright">
+        &copy; <?php echo date("Y");?> Thecitadelcapital. All Rights Reserved
     </div>
 </body>
 

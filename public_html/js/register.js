@@ -1,5 +1,4 @@
 function init() {
-    let current_birthdate = "";
     let edit_birthdate = false;
     let err_msg_box = document.getElementById("err-msg-box");
     let current_form_index = 1;
@@ -12,6 +11,10 @@ function init() {
     let is_passwd_shown = false;
     let is_passwd_confirmed = false;
     let is_uploaded_file_valid = false;
+    let curr_text_caret_offset = 0;
+    let remove_user_input = false;
+    let del_input_offset = 0;
+    let curr_text_input_value = "";
     let input_has_err_msg = {
         firstname: { error: null, message: "" },
         lastname: { error: null, message: "" },
@@ -23,62 +26,11 @@ function init() {
         referralid: { error: null, message: "" }
     };
 
-    // allowed keys for inputs
-    let allowed_keys_for_inputs = {
-        countrycode: [
-            187, // '+' keyCode
-            8, // Backspace keyCode
-            46, // Delete keyCode
-            37, // Left arrow keyCode
-            39, // Right arrow keyCode
-            38, // Up arrow keyCode
-            40, // Down arrow keyCode
-            36, // Home keyCode
-            35, // End keyCode
-        ],
-        phonenumber: [
-            8, // Backspace keyCode
-            46, // Delete keyCode
-            37, // Left arrow keyCode
-            39, // Right arrow keyCode
-            38, // Up arrow keyCode
-            40, // Down arrow keyCode
-            36, // Home keyCode
-            35, // End keyCode
-        ],
-        birthdate: [
-            191, // Forward slash
-            8, // Backspace keyCode
-            46, // Delete keyCode
-            37, // Left arrow keyCode
-            39, // Right arrow keyCode
-            38, // Up arrow keyCode
-            40, // Down arrow keyCode
-            36, // Home keyCode
-            35, // End keyCode
-        ]
+    let inputs_current_value = {
+        email: "",
+        username: "",
+        referralid: ""
     };
-
-    // non-alphanumeric keys that modify input content
-    let modify_keys = [
-        8, // Backspace keyCode
-        46, // Delete keyCode
-    ];
-
-    // utility function to get the index of deleted character(s)
-    function getDeletedStringIndex(original_text, altered_text) {
-        for (let i = 0; i < altered_text.length; i++) {
-            if (altered_text[i] != original_text[i]) {
-                return i;
-            }
-        }
-
-        if (altered_text.length == original_text.length) {
-            return -1;
-        } else {
-            return altered_text.length;
-        }
-    }
 
     // utility function that return the maximum days of the month
     function maxDays(month, year = null) {
@@ -398,7 +350,6 @@ function init() {
     // process events for form input
     function processInputEvents(e) {
         let input_elem = e.target; // get element that fire the event
-        let input_name;
         let label_elem;
 
         if (input_elem.tagName == "INPUT") {
@@ -430,7 +381,7 @@ function init() {
 
                     // add placehoder to input
                     if (input_name == "countrycode") {
-                        input_elem.setAttribute("placeholder", "+234");
+                        input_elem.setAttribute("placeholder", "+123");
 
                     } else if (input_name == "email") {
                         input_elem.setAttribute("placeholder", "example@mail.com");
@@ -462,7 +413,7 @@ function init() {
                         input_elem.removeAttribute("placeholder");
                     }
 
-                    // check if email is valid
+                    // validate user's input
                     if (input_name == "firstname" || input_name == "lastname") {
                         // check if input contain value
                         if (input_elem.value.length > 0) {
@@ -518,127 +469,26 @@ function init() {
 
                 case "keydown":
 
-                    if (input_name == "countrycode") { // allow only '+', numbers and some key
-                        // check if '+' has been existing in the input and block '=' character
-                        if ((e.keyCode == 187 && (new RegExp("[" + input_elem.value + "]")).test(e.key)) || e.key == "=") {
-                            e.preventDefault();
-
-                        } else if (!(allowed_keys_for_inputs[input_name].find(kc => kc == e.keyCode) ||
-                            !isNaN(parseInt(e.key)))) {
-                            e.preventDefault();
+                    if (input_name == "countrycode") { // allow only '+', numbers
+                        if (!remove_user_input) {
+                            remove_user_input = true;
+                            curr_text_caret_offset = window.getCaretPosition(input_elem);
                         }
 
-                    } else if (input_name == "phonenumber") { // allow only numbers and some key
-                        if (!(allowed_keys_for_inputs[input_name].find(kc => kc == e.keyCode) ||
-                            !isNaN(parseInt(e.key)))) {
-                            e.preventDefault();
+                    } else if (input_name == "phonenumber") { // allow only numbers
+                        if (!remove_user_input) {
+                            remove_user_input = true;
+                            curr_text_caret_offset = window.getCaretPosition(input_elem);
                         }
 
                     } else if (input_name == "birthdate") {
-                        current_birthdate = input_elem.value; // get birthdate value for deletion
-
-                        // block '=' character
-                        if (e.keyCode == 191 && e.key != "/") {
-                            e.preventDefault();
-                            return;
-
-                        } else if (!(allowed_keys_for_inputs[input_name].find(kc => kc == e.keyCode) ||
-                            !isNaN(parseInt(e.key)))) {
-                            e.preventDefault();
-                            return;
+                        if (!remove_user_input) {
+                            remove_user_input = true;
+                            curr_text_caret_offset = window.getCaretPosition(input_elem);
                         }
 
-                        // de-activate edit mode if backspace and delete button is pressed
-                        if (e.keyCode == 8 || e.keyCode == 46) {
-                            if (edit_birthdate) {
-                                edit_birthdate = false;
-                            }
-                        }
-
-                        // check to activate edit mode
-                        if (e.keyCode == 37) { // left arrow key is pressed
-                            if (!edit_birthdate) {
-                                edit_birthdate = true;
-                            }
-                        }
-
-                        // check if edit mode is active
-                        if (edit_birthdate) {
-                            if (e.key == "/") {
-                                e.preventDefault();
-                            }
-
-                            return;
-                        }
-
-                        // help the user format the date
-                        let date_split = input_elem.value.split("/");
-
-                        if (date_split.length == 1) { // month
-                            if (/^(00|0\/|\/)$/.test(input_elem.value + e.key)) {
-                                e.preventDefault();
-
-                            } else if (parseInt(e.key) > 1 && date_split[0].length < 1) {
-                                input_elem.value = "0";
-
-                            } else if (e.key == "/" && date_split[0].length < 2) {
-                                input_elem.value =
-                                    input_elem.value.substring(0, input_elem.value.length - 1) + "0" +
-                                    input_elem.value.substring(input_elem.value.length - 1);
-
-                            } else if (!isNaN(parseInt(e.key)) && input_elem.value.length == 2) {
-                                input_elem.value = input_elem.value + "/";
-
-                            } else if (parseInt(input_elem.value + e.key) > 12) {
-                                input_elem.value = "0" + input_elem.value + "/";
-                            }
-
-                        } else if (date_split.length == 2) { // day
-                            if (/^(00|0\/|\/)$/.test(date_split[1] + e.key)) {
-                                e.preventDefault();
-
-                            } else if (parseInt(e.key) > 3 && date_split[1].length < 1) {
-                                input_elem.value = input_elem.value + "0";
-
-                            } else if (e.key == "/" && date_split[1].length < 2) {
-                                input_elem.value =
-                                    input_elem.value.substring(0, input_elem.value.length - 1) + "0" +
-                                    input_elem.value.substring(input_elem.value.length - 1);
-
-                            } else if (!isNaN(parseInt(e.key)) && date_split[1].length == 2) {
-                                // since the input will fall to year, we don't allow zero for start
-                                if (e.key == "0") {
-                                    e.preventDefault();
-                                } else {
-                                    input_elem.value = input_elem.value + "/";
-                                }
-
-                            } else if (parseInt(date_split[1] + e.key) > maxDays(parseInt(date_split[0]))) {
-                                // since the input will fall to year, we don't allow zero for start
-                                if (e.key == "0") {
-                                    e.preventDefault();
-                                } else {
-                                    input_elem.value = date_split[0] + "/0" + date_split[1] + "/";
-                                }
-                            }
-
-                        } else { // year
-                            if (/^(0|\/)$/.test(date_split[2] + e.key) || (e.key == "/" && date_split[2].length > 0)) {
-                                e.preventDefault();
-
-                            } else if (!isNaN(parseInt(e.key)) && date_split[2].length == 3 && parseInt(date_split[0]) == 2) {
-                                // check if user day input is 29
-                                if (parseInt(date_split[1]) > 28) {
-                                    input_elem.value =
-                                        date_split[0] + "/" +
-                                        maxDays(parseInt(date_split[0]), parseInt(date_split[2] + e.key)) + "/" +
-                                        date_split[2];
-                                }
-
-                            } else if (!isNaN(parseInt(e.key)) && date_split[2].length == 4) { // you only allowed to enter for digit number
-                                e.preventDefault();
-                            }
-                        }
+                        del_input_offset = window.getCaretPosition(input_elem);
+                        curr_text_input_value = input_elem.value;
                     }
 
                     break;
@@ -654,78 +504,132 @@ function init() {
                         input_has_err_msg[input_name].error = null;
                     }
 
-                    if (input_name == "birthdate") {
-                        // handle delete event
-                        if (e.keyCode == 8 || e.keyCode == 46) {
-                            let del_index = getDeletedStringIndex(current_birthdate, input_elem.value);
-                            if (del_index > -1) {
-                                input_elem.value = current_birthdate.substring(0, del_index);
+                    if (input_name == "countrycode") {
+                        if (remove_user_input) {
+                            remove_user_input = false;
+
+                            // check if user input has "+" char in it
+                            if (/^[0-9]+$/.test(input_elem.value)) {
+                                // add plus sign
+                                input_elem.value = "+" + input_elem.value;
+
+                                // reposition caret or cursor
+                                window.setCaretPosition(input_elem, input_elem.value.length + 1);
+                            }
+
+                            if (!/^(\+[0-9]+|\+)$/.test(input_elem.value) && input_elem.value.length > 0) {
+                                // remove user invalid input
+                                input_elem.value = "+" + input_elem.value.replace(/[^0-9]+/g, "");
+
+                                // reposition caret or cursor
+                                window.setCaretPosition(input_elem, curr_text_caret_offset);
                             }
                         }
 
-                        // check if date should be edited
-                        if (!edit_birthdate) {
+                    } else if (input_name == "phonenumber") {
+                        if (remove_user_input) {
+                            remove_user_input = false;
+
+                            if (/[^0-9]+/.test(input_elem.value)) {
+                                // remove user invalid input
+                                input_elem.value = input_elem.value.replace(/[^0-9]+/g, "");
+
+                                // reposition caret or cursor
+                                window.setCaretPosition(input_elem, curr_text_caret_offset);
+                            }
+                        }
+
+                    } else if (input_name == "birthdate") {
+                        if (remove_user_input) {
+                            remove_user_input = false;
+                        }
+
+                        if (curr_text_input_value.length > input_elem.value.length) {
+                            if (del_input_offset !=  window.getCaretPosition(input_elem)) { // backspace
+                                if (curr_text_input_value.substring(del_input_offset - 1, del_input_offset) == "/") {
+                                    input_elem.value = input_elem.value.substring(0, del_input_offset - 2);
+    
+                                } else {
+                                    input_elem.value = input_elem.value.substring(0, del_input_offset - 1);
+                                }
+
+                            } else { // delete
+                                if (curr_text_input_value.substring(del_input_offset, del_input_offset + 1) == "/") {
+                                    input_elem.value = input_elem.value.substring(0, del_input_offset - 1);
+    
+                                } else {
+                                    input_elem.value = input_elem.value.substring(0, del_input_offset);
+                                }
+                            }
+
                             return;
                         }
 
-                        // check if user edit the date and reformat the current date
-                        if (!isNaN(parseInt(e.key))) {
-                            let curr_date_split = current_birthdate.split("/");
-                            let date_split = input_elem.value.split("/");
-                            let date_section = 0;
+                        let date_split = input_elem.value.split("/"); // split date into parts
 
-                            for (let i = 0; i < date_split.length; i++) {
-                                if (!(curr_date_split[i] == date_split[i])) {
-                                    date_section = i;
-                                    break;
+                        // check if date fo birth is invalid
+                        if (!/^((0|([1-9]|0[1-9]|1[0-9])\/?)|((0[1-9]|1[0-2])\/(0|([1-9]|0[1-9]|[1-2][0-9]|3[0-9])\/?))|((0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])\/([1-9]\d{0,3})))$/.test(input_elem.value)) {
+                            input_elem.value = 
+                                input_elem.value.substring(0, curr_text_caret_offset) + 
+                                input_elem.value.substring(window.getCaretPosition(input_elem), input_elem.value.length);
+
+                            window.setCaretPosition(input_elem, curr_text_caret_offset); // reposition caret or cursor
+                            return;
+                        }
+
+                        if (date_split.length == 1) { // typing month
+                            if (/^0[1-9]$/.test(date_split[0])) {
+                                input_elem.value = date_split[0] + "/";
+
+                            } else if (date_split[0] > 1 && date_split[0] < 10) { // 2 -> 9
+                                input_elem.value = "0" + date_split[0] + "/";
+
+                            } else if (date_split[0] > 9) { // 10 -> 19
+                                if (date_split[0] < 13) { // 10 -> 12
+                                    input_elem.value = date_split[0] + "/";
+
+                                } else if (date_split[0] < 14) { // 13
+                                    input_elem.value = "01/3";
+
+                                } else { // 14 -> 19
+                                    input_elem.value = "01/0" + date_split[0][1] + "/";
                                 }
                             }
 
-                            // format the date
-                            if (date_section == 0) {
-                                input_elem.value = "";
-                            }
+                        } else if (date_split.length == 2) { // typing day
+                            if (/^1\/$/.test(input_elem.value)) {
+                                input_elem.value = "01/";
 
-                            for (let j = 0; j < date_section; j++) {
-                                // append number at left of edited number
-                                if (j == 0) {
-                                    input_elem.value = date_split[j] + "/";
+                            } else if (date_split[1].length == 1 && date_split[1] > 2 && date_split[1] < 10) { // 3 -> 9
+                                if (date_split[0] == "02" && date_split[1] == 3) {
+                                    input_elem.value = date_split[0] + "/03/";
+
+                                } else if (date_split[1] == 3) { // 3
+                                    input_elem.value = date_split[0] + "/3";
+
                                 } else {
-                                    input_elem.value = input_elem.value + date_split[j] + "/";
+                                    input_elem.value = date_split[0] + "/0" + date_split[1] + "/";
+                                }
+
+                            } else if (date_split[1].length == 2 && date_split[1] < 30) { // 10 -> 29
+                                input_elem.value += "/";
+
+                            } else if (date_split[1].length == 2 && date_split[1] > 29) { // 30 -> 31
+                                if (date_split[1] > maxDays(parseInt(date_split[0]))) {
+                                    input_elem.value = date_split[0] + "/0" + date_split[1][0] + "/" + date_split[1][1];
+
+                                } else {
+                                    input_elem.value += "/";
                                 }
                             }
 
-                            // add new number and delete all the numbers at right
-                            if (date_section == 0) { // month
-                                if (e.key < 2) {
-                                    input_elem.value = input_elem.value + e.key;
-                                } else {
-                                    input_elem.value = input_elem.value + "0" + e.key;
-                                }
+                        } else { // typing year
+                            if (/^[0-9]{2}\/[1-3]\/$/.test(input_elem.value)) {
+                                input_elem.value = date_split[0] + "/0" + date_split[1] + "/";
 
-                            } else if (date_section == 1) { // day
-                                if (parseInt(date_split[0]) == 2) { // feb
-                                    if (e.key < 3) {
-                                        input_elem.value = input_elem.value + e.key;
-                                    } else {
-                                        input_elem.value = input_elem.value + "0" + e.key;
-                                    }
-
-                                } else {
-                                    if (e.key < 4) {
-                                        input_elem.value = input_elem.value + e.key;
-                                    } else {
-                                        input_elem.value = input_elem.value + "0" + e.key;
-                                    }
-                                }
-
-                            } else { // year
-                                if (e.key != 0) {
-                                    input_elem.value = input_elem.value + e.key;
-                                }
+                            } else if (date_split[2].length == 4 && ((parseInt(date_split[0]) == 2 && parseInt(date_split[1]) == 29) || parseInt(date_split[1]) == 31)) { // check if the day is correct base on selected month
+                                input_elem.value = date_split[0] + "/" + maxDays(parseInt(date_split[0]), parseInt(date_split[2])) + "/" + date_split[2];
                             }
-
-                            edit_birthdate = false;
                         }
 
                     } else if (input_name == "password") {
@@ -790,63 +694,43 @@ function init() {
                         }
 
                     } else if (input_name == "email") {
-                        // hide all the input icon
-                        let input_cont_elem = document.querySelector(".email-input-wrapper .input-icon-cont");
-                        input_cont_elem.querySelector(".mark-icon-cont").setAttribute("class", "mark-icon-cont remove-elem");
-                        input_cont_elem.querySelector(".reload-btn-cont").setAttribute("class", "reload-btn-cont remove-elem");
-                        input_cont_elem.querySelector(".vt-bars-anim-cont").setAttribute("class", "vt-bars-anim-cont remove-elem");
-
-                        // check if press key is key that modify the content
-                        if (modify_keys.find(kc => kc == e.keyCode)) {
+                        // check if content is modified by user's input
+                        if (!(inputs_current_value[input_name] == input_elem.value)) {
                             is_email_validated = false;
+                            inputs_current_value[input_name] = input_elem.value;
+
+                            // hide all the input icon
+                            let input_cont_elem = document.querySelector(".email-input-wrapper .input-icon-cont");
+                            input_cont_elem.querySelector(".mark-icon-cont").setAttribute("class", "mark-icon-cont remove-elem");
+                            input_cont_elem.querySelector(".reload-btn-cont").setAttribute("class", "reload-btn-cont remove-elem");
+                            input_cont_elem.querySelector(".vt-bars-anim-cont").setAttribute("class", "vt-bars-anim-cont remove-elem");
                         }
 
                     } else if (input_name == "username") {
-                        // hide all the input icon
-                        let input_cont_elem = document.querySelector(".username-input-wrapper .input-icon-cont");
-                        input_cont_elem.querySelector(".mark-icon-cont").setAttribute("class", "mark-icon-cont remove-elem");
-                        input_cont_elem.querySelector(".reload-btn-cont").setAttribute("class", "reload-btn-cont remove-elem");
-                        input_cont_elem.querySelector(".vt-bars-anim-cont").setAttribute("class", "vt-bars-anim-cont remove-elem");
+                        // check if content is modified by user's input
+                        if (!(inputs_current_value[input_name] == input_elem.value)) {
+                            is_username_validated = false;
+                            inputs_current_value[input_name] = input_elem.value;
 
-                        // check if press key is key that modify the content
-                        if (modify_keys.find(kc => kc == e.keyCode)) {
-                            is_email_validated = false;
+                            // hide all the input icon
+                            let input_cont_elem = document.querySelector(".username-input-wrapper .input-icon-cont");
+                            input_cont_elem.querySelector(".mark-icon-cont").setAttribute("class", "mark-icon-cont remove-elem");
+                            input_cont_elem.querySelector(".reload-btn-cont").setAttribute("class", "reload-btn-cont remove-elem");
+                            input_cont_elem.querySelector(".vt-bars-anim-cont").setAttribute("class", "vt-bars-anim-cont remove-elem");
                         }
 
                     } else if (input_name == "referralid") {
-                        // hide all the input icon
-                        let input_cont_elem = document.querySelector(".referralid-input-wrapper .input-icon-cont");
-                        input_cont_elem.querySelector(".mark-icon-cont").setAttribute("class", "mark-icon-cont remove-elem");
-                        input_cont_elem.querySelector(".reload-btn-cont").setAttribute("class", "reload-btn-cont remove-elem");
-                        input_cont_elem.querySelector(".vt-bars-anim-cont").setAttribute("class", "vt-bars-anim-cont remove-elem");
+                        // check if content is modified by user's input
+                        if (!(inputs_current_value[input_name] == input_elem.value)) {
+                            is_referralid_validated = false;
+                            inputs_current_value[input_name] = input_elem.value;
 
-                        // check if press key is key that modify the content
-                        if (modify_keys.find(kc => kc == e.keyCode)) {
-                            is_email_validated = false;
+                            // hide all the input icon
+                            let input_cont_elem = document.querySelector(".referralid-input-wrapper .input-icon-cont");
+                            input_cont_elem.querySelector(".mark-icon-cont").setAttribute("class", "mark-icon-cont remove-elem");
+                            input_cont_elem.querySelector(".reload-btn-cont").setAttribute("class", "reload-btn-cont remove-elem");
+                            input_cont_elem.querySelector(".vt-bars-anim-cont").setAttribute("class", "vt-bars-anim-cont remove-elem");
                         }
-                    }
-
-                    break;
-
-                case "keypress":
-
-                    if (input_name == "countrycode") {
-                        // add '+' to country code input
-                        if (!(e.charCode == 43)) {
-                            // don't add '+' if user type '+'
-                            if (input_elem.value.length < 1) {
-                                input_elem.value = "+" + input_elem.value;
-                            }
-                        }
-
-                    } else if (input_name == "email") {
-                        is_email_validated = false;
-
-                    } else if (input_name == "username") {
-                        is_username_validated = false;
-
-                    } else if (input_name == "referralid") {
-                        is_referralid_validated = false;
                     }
 
                     break;

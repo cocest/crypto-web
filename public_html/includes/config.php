@@ -40,17 +40,17 @@ $config = array(
     ex. require_once(LIBRARY_PATH . "Paginator.php")
 */
 define("BASE_URL", "http://localhost/Workspace/PHP/Crypto-web/crypto-web/public_html/");
-define("DEBUG_EMAIL", "attamahcelestine@gmail.com"); // don't forget to change this
-define("OPENSSL_ENCR_KEY", "dkf!WEqpmW_@4rt#&&kit");
+define("DEBUG_EMAIL", ""); // don't forget to change this
+define("OPENSSL_ENCR_KEY", "");
 define("CRYPTOCOMPARE_API_KEY", "here");
 define("CPS_PRIVATE_KEY", "keyhere");
 define("CPS_PUBLIC_KEY", "keyhere");
 define("CPS_MERCHANT_ID", "idhere");
-define("CPS_IPN_SECRET", "87yRHfdcb_@45ah#");
+define("CPS_IPN_SECRET", "secrethere");
 define("SMTP_HOST", "smtp.sendgrid.net");
 define("SMTP_PORT", 587);
-define("SMTP_USERNAME", "apikey");
-define("SMTP_PASSWORD", "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");
+define("SMTP_USERNAME", "");
+define("SMTP_PASSWORD", "");
 define("SENDER_EMAIL", "developer@thecitadelcapital.com");
 define("SENDER_NAME", "Thecitadelcapital");
 define("USER_ID_UPLOAD_DIR", dirname(__DIR__, 1)."/uploads/users/identification/");
