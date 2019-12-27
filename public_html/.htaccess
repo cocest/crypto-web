@@ -10,7 +10,7 @@ Options -Indexes
 RewriteEngine on
 
 # Prevent access to folder and everything in it by redirecting client
-RewriteCond "%{REQUEST_URI}" "^/Workspace/PHP/Crypto-web/crypto-web/public_html/(includes|processor|pages|templates|error_pages)/.*$" [NC]
+RewriteCond "%{REQUEST_URI}" "^/workspace/thecitadelcapital/crypto-web/public_html/(includes|processor|pages|templates|error_pages)/.*$" [NC]
 RewriteRule "^" "error_pages/404.php" [L]
 
 # Redirect user to homepage if user entered the domain name
