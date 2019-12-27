@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
 
                 // generate hash of 40 characters length from user's email address
-                $search_email_hash = hash('sha1', sanitiseInput($_POST['d']));
+                $search_email_hash = hash('sha1', strtolower(sanitiseInput($_POST['d'])));
 
                 // check if email exist
                 $query = 'SELECT 1 FROM users WHERE searchEmailHash = ? LIMIT 1';
@@ -57,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 $stmt->bind_param('s', $search_email_hash);
                 $stmt->execute();
+                $stmt->store_result(); // needed for num_rows
 
                 if ($stmt->num_rows > 0) { // email exist
                     // send result to client
@@ -79,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
 
                 // sanitise pass in user name
-                $user_name = sanitiseInput($_POST['d']);
+                $user_name = strtolower(sanitiseInput($_POST['d']));
 
                 // check if user name exist
                 $query = 'SELECT 1 FROM users WHERE userName = ? LIMIT 1';
@@ -92,6 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 $stmt->bind_param('s', $user_name);
                 $stmt->execute();
+                $stmt->store_result(); // needed for num_rows
 
                 if ($stmt->num_rows > 0) { // username exist
                     // send result to client
@@ -127,6 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 $stmt->bind_param('s', $ref_id);
                 $stmt->execute();
+                $stmt->store_result(); // needed for num_rows
 
                 if ($stmt->num_rows > 0) { // ID exist
                     // send result to client

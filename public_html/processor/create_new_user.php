@@ -82,7 +82,7 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             $user_ref_id = randomText('distinct', 16);
 
             // generate hash of 40 characters length from user's email address
-            $search_email_hash = hash('sha1', $_POST['email']);
+            $search_email_hash = hash('sha1', strtolower($_POST['email']));
 
             // start transaction
             $conn->begin_transaction();
@@ -108,18 +108,22 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             $stmt->bind_param(
                 'sssssssiiss', 
                 $user_ref_id,
-                $_POST['firstname'],
-                $_POST['lastname'],
-                $_POST['username'],
+                $first_name,
+                $last_name,
+                $user_name,
                 $_POST['email'],
                 $search_email_hash,
                 $_POST['country'],
                 $_POST['countrycode'],
                 $_POST['phonenumber'],
                 $birth_date,
-                $_POST['gender']
+                $user_gender
             );
     
+            $first_name = ucfirst(strtolower($_POST['firstname']));
+            $last_name = ucfirst(strtolower($_POST['lastname']));
+            $user_name = ucfirst(strtolower($_POST['username']));
+            $user_gender = strtolower($_POST['gender']);
             $splitted_birth_date = explode('/', $_POST['birthdate']);
             $birth_date = $splitted_birth_date[2].'-'.$splitted_birth_date[0].'-'.$splitted_birth_date[1];
             $stmt->execute();
@@ -156,7 +160,7 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             $stmt->close();
 
             // send verification email to the user
-            // generate 16 digit unique key plus user ID
+            // generate 32 digit unique key plus user ID
             $verification_token = randomText('hexdec', 32);
             $token = $new_user_id . ':' . $verification_token;
 
@@ -336,8 +340,15 @@ function validateUserFormInputs($inputs) {
 
 // utility function to validate user's uploaded file
 function validateUploadedImage($uploaded_files) {
+    /*
+    // uncomment this if your web hosting support it
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $type = finfo_file($finfo, $uploaded_files['file']['tmp_name']);
+    */
+
+    // using this one for now
+    $size = getimagesize($uploaded_files['file']['tmp_name']);
+	$type = $size['mime'];
 
     if (isset($type) && in_array($type, ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'])) {
         if ($uploaded_files['file']['size'] / 1048576 < 4) { // less than 4 megabytes

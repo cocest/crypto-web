@@ -11,9 +11,9 @@
 $config = array(
     "db" => array(
         "mysql" => array(
-            "dbname" => "cryptoweb",
+            "dbname" => "citadelcapital",
             "username" => "root",
-            "password" => "root",
+            "password" => "",
             "host" => "localhost"
         )
     ),
@@ -39,7 +39,7 @@ $config = array(
     Creating constants for heavily used paths makes things a lot easier.
     ex. require_once(LIBRARY_PATH . "Paginator.php")
 */
-define("BASE_URL", "http://localhost/Workspace/PHP/Crypto-web/crypto-web/public_html/");
+define("BASE_URL", "http://localhost/workspace/thecitadelcapital/crypto-web/public_html/");
 define("DEBUG_EMAIL", ""); // don't forget to change this
 define("OPENSSL_ENCR_KEY", "");
 define("CRYPTOCOMPARE_API_KEY", "here");
@@ -51,7 +51,7 @@ define("SMTP_HOST", "smtp.sendgrid.net");
 define("SMTP_PORT", 587);
 define("SMTP_USERNAME", "");
 define("SMTP_PASSWORD", "");
-define("SENDER_EMAIL", "developer@thecitadelcapital.com");
+define("SENDER_EMAIL", "noreply@thecitadelcapital.com");
 define("SENDER_NAME", "Thecitadelcapital");
 define("USER_ID_UPLOAD_DIR", dirname(__DIR__, 1)."/uploads/users/identification/");
 define("USER_PROFILE_DIR", dirname(__DIR__, 1)."/uploads/users/profile/");

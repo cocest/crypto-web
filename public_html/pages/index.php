@@ -330,13 +330,14 @@ require_once '../includes/config.php';
                     and financial markets. Founded in 1996 for the aim of ensuring capital appreciation 
                     as well as wealth protection, we have delivered investment returns to our partners 
                     for over a decade, aligning our interests for a profitable and lasting partnership. 
-                    With over $10 billion in AUM and using the latest management strategies, 
+                    With over $10 billion in AUM across different funds and using the latest management strategies, 
                     technology, and trading techniques, we harness the brainpower of the smartest 
                     individuals, building on a platform of discipline, integrity, and teamwork to 
                     identify and utilize the latest opportunities to deliver groundbreaking returns. 
-                    With the establishment and boom of cryptocurrencies, Citadel Capital identifies the 
-                    promise shown inthe industry and has since served as an alternative to just holding, 
-                    generating returns in the short and long terms.
+                    With the establishment and boom of cryptocurrencies, Citadel Capital identifies 
+                    the promise and potential within the industry and has since 2014 served as an 
+                    alternative to just holding thus generating profits for our partners in both the 
+                    long and short terms.
                 </p>
             </div>
         </div>
@@ -346,7 +347,7 @@ require_once '../includes/config.php';
     <div class="crypto-statistics-section-cont">
         <div class="crypto-statistics-section page-cont-max-width remove-elem">
             <div class="title-cont">
-                <h1 class="ux-txt-grayblue">Cryptocurrency Live Price</h1>
+                <h1 class="ux-txt-grayblue">Cryptocurrencies Live Prices</h1>
             </div>
             <div id="crypto-st-table-cont">
                 <div class="tab-btn-cont">
@@ -523,7 +524,7 @@ require_once '../includes/config.php';
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="ux-txt-smokewhite txt-hover">
+                        <a href="https://twitter.com/JamieCitadel" class="ux-txt-smokewhite txt-hover">
                             <i class="fab fa-twitter-square"></i>
                         </a>
                     </li>

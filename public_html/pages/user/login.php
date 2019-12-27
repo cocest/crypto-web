@@ -32,12 +32,12 @@ if (isset($_COOKIE['auto_login'])) {
 
 <head>
     <meta charset="UTF-8">
-    <title>CryptoWeb - Sign In</title>
-    <link rel="icon" type="image/png" href="favicon1.png" sizes="16x16">
-    <link rel="icon" type="image/png" href="favicon2.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="favicon3.png" sizes="120x120">
-    <meta name="description" content="CryptoWeb registeration page">
-    <meta name="keywords" content="sign in, sign up, register, register to CryptoWeb, create account with CryptoWeb">
+    <title>Thecitadelcapital - Login</title>
+    <link rel="icon" type="image/png" href="../images/icons/favicon1.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="../images/icons/favicon2.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../images/icons/favicon3.png" sizes="120x120">
+    <meta name="description" content="Thecitadelcapital login page">
+    <meta name="keywords" content="sign in, register, register to Thecitadelcapital, create account">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link type="text/css" href="../fonts/css/all.min.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="../styles/UdaraX.css">
