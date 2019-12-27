@@ -106,7 +106,7 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             $stmt = $conn->prepare($query); // prepare statement
             
             $stmt->bind_param(
-                'sssssssiiss', 
+                'sssssssssss', 
                 $user_ref_id,
                 $first_name,
                 $last_name,
