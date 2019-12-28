@@ -165,7 +165,7 @@ require_once 'page_left_menu.php';
                 <form name="new-profile-pic-form">
                     <div class="profile-pic-cont">
                         <img id="user-profile-picture" 
-                            class="<?php echo empty($data_for_page_rendering['mediumProfilePictureURL']) ? 'default' : 'user-pic'; ?>" 
+                            class="<?php echo empty($data_for_page_rendering['mediumProfilePictureURL']) ? 'default-pic' : 'user-pic'; ?>" 
                             src="<?php echo empty($data_for_page_rendering['mediumProfilePictureURL']) ? '../../images/icons/profile_pic2.png' : '../../uploads/users/profile/'.$data_for_page_rendering['mediumProfilePictureURL']; ?>" />
                         <input id="upload-profile-pic-input" type="file" name="file" accept="image/png, image/jpeg, image/gif">
                         <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
@@ -177,10 +177,10 @@ require_once 'page_left_menu.php';
                 <div class="account-details-cont">
                     <h3 class="name"><?php echo $data_for_page_rendering['lastName'].' '.$data_for_page_rendering['firstName']; ?></h3>
                     <div class="username">
-                        <span>Username</span><?php echo $data_for_page_rendering['userName']; ?>
+                        <span>Username</span> <?php echo $data_for_page_rendering['userName']; ?>
                     </div>
                     <div class="ref-id">
-                        <span>Referral ID</span><?php echo $data_for_page_rendering['referralID']; ?>
+                        <span>Referral ID</span> <?php echo $data_for_page_rendering['referralID']; ?>
                     </div>
                     <div class="location">
                         <span class="fas fa-map-marker-alt"></span><?php echo $data_for_page_rendering['country']; ?>

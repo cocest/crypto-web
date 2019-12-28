@@ -1,4 +1,4 @@
-    <div class=page-left-menu-cont>
+    <div id="page-left-menu-cont" class="hide-menu">
         <div id="scroll-wrapper">
         <ul class="menu-list-cont">
             <li class="enable <?php  echo $left_menu_active_links['my_investment'] ? 'active-link-indicator' : ''; ?>">

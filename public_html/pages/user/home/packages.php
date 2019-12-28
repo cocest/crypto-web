@@ -137,7 +137,7 @@ require_once 'page_left_menu.php';
                 Here are list of exclusive packages you can choose from, and we do the rest for you.
             </div>
             <div class="package-list-cont">
-                <div class="package-list-wrapper ux-layout-grid columns-2">
+                <div class="package-list-wrapper ux-layout-grid columns-3">
                     <?php 
                         for ($i = 0; $i < count($data_for_page_rendering); $i++) {
                     ?>

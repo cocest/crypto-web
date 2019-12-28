@@ -1,4 +1,4 @@
-    <div class=page-left-menu-cont>
+    <div id="page-left-menu-cont" class="hide-menu">
         <div id="scroll-wrapper">
         <ul class="menu-list-cont">
             <li class="enable active-link-indicator">

@@ -13,6 +13,22 @@ function init() {
     let notification_first_load = true;
     let notification_first_run = true;
 
+    // show show and hide page menu
+    window.showPageSideMenu = function (elem) {
+        let side_menu_elem = document.getElementById("page-left-menu-cont");
+
+        if (elem.getAttribute("toggle") == 0) { // hide the menu
+            elem.setAttribute("toggle", "1");
+            elem.setAttribute("class", "show-side-menu-icon open");
+            side_menu_elem.setAttribute("class", "show-menu");
+
+        } else {
+            elem.setAttribute("toggle", "0");
+            elem.setAttribute("class", "show-side-menu-icon close");
+            side_menu_elem.setAttribute("class", "hide-menu");
+        }
+    };
+
     // clip unffitted text out
     function clipOutText(txt_length, text) {
         let clipped_text = text;
@@ -444,7 +460,7 @@ function init() {
     function adaptPageSideMenu () {
         let page_top_menu_height = document.querySelector('.page-top-menu-cont').offsetHeight;
         let wh = window.innerHeight;
-        let elem = document.querySelector('.page-left-menu-cont #scroll-wrapper');
+        let elem = document.querySelector('#page-left-menu-cont #scroll-wrapper');
 
         // set container height
         elem.setAttribute("style", "height: " + (wh - page_top_menu_height) + "px;");

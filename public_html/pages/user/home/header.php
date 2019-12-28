@@ -55,11 +55,11 @@ try {
 
 <head>
     <meta charset="UTF-8">
-    <title>CryptoWeb - My Account</title>
-    <link rel="icon" type="image/png" href="favicon1.png" sizes="16x16">
-    <link rel="icon" type="image/png" href="favicon2.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="favicon3.png" sizes="120x120">
-    <meta name="description" content="CryptoWeb registeration page">
+    <title>Thecitadelcapital - My Account</title>
+    <link rel="icon" type="image/png" href="../../images/icons/favicon1.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="../../images/icons/favicon2.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../../images/icons/favicon3.png" sizes="120x120">
+    <meta name="description" content="Thecitadelcapital user's account">
     <meta name="keywords" content="sign in, sign up, register, register to CryptoWeb, create account with CryptoWeb">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link type="text/css" href="../../fonts/css/all.min.css" rel="stylesheet">
@@ -72,9 +72,12 @@ try {
 <body>
     <div class="page-top-menu-cont">
         <nav>
+            <div class="show-side-menu-icon close" toggle="0" onclick="showPageSideMenu(this)">
+                <img src="../../images/icons/drop_menu_icon3.png" />
+            </div>
             <div class="site-logo-cont">
                 <a href="./my_investment.html">
-                    <img src="site_logo.png" alt="site logo" />
+                    <img src="../../images/icons/citadel_capital_logo.png" alt="thecitadelcapital" />
                 </a>
             </div>
             <ul class="menu-link-cont">
@@ -153,42 +156,46 @@ try {
 
     <!--notification window-->
     <div id="notification-win-cont" class="remove-elem">
-        <div class="title-bar-cont">
-            <div class="title">Notifications</div>
-            <div class="close-btn ux-f-rd-corner" onclick="closeActiveWin('notification-win-cont')">
-                <img src="../../images/icons/notification_icons.png" />
+        <div class="notification-win-wrapper">
+            <div class="title-bar-cont">
+                <div class="title">Notifications</div>
+                <div class="close-btn ux-f-rd-corner" onclick="closeActiveWin('notification-win-cont')">
+                    <img src="../../images/icons/notification_icons.png" />
+                </div>
             </div>
-        </div>
-        <div class="scroll-list-cont">
-            <div id="notification-list-cont">
-                <div id="load-prev-notification" class="remove-elem" onclick="loadPreviousNotfication()">Load more</div>
-                <div id="loading-notification-anim-cont">
-                    <div class="vt-bars-anim-cont">
-                        <div class="vt-bar-cont">
-                            <div class="vt-bar-1"></div>
-                        </div>
-                        <div class="vt-bar-cont">
-                            <div class="vt-bar-2"></div>
-                        </div>
-                        <div class="vt-bar-cont">
-                            <div class="vt-bar-3"></div>
+            <div class="scroll-list-cont">
+                <div id="notification-list-cont">
+                    <div id="load-prev-notification" class="remove-elem" onclick="loadPreviousNotfication()">Load more</div>
+                    <div id="loading-notification-anim-cont">
+                        <div class="vt-bars-anim-cont">
+                            <div class="vt-bar-cont">
+                                <div class="vt-bar-1"></div>
+                            </div>
+                            <div class="vt-bar-cont">
+                                <div class="vt-bar-2"></div>
+                            </div>
+                            <div class="vt-bar-cont">
+                                <div class="vt-bar-3"></div>
+                            </div>
                         </div>
                     </div>
+                    <div id="notification-status-msg" class="remove-elem">No notification</div>
                 </div>
-                <div id="notification-status-msg" class="remove-elem">No notification</div>
             </div>
         </div>
     </div>
 
     <!--message window-->
     <div id="msg-win-cont" class="remove-elem">
-        <div class="title-bar-cont">
-            <div class="title">Message</div>
-            <div class="close-btn ux-f-rd-corner" onclick="closeActiveWin('msg-win-cont')">
-                <img src="../../images/icons/notification_icons.png" />
+        <div class="msg-win-wrapper">
+            <div class="title-bar-cont">
+                <div class="title">Message</div>
+                <div class="close-btn ux-f-rd-corner" onclick="closeActiveWin('msg-win-cont')">
+                    <img src="../../images/icons/notification_icons.png" />
+                </div>
             </div>
+            <div class="body-cont"></div>
         </div>
-        <div class="body-cont"></div>
     </div>
 
     <!--listen to mouse click event on particular section of the page-->

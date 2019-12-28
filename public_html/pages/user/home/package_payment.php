@@ -173,35 +173,39 @@ require_once 'page_left_menu.php';
     <div class="page-content-cont">
         <!--payment details dialog-->
         <div id="payment-win-cont" class="remove-elem">
-            <div class="title-bar-cont">
-                <div class="title">Payment details</div>
-                <div class="close-btn ux-f-rd-corner" onclick="closeActiveWin('payment-win-cont')">
-                    <img src="../../images/icons/notification_icons.png" />
+            <div class="payment-win-wrapper">
+                <div class="title-bar-cont">
+                    <div class="title">Payment details</div>
+                    <div class="close-btn ux-f-rd-corner" onclick="closeActiveWin('payment-win-cont')">
+                        <img src="../../images/icons/notification_icons.png" />
+                    </div>
                 </div>
-            </div>
-            <div class="body-cont">
-                <p>
-                    Send the exact amount to the address shown below, or you can scan 
-                    the QR code with a cryptocurrency payment app to make payment.
-                </p>
-                <div class="payment-details-tbl-cont">
-                    <table class="payment-details-tbl">
-                        <tr>
-                            <td>Amount:</td>
-                            <td class="payment-amount"></td>
-                        </tr>
-                        <tr>
-                            <td>Address:</td>
-                            <td class="payment-address"></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="payment-qr-code-cont">
-                    <img class="payment-qr-code" />
-                    <div class="qr-text">Scan code to make payment</div>
-                </div>
-                <div class="payment-sent-btn-cont">
-                    <a class="payment-sent-btn" href="#" target="_blank">Payment sent</a>
+                <div class="body-cont">
+                    <div class="body-wrapper">
+                        <p>
+                            Send the exact amount to the address shown below, or scan 
+                            the QR code with a cryptocurrency payment application.
+                        </p>
+                        <div class="payment-details-tbl-cont">
+                            <table class="payment-details-tbl">
+                                <tr>
+                                    <td>Amount:</td>
+                                    <td class="payment-amount"></td>
+                                </tr>
+                                <tr>
+                                    <td>Address:</td>
+                                    <td class="payment-address"></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="payment-qr-code-cont">
+                            <img class="payment-qr-code" />
+                            <div class="qr-text">Scan code to make payment</div>
+                        </div>
+                        <div class="payment-sent-btn-cont">
+                            <a class="payment-sent-btn" href="#" target="_blank">Payment Sent</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -308,6 +312,27 @@ require_once 'page_left_menu.php';
             }
         ?>
         <script>
+            // launch payment window
+            function launchPaymentWin(payment_details) {
+                let elem = document.querySelector('#payment-win-cont .body-cont');
+                let win_height = window.innerHeight;
+
+                if (win_height < 600) {
+                    elem.setAttribute("style", "max-height: 300px;");
+                } else if (win_height < 800) {
+                    elem.setAttribute("style", "max-height: 400px;");
+                else {
+                    elem.setAttribute("style", "max-height: 500px;");
+                }
+                
+                let payment_elem = document.getElementById("payment-win-cont");
+                payment_elem.querySelector('.payment-amount').innerHTML = payment_details.amount;
+                payment_elem.querySelector('.payment-address').innerHTML = payment_details.wallet_address;
+                payment_elem.querySelector('.payment-qr-code').setAttribute("src", payment_details.qrcode_url);
+                payment_elem.querySelector('.payment-sent-btn').setAttribute("href", payment_details.status_url)
+                payment_elem.removeAttribute("class");
+            }
+
             window.processPaymentForm = function(e) {
                 e.preventDefault(); // prevent default behaviour
 
@@ -345,12 +370,7 @@ require_once 'page_left_menu.php';
                         // check if payment order is placed successfully
                         if (response_data.success) {
                             // show payment details window
-                            let payment_elem = document.getElementById("payment-win-cont");
-                            payment_elem.querySelector('.payment-amount').innerHTML = response_data.amount;
-                            payment_elem.querySelector('.payment-address').innerHTML = response_data.wallet_address;
-                            payment_elem.querySelector('.payment-qr-code').setAttribute("src", response_data.qrcode_url);
-                            payment_elem.querySelector('.payment-sent-btn').setAttribute("href", response_data.status_url)
-                            payment_elem.removeAttribute("class");
+                            launchPaymentwin(response_data);
 
                         } else { // order can't be place due to error
                             // show error message to user
