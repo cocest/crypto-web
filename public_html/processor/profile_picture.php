@@ -145,8 +145,15 @@ try {
 
 // utility function to validate user's uploaded file
 function validateUploadedImage($uploaded_files) {
+    /*
+    // uncomment this if your web hosting support it
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $type = finfo_file($finfo, $uploaded_files['file']['tmp_name']);
+    */
+
+    // using this one for now
+    $size = getimagesize($uploaded_files['file']['tmp_name']);
+	$type = $size['mime'];
 
     if (isset($type) && in_array($type, ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'])) {
         if ($uploaded_files['file']['size'] / 1048576 < 4) { // less than 4 megabytes
