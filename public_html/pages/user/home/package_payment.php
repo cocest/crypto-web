@@ -321,7 +321,7 @@ require_once 'page_left_menu.php';
                     elem.setAttribute("style", "max-height: 300px;");
                 } else if (win_height < 800) {
                     elem.setAttribute("style", "max-height: 400px;");
-                else {
+                } else {
                     elem.setAttribute("style", "max-height: 500px;");
                 }
                 
