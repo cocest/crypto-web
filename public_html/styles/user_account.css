@@ -2094,6 +2094,12 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     }
 }
 
+@media only screen and (max-width: 1200px) {
+    .current-inv-stat-wrapper .grid-item {
+        width: 50%!important;
+    }
+}
+
 @media only screen and (max-width: 1000px) {
     .show-side-menu-icon {
         display: block;
@@ -2136,6 +2142,16 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 
     .page-content-cont {
         margin-left: 0px;
+    }
+
+    .current-inv-stat-wrapper .grid-item {
+        width: 25%!important;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .current-inv-stat-wrapper .grid-item {
+        width: 50%!important;
     }
 }
 
@@ -2241,5 +2257,11 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 
     .settings-input-cont {
         display: block;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .current-inv-stat-wrapper .grid-item {
+        width: 100%!important;
     }
 }

@@ -341,7 +341,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $stmt->bind_param('ii', $_POST['id'], $_SESSION['user_id']);
                 $stmt->execute();
 
+                $stmt->close();
+                $conn->close();
+
                 echo 'SUCCESS';
+
+                break;
+
+            case 'get_investment_records':
+                if (!(isset($_POST['offset']) && isset($_POST['limit']))) {
+                    trigger_error('Request is not properly formed', E_USER_ERROR);
+                }
+
+                $query = 
+                    'SELECT B.package, A.ROI, A.amountInvested, A.revenue, A.duration, A.time 
+                     FROM user_invested_package_records AS A LEFT JOIN crypto_investment_packages AS B 
+                     ON A.packageID = B.id WHERE userID = ? ORDER BY time LIMIT ?, ?';
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->bind_param('iii', $_SESSION['user_id'], $_POST['offset'], $_POST['limit']);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                $records = [];
+
+                while ($row = $result->fetch_assoc()) {
+                    $records[] = [
+                        $row['package'],
+                        $rows['ROI'],
+                        $rows['amountInvested'],
+                        $rows['revenue'],
+                        $rows['duration'],
+                        date("M j, Y g:i A", $rows['time'])
+                    ];
+                }
+
+                $stmt->close();
+                $conn->close();
+
+                // send result to client
+                echo json_encode($records);
 
                 break;
 

@@ -430,14 +430,114 @@ require_once 'page_left_menu.php';
                     ?>
                 </div>
                 <div class="overview-tbl-navi-cont">
-                    <div class="curr-page-indicator">Page 1 of 1</div>
+                    <div class="curr-page-indicator">Page 1 of <?php echo $data_for_page_rendering['invested_package_records']['page_count']; ?></div>
                     <div class="navi-btn-cont">
-                        <button title="Previous"><span class="fas fa-caret-left"></span></button>
-                        <button title="Next"><span class="fas fa-caret-right"></span></button>
+                        <button title="Previous" onclick="navigatePackageRecords('prev')"><span class="fas fa-caret-left"></span></button>
+                        <button title="Next" onclick="navigatePackageRecords('next')"><span class="fas fa-caret-right"></span></button>
                     </div>
                 </div>
             </div>
         </div>
+        <script>
+            let page_count = <?php echo $data_for_page_rendering['invested_package_records']['page_count']; ?>;
+            let max_records_per_page = 6; // set this to maximum items that can be display at once
+            let curr_records_page = 1;
+
+            // navigate through user's invested packages
+            window.navigatePackageRecords = function (direction) {
+                let start_offset;
+
+                if (direction == 'next') {
+                    if ((curr_records_page + 1) <= page_count) {
+                        start_offset = curr_records_page * max_records_per_page;
+                    } else {
+                        return;
+                    }
+
+                } else { // prev
+                    if ((curr_records_page - 1) >= 1) {
+                        start_offset = ((curr_records_page - 1) * max_records_per_page) - max_records_per_page;
+                    } else {
+                        return;
+                    }
+                }
+
+                // fetch records
+                fetchRecords(start_offset, max_records_per_page, direction);
+            };
+
+            // render fetched investment records
+            function renderInvestmentRecords(records) {
+                let tbl_td;
+                let table_elem = document.querySelector('.overview-inv-tbl');
+
+                // table header
+                let tbl_row = document.createElement("tr");
+                tbl_row.innerHTML = 
+                    `<th>Package</th>
+                     <th>ROI</th>
+                     <th>Amount Invested</th>
+                     <th>Revenue</th>
+                     <th>Bonus</th>
+                     <th>Duration</th>
+                     <th>Date</th>`;
+
+                table_elem.appendChild(tbl_row);
+
+                // iterate through the row
+                for (let i = 0; i < records.length; i++) {
+                    tbl_row = document.createElement("tr");
+
+                    // iterate through the table data (td)
+                    for (let j = 0; j < records[i].length; j++) {
+                        tbl_td = document.createElement("td");
+                        tbl_td.innerHTML = records[i][j];
+                        tbl_row.appendChild(tbl_td);
+                    }
+
+                    table_elem.appendChild(tbl_row);
+                }
+            }
+
+            // utility function to fetch user's investment records
+            function fetchRecords(offset, limit, direction) {
+                let req_url = '../../request';
+                let form_data = 'req=get_investment_records&offset=' + offset + '&limit=' + limit; // request query
+
+                // send request to server
+                window.ajaxRequest(
+                    req_url,
+                    form_data,
+                    { contentType: "application/x-www-form-urlencoded" },
+
+                    // listen to response from the server
+                    function (response) {
+                        renderInvestmentRecords(JSON.parse(response));
+                        let elem = document.querySelector('.curr-page-indicator');
+
+                        if (direction == 'next') {
+                            curr_records_page += 1;
+                        } else {
+                            curr_records_page -= 1;
+                        }
+
+                        elem.innerHTML = "Page " + curr_records_page + " of " + page_count;
+                    },
+
+                    // listen to server error
+                    function (err_status) {
+                        //check if is a timeout or server busy
+                        if (error_status == 408 ||
+                            error_status == 504 ||
+                            error_status == 503) {
+
+                            //send the request again
+                            fetchRecords(offset, limit, direction);
+                        }
+                    }
+                );
+            }
+        </script>
 <?php
 
 // page footer
