@@ -28,6 +28,11 @@ $db = $config['db']['mysql'];
 // enable mysql exception
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
+// fetch result for page rendering
+$data_for_page_rendering = [
+    'user_email' => null
+];
+
 try {
     // connect to database
     $conn = new mysqli($db['host'], $db['username'], $db['password'], $db['dbname']);
@@ -73,22 +78,39 @@ try {
             $stmt->bind_param('ii', $account_activated, $_SESSION['user_id']);
             $account_activated = 1;
             $stmt->execute();
-
-            // close connection to database
             $stmt->close();
-            $conn->close();
 
         } else {
             $redirect_user = false;
         }
 
+    } else {
+        $stmt->close(); // close statement
     }
+
 
     // check to redirect user
     if ($redirect_user) {
+        // close connection to database
+        $conn->close();
+        
         header('Location: '. BASE_URL . 'user/home/my_investment.html');
         exit;
     }
+
+    // get user's email address
+    $query = 'SELECT email FROM users WHERE userID = ? LIMIT 1';
+    $stmt = $conn->prepare($query); // prepare statement
+    $stmt->bind_param('i', $_SESSION['user_id']);
+    $stmt->execute();
+    $stmt->bind_result($user_email);
+    $stmt->fetch();
+    $stmt->close();
+
+    $data_for_page_rendering['user_email'] = $user_email;
+
+    // close connection to database
+    $conn->close();
 
 } catch (mysqli_sql_exception $e) {
     // log the error to a file
@@ -116,7 +138,7 @@ require_once 'left_bar_menu.php';
             </div>
             <p class="p1 txt-block-fmt">
                 Please verify your email by clicking the link sent 
-                to your email address <span class="txt-decor">attamahcelestine@gmail.com</span>.
+                to your email address <span class="txt-decor"><?php echo $data_for_page_rendering['user_email']; ?></span>.
             </p>
             <p class="p2 txt-block-fmt">
                 Note: If you don’t receive any email after 5 minutes 
