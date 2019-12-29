@@ -799,55 +799,62 @@ require_once 'page_left_menu.php';
                 }
             };
 
+            // position user's uploaded profile picture for croping
+            function positionImageForCroping(position) {
+                let img_scr_x = position.x - mouse_start_point.x;
+                let img_scr_y = position.y - mouse_start_point.y;
+
+                // scroll image and apply scroll constraint
+                if (img_scr_x < 0) { // left
+                    if (Math.abs(img_pos_x + img_scr_x) > max_img_scr_left) {
+                        img_pos_x = max_img_scr_left * -1;
+                    } else {
+                        img_pos_x = img_pos_x + img_scr_x;
+                    }
+
+                } else { // right
+                    if ((img_pos_x + img_scr_x) > 0) {
+                        img_pos_x = 0;
+                    } else {
+                        img_pos_x = img_pos_x + img_scr_x;
+                    }
+                }
+
+                if (img_scr_y < 0) { // up
+                    if (Math.abs(img_pos_y + img_scr_y) > max_img_scr_up) {
+                        img_pos_y = max_img_scr_up * -1;
+                    } else {
+                        img_pos_y = img_pos_y + img_scr_y;
+                    }
+
+                } else { // down
+                    if ((img_pos_y + img_scr_y) > 0) {
+                        img_pos_y = 0;
+                    } else {
+                        img_pos_y = img_pos_y + img_scr_y;
+                    }
+                }
+
+                // position the image
+                let profile_img = document.getElementById("new-profile-pic");
+                profile_img.setAttribute("style", "top: " + img_pos_y + "px; left: " + img_pos_x + "px;");
+
+                // reposition start point
+                mouse_start_point.x = position.x;
+                mouse_start_point.y = position.y;
+            }
+
             // listen to drag event (simulated drag event for desktop)
             let profile_img = document.getElementById("profile-img-drag-event");
+
+            // for mouse event
             profile_img.onmousemove = function (e) {
                 if (profile_img_editing_disable) {
                     return;
                 }
 
                 if (is_mouse_down) {
-                    let img_scr_x = e.offsetX - mouse_start_point.x;
-                    let img_scr_y = e.offsetY - mouse_start_point.y;
-
-                    // scroll image and apply scroll constraint
-                    if (img_scr_x < 0) { // left
-                        if (Math.abs(img_pos_x + img_scr_x) > max_img_scr_left) {
-                            img_pos_x = max_img_scr_left * -1;
-                        } else {
-                            img_pos_x = img_pos_x + img_scr_x;
-                        }
-
-                    } else { // right
-                        if ((img_pos_x + img_scr_x) > 0) {
-                            img_pos_x = 0;
-                        } else {
-                            img_pos_x = img_pos_x + img_scr_x;
-                        }
-                    }
-
-                    if (img_scr_y < 0) { // up
-                        if (Math.abs(img_pos_y + img_scr_y) > max_img_scr_up) {
-                            img_pos_y = max_img_scr_up * -1;
-                        } else {
-                            img_pos_y = img_pos_y + img_scr_y;
-                        }
-
-                    } else { // down
-                        if ((img_pos_y + img_scr_y) > 0) {
-                            img_pos_y = 0;
-                        } else {
-                            img_pos_y = img_pos_y + img_scr_y;
-                        }
-                    }
-
-                    // position the image
-                    let profile_img = document.getElementById("new-profile-pic");
-                    profile_img.setAttribute("style", "top: " + img_pos_y + "px; left: " + img_pos_x + "px;");
-
-                    // reposition start point
-                    mouse_start_point.x = e.offsetX;
-                    mouse_start_point.y = e.offsetY;
+                    positionImageForCroping({x: e.offsetX, y: e.offsetY});
                 }
             };
 
@@ -865,6 +872,60 @@ require_once 'page_left_menu.php';
                     is_mouse_down = false;
                 }
             };
+
+            // for touch devices
+            let tracked_touch = null;
+
+            profile_img.addEventListener("touchmove", function (e) {
+                e.preventDefault();
+                let touches = e.changedTouches;
+                let touch = null;
+
+                // check if user's tracked finger is still active
+                if (tracked_touch == null) return false;
+
+                // find the track finger
+                for (let i = 0; i < touches.length; i++) {
+                    if (tracked_touch.identifier == touches[i].identifier) {
+                        touch = touches[i];
+                        break; // exit for
+                    }
+                }
+
+                if (touch) {
+                    if (profile_img_editing_disable) {
+                        return;
+                    }
+
+                    positionImageForCroping({x: touch.pageX, y: touch.pageY});
+                }
+
+            }, false);
+
+            profile_img.addEventListener("touchstart", function (e) {
+                e.preventDefault();
+                let touches = e.changedTouches;
+
+                // check if we haven't start tracking a finger
+                if (tracked_touch == null) {
+                    // we track only one finger
+                    tracked_touch = touches[0];
+
+                    mouse_start_point.x = touches[0].pageX;
+                    mouse_start_point.y = touches[0].pageY;
+                }
+
+            }, false);
+
+            profile_img.addEventListener("touchend", function (e) {
+                e.preventDefault();
+                let touches = e.changedTouches;
+
+                if (tracked_touch != null) {
+                    tracked_touch = null;
+                }
+
+            }, false);
 
             // add change event listener to file input
             document.getElementById('upload-profile-pic-input').addEventListener(
