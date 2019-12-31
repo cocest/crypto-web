@@ -696,7 +696,7 @@ function init() {
 
     // handle touch start event for testimonial
     function handleStartTM(e) {
-        e.preventDefault();
+        //e.preventDefault();
         stopTMSlideAnimation(); // stop animation when user place finger(s) on scrren
         let touches = e.changedTouches;
 
@@ -708,7 +708,7 @@ function init() {
 
     // handle touch end event for testimonial
     function handleEndTM(e) {
-        e.preventDefault();
+        //e.preventDefault();
         let touches = e.changedTouches;
 
         // check if is only one finger
