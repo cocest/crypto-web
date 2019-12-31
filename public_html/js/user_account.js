@@ -444,15 +444,17 @@ function init() {
 
     // adapt page content height
     function adaptPageContent () {
-        let elem = document.querySelector('.page-content-cont');
-        elem.removeAttribute("style");
-        let padding_h = 90; // content top + bottom padding
-        let ch = elem.offsetHeight;
+        let elem1 = document.querySelector('.page-content-cont');
+        let elem2 = document.querySelector('.page-footer');
+        elem2.removeAttribute("style"); // this is needed
+        let footer_top_margin = 200;
+        let ch = elem1.offsetHeight;
         let wh = window.innerHeight;
 
         // check to fit content height to window height
         if (ch < wh) {
-            elem.setAttribute("style", "height: " + (wh - padding_h) + "px;");
+            let new_top_margin = (wh - ch) + footer_top_margin;
+            elem2.setAttribute("style", "margin-top: " + new_top_margin + "px;");
         }
     }
 
