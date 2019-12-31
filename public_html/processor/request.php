@@ -152,8 +152,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // select user's testimonial from database
                 $query = 
                     'SELECT A.testimoney, B.firstName, B.lastName, B.smallProfilePictureURL, A.time 
-                     FROM user_testimonies AS A LEFT JOIN users AS B 
-                     ON A.userID = B.id ORDER BY RAND() LIMIT 10';
+                     FROM user_testimonies AS A LEFT JOIN users AS B ON A.userID = B.id 
+                     WHERE verified = 1 ORDER BY RAND() LIMIT 10';
 
                 $stmt = $conn->prepare($query); // prepare statement
 
@@ -169,7 +169,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $formatted_result[] = 
                             [
                                 'name' => $row['lastName'] . ' ' . $row['firstName'],
-                                'profile_picture' => $row['smallProfilePictureURL'],
+                                'profile_picture' => empty($row['smallProfilePictureURL']) ? BASE_URL.'images/icons/profile_pic2.png' : BASE_URL.'uploads/users/profile/'.$row['smallProfilePictureURL'],
                                 'testimoney' => $row['testimoney'],
                                 'time' => $row['time']
                             ];

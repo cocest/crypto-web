@@ -717,6 +717,7 @@
 
 .crypto-statistics-loading-cont .vt-bars-anim-cont {
     width: 37px;
+    height: 32px;
     margin: 0 auto;
     margin-bottom: 15px;
 }
@@ -927,7 +928,7 @@
 
 .testimonial-panel .prof-pic {
     position: relative;
-    top: 15px;
+    top: 14px;
     left: 20px;
     width: 100px;
     height: 100px;
@@ -935,6 +936,7 @@
     object-position: center;
     overflow: hidden;
     border: 5px solid white;
+    background-color: white;
 }
 
 .testimoney-section-cont {

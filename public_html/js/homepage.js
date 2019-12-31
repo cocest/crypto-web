@@ -696,7 +696,7 @@ function init() {
 
     // handle touch start event for testimonial
     function handleStartTM(e) {
-        //e.preventDefault();
+        e.preventDefault();
         stopTMSlideAnimation(); // stop animation when user place finger(s) on scrren
         let touches = e.changedTouches;
 
@@ -708,7 +708,7 @@ function init() {
 
     // handle touch end event for testimonial
     function handleEndTM(e) {
-        //e.preventDefault();
+        e.preventDefault();
         let touches = e.changedTouches;
 
         // check if is only one finger
@@ -805,10 +805,14 @@ function init() {
                 } else {
                     // show the testimoney panel
                     document.querySelector('.testimoney-section-cont').setAttribute('class', 'testimoney-section-cont');
-                }
 
-                createTestimonialPanels(curr_panel_view_count);
-                startTMSlideAnimation();
+                    stopTMSlideAnimation();
+                    createTestimonialPanels(curr_panel_view_count);
+
+                    if (testimonies.length > 1) {
+                        startTMSlideAnimation();
+                    }
+                }
             }
 
         } else if (win_width_size < 1200) { // tablet view
@@ -826,10 +830,14 @@ function init() {
                 } else {
                     // show the testimoney panel
                     document.querySelector('.testimoney-section-cont').setAttribute('class', 'testimoney-section-cont');
-                }
 
-                stopTMSlideAnimation();
-                createTestimonialPanels(curr_panel_view_count);
+                    stopTMSlideAnimation();
+                    createTestimonialPanels(curr_panel_view_count);
+
+                    if (testimonies.length > 2) {
+                        startTMSlideAnimation();
+                    }
+                }
             }
 
         } else { // desktop view
@@ -851,10 +859,14 @@ function init() {
                 } else {
                     // show the testimoney panel
                     document.querySelector('.testimoney-section-cont').setAttribute('class', 'testimoney-section-cont');
-                }
 
-                stopTMSlideAnimation();
-                createTestimonialPanels(curr_panel_view_count);
+                    stopTMSlideAnimation();
+                    createTestimonialPanels(curr_panel_view_count);
+
+                    if (testimonies.length > 3) {
+                        startTMSlideAnimation();
+                    }
+                }
             }
         }
 
