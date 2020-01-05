@@ -134,7 +134,7 @@ require_once 'page_left_menu.php';
         <h1 class="page-title-hd">Packages</h1>
         <div class="packages-sec-1">
             <div class="package-descr-cont">
-                Here are list of exclusive packages you can choose from, and we do the rest for you.
+                Here is a list of exclusive packages you could choose from.
             </div>
             <div class="package-list-cont">
                 <div class="package-list-wrapper ux-layout-grid columns-3">
@@ -152,13 +152,13 @@ require_once 'page_left_menu.php';
                                     ?>
                                 </div>
                                 <div class="duration-cont">
-                                    <span class="duration"><?php echo $data_for_page_rendering[$i]['durationInMonth']; ?></span> month due
+                                    <span class="duration"><?php echo $data_for_page_rendering[$i]['durationInMonth']; ?></span> months due
                                 </div>
                             </div>
                             <div class="lower-sec">
                                 <ul class="pkg-features-list">
                                     <li>
-                                        <?php echo intval($data_for_page_rendering[$i]['monthlyROI']); ?>% return of investment (ROI).
+                                        <?php echo intval($data_for_page_rendering[$i]['monthlyROI']); ?>% return on investment (ROI).
                                     </li>
                                     <li>
                                         <?php echo $data_for_page_rendering[$i]['bonus'] == 0 ? 'No' : intval($data_for_page_rendering[$i]['bonus']).'%'; ?> investment bonus.

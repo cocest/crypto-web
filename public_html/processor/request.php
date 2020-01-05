@@ -258,7 +258,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 break;
 
             case 'resend_email_verification':
-                $query = 'SELECT email, accountActivated, firstName, lastName FROM users WHERE id = ? LIMIT 1';
+                $query = 'SELECT email, accountActivated, firstName FROM users WHERE id = ? LIMIT 1';
                 $stmt = $conn->prepare($query); // prepare statement
                 $stmt->bind_param('i', $_SESSION['user_id']);
                 $stmt->execute();
@@ -266,7 +266,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 // check if is empty
                 if ($stmt->num_rows > 0) {
-                    $stmt->bind_result($user_email, $account_activated, $first_name, $last_name);
+                    $stmt->bind_result($user_email, $account_activated, $first_name);
                     $stmt->fetch();
 
                     // check if account is not activated
@@ -276,7 +276,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $token = $_SESSION['user_id'] . ':' . $verification_token;
 
                         $encrypted_token = opensslEncrypt($token, OPENSSL_ENCR_KEY); // encrypt the token
-                        $username = $last_name . ' ' . $first_name;
+                        $username = $first_name;
                         $verification_url = BASE_URL . 'verify_email?token=' . urlencode(base64_encode($encrypted_token));
 
                         // add the token to the database for later verification

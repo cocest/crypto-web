@@ -23,8 +23,8 @@ require_once '../includes/config.php';
     <link rel="icon" type="image/png" href="./images/icons/favicon1.png" sizes="16x16">
     <link rel="icon" type="image/png" href="./images/icons/favicon2.png" sizes="32x32">
     <link rel="icon" type="image/png" href="./images/icons/favicon3.png" sizes="120x120">
-    <meta name="description" content="CryptoWeb official website">
-    <meta name="keywords" content="sign in, login">
+    <meta name="description" content="Thecitadelcapital official website">
+    <meta name="keywords" content="thecitadelcapital, cryptocurrency, investment, funds, business">
     <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
     <link type="text/css" href="./fonts/css/all.min.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="./styles/UdaraX.css">
@@ -52,7 +52,7 @@ require_once '../includes/config.php';
                     <ul class="ux-hr-menu fmt-link-med ux-txt-align-rt">
                         <li><a class="link ux-txt-smokewhite txt-hover" onclick="scrollToSection(0, this)">Home</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" onclick="scrollToSection(1, this)">Investment Packages</a></li>
-                        <li><a class="link ux-txt-smokewhite txt-hover" href="#">About Us</a></li>
+                        <li><a class="link ux-txt-smokewhite txt-hover" href="./about_us.html">About Us</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" onclick="scrollToSection(2, this)">Contact Us</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" href="#">FAQ</a></li>
                         <li><a class="ux-btn ux-bg-chocolate bg-hover ux-txt-white ux-rd-corner-1"
@@ -82,9 +82,10 @@ require_once '../includes/config.php';
         <ul class="ux-vt-menu">
             <li><a class="link active" onclick="scrollToSection(0, this)">Home</a></li>
             <li><a class="link" onclick="scrollToSection(1, this)">Investment Packages</a></li>
-            <li><a class="link" href="#">About US</a></li>
+            <li><a class="link" href="./about_us.html">About US</a></li>
             <li><a class="link" onclick="scrollToSection(2, this)">Contact US</a></li>
             <li><a class="link" href="#">FAQ</a></li>
+            <li><a class="link" href="./register.html">Get Started</a></li>
         </ul>
     </div>
 
@@ -98,9 +99,9 @@ require_once '../includes/config.php';
         <div id="headline-cont" class="page-cont-max-width">
             <div class="headline">
                 <h1>
-                    <span class="ux-txt-white ux-fs-px-18">Cryptocurrencies Hedge Funds</span>
+                    <span class="ux-txt-white ux-fs-px-18 txt-shadow">Cryptocurrencies Hedge Funds</span>
                     </br>
-                    <span class="ux-txt-chocolate ux-fs-px-20">Creating Profitable And Lasting Partnerships</span>
+                    <span class="ux-txt-chocolate ux-fs-px-20 txt-shadow">Creating Profitable And Lasting Partnerships</span>
                 </h1>
             </div>
             <div class="sub-headline">
@@ -407,6 +408,7 @@ require_once '../includes/config.php';
     <!--Achievement section-->
     <div class="achievement-section-cont">
         <div class="achievement-section page-cont-max-width">
+            <?php if (false) { ?>
             <div class="records-cont ux-layout-grid columns-4">
                 <div class="grid-item">
                     <div class="upper-sec">
@@ -453,6 +455,7 @@ require_once '../includes/config.php';
                     </div>
                 </div>
             </div>
+            <?php } ?>
             <div class="sponsor-cont ux-layout-grid columns-4">
                 <div class="grid-item">
                     <img class="img-2" src="./images/organisation/fsca_logo.png" alt="fsca logo" />

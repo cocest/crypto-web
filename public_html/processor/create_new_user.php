@@ -165,7 +165,7 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             $token = $new_user_id . ':' . $verification_token;
 
             $encrypted_token = opensslEncrypt($token, OPENSSL_ENCR_KEY); // encrypt the token
-            $username = $_POST['lastname'] . ' ' . $_POST['firstname'];
+            $username = $_POST['firstname'];
             $verification_url = BASE_URL . 'verify_email?token=' . urlencode(base64_encode($encrypted_token));
 
             // add the token to the database for later verification

@@ -243,7 +243,7 @@ require_once 'page_left_menu.php';
                         <?php echo $data_for_page_rendering['bonus'] == 0 ? 'No' : intval($data_for_page_rendering['bonus']).'%'; ?> investment bonus.
                     </li>
                     <li>
-                        Investment matured after <?php echo $data_for_page_rendering['durationInMonth']; ?> month.
+                        Investment matured after <?php echo $data_for_page_rendering['durationInMonth']; ?> months.
                     </li>
                     <?php 
                         if ($data_for_page_rendering['withdrawInvestment'] == 0) {

@@ -148,7 +148,7 @@ require_once 'page_left_menu.php';
             <form name="cashout-form" onsubmit="return processCashoutForm(event)" autocomplete="off" novalidate>
                 <div class="select-crypto-cont">
                     <div class="select-input-descr">
-                        Please, select cryptocurrency the payment should made to below:
+                        Please select cryptocurrency of choice payments should be made in below:
                     </div>
                     <div class="crypto-currency-cont">
                         <input id="btc-crypto-input" type="radio" name="currency" value="BTC" checked />

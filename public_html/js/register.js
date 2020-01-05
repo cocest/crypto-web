@@ -170,7 +170,7 @@ function init() {
         }
 
         // validate input
-        if (/^([a-zA-Z0-9]+|[a-zA-Z0-9]+@?[a-zA-Z0-9]+)$/.test(input_elem.value)) {
+        if (/^([a-zA-Z0-9]{3,}|[a-zA-Z0-9]{3,}@?[a-zA-Z0-9]+)$/.test(input_elem.value) && /[a-zA-Z]/.test(input_elem.value)) {
             // disable email input
             input_elem.disabled = true;
 
@@ -508,7 +508,7 @@ function init() {
                             remove_user_input = false;
 
                             // check if user input has "+" char in it
-                            if (/^[0-9]+$/.test(input_elem.value)) {
+                            if (/^\d+$/.test(input_elem.value)) {
                                 // add plus sign
                                 input_elem.value = "+" + input_elem.value;
 
@@ -516,9 +516,11 @@ function init() {
                                 window.setCaretPosition(input_elem, input_elem.value.length + 1);
                             }
 
-                            if (!/^(\+[0-9]+|\+)$/.test(input_elem.value) && input_elem.value.length > 0) {
-                                // remove user invalid input
-                                input_elem.value = "+" + input_elem.value.replace(/[^0-9]+/g, "");
+                            if (!/^(\+\d{1,3}|\+)$/.test(input_elem.value) && input_elem.value.length > 0) {
+                                // add plus sign
+                                input_elem.value = 
+                                    input_elem.value.substring(0, curr_text_caret_offset) + 
+                                    input_elem.value.substring(window.getCaretPosition(input_elem), input_elem.value.length);
 
                                 // reposition caret or cursor
                                 window.setCaretPosition(input_elem, curr_text_caret_offset);
