@@ -78,8 +78,8 @@ require_once '../includes/config.php';
         <div class="bg-img-cover"></div>
         <div class="page-upper-section-wrapper sec-max-width">
             <div class="headline-cont">
-                <h1 class="headline txt-shadow">Your success is our desire.</h1>
-                <h3 class="sub-headline txt-shadow">We are one family ready to take risk because that is where we strive.</h3>
+                <h1 class="headline txt-shadow">Your success is our success.</h1>
+                <h3 class="sub-headline txt-shadow">We are committed to creating long lasting and profitable partners thus aligning our goals with those of our partners.</h3>
             </div>
         </div>
     </div>
@@ -89,8 +89,8 @@ require_once '../includes/config.php';
         <div class="about-us-cont">
            <h1 class="caption ux-txt-grayblue">About Us</h1>
            <p class="content">
-                Citadel Capital Partners is one of the leading investors in the global alternative 
-                and financial markets. Founded in 1996 for the aim of ensuring capital appreciation 
+                The Citadel Capital Partners is a leading investor in the global alternative and 
+                financial markets. Founded in 1996 for the aim of ensuring capital appreciation 
                 as well as wealth protection, we have delivered investment returns to our partners 
                 for over a decade, aligning our interests for a profitable and lasting partnership. 
                 With over $10 billion in AUM across different funds and using the latest management strategies, 
@@ -211,7 +211,7 @@ require_once '../includes/config.php';
                         <h4 class="position">Chief Technical Officer</h4>
                         <p class="bio">
                             Riku is a graduate of the University of Osaka and has dedicated his 
-                            life’s work to research and discovery of new trends in technology and 
+                            life's work to research and discovery of new trends in technology and 
                             has merged that knowledge with our goals to generate outstanding ROIs.
                         </p>
                     </div>

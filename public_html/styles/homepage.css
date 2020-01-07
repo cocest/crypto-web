@@ -697,6 +697,32 @@
     line-height: 32px;
 }
 
+.lm-about-us-link-cont {
+    width: 100%;
+    margin-top: 40px;
+}
+
+.lm-about-us-link-cont a {
+    text-decoration: none;
+    font-size: 1.25em;
+    color: #c1d4e4;
+}
+
+.lm-about-us-link-cont a:hover {
+    color: white;
+}
+
+.lm-about-us-link-cont a span {
+    position: relative;
+    top: -13px;
+    padding-right: 15px;
+}
+
+.lm-about-us-link-cont a img {
+    width: 40px;
+    height: 40px;
+}
+
 .tm-scroll-left-btn {
     top: 325px;
     left: -645px;
@@ -788,6 +814,18 @@
 
 #crypto-st-table-cont table {
     width: 100%;
+}
+
+.powered-crypto-statistics {
+    text-align: right;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+.powered-crypto-statistics img {
+    float: right;
+    height: 20px;
+    width: 228px;
 }
 
 .tm-scroll-right-btn {
@@ -1161,7 +1199,7 @@
 }
 
 .achievement-section .sponsor-cont {
-    margin-top: 150px;
+    /*margin-top: 150px;*/
 }
 
 .achievement-section .sponsor-cont .grid-item {
@@ -1436,6 +1474,10 @@
     .about-crypto-cont {
         display: block;
         width: unset;
+    }
+
+    .lm-about-us-link-cont {
+        text-align: center;
     }
 
     .testimoney-section {

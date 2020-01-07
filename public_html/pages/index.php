@@ -132,9 +132,9 @@ require_once '../includes/config.php';
         <div class="package-headline ux-txt-align-ct">
             <h1 class="ux-txt-grayblue">Why Choose Us</h1>
             <p class="descr-txt ux-fs-px-18">
-                You have come to the right place because we have the services you always want. It's our 
-                obligation for providing unparalleled services for your success. We are working 24 hours 
-                to improve our service to suit your preference at best.
+                You are at the right place. With our top notch service your success is guaranteed. 
+                It is our obligation to provide unparalleled services and we are always working 
+                to suit your preferences in the best way.
             </p>
         </div>
         <div class="package-panel-cont">
@@ -327,19 +327,20 @@ require_once '../includes/config.php';
             </div>
             <div class="about-crypto-cont">
                 <p>
-                    Citadel Capital Partners is one of the leading investors in the global alternative 
-                    and financial markets. Founded in 1996 for the aim of ensuring capital appreciation 
+                    The Citadel Capital Partners is a leading investor in the global alternative and 
+                    financial markets. Founded in 1996 for the aim of ensuring capital appreciation 
                     as well as wealth protection, we have delivered investment returns to our partners 
                     for over a decade, aligning our interests for a profitable and lasting partnership. 
                     With over $10 billion in AUM across different funds and using the latest management strategies, 
                     technology, and trading techniques, we harness the brainpower of the smartest 
                     individuals, building on a platform of discipline, integrity, and teamwork to 
-                    identify and utilize the latest opportunities to deliver groundbreaking returns. 
-                    With the establishment and boom of cryptocurrencies, Citadel Capital identifies 
-                    the promise and potential within the industry and has since 2014 served as an 
-                    alternative to just holding thus generating profits for our partners in both the 
-                    long and short terms.
+                    identify and utilize the latest opportunities to deliver groundbreaking returns.
                 </p>
+                <div class="lm-about-us-link-cont">
+                    <a href="./about_us.html">
+                        <span>Learn more</span><img src="./images/icons/more_icon.png" alt="more" />
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -359,6 +360,9 @@ require_once '../includes/config.php';
                 <div class="table-wrapper">
                     <table id="crypto-st-tbl"></table>
                 </div>
+            </div>
+            <div class="powered-crypto-statistics">
+                <img src="./images/icons/crypto_compare.png" alt="cryptocompare" />
             </div>
         </div>
         <div class="crypto-statistics-loading-cont">

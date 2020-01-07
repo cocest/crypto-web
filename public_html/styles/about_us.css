@@ -166,7 +166,11 @@
 .headline-cont .sub-headline {
     font-size: 1.5em;
     font-weight: normal;
+    line-height: 36px;
     margin-top: 0px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .page-about-us-section {
@@ -433,6 +437,7 @@
     .headline-cont .sub-headline {
         font-size: 1.3em;
         font-weight: normal;
+        line-height: 30px;
         margin-top: 0px;
     }
 
