@@ -138,7 +138,7 @@
             caret_pos = sel.text.length;
         }
 
-        return (caret_pos);
+        return caret_pos;
     }
 
 

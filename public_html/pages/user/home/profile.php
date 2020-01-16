@@ -327,7 +327,7 @@ require_once 'page_left_menu.php';
                     scale_factor: profile_img_scale_factor
                 };
 
-                reg_form.append("imgcropinfo", JSON.stringify(img_crop_info))
+                reg_form.append("imgcropinfo", JSON.stringify(img_crop_info));
 
                 // disable upload button
                 upload_btn.disabled = true;

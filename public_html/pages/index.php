@@ -107,7 +107,7 @@ require_once '../includes/config.php';
             <div class="sub-headline">
                 <h2 style="line-height: 28px;">
                     <span class="ux-txt-white ux-fs-px-15 sub-headline-txt">
-                        We provide an alternative means of Holding generating profits for our 
+                        We provide an alternative means of Holding, generating profits for our 
                         partners in both the short and long terms. You too can become one of 
                         our partners now!
                     </span>
