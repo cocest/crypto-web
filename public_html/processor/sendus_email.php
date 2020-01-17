@@ -45,7 +45,7 @@ try {
         // send message to client
         echo json_encode([
             'success' => false,
-            'error_msg' => 'Email contain no header or body.'
+            'error_msg' => 'Email contains no header or body.'
         ]);
 
         exit; // exit script

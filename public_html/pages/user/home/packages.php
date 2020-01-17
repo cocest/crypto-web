@@ -163,13 +163,6 @@ require_once 'page_left_menu.php';
                                     <li>
                                         <?php echo $data_for_page_rendering[$i]['bonus'] == 0 ? 'No' : intval($data_for_page_rendering[$i]['bonus']).'%'; ?> investment bonus.
                                     </li>
-                                    <?php 
-                                        if ($data_for_page_rendering[$i]['withdrawInvestment'] == 0) {
-                                    ?>
-                                    <li>You can only withdraw profit, capital is rolled over to next package</li>
-                                    <?php 
-                                        }
-                                    ?>
                                 </ul>
                             </div>
                             <div class="invest-btn-cont">

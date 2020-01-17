@@ -83,8 +83,8 @@ try {
 
     // get user's current investment
     $query = 
-        'SELECT A.packageID, A.amountInvested, A.profitCollected, A.startTime, A.endTime, B.package, B.durationInMonth, B.monthlyROI, B.bonus 
-         FROM user_current_investment AS A LEFT JOIN crypto_investment_packages AS B 
+        'SELECT A.packageID, A.amountInvested, A.profitCollected, A.startTime, A.endTime, B.package, B.durationInMonth, B.monthlyROI, B.bonus,  
+         B.withdrawInvestmentPercent FROM user_current_investment AS A LEFT JOIN crypto_investment_packages AS B 
          ON A.packageID = B.id WHERE A.userID = ? LIMIT 1';
     $investment_stmt = $conn->prepare($query); // prepare statement
     $investment_stmt->bind_param('i', $_SESSION['user_id']);
@@ -98,6 +98,8 @@ try {
             $bonus = $investment_row['amountInvested'] * ($investment_row['bonus'] / 100);
             $revenue_of_investment = $investment_row['amountInvested'] * ($investment_row['monthlyROI'] / 100);
             $revenue_of_investment = $revenue_of_investment + $bonus;
+            $investment_withdraw_amount = $investment_row['amountInvested'] * ($investment_row['withdrawInvestmentPercent'] / 100);
+            $available_balance = $investment_withdraw_amount + $revenue_of_investment;
 
             try {
                 $conn->begin_transaction(); // start transaction
@@ -105,7 +107,7 @@ try {
                 // update user's account
                 $query = 'UPDATE user_account SET totalBalance = totalBalance + ?, availableBalance = availableBalance + ?, pendingRevenue = ? WHERE userID = ? LIMIT 1';
                 $stmt = $conn->prepare($query); // prepare statement
-                $stmt->bind_param('dddi', $revenue_of_investment, $revenue_of_investment, $pendingRevenue, $_SESSION['user_id']);
+                $stmt->bind_param('dddi', $revenue_of_investment, $available_balance, $pendingRevenue, $_SESSION['user_id']);
                 $pendingRevenue = 0;
                 $stmt->execute();
                 $stmt->close();

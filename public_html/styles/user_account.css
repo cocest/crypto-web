@@ -1607,22 +1607,18 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 }
 
 .package-list-wrapper .package-cont.item-1 .upper-sec {
-    border-bottom: 3px solid lightgray;
-}
-
-.package-list-wrapper .package-cont.item-2 .upper-sec {
     border-bottom: 3px solid #d58042;
 }
 
-.package-list-wrapper .package-cont.item-3 .upper-sec {
+.package-list-wrapper .package-cont.item-2 .upper-sec {
     border-bottom: 3px solid #a85d18;
 }
 
-.package-list-wrapper .package-cont.item-4 .upper-sec {
+.package-list-wrapper .package-cont.item-3 .upper-sec {
     border-bottom: 3px solid #a9abae;
 }
 
-.package-list-wrapper .package-cont.item-5 .upper-sec {
+.package-list-wrapper .package-cont.item-4 .upper-sec {
     border-bottom: 3px solid #d9b800;
 }
 

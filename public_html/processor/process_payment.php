@@ -105,7 +105,7 @@ try {
     $stmt->bind_result($package_name, $min_amount, $max_amount);
     $stmt->fetch();
 
-    if ($user_entered_usd < $min_amount || $user_entered_usd > $max_amount) {
+    if (!($user_entered_usd >= $min_amount && ($user_entered_usd <= $max_amount || $max_amount == 0))) {
         // close connection to database
         $stmt->close();
         $conn->close();
@@ -153,6 +153,8 @@ try {
             throw new Exception($response['error']);
         }
 
+        $conn->begin_transaction(); // start transaction
+
         // add payment to user's transactions table
         $query = 
             'INSERT INTO user_transactions (transactionID, userID, currency, transaction, ammount, amountInUSD, committed, time)
@@ -183,6 +185,15 @@ try {
         $stmt->execute();
         $stmt->close();
 
+        // package user want to subscribe to
+        $query = 'INSERT INTO user_pending_investment (userID, packageID) VALUES(?, ?)';
+        $stmt = $conn->prepare($query); // prepare statement
+        $stmt->bind_param('ii', $_SESSION['user_id'], $_POST['package_id']);
+        $stmt->execute();
+        $stmt->close();
+
+        $conn->commit(); // commit all the transaction
+
         // close connection to database
         $conn->close();
 
@@ -195,6 +206,18 @@ try {
             'status_url' => $response['result']['status_url'],
             'qrcode_url' => $response['result']['qrcode_url']
         ]);
+
+    } catch (mysqli_sql_exception $e) {
+        $conn->rollback(); // remove all queries from queue if error occured (undo)
+        $conn->close(); // close connection to database
+
+        // send error message back to client
+        echo json_encode([
+            'success' => false,
+            'error_msg' => 'Transaction can not be processed due to an error. Please, try again later.'
+        ]);
+
+        exit;
 
     } catch (Exception $e) {
         // close connection to database

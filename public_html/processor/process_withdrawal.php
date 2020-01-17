@@ -260,6 +260,8 @@ try {
         if ($response['error'] != 'ok') {
             throw new Exception($response['error']);
         }
+
+        $conn->begin_transaction(); // start transaction
         
         // add withdrawal to user's transactions table
         $query = 
@@ -292,6 +294,8 @@ try {
         $stmt->execute();
         $stmt->close();
 
+        $conn->commit(); // commit all the transaction
+
         // close connection to database
         $conn->close();
 
@@ -300,6 +304,18 @@ try {
             'success' => true,
             'available_balance' => $new_available_balance
         ]);
+
+    } catch (mysqli_sql_exception $e) {
+        $conn->rollback(); // remove all queries from queue if error occured (undo)
+        $conn->close(); // close connection to database
+
+        // send error message back to client
+        echo json_encode([
+            'success' => false,
+            'error_msg' => 'Transaction can not be processed due to an error. Please, try again later.'
+        ]);
+
+        exit;
 
     } catch (Exception $e) {
         // close connection to database

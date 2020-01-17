@@ -193,7 +193,7 @@ require_once '../includes/config.php';
                     </div>
                     <div class="content-cont">
                         <h3 class="name">Jamie Hernandez</h3>
-                        <h4 class="position">Marketing Officer</h4>
+                        <h4 class="position">Chief Marketing Officer</h4>
                         <p class="bio">
                             A graduate of the New York State University, Jamie holds a DBA in 
                             business administration. He is a seasoned investor and has huge 
@@ -288,7 +288,7 @@ require_once '../includes/config.php';
         </div>
         <div class="footer-hr-line"></div>
         <div class="footer-base-cont ux-bg-grayblue ux-txt-white">
-            Copyright © Thecitadelcapital 2020. All Rights Reserved
+            Copyright &copy; Thecitadelcapital 2020. All Rights Reserved
         </div>
     </div>
 </body>

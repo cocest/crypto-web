@@ -107,69 +107,36 @@ try {
      */ 
     
     if ($ipn_status >= 100 || $ipn_status == 2) { // check if transaction was successfully
-        $query = "SELECT availableBalance FROM user_account WHERE userID = ? LIMIT 1";
-        $stmt = $conn->prepare($query); // prepare statement
-        $stmt->bind_param('i', $user_id);
-        $stmt->execute();
-        $stmt->bind_result($available_balance);
-        $stmt->fetch();
-        $stmt->close();
-
         // check if transaction haven't be handled before
         if ($transaction_committed == 0) {
             $nnochi = new Nnochi(); // template parser
 
             // check if is deposit or withdrawal
             if ($ipn_type == 'deposit') {
-                $move_invested_amount = false; // move user's invested amount to available balance
                 $update_current_investment = false;
-                $amount_invested;
-                $new_available_balance;
 
-                $query = 'SELECT amountInvested, withdrawInvestment FROM user_current_investment WHERE userID = ? LIMIT 1';
+                $query = 'SELECT 1 FROM user_current_investment WHERE userID = ? LIMIT 1';
                 $stmt = $conn->prepare($query); // prepare statement
                 $stmt->bind_param('i', $user_id);
                 $stmt->execute();
                 $stmt->store_result(); // needed for num_rows
 
                 if ($stmt->num_rows > 0) {
-                    $stmt->bind_result($amount_invested, $withdraw_investment);
-                    $stmt->fetch();
-                    $stmt->close();
-
-                    if ($withdraw_investment == 0) {
-                        $move_invested_amount = true;
-                    }
-
                     $update_current_investment = true;
                 }
 
+                $stmt->close();
+
                 // get "user_pending_investment"
                 $query = 
-                    'SELECT A.packageID, B.package, B.durationInMonth, B.withdrawInvestment FROM user_pending_investment AS A 
+                    'SELECT A.packageID, B.package, B.durationInMonth FROM user_pending_investment AS A 
                      LEFT JOIN crypto_investment_packages AS B ON A.packageID = B.id WHERE A.userID = ? LIMIT 1';
                 $stmt = $conn->prepare($query); // prepare statement
                 $stmt->bind_param('i', $user_id);
                 $stmt->execute();
-                $stmt->bind_result($package_id, $package_name, $duration_in_month, $package_withdraw_investment);
+                $stmt->bind_result($package_id, $package_name, $duration_in_month);
                 $stmt->fetch();
                 $stmt->close();
-
-                // check to move user's previous invested amount to available balance if there is any
-                if ($move_invested_amount) {
-                    if ($package_withdraw_investment == 1) {
-                        $new_available_balance = $available_balance + $amount_invested + $amount_in_usd;
-                    } else {
-                        $new_available_balance = $available_balance + $amount_invested;
-                    }
-
-                } else {
-                    if ($package_withdraw_investment == 1) {
-                        $new_available_balance = $available_balance + $amount_in_usd;
-                    } else {
-                        $new_available_balance = $available_balance;
-                    }
-                }
 
                 try {
                     $conn->begin_transaction(); // start transaction
@@ -182,32 +149,24 @@ try {
                     $stmt->execute();
                     $stmt->close();
 
-                    // update user's account
-                    $query = 'UPDATE user_account SET availableBalance = ? WHERE userID = ? LIMIT 1';
-                    $stmt = $conn->prepare($query); // prepare statement
-                    $stmt->bind_param('di', $new_available_balance, $user_id);
-                    $stmt->execute();
-                    $stmt->close();
-
                     // update or create new user's investment
                     $start_time = time();
                     $end_time = $start_time + ($duration_in_month * 2592000); // current time + (number of month * seconds in 30 days)
 
                     if ($update_current_investment) {
                         $query = 
-                            'UPDATE user_current_investment SET packageID = ?, amountInvested = ?, withdrawInvestment = ?, 
+                            'UPDATE user_current_investment SET packageID = ?, amountInvested = ?, 
                              startTime = ?, endTime = ? WHERE userID = ? LIMIT 1';
                         $stmt = $conn->prepare($query); // prepare statement
-                        $stmt->bind_param('idiiii', $package_id, $amount_in_usd, $package_withdraw_investment, $start_time, $end_time, $user_id);
+                        $stmt->bind_param('idiii', $package_id, $amount_in_usd, $start_time, $end_time, $user_id);
                         $stmt->execute();
                         $stmt->close();
 
                     } else {
                         $query = 
-                            'INSERT INTO user_current_investment (userID, packageID, amountInvested, 
-                             withdrawInvestment, startTime, endTime) VALUES(?, ?, ?, ?, ?, ?)';
+                            'INSERT INTO user_current_investment (userID, packageID, amountInvested, startTime, endTime) VALUES(?, ?, ?, ?, ?)';
                         $stmt = $conn->prepare($query); // prepare statement
-                        $stmt->bind_param('iidiii', $user_id, $package_id, $amount_in_usd, $package_withdraw_investment, $start_time, $end_time);
+                        $stmt->bind_param('iidii', $user_id, $package_id, $amount_in_usd, $start_time, $end_time);
                         $stmt->execute();
                         $stmt->close();
                     }
@@ -247,10 +206,21 @@ try {
 
                 } catch (Exception $e) {
                     $conn->rollback(); // remove all queries from queue if error occured (undo)
-                    handleErrorAndDie("Transaction information can't be updated");
+                    $conn->close(); // close connection to database
+
+                    handleErrorAndDie("Transaction can't be processed");
                 }
 
             } else { // withdrawal
+                // get user's available balance after withdrawal
+                $query = "SELECT availableBalance FROM user_account WHERE userID = ? LIMIT 1";
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->bind_param('i', $user_id);
+                $stmt->execute();
+                $stmt->bind_result($available_balance);
+                $stmt->fetch();
+                $stmt->close();
+
                 try {
                     $conn->begin_transaction(); // start transaction
 
@@ -307,7 +277,9 @@ try {
 
                 } catch (Exception $e) {
                     $conn->rollback(); // remove all queries from queue if error occured (undo)
-                    handleErrorAndDie("Transaction information can't be updated");
+                    $conn->close(); // close connection to database
+
+                    handleErrorAndDie("Transaction can't be processed");
                 }
             }
         }
@@ -401,7 +373,9 @@ try {
 
         } catch (Exception $e) {
             $conn->rollback(); // remove all queries from queue if error occured (undo)
-            handleErrorAndDie("Transaction information can't be updated");
+            $conn->close(); // close connection to database
+            
+            handleErrorAndDie("Transaction can't be processed");
         }
     }
 
