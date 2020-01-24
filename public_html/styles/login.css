@@ -3,7 +3,7 @@
 /********custom wait animation********/
 .vt-bars-anim-cont {
     display: table;
-    width: 21px;
+    width: 24px;
     height: 23px;
     margin: 0 auto;
     margin-bottom: 25px;
@@ -107,8 +107,8 @@
 }
 
 .site-logo-cont {
-    width: 67px;
-    height: 65px;
+    width: 60px;
+    height: 60px;
     margin: 0 auto;
     margin-bottom: 35px;
     font-size: 1.5em;
@@ -117,8 +117,8 @@
 }
 
 .site-logo-cont img {
-    height: 65px;
-    width: 377px;
+    height: 60px;
+    width: 348px;
 }
 
 .sign-in-header {

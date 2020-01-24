@@ -102,7 +102,7 @@ try {
                         <p>Register today to enjoy our great packages and services exclusively design for you.</p>
                     </div>
                     <div class="copyright">
-                        Copyright &copy; <?php echo date("Y");?>. All Rights Reserved
+                        &copy; <?php echo date("Y");?> Thecitadelcapital. All Rights Reserved
                     </div>
                 </div>
             </div>

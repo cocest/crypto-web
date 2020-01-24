@@ -307,7 +307,6 @@
 
         } else if (parent_elem.nodeName == "BR") {
             return document.createElement("br");
-
         }
 
         let new_elem;

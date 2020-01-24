@@ -95,7 +95,7 @@ if (isset($_COOKIE['auto_login'])) {
                 <input id="login-submit-input" type="submit" value="Sign In">
             </div>
             <div class="forgot-pswd-cont">
-                <a href="#">Forgot your password?</a>
+                <a href="./reset_password.html">Forgot your password?</a>
             </div>
             <div class="vt-bars-anim-cont hide-elem">
                 <div class="vt-bar-cont">

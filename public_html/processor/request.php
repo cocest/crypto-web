@@ -271,7 +271,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     // check if account is not activated
                     if ($account_activated == 0) {
-                        // generate 16 digit unique key plus user ID
+                        // generate 32 digit unique key plus user ID
                         $verification_token = randomText('hexdec', 32);
                         $token = $_SESSION['user_id'] . ':' . $verification_token;
 
@@ -328,6 +328,93 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $conn->close();
 
                 echo 'SUCCESS';
+
+                break;
+
+            case 'reset_password':
+                if (!isset($_POST['email_address'])) {
+                    trigger_error('Request is not properly formed', E_USER_ERROR);
+                }
+
+                // generate hash of 40 characters length from user's email address
+                $search_email_hash = hash('sha1', strtolower($_POST['email_address']));
+
+                // check if user email exist
+                $query = 'SELECT id, email FROM users WHERE searchEmailHash = ? LIMIT 1';
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->bind_param('s', $search_email_hash);
+                $stmt->execute();
+                $stmt->store_result(); // needed for num_rows
+
+                // check if is empty
+                if ($stmt->num_rows > 0) {
+                    $stmt->bind_result($user_id, $user_email);
+                    $stmt->fetch();
+                    $stmt->close();
+
+                    // generate 32 digit unique key plus user ID
+                    $verification_token = randomText('hexdec', 32);
+                    $token = $user_id . ':' . $verification_token;
+
+                    $encrypted_token = opensslEncrypt($token, OPENSSL_ENCR_KEY); // encrypt the token
+                    $verification_url = BASE_URL . 'reset_password?token=' . urlencode(base64_encode($encrypted_token));
+
+                    // add the token to the database for later verification
+                    $query = 'INSERT INTO user_reset_password (userID, token) VALUES(?, ?)';
+                    $stmt = $conn->prepare($query); // prepare statement
+                    $stmt->bind_param('is', $user_id, $verification_token);
+                    $stmt->execute();
+
+                    // template parser
+                    $nnochi = new Nnochi();
+
+                    // send email to user
+                    $mail = new PHPMailer();
+
+                    // server settings
+                    $mail->isSMTP();
+                    $mail->Host = SMTP_HOST;
+                    $mail->Port = SMTP_PORT;
+                    $mail->SMTPAuth = true;
+                    $mail->Username = SMTP_USERNAME;
+                    $mail->Password = SMTP_PASSWORD;
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryption
+                   
+                    // recipient
+                    $mail->setFrom(SENDER_EMAIL, SENDER_NAME); // sender mail
+                    $mail->addAddress($user_email);
+
+                    // content
+                    $mail->isHTML(true);
+                    $mail->Subject = 'Reset Password';
+                    $mail->Body = $nnochi->render(
+                        '../templates/reset_password.html',
+                        [
+                            'verification_url' => $verification_url,
+                            'year' => date('Y')
+                        ]
+                    );
+
+                    if (!$mail->send()) {
+                        // log the error to a file
+                        error_log('Mailer Error: '.$mail->ErrorInfo.PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
+                    }
+
+                    // send response back to client
+                    echo json_encode([
+                        'success' => true
+                    ]);
+
+                } else {
+                    // email doesn't exist
+                    echo json_encode([
+                        'success' => false,
+                        'error_code' => 'no_email_address'
+                    ]);
+                }
+
+                $stmt->close();
+                $conn->close();
 
                 break;
 
