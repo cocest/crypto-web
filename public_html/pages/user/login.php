@@ -7,6 +7,8 @@ session_start();
 require_once '../../includes/config.php';
 require_once '../../includes/utils.php'; // include utility liberary
 
+date_default_timezone_set('UTC');
+
 // global variables here
 $csrf_token;
 
@@ -15,6 +17,13 @@ if (isset($_COOKIE['auto_login'])) {
     // redirect user to login processor
     $_SESSION['auto_login_user'] = true;
     header('Location: ' . BASE_URL . 'login_user');
+    exit;
+
+} else if (isset($_SESSION['auth']) && $_SESSION['auth'] == true && 
+    isset($_SESSION['last_auth_time']) && time() < $_SESSION['last_auth_time']) {
+    
+    // redirect user to there account
+    header('Location: '. BASE_URL . 'user/home/my_investment.html');
     exit;
 
 } else {

@@ -1,0 +1,4 @@
+# robots.txt for https://thecitadelcapital.com/
+
+User-agent: *
+Disallow: /*user/home/*

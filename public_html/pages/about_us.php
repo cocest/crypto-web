@@ -41,7 +41,7 @@ require_once '../includes/config.php';
                 <div class="menu-links-cont">
                     <ul class="ux-hr-menu fmt-link-med">
                         <li><a class="link ux-txt-smokewhite txt-hover" href="./index.html">Home</a></li>
-                        <li><a class="link ux-txt-smokewhite txt-hover" href="#">FAQ</a></li>
+                        <li><a class="link ux-txt-smokewhite txt-hover" href="./help/faq.html">FAQ</a></li>
                         <li><a class="ux-btn ux-bg-chocolate bg-hover ux-txt-white ux-rd-corner-1" href="./register.html">Get Started</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" href="./user/login.html">Sign In</a></li>
                     </ul>
@@ -66,8 +66,7 @@ require_once '../includes/config.php';
     <div class="drop-down-mobi-menu-cont hide shadow ux-bg-grayblue">
         <ul class="ux-vt-menu">
             <li><a class="link active" href="./index.html">Home</a></li>
-            <li><a class="link" href="./about_us.html">About US</a></li>
-            <li><a class="link" href="#">FAQ</a></li>
+            <li><a class="link" href="./help/faq.html">FAQ</a></li>
             <li><a class="link" href="./register.html">Get Started</a></li>
         </ul>
     </div>

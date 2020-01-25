@@ -147,7 +147,7 @@ try {
                 <span class="link-name">Write to us</span>
             </li>
             <li>
-                <a href="#">
+                <a href="<?php echo BASE_URL.'help/faq.html'; ?>">
                     <div class="faq-icon-cont">
                         <img src="../../images/icons/icons_sprite_1.png" />
                     </div>

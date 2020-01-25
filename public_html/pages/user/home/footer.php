@@ -10,7 +10,7 @@
                         <div class="footer-col-1">
                             <ul class="footer-links">
                                 <li>
-                                    <a href="#">About Us</a>
+                                    <a href="<?php echo BASE_URL.'about_us.html'; ?>">About Us</a>
                                 </li>
                                 <li>
                                     <a href="#">Terms of Use</a>
@@ -19,7 +19,7 @@
                                     <a href="#">Cookies Policy</a>
                                 </li>
                                 <li>
-                                    <a href="#">FAQ</a>
+                                    <a href="<?php echo BASE_URL.'help/faq.html'; ?>">FAQ</a>
                                 </li>
                             </ul>
                         </div>

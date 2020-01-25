@@ -54,7 +54,7 @@ require_once '../includes/config.php';
                         <li><a class="link ux-txt-smokewhite txt-hover" onclick="scrollToSection(1, this)">Investment Packages</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" href="./about_us.html">About Us</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" onclick="scrollToSection(2, this)">Contact Us</a></li>
-                        <li><a class="link ux-txt-smokewhite txt-hover" href="#">FAQ</a></li>
+                        <li><a class="link ux-txt-smokewhite txt-hover" href="./help/faq.html">FAQ</a></li>
                         <li><a class="ux-btn ux-bg-chocolate bg-hover ux-txt-white ux-rd-corner-1"
                                 href="./register.html">Get
                                 Started</a></li>
@@ -84,7 +84,7 @@ require_once '../includes/config.php';
             <li><a class="link" onclick="scrollToSection(1, this)">Investment Packages</a></li>
             <li><a class="link" href="./about_us.html">About US</a></li>
             <li><a class="link" onclick="scrollToSection(2, this)">Contact US</a></li>
-            <li><a class="link" href="#">FAQ</a></li>
+            <li><a class="link" href="./help/faq.html">FAQ</a></li>
             <li><a class="link" href="./register.html">Get Started</a></li>
         </ul>
     </div>
