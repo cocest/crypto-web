@@ -173,7 +173,6 @@ require_once 'admin_side_menu.php';
 
             // accept user's uploaded identification
             window.acceptUserID = function () {
-                return; // remove this when your done
                 verifying_user_id = true;
 
                 let accept_btn = document.querySelector('.accept-id-btn-cont .accept-btn');
