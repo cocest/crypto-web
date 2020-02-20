@@ -54,6 +54,8 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             exit; // stop script
         }
 
+        date_default_timezone_set('UTC');
+
         // directory to save uploaded file
         $img_ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
         $file_name = randomText('hexdec', 32).'.'.$img_ext;
@@ -153,9 +155,10 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             $stmt->close();
 
             // insert user's account verification
-            $query = 'INSERT INTO user_account_verification (userID) VALUES(?)';
+            $query = 'INSERT INTO user_account_verification (userID, time) VALUES(?, ?)';
             $stmt = $conn->prepare($query); // prepare statement
-            $stmt->bind_param('i', $new_user_id);
+            $stmt->bind_param('ii', $new_user_id, $current_time);
+            $current_time = time();
             $stmt->execute();
             $stmt->close();
 

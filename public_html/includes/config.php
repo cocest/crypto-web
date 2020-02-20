@@ -54,6 +54,8 @@ define("SMTP_PASSWORD", "");
 define("SENDER_EMAIL", "noreply@thecitadelcapital.com");
 define("SENDER_NAME", "Thecitadelcapital");
 define("SEND_US_EMAIL_ADDRESS", "thecitadelcapital@gmail.com");
+define("USER_PROFILE_URL","http://localhost/workspace/thecitadelcapital/crypto-web/public_html/uploads/users/profile/");
+define("USER_ID_UPLOAD_URL","http://localhost/workspace/thecitadelcapital/crypto-web/public_html/uploads/users/identification/");
 define("USER_ID_UPLOAD_DIR", dirname(__DIR__, 1)."/uploads/users/identification/");
 define("USER_PROFILE_DIR", dirname(__DIR__, 1)."/uploads/users/profile/");
 define("CUSTOM_ERR_DIR", dirname(__DIR__, 1)."/errors/");

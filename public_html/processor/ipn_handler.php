@@ -47,9 +47,14 @@ if (!hash_equals($hmac, $_SERVER['HTTP_HMAC'])) {
 }
 
 // IPN status for the transaction
+$ipn_id;
 $ipn_status = intval($_POST['status']);
 $ipn_type = $_POST['ipn_type'];
-$ipn_id = $ipn_type == 'deposit' ? $_POST['txn_id'] : $_POST['id'];
+if ($ipn_type == "withdrawal") {
+    $ipn_id = $_POST['id'];
+} else {
+    $ipn_id = $_POST['txn_id'];
+}
 
 date_default_timezone_set('UTC');
 
@@ -71,11 +76,11 @@ try {
     $user_id; 
     $crypto_currency;
     $amount_in_usd; 
-    $ammount;
+    $amount;
     $transaction_committed;
 
     // fetch user's transaction
-    $query = 'SELECT userID, currency, ammount, amountInUSD, committed FROM user_transactions WHERE transactionID = ?  LIMIT 1';
+    $query = 'SELECT userID, currency, amount, amountInUSD, committed FROM user_transactions WHERE transactionID = ?  LIMIT 1';
     $stmt = $conn->prepare($query); // prepare statement
     $stmt->bind_param('s', $ipn_id);
     $stmt->execute();
@@ -83,7 +88,7 @@ try {
 
     // check if transaction exist
     if ($stmt->num_rows > 0) {
-        $stmt->bind_result($user_id, $crypto_currency, $ammount, $amount_in_usd, $transaction_committed);
+        $stmt->bind_result($user_id, $crypto_currency, $amount, $amount_in_usd, $transaction_committed);
         $stmt->fetch();
 
     } else {
@@ -97,7 +102,7 @@ try {
     $stmt->close();
 
     // check if the currency and price of the package is altered
-    if (!($_POST['currency'] == $crypto_currency && $_POST['currency'] == $ammount)) {
+    if (!($_POST['currency'] == $crypto_currency && $_POST['currency'] == $amount)) {
         handleErrorAndDie('Currency changed or amount altered.');
     }
     
@@ -211,7 +216,7 @@ try {
                     handleErrorAndDie("Transaction can't be processed");
                 }
 
-            } else { // withdrawal
+            } else if ($ipn_type == "withdrawal") { // withdrawal
                 // get user's available balance after withdrawal
                 $query = "SELECT availableBalance FROM user_account WHERE userID = ? LIMIT 1";
                 $stmt = $conn->prepare($query); // prepare statement
@@ -325,7 +330,7 @@ try {
                     ]
                 );
 
-            } else { // withdrawal
+            } else if ($ipn_type == "withdrawal") { // withdrawal
                 // roll back user's account
                 $query = 'UPDATE user_account SET availableBalance = availableBalance + ? WHERE userID = ? LIMIT 1';
 

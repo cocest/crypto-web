@@ -472,6 +472,7 @@ require_once 'page_left_menu.php';
             function renderInvestmentRecords(records) {
                 let tbl_td;
                 let table_elem = document.querySelector('.overview-inv-tbl');
+                window.removeAllChildElement(table_elem);
 
                 // table header
                 let tbl_row = document.createElement("tr");

@@ -443,7 +443,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $query = 
                     'SELECT B.package, A.ROI, A.amountInvested, A.revenue, A.duration, A.time 
                      FROM user_invested_package_records AS A LEFT JOIN crypto_investment_packages AS B 
-                     ON A.packageID = B.id WHERE userID = ? ORDER BY time LIMIT ?, ?';
+                     ON A.packageID = B.id WHERE userID = ? ORDER BY time DESC LIMIT ?, ?';
                 $stmt = $conn->prepare($query); // prepare statement
                 $stmt->bind_param('iii', $_SESSION['user_id'], $_POST['offset'], $_POST['limit']);
                 $stmt->execute();
@@ -454,11 +454,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 while ($row = $result->fetch_assoc()) {
                     $records[] = [
                         $row['package'],
-                        $rows['ROI'],
-                        $rows['amountInvested'],
-                        $rows['revenue'],
-                        $rows['duration'],
-                        date("M j, Y g:i A", $rows['time'])
+                        $row['ROI'],
+                        $row['amountInvested'],
+                        $row['revenue'],
+                        $row['duration'],
+                        date("M j, Y g:i A", $row['time'])
                     ];
                 }
 
@@ -467,6 +467,421 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 // send result to client
                 echo json_encode($records);
+
+                break;
+
+            case 'get_user_info':
+                if (!(isset($_POST['info_type']) && isset($_POST['user_id']))) {
+                    trigger_error('Request is not properly formed', E_USER_ERROR);
+                }
+
+                // get reguested user data
+                if ($_POST['info_type'] == "profile") {
+                    $query = 'SELECT * FROM users WHERE id = ? LIMIT 1';
+                    $stmt = $conn->prepare($query); // prepare statement
+                    $stmt->bind_param('i', $_POST['user_id']);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    if ($result->num_rows > 0) {
+                        $row = $result->fetch_assoc();
+
+                        // reformat date for display and editting
+                        $splitted_date = explode('-', explode(' ', $row['time'])[0]);
+                        $date_obj   = DateTime::createFromFormat('!m', $splitted_date[1]);
+                        $month_name = $date_obj->format('M'); // Jan - Dec
+                        $registered_date = $month_name.' '.$splitted_date[2].', '.$splitted_date[0];
+
+                        $splitted_date = explode('-', $row['birthdate']);
+                        $date_obj   = DateTime::createFromFormat('!m', $splitted_date[1]);
+                        $month_name = $date_obj->format('M'); // Jan - Dec
+                        $birth_date = $month_name.' '.$splitted_date[2].', '.$splitted_date[0];
+
+                        $req_result = [
+                            'success' => true,
+                            'profile_url' => empty($row['mediumProfilePictureURL']) ? BASE_URL.'images/icons/profile_pic2.png' : USER_PROFILE_URL.$row['mediumProfilePictureURL'],
+                            'username' => $row['userName'],
+                            'referral_id' => $row['referralID'],
+                            'reg_date' => $registered_date,
+                            'name' => $row['lastName'].' '.$row['firstName'],
+                            'birthdate' => $birth_date,
+                            'country' => $row['country'],
+                            'email' => $row['email'],
+                            'phone' => $row['phoneCountryCode'].' '.$row['phoneNumber']
+                        ];
+
+                        // close connection to database
+                        $stmt->close();
+                        $conn->close();
+
+                        // send result back to client
+                        echo json_encode([
+                            'success' => true,
+                            'user' => $req_result
+                        ]);
+
+                    } else {
+                        // close connection to database
+                        $stmt->close();
+                        $conn->close();
+
+                        // send result back to client
+                        echo json_encode([
+                            'success' => true,
+                            'user' => null
+                        ]);
+                    }
+
+                } else if ($_POST['info_type'] == "investment") {
+                    // get user's current investment
+                    $query = 
+                        'SELECT A.amountInvested, A.startTime, B.package, B.durationInMonth, B.monthlyROI 
+                        FROM user_current_investment AS A LEFT JOIN crypto_investment_packages AS B 
+                        ON A.packageID = B.id WHERE A.userID = ? LIMIT 1';
+                    $investment_stmt = $conn->prepare($query); // prepare statement
+                    $investment_stmt->bind_param('i', $_POST['user_id']);
+                    $investment_stmt->execute();
+                    $investment_result = $investment_stmt->get_result();
+                    $investment = $investment_result->fetch_assoc();
+
+                    // get user's account and statistics
+                    $query = 
+                        'SELECT A.totalBalance, A.availableBalance, B.totalInvestment, B.totalRevenue 
+                        FROM user_account AS A LEFT JOIN user_investment_statistics AS B ON A.userID = B.userID 
+                        WHERE A.userID = ? LIMIT 1';
+                    $stmt = $conn->prepare($query); // prepare statement
+                    $stmt->bind_param('i', $_SESSION['user_id']);
+                    $stmt->execute();
+                    $stmt->bind_result($total_balance, $available_balance, $total_investment, $total_revenue);
+                    $stmt->fetch();
+
+                    // close connection to database
+                    $stmt->close();
+                    $conn->close();
+
+                    // send result back to client
+                    echo json_encode([
+                        'success' => true,
+                        'current_investment' => (empty($investment) ? null : [
+                            'amount_invested' => cladNumberFormat($investment['amountInvested']).' USD',
+                            'invested_date' => date("M j, Y", $investment['startTime']),
+                            'package' => $investment['package'],
+                            'duration' => $investment['durationInMonth'].' month',
+                            'roi' => floor($investment['monthlyROI']).'%',
+                        ]),
+                        'revenue' => [
+                            'total_balance' => cladNumberFormat($total_balance).' USD',
+                            'available_balance' => cladNumberFormat($available_balance).' USD'
+                        ],
+                        'overview' => [
+                            'total_investment' => cladNumberFormat($total_investment).' USD',
+                            'total_revenue' => cladNumberFormat($total_revenue).' USD'
+                        ]
+                    ]);
+                }
+
+                break;
+
+            case 'get_registered_users':
+                if (!(isset($_POST['search']) && isset($_POST['field']) && 
+                    isset($_POST['offset']) && isset($_POST['limit']))) {
+
+                    trigger_error('Request is not properly formed', E_USER_ERROR);
+                }
+
+                // decode search value
+                $search_reg_user = urldecode($_POST['search']);
+                $search_reg_user = trim($search_reg_user);
+
+                // get total number of registered users
+                if (empty($search_reg_user)) {
+                    $query = 'SELECT COUNT(*) AS total FROM users';
+                    $stmt = $conn->prepare($query); // prepare statement
+                } else {
+                    $query = 'SELECT COUNT(*) AS total FROM users WHERE '.($_POST['field'] == "username" ? "userName": "referralID").' LIKE ?';
+                    $stmt = $conn->prepare($query); // prepare statement
+                    $stmt->bind_param('s', $search_user);
+                    $search_user = '%'.$search_reg_user.'%';
+                }
+                
+                $stmt->execute();
+                $stmt->bind_result($total_reg_users);
+                $stmt->fetch();
+                $stmt->close();
+
+                // get registered users
+                if (empty($search_reg_user)) {
+                    $query = 'SELECT id, referralID, firstName, lastName, userName FROM users ORDER BY time DESC LIMIT ?, ?';
+                    $stmt = $conn->prepare($query); // prepare statement
+                    $stmt->bind_param('ii', $_POST['offset'], $_POST['limit']);
+                } else {
+                    $query = 'SELECT id, referralID, firstName, lastName, userName FROM users WHERE '.($_POST['field'] == "username" ? "userName": "referralID").' LIKE ? ORDER BY time DESC LIMIT ?, ?';
+                    $stmt = $conn->prepare($query); // prepare statement
+                    $stmt->bind_param('sii', $search_user, $_POST['offset'], $_POST['limit']);
+                    $search_user = '%'.$search_reg_user.'%';
+                }
+                
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                $users = [];
+
+                while ($row = $result->fetch_assoc()) {
+                    $users[] = [
+                        $row['referralID'],
+                        $row['userName'],
+                        $row['lastName'].' '.$row['firstName'],
+                        $row['id']
+                    ];
+                }
+
+                $stmt->close();
+                $conn->close();
+
+                // send result to client
+                echo json_encode([
+                    'users' => $users,
+                    'metadata' => [
+                        'total' => $total_reg_users
+                    ]
+                ]);
+
+                break;
+
+            case 'get_unverified_account':
+                if (!(isset($_POST['offset']) && isset($_POST['limit']))) {
+                    trigger_error('Request is not properly formed', E_USER_ERROR);
+                }
+
+                // get total number of unverified account
+                $query = 'SELECT COUNT(*) AS total FROM user_account_verification WHERE identification = 0';
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->execute();
+                $stmt->bind_result($total_unverified_account);
+                $stmt->fetch();
+                $stmt->close();
+
+                // get unverified account
+                $query = 
+                    'SELECT A.userID, A.time, B.firstName, B.lastName, B.userName 
+                    FROM user_account_verification AS A LEFT JOIN users AS B ON A.userID = B.id 
+                    WHERE A.identification = 0 ORDER BY A.time DESC LIMIT ?, ?';
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->bind_param('ii', $_POST['offset'], $_POST['limit']);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                $accounts = [];
+
+                while ($row = $result->fetch_assoc()) {
+                    $accounts[] = [
+                        $row['userName'],
+                        $row['lastName'].' '.$row['firstName'],
+                        date("M j, Y g:i A", $row['time']),
+                        $row['userID']
+                    ];
+                }
+
+                $stmt->close();
+                $conn->close();
+
+                // send result to client
+                echo json_encode([
+                    'accounts' => $accounts,
+                    'metadata' => [
+                        'total' => $total_unverified_account
+                    ]
+                ]);
+
+                break;
+
+            case 'get_user_uploaded_id':
+                if (!isset($_POST['user_id'])) {
+                    trigger_error('Request is not properly formed', E_USER_ERROR);
+                }
+
+                // get user's identification
+                $query = 'SELECT identificationURL FROM user_identification WHERE userID = ? LIMIT 1';
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->bind_param('i', $_POST['user_id']);
+                $stmt->execute();
+                $stmt->bind_result($identification_url);
+                $stmt->fetch();
+
+                // close connection to database
+                $stmt->close();
+                $conn->close();
+
+                $size = getimagesize(USER_ID_UPLOAD_DIR.$identification_url);
+
+                // send result to client
+                echo json_encode([
+                    'user_id_url' => USER_ID_UPLOAD_URL.$identification_url,
+                    'metadata' => [
+                        'type' => $size['mime'],
+                        'width' => $size['0'],
+                        'height' => $size['1']
+                    ]
+                ]);
+
+                break;
+
+            case 'accept_user_id':
+                if (!isset($_POST['user_id'])) {
+                    trigger_error('Request is not properly formed', E_USER_ERROR);
+                }
+
+                // enable mysql exception
+                mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
+                try {
+                    // start transaction
+                    $conn->begin_transaction();
+
+                    // delete user's verification
+                    $query = 'DELETE FROM user_account_verification WHERE userID = ? LIMIT 1';
+                    $stmt = $conn->prepare($query); // prepare statement
+                    $stmt->bind_param('i', $_POST['user_id']);
+                    $stmt->execute();
+                    $stmt->close();
+
+                    // mark identification as verified
+                    $query = 'UPDATE user_identification SET verified = ? WHERE userID = ? LIMIT 1';
+                    $stmt = $conn->prepare($query); // prepare statement
+                    $stmt->bind_param('ii', $verified, $_POST['user_id']);
+                    $verified = 1;
+                    $stmt->execute();
+                    $stmt->close();
+
+                    // send user a notification
+                    $query = 
+                        'INSERT INTO users_notification (msgID, userID, title, content, time)
+                        VALUES(?, ?, ?, ?, ?)';
+
+                    $stmt = $conn->prepare($query); // prepare statement
+                    $stmt->bind_param(
+                        'sissi', 
+                        $msg_id, 
+                        $_POST['user_id'], 
+                        $msg_title, 
+                        $msg_content, 
+                        $msg_time
+                    );
+                    $msg_id = randomText('hexdec', 32);
+                    $msg_content = "Your uploaded identification has been successfully verified. Reload the page to continue.";
+                    $msg_title = 'Account Verification';
+                    $msg_time = time();
+                    $stmt->execute();
+                    $stmt->close();
+
+                    // commit all the transaction
+                    $conn->commit();
+
+                    // close connection to database
+                    $conn->close();
+
+                    // send result back to client
+                    echo json_encode([
+                        'success' => true
+                    ]);
+
+                } catch (Exception $e) {
+                    $conn->rollback(); // remove all queries from queue if error occured (undo)
+                    $conn->close(); // close connection to database
+
+                    // send result back to client
+                    echo json_encode([
+                        'success' => false
+                    ]);
+                }
+
+                break;
+
+            case 'dashboard_stat':
+                // set default timezone
+                date_default_timezone_set('UTC');
+
+                // enable mysql exception
+                mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
+                try {
+                    // start transaction
+                    $conn->begin_transaction();
+
+                    // get total number of registered users
+                    $query = 'SELECT COUNT(*) AS total FROM users';
+                    $stmt = $conn->prepare($query); // prepare statement
+                    $stmt->execute();
+                    $stmt->bind_result($total_reg_user);
+                    $stmt->fetch();
+                    $stmt->close();
+
+                    // get total number of unverified account
+                    $query = 'SELECT COUNT(*) AS total FROM user_account_verification WHERE identification = 0';
+                    $stmt = $conn->prepare($query); // prepare statement
+                    $stmt->execute();
+                    $stmt->bind_result($total_unverified_account);
+                    $stmt->fetch();
+                    $stmt->close();
+
+                    // get total active investment
+                    $query = 'SELECT COUNT(*) AS total FROM user_current_investment WHERE endTime < ?';
+                    $stmt = $conn->prepare($query); // prepare statement
+                    $stmt->bind_param('i', $current_time);
+                    $current_time = time();
+                    $stmt->execute();
+                    $stmt->bind_result($active_investment);
+                    $stmt->fetch();
+                    $stmt->close();
+
+                    // get total investment
+                    $query = 'SELECT COUNT(*) AS total FROM user_invested_package_records';
+                    $stmt = $conn->prepare($query); // prepare statement
+                    $stmt->execute();
+                    $stmt->bind_result($total_investment);
+                    $stmt->fetch();
+                    $stmt->close();
+
+                    // get total balance and available balance
+                    $query = 'SELECT SUM(totalBalance) AS total_balance, SUM(availableBalance) AS available_balance FROM user_account';
+                    $stmt = $conn->prepare($query); // prepare statement
+                    $stmt->execute();
+                    $stmt->bind_result($total_balance, $available_balance);
+                    $stmt->fetch();
+                    $stmt->close();
+
+                    // commit all the transaction
+                    $conn->commit();
+
+                    // close connection to database
+                    $conn->close();
+
+                    // send result back to client
+                    echo json_encode([
+                        'success' => true,
+                        'user' => [
+                            'total_users' => cladNumberFormat($total_reg_user),
+                            'total_unverified_account' => cladNumberFormat($total_unverified_account)
+                        ],
+                        'investment' => [
+                            'active_investment' => cladNumberFormat($active_investment).' USD',
+                            'total_investment' => cladNumberFormat($total_investment).' USD'
+                        ],
+                        'account' => [
+                            'total_balance' => cladNumberFormat($total_balance).' USD',
+                            'available_balance' => cladNumberFormat($available_balance).' USD'
+                        ]
+                    ]);
+
+                } catch (Exception $e) {
+                    $conn->rollback(); // remove all queries from queue if error occured (undo)
+                    $conn->close(); // close connection to database
+
+                    // send result back to client
+                    echo json_encode([
+                        'success' => false
+                    ]);
+                }
 
                 break;
 
