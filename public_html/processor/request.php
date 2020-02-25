@@ -308,6 +308,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         // content
                         $mail->isHTML(true);
                         $mail->Subject = 'Email Verification';
+                        $mail->AddEmbeddedImage("../templates/logo.png", "site-logo");
+                        $mail->AddEmbeddedImage("../templates/fb_logo.png", "fb-logo");
+                        $mail->AddEmbeddedImage("../templates/tw_logo.png", "tw-logo");
                         $mail->Body = $nnochi->render(
                             '../templates/email_verification.html',
                             [
@@ -387,6 +390,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     // content
                     $mail->isHTML(true);
                     $mail->Subject = 'Reset Password';
+                    $mail->AddEmbeddedImage("../templates/logo.png", "site-logo");
+                    $mail->AddEmbeddedImage("../templates/fb_logo.png", "fb-logo");
+                    $mail->AddEmbeddedImage("../templates/tw_logo.png", "tw-logo");
                     $mail->Body = $nnochi->render(
                         '../templates/reset_password.html',
                         [

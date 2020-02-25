@@ -206,6 +206,9 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             // content
             $mail->isHTML(true);
             $mail->Subject = 'Email Verification';
+            $mail->AddEmbeddedImage("../templates/logo.png", "site-logo");
+            $mail->AddEmbeddedImage("../templates/fb_logo.png", "fb-logo");
+            $mail->AddEmbeddedImage("../templates/tw_logo.png", "tw-logo");
             $mail->Body = $nnochi->render(
                 '../templates/email_verification.html',
                 [
