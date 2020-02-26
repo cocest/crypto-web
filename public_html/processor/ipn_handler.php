@@ -102,8 +102,10 @@ try {
     $stmt->close();
 
     // check if the currency and price of the package is altered
-    if (!($_POST['currency'] == $crypto_currency && $_POST['currency'] == $amount)) {
-        handleErrorAndDie('Currency changed or amount altered.');
+    if ($ipn_type == 'api') {
+        if (!($_POST['currency2'] == $crypto_currency && $_POST['amount1'] == $amount_in_usd)) {
+            handleErrorAndDie('Currency changed or amount altered.');
+        }
     }
     
     /* 
