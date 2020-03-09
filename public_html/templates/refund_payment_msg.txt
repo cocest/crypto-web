@@ -1,0 +1,3 @@
+We noticed that your payment is below the required amount in BTC. Because of that your 
+requested <%= package_name %> package can't be processed. Please, contact the customer care for refund. 
+Transaction ID: <%= transaction_id %>.

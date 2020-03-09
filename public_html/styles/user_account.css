@@ -1048,7 +1048,7 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     width: 350px;
     height: 100%;
     background-color: #5787c2;
-    z-index: 50;
+    z-index: 40;
 }
 
 #page-left-menu-cont #scroll-wrapper {
@@ -1465,6 +1465,11 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 
 .select-crypto-cont .select-input-descr {
     max-width: 380px;
+}
+
+/*remove this class if description above it is shown*/
+.crypto-currency-cont {
+    margin-top: 20px;
 }
 
 #btc-crypto-input,

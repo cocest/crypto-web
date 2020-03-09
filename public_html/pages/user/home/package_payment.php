@@ -184,7 +184,7 @@ require_once 'page_left_menu.php';
                     <div class="body-wrapper">
                         <p>
                             Send the exact amount to the address shown below, or scan 
-                            the QR code with a cryptocurrency payment application.
+                            the QR code to make payment.
                         </p>
                         <div class="payment-details-tbl-cont">
                             <table class="payment-details-tbl">
@@ -203,7 +203,7 @@ require_once 'page_left_menu.php';
                             <div class="qr-text">Scan code to make payment</div>
                         </div>
                         <div class="payment-sent-btn-cont">
-                            <a class="payment-sent-btn" href="#" target="_blank">Payment Sent</a>
+                            <a class="payment-sent-btn">Payment Sent</a>
                         </div>
                     </div>
                 </div>
@@ -252,9 +252,9 @@ require_once 'page_left_menu.php';
             <h4 class="section-group-header">Payment Method</h4>
             <form name="payment-form" onsubmit="return processPaymentForm(event)" autocomplete="off" novalidate>
                 <div class="select-crypto-cont">
-                    <div class="select-input-descr">
+                    <!--<div class="select-input-descr">
                         Please, select cryptocurrency you want to use for payment below:
-                    </div>
+                    </div>-->
                     <div class="crypto-currency-cont">
                         <input id="btc-crypto-input" type="radio" name="currency" value="BTC" checked />
                         <label for="btc-crypto-input">
@@ -262,7 +262,7 @@ require_once 'page_left_menu.php';
                             <img class="crypto-icon" src="../../images/icons/bitcoin_icon.png" alt="bitcoin" />
                             <div class="crypt-name">BTC</div>
                         </label>
-                        <input id="eth-crypto-input" type="radio" name="currency" value="ETH" />
+                        <!--<input id="eth-crypto-input" type="radio" name="currency" value="ETH" />
                         <label for="eth-crypto-input">
                             <div class="marker"></div>
                             <img class="crypto-icon" src="../../images/icons/ethereum_icon.png" alt="ethereum" />
@@ -273,7 +273,7 @@ require_once 'page_left_menu.php';
                             <div class="marker"></div>
                             <img class="crypto-icon" src="../../images/icons/ripple_icon.png" alt="ripple" />
                             <div class="crypt-name">XRP</div>
-                        </label>
+                        </label>-->
                     </div>
                 </div>
                 <div class="crypto-input-cont">
@@ -304,9 +304,31 @@ require_once 'page_left_menu.php';
         <?php 
             }
         ?>
+        <script type="text/javascript" src="../../js/kjua-0.6.0.min.js"></script>
         <script>
+            // generate QR code
+            function generatePaymentQRCode(settings) {
+                let elem = kjua(settings);
+                return elem.toDataURL();
+            }
+
             // launch payment window
             function launchPaymentWin(payment_details) {
+                // generate QR code from payment wallet address
+                let qrcode_url = generatePaymentQRCode({
+                    render: 'canvas',
+                    crisp: true,
+                    minVersion: 1,
+                    ecLevel: 'H',
+                    size: 250,
+                    ratio: null,
+                    fill: '#333',
+                    back: '#fff',
+                    text: payment_details.wallet_address,
+                    rounded: 0,
+                    quiet: 1,
+                    mode: 'plain'
+                });
                 let elem = document.querySelector('#payment-win-cont .body-cont');
                 let win_height = window.innerHeight;
 
@@ -321,8 +343,7 @@ require_once 'page_left_menu.php';
                 let payment_elem = document.getElementById("payment-win-cont");
                 payment_elem.querySelector('.payment-amount').innerHTML = payment_details.amount;
                 payment_elem.querySelector('.payment-address').innerHTML = payment_details.wallet_address;
-                payment_elem.querySelector('.payment-qr-code').setAttribute("src", payment_details.qrcode_url);
-                payment_elem.querySelector('.payment-sent-btn').setAttribute("href", payment_details.status_url)
+                payment_elem.querySelector('.payment-qr-code').setAttribute("src", qrcode_url);
                 payment_elem.removeAttribute("class");
             }
 
@@ -337,7 +358,7 @@ require_once 'page_left_menu.php';
                 // get user filled form
                 let form = document.forms["payment-form"];
 
-                let req_url = '../../process_payment';
+                let req_url = '../../bc_process_payment';
                 let reg_form = new FormData(form);
 
                 // hide proceed button and show processing animation

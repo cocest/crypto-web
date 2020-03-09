@@ -1,0 +1,2 @@
+Your order to subscribe to <%= package_name %> package of <%= amount %> USD can't be processed.
+Transaction ID: <%= transaction_id %>.

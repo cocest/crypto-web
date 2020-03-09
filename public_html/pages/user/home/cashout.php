@@ -147,9 +147,9 @@ require_once 'page_left_menu.php';
             <h4 class="section-group-header">Withdrawal Details</h4>
             <form name="cashout-form" onsubmit="return processCashoutForm(event)" autocomplete="off" novalidate>
                 <div class="select-crypto-cont">
-                    <div class="select-input-descr">
+                    <!--<div class="select-input-descr">
                         Please select cryptocurrency of choice payments should be made in below:
-                    </div>
+                    </div>-->
                     <div class="crypto-currency-cont">
                         <input id="btc-crypto-input" type="radio" name="currency" value="BTC" checked />
                         <label for="btc-crypto-input">
@@ -157,7 +157,7 @@ require_once 'page_left_menu.php';
                             <img class="crypto-icon" src="../../images/icons/bitcoin_icon.png" alt="bitcoin" />
                             <div class="crypt-name">BTC</div>
                         </label>
-                        <input id="eth-crypto-input" type="radio" name="currency" value="ETH" />
+                        <!--<input id="eth-crypto-input" type="radio" name="currency" value="ETH" />
                         <label for="eth-crypto-input">
                             <div class="marker"></div>
                             <img class="crypto-icon" src="../../images/icons/ethereum_icon.png" alt="ethereum" />
@@ -168,7 +168,7 @@ require_once 'page_left_menu.php';
                             <div class="marker"></div>
                             <img class="crypto-icon" src="../../images/icons/ripple_icon.png" alt="ripple" />
                             <div class="crypt-name">XRP</div>
-                        </label>
+                        </label>-->
                     </div>
                 </div>
                 <div class="crypto-input-cont">
@@ -223,7 +223,7 @@ require_once 'page_left_menu.php';
                     return false;
                 }
 
-                let req_url = '../../process_withdrawal';
+                let req_url = '../../bc_process_withdrawal';
                 let reg_form = new FormData(form);
 
                 // hide proceed button and show processing animation
@@ -248,7 +248,8 @@ require_once 'page_left_menu.php';
 
                         // check if withdraw order is placed successfully
                         if (response_data.success) {
-                            // update display available balance
+                            // update display total and available balance
+                            document.getElementById("total-bal").innerHTML = response_data.total_balance + ' USD';
                             document.getElementById("available-bal").innerHTML = response_data.available_balance + ' USD';
 
                             // show message to client
