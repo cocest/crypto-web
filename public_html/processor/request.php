@@ -891,6 +891,119 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 break;
 
+            case 'fetch_new_testimony':
+                if (!(isset($_POST['time_offset']) && isset($_POST['limit']))) {
+                    trigger_error('Request is not properly formed', E_USER_ERROR);
+                }
+
+                // get total number of unverified testimony
+                $query = 'SELECT COUNT(*) AS total FROM user_testimonies WHERE verified = 0';
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->execute();
+                $stmt->bind_result($total_unverified_testimony);
+                $stmt->fetch();
+                $stmt->close();
+
+                // get unverified account
+                $query = 
+                    'SELECT A.id, A.testimoney, A.time, B.firstName, B.lastName 
+                    FROM user_testimonies AS A LEFT JOIN users AS B ON A.userID = B.id 
+                    WHERE A.verified = 0 AND A.time > ? ORDER BY A.time DESC LIMIT ?';
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->bind_param('ii', $_POST['time_offset'], $_POST['limit']);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                $testimonies = [];
+
+                while ($row = $result->fetch_assoc()) {
+                    $testimonies[] = [
+                        'id' => $row['id'],
+                        'name' => $row['lastName'] . ' ' . $row['firstName'],
+                        'content' => $row['testimoney'],
+                        'fmt_time' => date("M j, Y g:i A", $row['time']),
+                        'time' => $row['time']
+                    ];
+                }
+
+                $stmt->close();
+                $conn->close();
+
+                // send result to client
+                echo json_encode([
+                    'testimonies' => $testimonies,
+                    'metadata' => [
+                        'total' => $total_unverified_testimony
+                    ]
+                ]);
+
+                break;
+
+            case 'get_user_testimony':
+                if (!(isset($_POST['offset']) && isset($_POST['limit']))) {
+                    trigger_error('Request is not properly formed', E_USER_ERROR);
+                }
+
+                // get total number of unverified testimony
+                $query = 'SELECT COUNT(*) AS total FROM user_testimonies WHERE verified = 0';
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->execute();
+                $stmt->bind_result($total_unverified_testimony);
+                $stmt->fetch();
+                $stmt->close();
+
+                // get unverified account
+                $query = 
+                    'SELECT A.id, A.testimoney, A.time, B.firstName, B.lastName 
+                    FROM user_testimonies AS A LEFT JOIN users AS B ON A.userID = B.id 
+                    WHERE A.verified = 0 ORDER BY A.time DESC LIMIT ?, ?';
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->bind_param('ii', $_POST['offset'], $_POST['limit']);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                $testimonies = [];
+
+                while ($row = $result->fetch_assoc()) {
+                    $testimonies[] = [
+                        'id' => $row['id'],
+                        'name' => $row['lastName'] . ' ' . $row['firstName'],
+                        'content' => $row['testimoney'],
+                        'fmt_time' => date("M j, Y g:i A", $row['time']),
+                        'time' => $row['time']
+                    ];
+                }
+
+                $stmt->close();
+                $conn->close();
+
+                // send result to client
+                echo json_encode([
+                    'testimonies' => $testimonies,
+                    'metadata' => [
+                        'total' => $total_unverified_testimony
+                    ]
+                ]);
+
+                break;
+
+            case 'verify_user_testimony':
+                if (!isset($_POST['id'])) {
+                    trigger_error('Request is not properly formed', E_USER_ERROR);
+                }
+
+                $query = 'UPDATE user_testimonies SET verified = 1 WHERE id = ? LIMIT 1';
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->bind_param('i', $_POST['id']);
+                $stmt->execute();
+
+                $stmt->close();
+                $conn->close();
+
+                echo 'SUCCESS';
+
+                break;
+
             default:
                 // you shouldn't be here
         }

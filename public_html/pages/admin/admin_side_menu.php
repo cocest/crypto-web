@@ -16,6 +16,11 @@
                         <i class="link-icon fas fa-users"></i><span class="link-name">Users</span>
                     </a>
                 </li>
+                <li <?php echo $side_menu_active_links['testimony'] ? 'class="active-link"' : ''; ?>>
+                    <a href="./testimony.html">
+                        <i class="link-icon fas fa-comments"></i><span class="link-name">Testimony</span>
+                    </a>
+                </li>
                 <li <?php echo $side_menu_active_links['settings'] ? 'class="active-link"' : ''; ?>>
                     <a href="./settings.html">
                         <i class="link-icon fas fa-cog"></i><span class="link-name">Settings</span>

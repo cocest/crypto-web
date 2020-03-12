@@ -692,24 +692,28 @@ body {
 }
 
 .reg-user-navigator-cont,
-.unverified-account-navigator-cont {
+.unverified-account-navigator-cont,
+.testimonies-navigator-cont {
     padding: 8px 30px;
     overflow: hidden;
 }
 
 .reg-user-navigator,
-.unverified-account-navigator {
+.unverified-account-navigator,
+.testimonies-navigator {
     float: right;
 }
 
 #reg-user-navi-indicator,
-#unverified-account-navi-indicator {
+#unverified-account-navi-indicator,
+#testimonies-navi-indicator {
     font-size: 1.0em;
     color: #5f5f5f;
 }
 
 .reg-user-navigator .nav-button-cont,
-.unverified-account-navigator .nav-button-cont {
+.unverified-account-navigator .nav-button-cont,
+.testimonies-navigator .nav-button-cont {
     display: inline-block;
     margin-left: 20px;
 }
@@ -717,7 +721,9 @@ body {
 .reg-user-navigator .nav-button-cont .prev-btn, 
 .reg-user-navigator .nav-button-cont .next-btn,
 .unverified-account-navigator .nav-button-cont .prev-btn, 
-.unverified-account-navigator .nav-button-cont .next-btn {
+.unverified-account-navigator .nav-button-cont .next-btn,
+.testimonies-navigator .nav-button-cont .prev-btn, 
+.testimonies-navigator .nav-button-cont .next-btn {
     padding: 4px 14px;
     outline: none;
     box-sizing: border-box;
@@ -728,14 +734,17 @@ body {
 }
 
 .reg-user-navigator .nav-button-cont .prev-btn,
-.unverified-account-navigator .nav-button-cont .prev-btn {
+.unverified-account-navigator .nav-button-cont .prev-btn,
+.testimonies-navigator .nav-button-cont .prev-btn {
     margin-right: 5px;
 }
 
 .reg-user-navigator .nav-button-cont .prev-btn > i, 
 .reg-user-navigator .nav-button-cont .next-btn > i,
 .unverified-account-navigator .nav-button-cont .prev-btn > i, 
-.unverified-account-navigator .nav-button-cont .next-btn > i {
+.unverified-account-navigator .nav-button-cont .next-btn > i,
+.testimonies-navigator .nav-button-cont .prev-btn > i, 
+.testimonies-navigator .nav-button-cont .next-btn > i {
     font-size: 1.5em;
     color: #5f5f5f;
 }
@@ -1142,6 +1151,81 @@ body {
     width: 100%;
     max-width: 130px;
     margin: 15px 0px 20px 15px;
+}
+
+.testimony-list-cont {
+    margin-top: 60px;
+}
+
+#testimony-empty-msg {
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: 500;
+    padding-top: 50px;
+}
+
+#testimony-list {
+    max-width: 700px;
+    padding: 0 24px;
+    margin-bottom: 50px;
+}
+
+.testimony-cont {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    background-color: white;
+    box-shadow: 0px 2px 6px 1px rgba(0, 0, 0, 0.4);
+}
+
+.testimony-cont .top-bar-cont {
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.testimony-cont .top-bar-cont .user-name {
+    float: left;
+    font-size: 1.1em;
+    font-weight: 500;
+}
+
+.testimony-cont .top-bar-cont .verify-btn-cont {
+    float: right;
+    cursor: pointer;
+}
+
+.testimony-cont .top-bar-cont .verify-btn-cont i {
+    padding: 4px 12px;
+    font-size: 1.2em;
+    color: #249cd2;
+    border-radius: 4px;
+    border: 1.5px solid #24b4f5;
+}
+
+.testimony-cont .top-bar-cont .verify-btn-cont i:hover {
+    color: white;
+    background-color: #24b4f5;
+}
+
+.testimony-cont .content-cont {
+    font-size: 1.0em;
+    line-height: 26px;
+    margin-bottom: 10px;
+}
+
+.testimony-cont .footer-bar-cont {
+    overflow: hidden;
+}
+
+.testimony-cont .footer-bar-cont .write-time-label {
+    float: right;
+    font-size: 1.0em;
+    font-weight: 500;
+    color: #249cd2;
+}
+
+.testimonies-navigator-cont {
+    max-width: 690px;
 }
 
 @media only screen and (max-width: 800px) {

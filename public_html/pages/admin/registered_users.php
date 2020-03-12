@@ -35,6 +35,7 @@ if (isset($_SESSION['admin_auth']) && $_SESSION['admin_auth'] == true) {
 $side_menu_active_links = [
     'dashboard' => false,
     'users' => true,
+    'testimony' => false,
     'settings' => false
 ];
 

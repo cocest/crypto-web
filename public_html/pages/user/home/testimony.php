@@ -260,7 +260,10 @@ require_once 'page_left_menu.php';
                             list_cont_elem.appendChild(createTestimonyElem(response_data));
 
                             // remove no testimony message
-                            document.getElementById("no-testimony-msg").setAttribute("class", "remove-elem");
+                            let elem = document.getElementById("no-testimony-msg");
+                            if (elem != null) {
+                                elem.setAttribute("class", "remove-elem");
+                            }
                         }
 
                         // enable the textarea and submit button

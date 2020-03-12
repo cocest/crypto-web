@@ -1,6 +1,4 @@
-    <div>
-        Footer content here
-    </div>
+    <div></div>
 </body>
 
 </html>

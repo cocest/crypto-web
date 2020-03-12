@@ -35,6 +35,7 @@ if (isset($_SESSION['admin_auth']) && $_SESSION['admin_auth'] == true) {
 $side_menu_active_links = [
     'dashboard' => false,
     'users' => true,
+    'testimony' => false,
     'settings' => false
 ];
 
@@ -206,7 +207,7 @@ require_once 'admin_side_menu.php';
                     },
 
                     // listen to server error
-                    function (err_status) {
+                    function (error_status) {
                         //check if is a timeout or server busy
                         if (error_status == 408 ||
                             error_status == 504 ||
@@ -434,7 +435,7 @@ require_once 'admin_side_menu.php';
                     },
 
                     // listen to server error
-                    function (err_status) {
+                    function (error_status) {
                         //check if is a timeout or server busy
                         if (error_status == 408 ||
                             error_status == 504 ||
@@ -464,7 +465,7 @@ require_once 'admin_side_menu.php';
                     },
 
                     // listen to server error
-                    function (err_status) {
+                    function (error_status) {
                         //check if is a timeout or server busy
                         if (error_status == 408 ||
                             error_status == 504 ||

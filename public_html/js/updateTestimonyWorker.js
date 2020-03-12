@@ -1,5 +1,5 @@
 /* 
- * Web Worker to retrieve update from the server
+ * Web Worker to retrieve new testimony from the server
  * Please don't edit these code if don't know what your doing
  * 
  */
@@ -7,18 +7,20 @@
 importScripts('./webworker_utils.js');
 
 const req_url = '../request';
-const form_data = 'req=dashboard_stat';
+let form_data;
+let temp_time_offset;
+let max_msg;
 let response_data;
 let interval_running = false;
-let call_interval = 10000; // every 10 seconds
+let call_interval = 15000 // every 15 seconds
 let wait = false;
 
 // send request to server at every interval
 function sendRequestAtInterval() {
-    setInterval(function() {
+    setInterval(function () {
         sendRequest();
 
-    }, call_interval); // every 30 seconds
+    }, call_interval); // every 15 seconds
 }
 
 function sendRequest() {
@@ -29,6 +31,9 @@ function sendRequest() {
     } else {
         wait = true;
     }
+
+    // set form data
+    form_data = 'req=fetch_new_testimony&time_offset=' + temp_time_offset + '&limit=' + max_msg;
 
     // send request to server
     ajaxRequest(
@@ -42,7 +47,12 @@ function sendRequest() {
 
             response_data = JSON.parse(response);
 
-            //send the retrieved message(s) to listener
+            // set offset for next fetch
+            if (response_data.testimonies.length > 0) {
+                temp_time_offset = response_data.testimonies[0].time;
+            }
+
+            // send the retrieved message(s) to listener
             self.postMessage(response_data);
 
             // start sending the request at every interval
@@ -62,7 +72,7 @@ function sendRequest() {
                 // check if call inteval value is less than a minute
                 if (call_interval <= 60000) {
                     // wait for 2 minutes
-                    setTimeout(function() {wait = false;}, 60000 * 2);
+                    setTimeout(function () { wait = false; }, 60000 * 2);
 
                 } else {
                     wait = false; // unwait
@@ -75,5 +85,9 @@ function sendRequest() {
     );
 }
 
-// send request to server
-sendRequest();
+// listen to start initialisation message and send request to server
+self.addEventListener("message", function (event) {
+    temp_time_offset = event.data.time_offset; // set start time offset
+    max_msg = event.data.msg_limit; // set max message to fetch every instance
+    sendRequest(); // start request
+}, false);
