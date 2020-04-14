@@ -40,7 +40,9 @@ try {
         }
 
         // fetch user's transaction
-        $query = 'SELECT userID, amount, amountInUSD FROM user_transactions WHERE transactionID = ?  LIMIT 1';
+        $query = 
+            'SELECT userID, packageID, currency, amount, amountInUSD, processed, time 
+             FROM verify_user_deposit WHERE transactionID = ?  LIMIT 1';
         $stmt = $conn->prepare($query); // prepare statement
         $stmt->bind_param('s', $transaction_id);
         $stmt->execute();
@@ -48,7 +50,15 @@ try {
 
         // check if transaction exist
         if ($stmt->num_rows > 0) {
-            $stmt->bind_result($user_id, $amount_in_btc, $amount_in_usd);
+            $stmt->bind_result(
+                $user_id, 
+                $package_id, 
+                $crypto_currency,
+                $amount_in_btc, 
+                $amount_in_usd,
+                $deposit_processed,
+                $deposit_time
+            );
             $stmt->fetch();
 
         } else {
@@ -61,29 +71,50 @@ try {
 
         $stmt->close();
 
+        // check if this deposit has been processed before
+        if ($deposit_processed == 1) {
+            die(); // abort the process
+        }
+
+        // add user's payment to transaction
+        $query = 
+            'INSERT INTO user_transactions (transactionID, userID, currency, transaction, amount, amountInUSD, committed, time)
+             VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
+
+        $stmt = $conn->prepare($query); // prepare statement
+        $stmt->bind_param(
+            'sissddii', 
+            $transaction_id, 
+            $user_id, 
+            $crypto_currency, 
+            $transaction_type, 
+            $amount_in_btc,
+            $amount_in_usd, 
+            $transaction_committed, 
+            $deposit_time
+        );
+        $transaction_type = 'deposit';
+        $transaction_committed = 0;
+        $stmt->execute();
+        $stmt->close();
+
         // acknowledge the transaction
         $nnochi = new Nnochi(); // template parser
 
         // get package information
-        $query = 
-            'SELECT B.package FROM user_pending_investment AS A 
-            LEFT JOIN crypto_investment_packages AS B ON A.packageID = B.id WHERE A.userID = ? LIMIT 1';
+        $query = 'SELECT package FROM crypto_investment_packages WHERE id = ? LIMIT 1';
         $stmt = $conn->prepare($query); // prepare statement
-        $stmt->bind_param('i', $user_id);
+        $stmt->bind_param('i', $package_id);
         $stmt->execute();
         $stmt->bind_result($package_name);
         $stmt->fetch();
         $stmt->close();
 
-        // check for user under payment
+        $is_refund_payment = false;
+
+        // check for user under payment and dual payment
         if ($user_payment_in_btc < $amount_in_btc) {
-            // update user's transaction records
-            $query = 'UPDATE user_transactions SET refund = ? WHERE transactionID = ? LIMIT 1';
-            $stmt = $conn->prepare($query); // prepare statement
-            $stmt->bind_param('is', $refund_payment, $transaction_id);
-            $refund_payment = 1;
-            $stmt->execute();
-            $stmt->close();
+            $is_refund_payment = true;
 
             $msg_id = randomText('hexdec', 32);
             $msg_title = 'Transaction';
@@ -92,7 +123,22 @@ try {
                 [
                     'package_name' => $package_name,
                     'amount' => $amount_in_usd,
-                    'transaction_id' => $transaction_id
+                    'transaction_id' => $transaction_hash
+                ]
+            );
+            $msg_time = time();
+
+        } else if (checkForDualPayment($conn, $user_id)) {
+            $is_refund_payment = true;
+
+            $msg_id = randomText('hexdec', 32);
+            $msg_title = 'Transaction';
+            $msg_content = $nnochi->render(
+                '../templates/dual_payment_msg.txt',
+                [
+                    'package_name' => $package_name,
+                    'amount' => $amount_in_usd,
+                    'transaction_id' => $transaction_hash
                 ]
             );
             $msg_time = time();
@@ -105,31 +151,66 @@ try {
                 [
                     'package_name' => $package_name,
                     'amount' => $amount_in_usd,
-                    'transaction_id' => $transaction_id
+                    'transaction_id' => $transaction_hash
                 ]
             );
             $msg_time = time();
         }
-        
-        // send user a notification
-        $query = 
-            'INSERT INTO users_notification (msgID, userID, title, content, time)
-            VALUES(?, ?, ?, ?, ?)';
 
-        $stmt = $conn->prepare($query); // prepare statement
-        $stmt->bind_param(
-            'sissi', 
-            $msg_id, 
-            $user_id, 
-            $msg_title, 
-            $msg_content, 
-            $msg_time
-        );
-        $stmt->execute();
-        $stmt->close();
+        try {
+            $conn->begin_transaction(); // start transaction
 
-        // close connection
-        $conn->close();
+            if ($is_refund_payment) {
+                // update user's transaction records
+                $query = 'UPDATE user_transactions SET refund = ? WHERE transactionID = ? LIMIT 1';
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->bind_param('is', $refund_payment, $transaction_id);
+                $refund_payment = 1;
+                $stmt->execute();
+                $stmt->close();
+            }
+
+            // update the user's deposit state
+            $query = 'UPDATE verify_user_deposit SET processed = ? WHERE transactionID = ? LIMIT 1';
+            $stmt = $conn->prepare($query); // prepare statement
+            $stmt->bind_param('is', $processed, $transaction_id);
+            $processed = 1;
+            $stmt->execute();
+            $stmt->close();
+
+            // delete the address
+            $query = 'DELETE FROM unpaid_address WHERE transactionID = ? LIMIT 1';
+            $stmt = $conn->prepare($query); // prepare statement
+            $stmt->bind_param('s', $transaction_id);
+            $stmt->execute();
+            $stmt->close();
+            
+            // send user a notification
+            $query = 
+                'INSERT INTO users_notification (msgID, userID, title, content, time)
+                VALUES(?, ?, ?, ?, ?)';
+
+            $stmt = $conn->prepare($query); // prepare statement
+            $stmt->bind_param(
+                'sissi', 
+                $msg_id, 
+                $user_id, 
+                $msg_title, 
+                $msg_content, 
+                $msg_time
+            );
+            $stmt->execute();
+            $stmt->close();
+
+            $conn->commit(); // commit all the transaction
+
+            // close connection
+            $conn->close();
+
+        } catch (Exception $e) {
+            $conn->rollback(); // remove all queries from queue if error occured (undo)
+            $conn->close(); // close connection to database
+        }
 
     } else if ($confirmations >= 5) { // transaction is successfull
         // fetch user's transaction
@@ -218,7 +299,7 @@ try {
                         '../templates/refund_payment_msg.txt',
                         [
                             'package_name' => $package_name,
-                            'transaction_id' => $transaction_id
+                            'transaction_id' => $transaction_hash
                         ]
                     );
                     $msg_time = time();
@@ -292,10 +373,10 @@ try {
                         $stmt->close();
                     }
 
-                    // delete user's pending investment
-                    $query = 'DELETE FROM user_pending_investment WHERE userID = ? LIMIT 1';
+                    // delete user's deposit
+                    $query = 'DELETE FROM verify_user_deposit WHERE transactionID = ? LIMIT 1';
                     $stmt = $conn->prepare($query); // prepare statement
-                    $stmt->bind_param('i', $user_id);
+                    $stmt->bind_param('s', $transaction_id);
                     $stmt->execute();
                     $stmt->close();
 
@@ -345,6 +426,49 @@ try {
 
 }catch (Exception $e) {
     handleErrorAndDie('Caught exception: '.$e->getMessage().PHP_EOL);
+}
+
+// check for dual payment
+function checkForDualPayment($db_conn, $user_id) {
+    $user_has_active_investment = false;
+
+    // check if user has an active transanction
+    $query = 'SELECT 1 FROM user_transactions WHERE userID = ? AND committed = 0 LIMIT 1';
+    $stmt = $db_conn->prepare($query); // prepare statement
+    $stmt->bind_param('i', $user_id);
+    $stmt->execute();
+    $stmt->store_result(); // needed for num_rows
+
+    if ($stmt->num_rows > 0) {
+        $user_has_active_investment = true;
+    }
+
+    $stmt->close();
+
+    if ($user_has_active_investment) {
+        return true;
+    }
+
+    // check if user has an active investment
+    $query = 'SELECT endTime FROM user_current_investment WHERE userID = ? LIMIT 1';
+    $stmt = $db_conn->prepare($query); // prepare statement
+    $stmt->bind_param('i', $user_id);
+    $stmt->execute();
+    $stmt->store_result(); // needed for num_rows
+
+    if ($stmt->num_rows > 0) {
+        $stmt->bind_result($investment_end_time);
+        $stmt->fetch();
+
+        if (time() < $investment_end_time) {
+            $user_has_active_investment = true;
+        }
+    }
+
+    $stmt->close();
+
+    // return a boolean value
+    return $user_has_active_investment;
 }
 
 // utility function to handle error

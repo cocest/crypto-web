@@ -108,26 +108,6 @@ try {
     $stmt->close();
 
     if (!$user_has_active_investment) {
-        // check if user choose trial package
-        if ($chose_package_id == 1) {
-            // check if user haven't invest before
-            $query = 'SELECT 1 FROM user_invested_package_records WHERE userID = ? LIMIT 1';
-            $stmt = $conn->prepare($query); // prepare statement
-            $stmt->bind_param('i', $_SESSION['user_id']);
-            $stmt->execute();
-            $stmt->store_result(); // needed for num_rows
-
-            if ($stmt->num_rows > 0) {
-                // close database connection
-                $stmt->close();
-                $conn->close();
-
-                // redirect user back to packages page
-                header('Location: packages.html');
-                exit;
-            }
-        }
-
         // fetch package from database
         $query = "SELECT * FROM crypto_investment_packages WHERE id = ? LIMIT 1";
         $stmt = $conn->prepare($query); // prepare statement
@@ -186,17 +166,23 @@ require_once 'page_left_menu.php';
                             Send the exact amount to the address shown below, or scan 
                             the QR code to make payment.
                         </p>
-                        <div class="payment-details-tbl-cont">
-                            <table class="payment-details-tbl">
-                                <tr>
-                                    <td>Amount:</td>
-                                    <td class="payment-amount"></td>
-                                </tr>
-                                <tr>
-                                    <td>Address:</td>
-                                    <td class="payment-address"></td>
-                                </tr>
-                            </table>
+                        <div class="payment-details-cont">
+                            <div class="amount-cont">
+                                <h2 class="header">Amount</h2>
+                                <div class="payment-amount"></div>
+                            </div>
+                            <div class="address-cont">
+                                <h2 class="header">Address</h2>
+                                <div class="payment-address">
+                                    <button class="copy-btn" title="Copy Address" onclick="copyCryptoCurrencyAddress()">
+                                        <i class="far fa-clipboard"></i>
+                                    </button>
+                                    <input id="currency-address" type="text" disabled>
+                                </div>
+                            </div>
+                            <div class="payment-duration-cont">
+                                <strong>Note: </strong>You have 15 minutes to pay to this address.
+                            </div>
                         </div>
                         <div class="payment-qr-code-cont">
                             <img class="payment-qr-code" />
@@ -306,115 +292,98 @@ require_once 'page_left_menu.php';
         ?>
         <script type="text/javascript" src="../../js/kjua-0.6.0.min.js"></script>
         <script>
-            // generate QR code
-            function generatePaymentQRCode(settings) {
-                let elem = kjua(settings);
-                return elem.toDataURL();
-            }
-
-            // launch payment window
-            function launchPaymentWin(payment_details) {
-                // generate QR code from payment wallet address
-                let qrcode_url = generatePaymentQRCode({
-                    render: 'canvas',
-                    crisp: true,
-                    minVersion: 1,
-                    ecLevel: 'H',
-                    size: 250,
-                    ratio: null,
-                    fill: '#333',
-                    back: '#fff',
-                    text: payment_details.wallet_address,
-                    rounded: 0,
-                    quiet: 1,
-                    mode: 'plain'
-                });
-                let elem = document.querySelector('#payment-win-cont .body-cont');
-                let win_height = window.innerHeight;
-
-                if (win_height < 600) {
-                    elem.setAttribute("style", "max-height: 300px;");
-                } else if (win_height < 800) {
-                    elem.setAttribute("style", "max-height: 400px;");
-                } else {
-                    elem.setAttribute("style", "max-height: 500px;");
-                }
-                
-                let payment_elem = document.getElementById("payment-win-cont");
-                payment_elem.querySelector('.payment-amount').innerHTML = payment_details.amount;
-                payment_elem.querySelector('.payment-address').innerHTML = payment_details.wallet_address;
-                payment_elem.querySelector('.payment-qr-code').setAttribute("src", qrcode_url);
-                payment_elem.removeAttribute("class");
-            }
-
-            window.processPaymentForm = function(e) {
-                e.preventDefault(); // prevent default behaviour
-
-                // check if any input is left empty or contain invalid data
-                if (requiredInputLeftEmptyOrInvalid()) {
-                    return false;
+            function init() {
+                // generate QR code
+                function generatePaymentQRCode(settings) {
+                    let elem = kjua(settings);
+                    return elem.toDataURL();
                 }
 
-                // get user filled form
-                let form = document.forms["payment-form"];
+                // launch payment window
+                function launchPaymentWin(payment_details) {
+                    // generate QR code from payment wallet address
+                    let qrcode_url = generatePaymentQRCode({
+                        render: 'canvas',
+                        crisp: true,
+                        minVersion: 1,
+                        ecLevel: 'H',
+                        size: 250,
+                        ratio: null,
+                        fill: '#333',
+                        back: '#fff',
+                        text: payment_details.wallet_address,
+                        rounded: 0,
+                        quiet: 1,
+                        mode: 'plain'
+                    });
+                    
+                    let payment_elem = document.getElementById("payment-win-cont");
+                    payment_elem.querySelector('.payment-amount').innerHTML = payment_details.amount;
+                    payment_elem.querySelector('#currency-address').value = payment_details.wallet_address;
+                    payment_elem.querySelector('.payment-qr-code').setAttribute("src", qrcode_url);
+                    payment_elem.removeAttribute("class");
 
-                let req_url = '../../bc_process_payment';
-                let reg_form = new FormData(form);
+                    fitPaymentWin();
+                }
 
-                // hide proceed button and show processing animation
-                document.querySelector('.payment-proceed-btn-cont').setAttribute("class", "payment-proceed-btn-cont remove-elem");
-                document.querySelector('.payment-anim-cont').setAttribute("class", "payment-anim-cont");
-
-                // disable input
-                let input_elems = document.querySelectorAll('.crypto-input-cont > input');
-                input_elems.forEach(function (elem) {
+                window.copyCryptoCurrencyAddress = function () {
+                    let elem = document.getElementById("currency-address");
+                    elem.disabled = false;
+                    elem.select();
+                    elem.setSelectionRange(0, 99999)
+                    document.execCommand("copy");
+                    elem.setSelectionRange(0, 0); // unselect the text
                     elem.disabled = true;
-                });
+                    alert("Address copied to clipboard.");
+                }
 
-                // send request to server
-                window.ajaxRequest(
-                    req_url,
-                    reg_form,
-                    { contentType: false },
+                window.processPaymentForm = function(e) {
+                    e.preventDefault(); // prevent default behaviour
 
-                    // listen to response from the server
-                    function (response) {
-                        let response_data = JSON.parse(response);
+                    // check if any input is left empty or contain invalid data
+                    if (requiredInputLeftEmptyOrInvalid()) {
+                        return false;
+                    }
 
-                        // check if payment order is placed successfully
-                        if (response_data.success) {
-                            // show payment details window
-                            launchPaymentwin(response_data);
+                    // get user filled form
+                    let form = document.forms["payment-form"];
 
-                        } else { // order can't be place due to error
-                            // show error message to user
-                            let msg_elem = document.getElementById("msg-win-cont");
-                            msg_elem.querySelector('.title').innerHTML = "Payment Error";
-                            msg_elem.querySelector('.body-cont').innerHTML = response_data.error_msg;
-                            msg_elem.removeAttribute("class");
-                        }
+                    let req_url = '../../bc_process_payment';
+                    let reg_form = new FormData(form);
 
-                        // show proceed button and hide processing animation
-                        document.querySelector('.payment-proceed-btn-cont').setAttribute("class", "payment-proceed-btn-cont");
-                        document.querySelector('.payment-anim-cont').setAttribute("class", "payment-anim-cont remove-elem");
+                    // hide proceed button and show processing animation
+                    document.querySelector('.payment-proceed-btn-cont').setAttribute("class", "payment-proceed-btn-cont remove-elem");
+                    document.querySelector('.payment-anim-cont').setAttribute("class", "payment-anim-cont");
 
-                        // enable input
-                        let input_elems = document.querySelectorAll('.crypto-input-cont > input');
-                        input_elems.forEach(function (elem) {
-                            elem.disabled = false;
-                        });
-                    },
+                    // disable input
+                    let input_elems = document.querySelectorAll('.crypto-input-cont > input');
+                    input_elems.forEach(function (elem) {
+                        elem.disabled = true;
+                    });
 
-                    // listen to server error
-                    function (err_status) {
-                        //check if is a timeout or server busy
-                        if (err_status == 408 ||
-                            err_status == 504 ||
-                            err_status == 503) {
+                    // send request to server
+                    window.ajaxRequest(
+                        req_url,
+                        reg_form,
+                        { contentType: false },
 
-                            window.processPaymentForm(e);
+                        // listen to response from the server
+                        function (response) {
+                            let response_data = JSON.parse(response);
 
-                        } else {
+                            // check if payment order is placed successfully
+                            if (response_data.success) {
+                                // show payment details window
+                                launchPaymentWin(response_data);
+
+                            } else { // order can't be place due to error
+                                // show error message to user
+                                let msg_elem = document.getElementById("msg-win-cont");
+                                msg_elem.querySelector('.title').innerHTML = "Payment Error";
+                                msg_elem.querySelector('.body-cont').innerHTML = response_data.error_msg;
+                                msg_elem.removeAttribute("class");
+                            }
+
                             // show proceed button and hide processing animation
                             document.querySelector('.payment-proceed-btn-cont').setAttribute("class", "payment-proceed-btn-cont");
                             document.querySelector('.payment-anim-cont').setAttribute("class", "payment-anim-cont remove-elem");
@@ -424,68 +393,117 @@ require_once 'page_left_menu.php';
                             input_elems.forEach(function (elem) {
                                 elem.disabled = false;
                             });
+                        },
 
-                            // show error message to user
-                            let msg_elem = document.getElementById("msg-win-cont");
-                            msg_elem.querySelector('.title').innerHTML = "Error";
-                            msg_elem.querySelector('.body-cont').innerHTML = 
-                                "Transanction can't be processed due to error. Please, check your connection and try again.";
-                            msg_elem.removeAttribute("class");
+                        // listen to server error
+                        function (err_status) {
+                            //check if is a timeout or server busy
+                            if (err_status == 408 ||
+                                err_status == 504 ||
+                                err_status == 503) {
+
+                                window.processPaymentForm(e);
+
+                            } else {
+                                // show proceed button and hide processing animation
+                                document.querySelector('.payment-proceed-btn-cont').setAttribute("class", "payment-proceed-btn-cont");
+                                document.querySelector('.payment-anim-cont').setAttribute("class", "payment-anim-cont remove-elem");
+
+                                // enable input
+                                let input_elems = document.querySelectorAll('.crypto-input-cont > input');
+                                input_elems.forEach(function (elem) {
+                                    elem.disabled = false;
+                                });
+
+                                // show error message to user
+                                let msg_elem = document.getElementById("msg-win-cont");
+                                msg_elem.querySelector('.title').innerHTML = "Error";
+                                msg_elem.querySelector('.body-cont').innerHTML = 
+                                    "Transanction can't be processed due to error. Please, check your connection and try again.";
+                                msg_elem.removeAttribute("class");
+                            }
+                        }
+                    );
+                };
+
+                // utility function to validate user's input
+                function requiredInputLeftEmptyOrInvalid() {
+                    let input = document.getElementById("crypto-amount");
+
+                    if (!/^([0-9]+|[0-9]+.?[0-9]+)$/.test(input.value)) {
+                        // underline the input
+                        input.setAttribute("style", "border: 1px solid #ff7878;");
+
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                // process events for form input
+                function processInputEvents(e) {
+                    let input_elem = e.target; // get element that fire the event
+
+                    switch (e.type) {
+                        case "keyup":
+                            // remove the red underline
+                            input_elem.removeAttribute("style");
+
+                        default:
+                            // you don't suppose to be here
+                    }
+                }
+
+                // attach event listener to input or select element
+                function attachEventsToInputs(input_elements) {
+                    let attach_event = false;
+
+                    for (let i = 0; i < input_elements.length; i++) {
+                        attach_event = input_elements[i].getAttribute("attachevent") == null ? false : true;
+                        // check type of element
+                        if (attach_event) {
+                            input_elements[i].addEventListener("keyup", processInputEvents, false);
                         }
                     }
-                );
-            };
-
-            // utility function to validate user's input
-            function requiredInputLeftEmptyOrInvalid() {
-                let input = document.getElementById("crypto-amount");
-
-                if (!/^([0-9]+|[0-9]+.?[0-9]+)$/.test(input.value)) {
-                    // underline the input
-                    input.setAttribute("style", "border: 1px solid #ff7878;");
-
-                    return true;
                 }
 
-                return false;
-            }
+                // get all the input element to attach events
+                let inputs = document.getElementsByTagName("input");
+                attachEventsToInputs(inputs);
 
-            // process events for form input
-            function processInputEvents(e) {
-                let input_elem = e.target; // get element that fire the event
+                // resize payment window to fit user's screen
+                function fitPaymentWin() {
+                    let elem = document.getElementById("payment-win-cont");
+                    let body_elem = document.querySelector('#payment-win-cont .body-wrapper');
+                    body_elem.removeAttribute("style");
+                    let max_height = body_elem.offsetHeight + elem.offsetTop;
+                    let win_height = (window.innerHeight - elem.offsetTop);
 
-                switch (e.type) {
-                    case "keyup":
-                        // remove the red underline
-                        input_elem.removeAttribute("style");
-
-                    default:
-                        // you don't suppose to be here
-                }
-            }
-
-            // attach event listener to input or select element
-            function attachEventsToInputs(input_elements) {
-                let attach_event = false;
-
-                for (let i = 0; i < input_elements.length; i++) {
-                    attach_event = input_elements[i].getAttribute("attachevent") == null ? false : true;
-                    // check type of element
-                    if (attach_event) {
-                        input_elements[i].addEventListener("keyup", processInputEvents, false);
+                    // set window to calculated height
+                    if (max_height > window.innerHeight - 100) {
+                        body_elem.setAttribute("style", "height: " + (win_height - 110) + "px;");
                     }
                 }
+
+                // listen for payment sent click event
+                document.querySelector('.payment-sent-btn').onclick = function (e) {
+                    // close window
+                    document.getElementById("payment-win-cont").setAttribute("class", "remove-elem");
+                };
+
+                // listen to resize event
+                window.onresize = function (e) {
+                    fitPaymentWin();
+                };
             }
 
-            // get all the input element to attach events
-            let inputs = document.getElementsByTagName("input");
-            attachEventsToInputs(inputs);
+            //initialise the script
+            if (window.attachEvent) {
+                window.attachEvent("onload", init);
 
-            // listen for payment sent click event
-            document.querySelector('.payment-sent-btn').onclick = function (e) {
-                // close window
-                document.getElementById("payment-win-cont").setAttribute("class", "remove-elem");
-            };
+            } else {
+                window.addEventListener("load", init, false);
+            }
 
         </script>
 

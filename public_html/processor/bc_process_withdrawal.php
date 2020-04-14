@@ -190,7 +190,7 @@ try {
 
          // add withdrawal to user's transactions table
          $query = 
-            'INSERT INTO user_transactions (transactionID, userID, currency, transaction, ammount, amountInUSD, address, committed, time)
+            'INSERT INTO user_transactions (transactionID, userID, currency, transaction, amount, amountInUSD, address, committed, time)
             VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
         $stmt = $conn->prepare($query); // prepare statement

@@ -149,83 +149,130 @@ try {
 
     // generate transaction ID for this order
     $transaction_id = randomText('alnum', 32);
-
-    // generating a receiving address for BTC using Blockchain API
-    $callback_url = BASE_URL . 'bc_pn_handler?txn_id=' . $transaction_id . '&secret=' . BC_CALLBACK_SECRET;
-    $blockchain_url = 'https://api.blockchain.info/v2/receive';
-    $parameters = 'xpub=' . BC_XPUB_ADDRESS . '&callback=' . urlencode($callback_url). '&key=' . BC_API_KEY;
-
+    
     try {
-        $req_url = $blockchain_url . '?' . $parameters;
+        // check if we have created a gap of over 20 unused addresses
+        $req_url = 'https://api.blockchain.info/v2/receive/checkgap?xpub=' . BC_XPUB_ADDRESS . '&key=' . BC_API_KEY;
         $response = Requests::get($req_url);
 
         if ($response->success) {
+            $unuse_address;
             $decoded_response = json_decode($response->body, true); // decode to associative array
 
+            // check to reuse already generated address
+            if ($decoded_response["gap"] > 18) {
+                // get the first expired unpaid address
+                $query = 'SELECT transactionID, address FROM unpaid_address WHERE expirationTime < ? LIMIT 1';
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->bind_param('i', $current_time);
+                $current_time = time();
+                $stmt->execute();
+                $stmt->store_result(); // needed for num_rows
+
+                // check if address is available for reuse
+                if ($stmt->num_rows > 0) {
+                    $stmt->bind_result($current_txn_id, $unuse_address);
+                    $stmt->fetch();
+                    $stmt->close();
+
+                } else {
+                    // close connection to database
+                    $stmt->close();
+                    $conn->close();
+
+                    // send error message back to client
+                    echo json_encode([
+                        'success' => false,
+                        'error_msg' => "New payment address can't be generated due to error. Please try again later."
+                    ]);
+
+                    exit;
+                }
+
+                // update "unpaid_address" table
+                $query = 'UPDATE unpaid_address SET transactionID = ?, expirationTime = ? WHERE transactionID = ? LIMIT 1';
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->bind_param('sis', $transaction_id, $expiration_time, $current_txn_id);
+                $expiration_time = time() + (60 * 30); // current time + (seconds in a minute * 30)
+                $stmt->execute();
+                $stmt->close();
+
+            } else { // generate new address
+                // generating a receiving address for BTC using Blockchain API
+                $callback_url = BASE_URL . 'bc_pn_handler?txn_id=' . $transaction_id . '&secret=' . BC_CALLBACK_SECRET;
+                $blockchain_url = 'https://api.blockchain.info/v2/receive';
+                $parameters = 'xpub=' . BC_XPUB_ADDRESS . '&callback=' . urlencode($callback_url) . '&key=' . BC_API_KEY;
+
+                $req_url = $blockchain_url . '?' . $parameters;
+                $response = Requests::get($req_url);
+
+                if ($response->success) {
+                    $decoded_response = json_decode($response->body, true); // decode to associative array
+
+                } else {
+                    throw new Exception("Blockchain API failed to generate receiving address.");
+                }
+
+                // add new generated address to "unpaid_address" table
+                $query = 
+                    'INSERT INTO unpaid_address (transactionID, address, expirationTime) 
+                    VALUES (?, ?, ?)';
+
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->bind_param(
+                    'ssi', 
+                    $transaction_id, 
+                    $decoded_response['address'],
+                    $expiration_time
+                );
+                $expiration_time = time() + (60 * 30); // current time + (seconds in a minute * 30)
+                $stmt->execute();
+                $stmt->close();
+
+                // set address
+                $unuse_address = $decoded_response['address'];
+            }
+
+            // add transanction to deposit table for later verification
+            $query = 
+                'INSERT INTO verify_user_deposit (transactionID, userID, packageID, currency, amount, amountInUSD, time) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)';
+
+            $stmt = $conn->prepare($query); // prepare statement
+            $stmt->bind_param(
+                'siisddi', 
+                $transaction_id, 
+                $_SESSION['user_id'], 
+                $_POST['package_id'], 
+                $_POST['currency'], 
+                $amount_in_btc,
+                $user_entered_usd,  
+                $transaction_time
+            );
+            $transaction_time = time();
+            $stmt->execute();
+            $stmt->close();
+
+            // close connection to database
+            $conn->close();
+
+            // return result to be processed by client
+            echo json_encode([
+                'success' => true,
+                'amount' => $amount_in_btc.' '.$_POST['currency'],
+                'wallet_address' => $unuse_address
+            ]);
+
         } else {
-            throw new Exception("Blockchain API failed to generate receiving address.");
+            throw new Exception("Blockchain API failed to retrieve gap.");
         }
 
-        // place client request order
-        $conn->begin_transaction(); // start transaction
-
-        // add payment to user's transactions table
-        $query = 
-            'INSERT INTO user_transactions (transactionID, userID, currency, transaction, ammount, amountInUSD, committed, time)
-             VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
-
-        $stmt = $conn->prepare($query); // prepare statement
-        $stmt->bind_param(
-            'sissddii', 
-            $transaction_id, 
-            $_SESSION['user_id'], 
-            $_POST['currency'], 
-            $transaction_type, 
-            $amount_in_btc,
-            $user_entered_usd, 
-            $transaction_committed, 
-            $transaction_time
-        );
-        $transaction_type = 'deposit';
-        $transaction_committed = 0;
-        $transaction_time = time();
-        $stmt->execute();
-        $stmt->close();
-
-        // package user want to subscribe to
-        $query = 'INSERT INTO user_pending_investment (userID, packageID) VALUES(?, ?)';
-        $stmt = $conn->prepare($query); // prepare statement
-        $stmt->bind_param('ii', $_SESSION['user_id'], $_POST['package_id']);
-        $stmt->execute();
-        $stmt->close();
-
-        $conn->commit(); // commit all the transaction
-
-        // close connection to database
-        $conn->close();
-
-        // return result to be processed by client
-        echo json_encode([
-            'success' => true,
-            'amount' => $amount_in_btc.' '.$_POST['currency'],
-            'wallet_address' => $decoded_response['address']
-        ]);
-
-    } catch (mysqli_sql_exception $e) {
-        $conn->rollback(); // remove all queries from queue if error occured (undo)
-        $conn->close(); // close connection to database
-
-        // send error message back to client
-        echo json_encode([
-            'success' => false,
-            'error_msg' => 'Transaction can not be processed due to an error. Please, try again later.'
-        ]);
-
-        exit;
-        
     } catch (Exception $e) {
         // close connection to database
         $conn->close();
+
+        // log the error to a file
+        error_log('Caught exception: '.$e->getMessage().PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
 
         // send error message back to client
         echo json_encode([

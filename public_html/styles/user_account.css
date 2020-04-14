@@ -1827,21 +1827,56 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     padding: 0px 10px;
 }
 
-.payment-details-tbl {
-    border-collapse: collapse;
-}
-
-.payment-details-tbl tr > td:first-child {
-    min-width: 100px;
-    font-weight: 500;
-}
-
-.payment-details-tbl td {
-    padding: 5px;
-}
-
-.payment-details-tbl-cont {
+.payment-details-cont {
     margin-bottom: 30px;
+}
+
+.payment-details-cont .amount-cont {
+    margin-bottom: 20px;
+}
+
+.payment-details-cont .address-cont {
+    margin-bottom: 15px;
+}
+
+.payment-details-cont .amount-cont .header,
+.payment-details-cont .address-cont .header {
+    margin-top: 0px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    font-size: 1.0em;
+}
+
+.payment-details-cont .address-cont .payment-address {
+    position: relative;
+    padding: 0px 10px;
+    border-radius: 4px;
+    border: 1px solid lightgray;
+}
+
+.payment-details-cont .address-cont .payment-address .copy-btn {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    padding: 6px 10px;
+    outline: none;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+}
+
+.payment-details-cont .address-cont .payment-address .copy-btn > i {
+    font-size: 2.0em;
+    color: #6cb6f3;
+}
+
+.payment-details-cont .address-cont .payment-address > input {
+    width: 100%;
+    padding: 10px 0px;
+    outline: none;
+    border: none;
+    background-color: white;
+    font-size: 1.0em;
 }
 
 .payment-qr-code-cont {

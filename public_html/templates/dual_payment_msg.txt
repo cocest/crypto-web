@@ -1,0 +1,2 @@
+Your order to subscribe to <%= package_name %> package of <%= amount %> USD has been marked as dual payment. 
+Transaction ID: <%= transaction_id %>.
