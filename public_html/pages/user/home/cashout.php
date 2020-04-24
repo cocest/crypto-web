@@ -256,7 +256,7 @@ require_once 'page_left_menu.php';
                             let msg_elem = document.getElementById("msg-win-cont");
                             msg_elem.querySelector('.title').innerHTML = "Withdrawal";
                             msg_elem.querySelector('.body-cont').innerHTML = 
-                                "Withraw order has been placed successfully. You will receive notification once the order is completed.";
+                                "Withraw order has been placed successfully. You will receive notification once the order is complete.";
                             msg_elem.removeAttribute("class");
 
                         } else { // order can't be place due to error

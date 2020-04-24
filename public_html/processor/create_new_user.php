@@ -139,6 +139,13 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             $stmt->execute();
             $stmt->close();
 
+            // investment statistics
+            $query = 'INSERT INTO user_investment_statistics (userID) VALUES(?)';
+            $stmt = $conn->prepare($query); // prepare statement
+            $stmt->bind_param('i', $new_user_id);
+            $stmt->execute();
+            $stmt->close();
+
             // add uploaded file information into table
             $query = 'INSERT INTO user_identification (userID, identificationURL) VALUES(?, ?)';
             $stmt = $conn->prepare($query); // prepare statement

@@ -539,13 +539,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     }
 
                 } else if ($_POST['info_type'] == "investment") {
+                    // set default timezone
+                    date_default_timezone_set('UTC');
+
                     // get user's current investment
                     $query = 
                         'SELECT A.amountInvested, A.startTime, B.package, B.durationInMonth, B.monthlyROI 
                         FROM user_current_investment AS A LEFT JOIN crypto_investment_packages AS B 
-                        ON A.packageID = B.id WHERE A.userID = ? LIMIT 1';
+                        ON A.packageID = B.id WHERE A.userID = ? AND A.endTime > ? LIMIT 1';
                     $investment_stmt = $conn->prepare($query); // prepare statement
-                    $investment_stmt->bind_param('i', $_POST['user_id']);
+                    $investment_stmt->bind_param('ii', $_POST['user_id'], $current_time);
+                    $current_time = time();
                     $investment_stmt->execute();
                     $investment_result = $investment_stmt->get_result();
                     $investment = $investment_result->fetch_assoc();
@@ -831,7 +835,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $stmt->close();
 
                     // get total active investment
-                    $query = 'SELECT COUNT(*) AS total FROM user_current_investment WHERE endTime < ?';
+                    $query = 'SELECT COUNT(*) AS total FROM user_current_investment WHERE endTime > ?';
                     $stmt = $conn->prepare($query); // prepare statement
                     $stmt->bind_param('i', $current_time);
                     $current_time = time();
@@ -870,8 +874,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             'total_unverified_account' => cladNumberFormat($total_unverified_account)
                         ],
                         'investment' => [
-                            'active_investment' => cladNumberFormat($active_investment).' USD',
-                            'total_investment' => cladNumberFormat($total_investment).' USD'
+                            'active_investment' => $active_investment,
+                            'total_investment' => $total_investment
                         ],
                         'account' => [
                             'total_balance' => cladNumberFormat($total_balance).' USD',

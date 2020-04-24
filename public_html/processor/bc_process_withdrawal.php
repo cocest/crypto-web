@@ -163,8 +163,10 @@ try {
     $amount_in_satoshi = $withdraw_amount_in_btc * 100000000;
     $parameters = 
         'to=' . $_POST['walletaddress'] . 
+        '&from=1' . 
         '&amount=' . $amount_in_satoshi . 
         '&password=' . BC_WALLET_PASSWORD . 
+        '&api_code=' . BC_API_KEY . 
         '&fee_per_byte=' . $transaction_fee;
 
     try {
@@ -190,19 +192,20 @@ try {
 
          // add withdrawal to user's transactions table
          $query = 
-            'INSERT INTO user_transactions (transactionID, userID, currency, transaction, amount, amountInUSD, address, committed, time)
-            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)';
+            'INSERT INTO user_transactions (transactionID, userID, transactionHash, currency, transaction, 
+            amount, amountInUSD, address, committed, time) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
         $stmt = $conn->prepare($query); // prepare statement
         $stmt->bind_param(
-            'sissddsii', 
+            'sisssddsii', 
             $transaction_id, 
             $_SESSION['user_id'], 
+            $transaction_response['txid'], 
             $_POST['currency'], 
             $transaction_type, 
             $withdraw_amount_in_btc,
             $user_entered_usd, 
-            $transaction_response['to'],
+            $transaction_response['to'][0],
             $transaction_committed, 
             $transaction_time
         );
@@ -215,20 +218,17 @@ try {
         // update user's account
         $query = 'UPDATE user_account SET availableBalance = availableBalance - ?, totalBalance = totalBalance - ? WHERE userID = ? LIMIT 1';
         $stmt = $conn->prepare($query); // prepare statement
-        $stmt->bind_param('di', $user_entered_usd, $user_entered_usd, $user_id);
+        $stmt->bind_param('ddi', $user_entered_usd, $user_entered_usd, $_SESSION['user_id']);
         $stmt->execute();
         $stmt->close();
 
         // send user a notification
-        $query = 
-            'INSERT INTO users_notification (msgID, userID, title, content, time)
-                VALUES(?, ?, ?, ?, ?)';
-
+        $query = 'INSERT INTO users_notification (msgID, userID, title, content, time) VALUES(?, ?, ?, ?, ?)';
         $stmt = $conn->prepare($query); // prepare statement
         $stmt->bind_param(
             'sissi', 
             $msg_id, 
-            $user_id, 
+            $_SESSION['user_id'], 
             $msg_title, 
             $msg_content, 
             $msg_time
@@ -238,12 +238,12 @@ try {
         $msg_content = $nnochi->render(
             '../templates/withdrawal_msg.txt',
             [
-                'amount' => $transaction_response['amounts'] / 100000000,
+                'amount' => $transaction_response['amounts'][0] / 100000000,
                 'currency' => $_POST['currency'],
-                'amount_in_usd' => number_format($user_entered_usd, 2).' USD',
-                'address' => $transaction_response['to'],
-                'balance' => number_format($available_balance - $user_entered_usd, 2).' USD',
-                'txn_id' => $transaction_id
+                'amount_in_usd' => number_format($user_entered_usd, 2),
+                'address' => $transaction_response['to'][0],
+                'balance' => number_format($available_balance - $user_entered_usd, 2),
+                'txn_id' => $transaction_response['txid']
             ]
         );
         $msg_time = time();

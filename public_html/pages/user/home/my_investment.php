@@ -96,8 +96,7 @@ try {
         if (time() > $investment_row['endTime'] && $investment_row['profitCollected'] < 1) {
             // total revenue from current investment
             $bonus = $investment_row['amountInvested'] * ($investment_row['bonus'] / 100);
-            $revenue_of_investment = $investment_row['amountInvested'] * ($investment_row['monthlyROI'] / 100);
-            $revenue_of_investment = $revenue_of_investment + $bonus;
+            $revenue_of_investment = ($investment_row['amountInvested'] * ($investment_row['monthlyROI'] / 100)) + $bonus;
             $investment_withdraw_amount = $investment_row['amountInvested'] * ($investment_row['withdrawInvestmentPercent'] / 100);
             $available_balance = $investment_withdraw_amount + $revenue_of_investment;
 
@@ -132,8 +131,8 @@ try {
                     $investment_row['monthlyROI'], 
                     $investment_row['amountInvested'], 
                     $revenue_of_investment, 
-                    $revenue_of_investment['durationInMonth'], 
-                    $revenue_of_investment['startTime']
+                    $investment_row['durationInMonth'], 
+                    $investment_row['startTime']
                 );
                 $stmt->execute();
                 $stmt->close();
@@ -152,7 +151,7 @@ try {
                 $conn->rollback(); // remove all queries from queue if error occured (undo)
             }
 
-        } else {
+        } else if (time() <= $investment_row['endTime']) {
             $current_profit = 
                 (convertSecondsToDays(time() - $investment_row['startTime']) * ($investment_row['amountInvested'] * ($investment_row['monthlyROI'] / 100))) / 
                 ($investment_row['durationInMonth'] * 30);
@@ -234,11 +233,11 @@ try {
     while ($row = $result->fetch_assoc()) {
         $records[] = [
             'package' => $row['package'],
-            'roi' => $rows['ROI'],
-            'amount_invested' => $rows['amountInvested'],
-            'revenue' => $rows['revenue'],
-            'duration' => $rows['duration'],
-            'time' => date("M j, Y g:i A", $rows['time'])
+            'roi' => round($row['ROI'], 2, PHP_ROUND_HALF_DOWN) . ' %',
+            'amount_invested' => round($row['amountInvested'], 2, PHP_ROUND_HALF_DOWN) . ' USD',
+            'revenue' => round($row['revenue'], 2, PHP_ROUND_HALF_DOWN) . ' USD',
+            'duration' => $row['duration'],
+            'time' => date("M j, Y g:i A", $row['time'])
         ];
     }
 
@@ -407,7 +406,6 @@ require_once 'page_left_menu.php';
                             <th>ROI</th>
                             <th>Amount Invested</th>
                             <th>Revenue</th>
-                            <th>Bonus</th>
                             <th>Duration</th>
                             <th>Date</th>
                         </tr>

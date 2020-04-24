@@ -78,7 +78,7 @@ require_once '../includes/config.php';
         <div class="page-upper-section-wrapper sec-max-width">
             <div class="headline-cont">
                 <h1 class="headline txt-shadow">Your success is our success.</h1>
-                <h3 class="sub-headline txt-shadow">We are committed to creating long lasting and profitable partners thus aligning our goals with those of our partners.</h3>
+                <h3 class="sub-headline txt-shadow">We are committed to creating long lasting and profitable partnerships thus aligning our goals with those of our partners.</h3>
             </div>
         </div>
     </div>

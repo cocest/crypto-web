@@ -113,15 +113,6 @@ try {
 
     $stmt->close();
 
-    // get user's information
-    $query = 'SELECT firstName, lastName, email FROM users WHERE id = ? LIMIT 1';
-    $stmt = $conn->prepare($query); // prepare statement
-    $stmt->bind_param('i', $_SESSION['user_id']);
-    $stmt->execute();
-    $stmt->bind_result($user_first_name, $user_last_name, $user_email);
-    $stmt->fetch();
-    $stmt->close();
-
     // get the convert rate of USD to BTC
     try {
         $req_url = 'https://blockchain.info/tobtc?currency=USD&value='.$user_entered_usd;
@@ -183,7 +174,7 @@ try {
                     // send error message back to client
                     echo json_encode([
                         'success' => false,
-                        'error_msg' => "New payment address can't be generated due to error. Please try again later."
+                        'error_msg' => "Payment address can't be generated due to error. Please try again later."
                     ]);
 
                     exit;

@@ -389,8 +389,7 @@ try {
                                         </label>
                                     </div>
                                     <div class="item-2">
-                                        <p>I do accept the <a class="terms-link" href="#">Terms and Conditions</a> of
-                                            Websitename</p>
+                                        <p>I do accept the <a class="terms-link" href="#">Terms and Conditions</a> of Thecitadelcapital</p>
                                     </div>
                                 </div>
                                 <div class="reg-btn-cont">

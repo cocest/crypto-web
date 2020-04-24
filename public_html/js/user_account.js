@@ -874,7 +874,7 @@ function init() {
         let ref_child_elem = notification_first_load ? document.getElementById("load-prev-notification") : list_cont.children[0];
 
         // update numbers of unread messages counter
-        document.getElementById("unread-msg-counter").innerHTML = data.unread_msg_count;
+        unread_msg_counter_label.innerHTML = data.unread_msg_count;
 
         // check if this function is called the first time
         if (notification_first_run) {
@@ -946,9 +946,6 @@ function init() {
             // add message to map
             notification_msg_map.set(data.messages[i].id, data.messages[i].content);
         }
-
-        // update uread message count
-        unread_msg_counter_label.innerHTML = data.unread_msg_count;
     }
 
     // process user's command on notification
@@ -974,8 +971,8 @@ function init() {
             notification_msg_map.delete(msg_id);
         }
 
-        if (!count_down) {
-            if (parseInt(unread_msg_counter_label.innerText) == 1) {
+        if (count_down == 0) {
+            if (parseInt(unread_msg_counter_label.innerText) <= 1) {
                 unread_msg_counter_label.setAttribute("class", "count remove-elem");
 
             } else {

@@ -72,7 +72,7 @@
                 <h1 class="headline">Frequently Asked Questions</h1>
                 <h2 class="sub-headline">
                     <span class="txt">You can browse the questions below to find an answer. </span>
-                    <span class="txt">If you can't found a related question, feel free to send us an email (contact@thecitadelcapital.com).</span>
+                    <span class="txt">If you can't find a related question, feel free to send us an email (contact@thecitadelcapital.com).</span>
                 </h2>
             </div>
         </div>
@@ -96,7 +96,7 @@
                     You could purchase cryptocurrencies online via an exchange (<a href="https://coinbase.com" target="_blank">Coinbase.com</a> or 
                     <a href="https://coinmama.com" target="_blank">Coinmama.com</a>) or 
                     locally through a local vendor or ATM in your area. You could find local vendors in your country 
-                    of residence on local <a href="https://bitcoins.com" target="_blank">Bitcoins.com</a>
+                    of residence on <a href="https://localbitcoins.com" target="_blank">localbitcoins.com</a>
                 </p>
             </div>
             <div class="q-header-cont expand" toggle="0" onclick="expandAnswer(this)">
@@ -117,7 +117,7 @@
             </div>
             <div class="q-header-cont expand" toggle="0" onclick="expandAnswer(this)">
                 <div class="wrapper-1">
-                    <h2>Why can’t I withdraw funds?</h2>
+                    <h2>Why can't I withdraw funds?</h2>
                 </div>
                 <div class="wrapper-2">
                     <div class="img-cont">
@@ -158,7 +158,7 @@
             </div>
             <div class="q-answer">
                 <p>
-                    You might have entered wrong details or uploaded identifation which could not be verified. 
+                    You might have entered wrong details or uploaded identification which could not be verified. 
                     Try registering again using the appropriate details. Ensure that your personal information 
                     you entered during registeration correspond with details in your uploaded identification.
                 </p>
@@ -175,7 +175,7 @@
             </div>
             <div class="q-answer">
                 <p>
-                    You can not invest in two packages at same time. You can invest on the same or different 
+                    You cannot invest in two packages simultaneously. You can invest on the same or different 
                     package when your current active investment has matured.
                 </p>
             </div>
@@ -250,7 +250,7 @@
         </div>
         <div class="footer-hr-line"></div>
         <div class="footer-base-cont ux-bg-grayblue ux-txt-white">
-            Copyright &copy; Thecitadelcapital 2020. All Rights Reserved
+            Copyright &copy; Thecitadelcapital <?php echo date("Y"); ?>. All Rights Reserved
         </div>
     </div>
 </body>

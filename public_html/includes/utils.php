@@ -62,7 +62,7 @@ function cladNumberFormat($number, $decimal = 2, $lower_case = false) {
 // Calculate numbers of the page for list items
 function pageCountForListItem($view_count, $list_count) {
     $page_count = $list_count / $view_count;
-    if ($page_count % 1 == 0) {
+    if (fmod($page_count, 1) == 0) {
         return floor($page_count);
     }
 

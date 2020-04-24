@@ -76,28 +76,6 @@ try {
             die(); // abort the process
         }
 
-        // add user's payment to transaction
-        $query = 
-            'INSERT INTO user_transactions (transactionID, userID, currency, transaction, amount, amountInUSD, committed, time)
-             VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
-
-        $stmt = $conn->prepare($query); // prepare statement
-        $stmt->bind_param(
-            'sissddii', 
-            $transaction_id, 
-            $user_id, 
-            $crypto_currency, 
-            $transaction_type, 
-            $amount_in_btc,
-            $amount_in_usd, 
-            $transaction_committed, 
-            $deposit_time
-        );
-        $transaction_type = 'deposit';
-        $transaction_committed = 0;
-        $stmt->execute();
-        $stmt->close();
-
         // acknowledge the transaction
         $nnochi = new Nnochi(); // template parser
 
@@ -122,7 +100,7 @@ try {
                 '../templates/under_payment_msg.txt',
                 [
                     'package_name' => $package_name,
-                    'amount' => $amount_in_usd,
+                    'amount' => round($amount_in_usd, 2, PHP_ROUND_HALF_DOWN),
                     'transaction_id' => $transaction_hash
                 ]
             );
@@ -137,7 +115,7 @@ try {
                 '../templates/dual_payment_msg.txt',
                 [
                     'package_name' => $package_name,
-                    'amount' => $amount_in_usd,
+                    'amount' => round($amount_in_usd, 2, PHP_ROUND_HALF_DOWN),
                     'transaction_id' => $transaction_hash
                 ]
             );
@@ -150,7 +128,7 @@ try {
                 '../templates/payment_ack_msg.txt',
                 [
                     'package_name' => $package_name,
-                    'amount' => $amount_in_usd,
+                    'amount' => round($amount_in_usd, 2, PHP_ROUND_HALF_DOWN),
                     'transaction_id' => $transaction_hash
                 ]
             );
@@ -160,15 +138,30 @@ try {
         try {
             $conn->begin_transaction(); // start transaction
 
-            if ($is_refund_payment) {
-                // update user's transaction records
-                $query = 'UPDATE user_transactions SET refund = ? WHERE transactionID = ? LIMIT 1';
-                $stmt = $conn->prepare($query); // prepare statement
-                $stmt->bind_param('is', $refund_payment, $transaction_id);
-                $refund_payment = 1;
-                $stmt->execute();
-                $stmt->close();
-            }
+            // add user's payment to transaction
+            $query = 
+                'INSERT INTO user_transactions (transactionID, userID, transactionHash, currency, transaction, amount, amountInUSD, refund, committed, time)
+                VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+
+            $stmt = $conn->prepare($query); // prepare statement
+            $stmt->bind_param(
+                'sisssddiii', 
+                $transaction_id, 
+                $user_id, 
+                $transaction_hash,
+                $crypto_currency, 
+                $transaction_type, 
+                $amount_in_btc,
+                $amount_in_usd, 
+                $refund_payment,
+                $transaction_committed, 
+                $deposit_time
+            );
+            $transaction_type = 'deposit';
+            $refund_payment = $is_refund_payment ? 1 : 0;
+            $transaction_committed = 0;
+            $stmt->execute();
+            $stmt->close();
 
             // update the user's deposit state
             $query = 'UPDATE verify_user_deposit SET processed = ? WHERE transactionID = ? LIMIT 1';
@@ -213,6 +206,14 @@ try {
         }
 
     } else if ($confirmations >= 5) { // transaction is successfull
+        // connect to database
+        $conn = new mysqli($db['host'], $db['username'], $db['password'], $db['dbname']);
+
+        //check connection
+        if ($conn->connect_error) {
+            throw new mysqli_sql_exception('Database connection failed: '.$conn->connect_error);
+        }
+
         // fetch user's transaction
         $query = 
             'SELECT userID, currency, amountInUSD, refund, committed 
@@ -247,10 +248,10 @@ try {
         if ($transaction_committed == 0) {
             // get package information
             $query = 
-                'SELECT A.packageID, B.package, B.durationInMonth FROM user_pending_investment AS A 
-                LEFT JOIN crypto_investment_packages AS B ON A.packageID = B.id WHERE A.userID = ? LIMIT 1';
+                'SELECT A.packageID, B.package, B.durationInMonth FROM verify_user_deposit AS A 
+                LEFT JOIN crypto_investment_packages AS B ON A.packageID = B.id WHERE A.transactionID  = ? LIMIT 1';
             $stmt = $conn->prepare($query); // prepare statement
-            $stmt->bind_param('i', $user_id);
+            $stmt->bind_param('s', $transaction_id);
             $stmt->execute();
             $stmt->bind_result($package_id, $package_name, $duration_in_month);
             $stmt->fetch();
@@ -272,10 +273,10 @@ try {
                     $stmt->execute();
                     $stmt->close();
 
-                    // delete user's pending investment
-                    $query = 'DELETE FROM user_pending_investment WHERE userID = ? LIMIT 1';
+                    // delete user's deposit
+                    $query = 'DELETE FROM verify_user_deposit WHERE transactionID = ? LIMIT 1';
                     $stmt = $conn->prepare($query); // prepare statement
-                    $stmt->bind_param('i', $user_id);
+                    $stmt->bind_param('s', $transaction_id);
                     $stmt->execute();
                     $stmt->close();
 
@@ -357,10 +358,11 @@ try {
 
                     if ($update_current_investment) {
                         $query = 
-                            'UPDATE user_current_investment SET packageID = ?, amountInvested = ?, 
+                            'UPDATE user_current_investment SET packageID = ?, amountInvested = ?, profitCollected = ? 
                              startTime = ?, endTime = ? WHERE userID = ? LIMIT 1';
                         $stmt = $conn->prepare($query); // prepare statement
-                        $stmt->bind_param('idiii', $package_id, $amount_in_usd, $start_time, $end_time, $user_id);
+                        $stmt->bind_param('idiiii', $package_id, $amount_in_usd, $profit_collected, $start_time, $end_time, $user_id);
+                        $profit_collected = 0;
                         $stmt->execute();
                         $stmt->close();
 
