@@ -489,16 +489,13 @@ require_once '../includes/config.php';
                 <h4>TERMS</h4>
                 <ul class="ux-vt-menu fmt-link-med">
                     <li>
-                        <a href="#" class="link ux-txt-smokewhite txt-hover">Terms & Condition</a>
+                        <a href="<?php echo BASE_URL . 'terms_and_condition.html'; ?>" class="link ux-txt-smokewhite txt-hover">Terms &amp; Condition</a>
                     </li>
                     <li>
-                        <a href="#" class="link ux-txt-smokewhite txt-hover">Privacy Policy</a>
+                        <a href="<?php echo BASE_URL . 'privacy_policy.html'; ?>" class="link ux-txt-smokewhite txt-hover">Privacy Policy</a>
                     </li>
                     <li>
-                        <a href="#" class="link ux-txt-smokewhite txt-hover">Terms of Use</a>
-                    </li>
-                    <li>
-                        <a href="#" class="link ux-txt-smokewhite txt-hover">Cookies Statement</a>
+                        <a href="<?php echo BASE_URL . 'cookies_policy.html'; ?>" class="link ux-txt-smokewhite txt-hover">Cookies Policy</a>
                     </li>
                 </ul>
             </div>

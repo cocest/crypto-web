@@ -389,7 +389,7 @@ try {
                                         </label>
                                     </div>
                                     <div class="item-2">
-                                        <p>I do accept the <a class="terms-link" href="#">Terms and Conditions</a> of Thecitadelcapital</p>
+                                        <p>I do accept the <a class="terms-link" href="<?php echo BASE_URL . 'terms_and_condition.html'; ?>">Terms and Conditions</a> of Thecitadelcapital</p>
                                     </div>
                                 </div>
                                 <div class="reg-btn-cont">

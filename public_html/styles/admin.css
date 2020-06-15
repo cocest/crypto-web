@@ -160,6 +160,7 @@ body {
 }
 
 .page-content-cont {
+    position: relative;
     margin-left: 280px;
 }
 
@@ -1228,6 +1229,203 @@ body {
     max-width: 690px;
 }
 
+#edit-package-win {
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    width: 500px;
+    margin-left: -110px;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+#edit-package-win.hide {
+    display: none;
+}
+
+.edit-package-wrapper {
+    background-color: white;
+    box-shadow: 0px 2px 4px 2px rgb(183, 183, 183);
+}
+
+#edit-package-win .title-bar-cont {
+    padding: 5px 10px;
+    overflow: hidden;
+    border-bottom: 1px solid lightgray;
+}
+
+#edit-package-win .title-bar-cont .title {
+    float: left;
+    padding-top: 3px;
+    font-size: 1.0em;
+}
+
+#edit-package-win .title-bar-cont .close-btn {
+    float: right;
+    border: none;
+    outline: none;
+    padding: 5px 8px;
+    background-color: unset;
+    cursor: pointer;
+}
+
+#edit-package-win .title-bar-cont .close-btn i {
+    font-size: 1.4em;
+    color: gray;
+}
+
+#edit-package-win .title-bar-cont .close-btn:hover i {
+    color: rgb(247, 47, 47);
+}
+
+#edit-package-win .body-cont {
+    padding: 40px 0px 10px 0px;
+}
+
+@media only screen and (max-width: 500px) {
+    #edit-package-win {
+        left: 0;
+        width: 100%;
+        margin-left: 0!important;
+    }
+}
+
+.package-list-cont {
+    padding: 40px 20px;
+    margin-bottom: 100px;
+    overflow-x: auto;
+    border-top: 1px solid lightgray;
+}
+
+.package-list-wrapper {
+    max-width: 900px;
+    min-width: 800px;
+    padding-right: 20px;
+}
+
+.package-list {
+    width: 100%;
+    border-spacing: 0px 8px;
+}
+
+.package-list tr:first-child {
+    background-color: unset;
+    box-shadow: unset;
+    border: none;
+}
+
+.package-list tr {
+    background-color: white;
+    box-shadow: 0px 2px 4px 0px rgb(183, 183, 183);
+    border: 1px solid lightgray;
+}
+
+.package-list th {
+    padding: 15px 10px;
+    text-align: left;
+    font-size: 1.0em;
+    font-weight: normal;
+    font-weight: 500;
+}
+
+.package-list td {
+    padding: 15px 10px;
+    text-align: left;
+    font-size: 1.0em;
+}
+
+.package-edit-btn {
+    border: none;
+    outline: none;
+    padding: 5px 8px;
+    border-radius: 4px;
+    background-color: unset;
+    cursor: pointer;
+}
+
+.package-edit-btn:hover {
+    background-color: #64b6e0;
+}
+
+.package-edit-btn:hover > i {
+    color: white;
+}
+
+.package-edit-btn > i {
+    font-size: 1.5em;
+    color: #64b6e0;
+}
+
+.edit-package-input-cont {
+    width: 100%;
+    max-width: 350px;
+    margin-bottom: 15px;
+    padding: 0px 20px;
+    box-sizing: border-box;
+}
+
+.edit-package-input-cont .label-cont {
+    display: table-cell;
+    min-width: 160px;
+}
+
+.edit-package-input-cont .input-cont {
+    display: table-cell;
+    width: 100%;
+}
+
+.edit-package-input-cont .label-cont .label {
+    font-size: 1.0em;
+}
+
+.edit-package-input-cont .input-cont .input {
+    width: 100%;
+    height: 35px;
+    padding: 0px 10px;
+    border: 1px solid lightgray;
+    font-size: 1.0em;
+    color: #4e4e4e;
+    box-sizing: border-box;
+}
+
+.csrf-input-cont {
+    position: absolute;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.edit-package-input-cont .input-cont .input:focus {
+    outline: 1px solid #00afef;
+}
+
+.edit-package-footer-input-cont {
+    margin-top: 60px;
+    padding: 10px 20px;
+    padding-bottom: 0;
+    border-top: 1px solid lightgray;
+    overflow: hidden;
+}
+
+.edit-package-footer-input-cont .confirm-btn,
+.edit-package-footer-input-cont .cancel-btn {
+    float: right;
+    padding: 8px 20px;
+    margin-left: 15px;
+    font-size: 1.0em;
+    color: #4c4c4c;
+    box-sizing: border-box;
+    border-radius: 3px;
+    border: 1px solid lightgray;
+    background: linear-gradient(#e7f1f9, #cfdbe0);
+    cursor: pointer;
+}
+
+.no-investment-pkg-msg {
+    padding: 80px 20px;
+    text-align: center;
+    font-size: 1.5em;
+}
+
 @media only screen and (max-width: 800px) {
     .top-main-menu-cont .show-side-menu-btn {
         display: block;
@@ -1298,5 +1496,9 @@ body {
 
     .dashboard-widget-cont .grid-item {
         width: 100%;
+    }
+
+    #edit-package-win {
+        margin-left: -250px;
     }
 }

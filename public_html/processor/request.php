@@ -748,10 +748,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     // start transaction
                     $conn->begin_transaction();
 
-                    // delete user's verification
-                    $query = 'DELETE FROM user_account_verification WHERE userID = ? LIMIT 1';
+                    // mark uploaded identification as verified
+                    $query = 'UPDATE user_account_verification SET identification = ? WHERE userID = ? LIMIT 1';
                     $stmt = $conn->prepare($query); // prepare statement
-                    $stmt->bind_param('i', $_POST['user_id']);
+                    $stmt->bind_param('ii', $id_verified, $_POST['user_id']);
+                    $id_verified = 1;
                     $stmt->execute();
                     $stmt->close();
 
@@ -1005,6 +1006,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $conn->close();
 
                 echo 'SUCCESS';
+
+                break;
+
+            case 'get_investment_package':
+                if (!isset($_POST['id'])) {
+                    trigger_error('Request is not properly formed', E_USER_ERROR);
+                }
+
+                // get unverified account
+                $query = 'SELECT * FROM crypto_investment_packages WHERE id = ?';
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->bind_param('i', $_POST['id']);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                $package;
+
+                while ($row = $result->fetch_assoc()) {
+                    $package = [
+                        'package' => $row['package'],
+                        'min_amount' => $row['minAmount'],
+                        'max_amount' => $row['maxAmount'],
+                        'duration' => $row['durationInMonth'],
+                        'roi' => $row['monthlyROI'],
+                        'bonus' => $row['bonus'],
+                        'withdraw_percent' => $row['withdrawInvestmentPercent']
+                    ];
+                }
+
+                $stmt->close();
+                $conn->close();
+
+                // send result to client
+                echo json_encode($package);
 
                 break;
 
