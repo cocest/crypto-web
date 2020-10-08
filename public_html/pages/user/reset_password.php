@@ -58,7 +58,7 @@ if (isset($_SESSION['reset_password']) && $_SESSION['reset_password'] == true) {
     </div>
     <div class="recover-account-page">
         <div class="site-logo-cont">
-            <img src="../images/icons/citadel_capital_logo.png" alt="thecitadelcapital">
+            <img src="../images/icons/w_citadel_capital_logo.png" alt="thecitadelcapital">
         </div>
         <h2 class="recover-account-header">Reset Password</h2>
         <?php 

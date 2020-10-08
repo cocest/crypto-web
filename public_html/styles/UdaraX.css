@@ -33,6 +33,14 @@
    color: #e0e0e0;
  }
 
+ .ux-txt-lightgray {
+   color: lightgray;
+ }
+
+ .ux-bg-lightgray {
+   background-color: lightgray;
+ }
+
  .ux-txt-smokewhite.txt-hover:hover {
    color: white;
  }
@@ -42,7 +50,7 @@
  }
 
  .ux-txt-chocolate.txt-hover:hover {
-   color: rgb(209, 122, 60);
+   color: rgb(230, 115, 32);
  }
 
  .ux-bg-chocolate {
@@ -50,7 +58,7 @@
  }
 
  .ux-bg-chocolate.bg-hover:hover {
-   background-color: rgb(209, 122, 60);
+   background-color: rgb(230, 115, 32);
  }
 
  .ux-bg-red {

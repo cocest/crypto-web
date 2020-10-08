@@ -41,10 +41,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $count;
             $del_user_limit = false;
 
+            // generate hash of 40 characters length from user's email address
+            $search_email_hash = hash('sha1', strtolower($_POST['email']));
+
             // check if user has failed to login
-            $query = 'SELECT loginAttempt, count, retryTime FROM limit_login_throttling WHERE username = ? LIMIT 1';
+            $query = 'SELECT loginAttempt, count, retryTime FROM limit_login_throttling WHERE userEmailHash = ? LIMIT 1';
             $stmt = $conn->prepare($query); // prepare statement
-            $stmt->bind_param('s', $_POST['username']);
+            $stmt->bind_param('s', $search_email_hash);
             $stmt->execute();
             $stmt->store_result(); // needed for num_rows
 
@@ -69,9 +72,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->close(); // close previous prepared statement
 
             // authenticate username and password
-            $query = 'SELECT userID, password FROM user_authentication WHERE username = ? LIMIT 1';
+            $query = 'SELECT userID, password FROM user_authentication WHERE userEmailHash = ? LIMIT 1';
             $stmt = $conn->prepare($query); // prepare statement
-            $stmt->bind_param('s', $_POST['username']);
+            $stmt->bind_param('s', $search_email_hash);
             $stmt->execute();
             $stmt->store_result(); // needed for num_rows
 
@@ -86,9 +89,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     // delete user from limit_login_throttling table if exist
                     if ($del_user_limit) {
-                        $query = 'DELETE FROM limit_login_throttling WHERE username = ? LIMIT 1';
+                        $query = 'DELETE FROM limit_login_throttling WHERE userEmailHash = ? LIMIT 1';
                         $stmt = $conn->prepare($query); // prepare statement
-                        $stmt->bind_param('s', $_POST['username']);
+                        $stmt->bind_param('s', $search_email_hash);
                         $stmt->execute();
                         $stmt->close();
                     }
@@ -138,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     }
 
                     // check if user's account is not yet activated
-                    $query = 'SELECT email, identification FROM user_account_verification WHERE userID = ? LIMIT 1';
+                    $query = 'SELECT email FROM user_account_verification WHERE userID = ? LIMIT 1';
                     $stmt = $conn->prepare($query); // prepare statement
                     $stmt->bind_param('i', $user_id);
                     $stmt->execute();
@@ -150,21 +153,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $_SESSION['last_auth_time'] = time() + 1800; // expire in 30 minutes
 
                     if ($stmt->num_rows > 0) {
-                        $stmt->bind_result($is_email_verified, $is_id_verified);
+                        $stmt->bind_result($is_email_verified);
                         $stmt->fetch();
                         $stmt->close();
 
                         if ($is_email_verified == 0) {
                             $redirect_url = BASE_URL . 'user/home/email_verification.html';
-                            echo '{"success": true, "redirect_url": "' . $redirect_url . '"}';
-
-                            // close connection to database
-                            $conn->close();
-
-                            exit; // exit script
-
-                        } else if ($is_id_verified == 0) {
-                            $redirect_url = BASE_URL . 'user/home/id_verification.html';
                             echo '{"success": true, "redirect_url": "' . $redirect_url . '"}';
 
                             // close connection to database
@@ -209,25 +203,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $login_attempt += 1; 
                 $count += 1;
                 $wait_time = $wait_time > $wait_max_time ? $current_time + $wait_max_time : $current_time + $wait_time;
-                $query = 'UPDATE limit_login_throttling SET loginAttempt = ?, count = ?, retryTime = ? WHERE username = ? LIMIT 1';
+                $query = 'UPDATE limit_login_throttling SET loginAttempt = ?, count = ?, retryTime = ? WHERE userEmailHash = ? LIMIT 1';
                 $stmt = $conn->prepare($query); // prepare statement
-                $stmt->bind_param('iiis', $login_attempt, $count, $wait_time, $_POST['username']);
+                $stmt->bind_param('iiis', $login_attempt, $count, $wait_time, $search_email_hash);
                 $stmt->execute();
 
             } else if ($login_attempt == 0) { // insert user into table
                 $login_attempt += 1;
                 $client_ip = getUserIpAddress();
-                $query = 'INSERT INTO limit_login_throttling (username, clientIP, loginAttempt) VALUES (?, ?, ?)';
+                $query = 'INSERT INTO limit_login_throttling (userEmailHash, clientIP, loginAttempt) VALUES (?, ?, ?)';
                 $stmt = $conn->prepare($query); // prepare statement
-                $stmt->bind_param('ssi', $_POST['username'], $client_ip, $login_attempt);
+                $stmt->bind_param('ssi', $search_email_hash, $client_ip, $login_attempt);
                 $stmt->execute();
 
             } else {
                 // update table data
                 $login_attempt += 1;
-                $query = 'UPDATE limit_login_throttling SET loginAttempt = ? WHERE username = ? LIMIT 1';
+                $query = 'UPDATE limit_login_throttling SET loginAttempt = ? WHERE userEmailHash = ? LIMIT 1';
                 $stmt = $conn->prepare($query); // prepare statement
-                $stmt->bind_param('is', $login_attempt, $_POST['username']);
+                $stmt->bind_param('is', $login_attempt, $search_email_hash);
                 $stmt->execute();
             }
 

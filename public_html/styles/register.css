@@ -29,16 +29,16 @@
  }
 
   @-webkit-keyframes expand-1 {
-    0% { height: 16px; background-color: #037ad8;}
-    33% { height: 16px; background-color: #037ad8;}
-    34% { height: 10px; background-color: #3fa0ef;}
-    100% { height: 10px; background-color: #3fa0ef;}
+    0% { height: 16px; background-color: white;}
+    33% { height: 16px; background-color: white;}
+    34% { height: 10px; background-color: #d0d0d0;}
+    100% { height: 10px; background-color: #d0d0d0;}
   }
   @keyframes expand-1 {
-    0% { height: 16px; background-color: #037ad8;}
-    33% { height: 16px; background-color: #037ad8;}
-    34% { height: 10px; background-color: #3fa0ef;}
-    100% { height: 10px; background-color: #3fa0ef;}
+    0% { height: 16px; background-color: white;}
+    33% { height: 16px; background-color: white;}
+    34% { height: 10px; background-color: #d0d0d0;}
+    100% { height: 10px; background-color: #d0d0d0;}
   }
 
   .vt-bars-anim-cont .vt-bar-cont .vt-bar-2 {
@@ -47,20 +47,20 @@
   }
 
   @-webkit-keyframes expand-2 {
-    0% { height: 10px; background-color: #3fa0ef; }
-    33% { height: 10px; background-color: #3fa0ef; }
-    34% { height: 16px; background-color: #037ad8; }
-    66% { height: 16px; background-color: #037ad8; }
-    67% { height: 10px; background-color: #3fa0ef; }
-    100% { height: 10px; background-color: #3fa0ef; }
+    0% { height: 10px; background-color: #d0d0d0; }
+    33% { height: 10px; background-color: #d0d0d0; }
+    34% { height: 16px; background-color: white; }
+    66% { height: 16px; background-color: white; }
+    67% { height: 10px; background-color: #d0d0d0; }
+    100% { height: 10px; background-color: #d0d0d0; }
   }
   @keyframes expand-2 {
-    0% { height: 10px; background-color: #3fa0ef;}
-    33% { height: 10px; background-color: #3fa0ef;}
-    34% { height: 16px; background-color: #037ad8; }
-    66% { height: 16px; background-color: #037ad8; }
-    67% { height: 10px; background-color: #3fa0ef; }
-    100% { height: 10px; background-color: #3fa0ef; }
+    0% { height: 10px; background-color: #d0d0d0;}
+    33% { height: 10px; background-color: #d0d0d0;}
+    34% { height: 16px; background-color: white; }
+    66% { height: 16px; background-color: white; }
+    67% { height: 10px; background-color: #d0d0d0; }
+    100% { height: 10px; background-color: #d0d0d0; }
   }
 
   .vt-bars-anim-cont .vt-bar-cont .vt-bar-3 {
@@ -69,16 +69,16 @@
   }
 
   @-webkit-keyframes expand-3 {
-    0% { height: 10px; background-color: #3fa0ef; }
-    66% { height: 10px; background-color: #3fa0ef; }
-    67% { height: 16px; background-color: #037ad8; }
-    100% { height: 16px; background-color: #037ad8; }
+    0% { height: 10px; background-color: #d0d0d0; }
+    66% { height: 10px; background-color: #d0d0d0; }
+    67% { height: 16px; background-color: white; }
+    100% { height: 16px; background-color: white; }
   }
   @keyframes expand-3 {
-    0% { height: 10px; background-color: #3fa0ef; }
-    66% { height: 10px; background-color: #3fa0ef; }
-    67% { height: 16px; background-color: #037ad8; }
-    100% { height: 16px; background-color: #037ad8; }
+    0% { height: 10px; background-color: #d0d0d0; }
+    66% { height: 10px; background-color: #d0d0d0; }
+    67% { height: 16px; background-color: white; }
+    100% { height: 16px; background-color: white; }
   }
 
 .shadow {
@@ -101,7 +101,7 @@
 
 .header-site-logo-cont img {
     height: 45px;
-    width: 261px;
+    width: 327px;
 }
 
 .signup-cont {
@@ -111,7 +111,7 @@
     min-width: 330px;
     height: 550px;
     margin-top: 5%;
-    background-color: white;
+    margin-bottom: 30px;
     box-shadow: 0px 1px 8px 2px grey;
 }
 
@@ -136,7 +136,7 @@
     left: 80px;
     width: 60px;
     height: 60px;
-    background-color: rgb(32, 140, 227);
+    background-color: #424242;
 }
 
 .signup-cont .left-section-cont .bg-pattern-wrapper .bg-circle-2 {
@@ -145,7 +145,7 @@
     left: 140px;
     width: 110px;
     height: 110px;
-    background-color: rgb(51, 152, 234);
+    background-color: #4c4c4c;
 }
 
 .signup-cont .left-section-cont .bg-pattern-wrapper .bg-circle-3 {
@@ -154,20 +154,7 @@
     left: -110px;
     width: 300px;
     height: 300px;
-    background-color: rgb(63, 160, 239);
-}
-
-.signup-cont .left-section-cont .bg-image {
-    position: absolute;
-    top: 120px;
-    left: 82px;
-    width: 180px;
-    height: 330px;
-    background-image: url(../images/background/isometric-bg-img3.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    z-index: 70;
+    background-color: #505050;
 }
 
 .signup-cont .left-section-cont .text-layer {
@@ -178,7 +165,7 @@
 
 .signup-cont .left-section-cont .site-logo-cont {
     margin-top: 40px;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
     font-size: 1.5em;
     color: white;
 }
@@ -213,54 +200,22 @@
     display: table-cell;
     vertical-align: top;
     width: 100%;
+    padding: 0px 30px 40px 30px;
     overflow: hidden;
+    background-color: #777777;
 }
 
 .left-section-cont {
-    background: rgb(0, 120, 215);
-    background: -webkit-linear-gradient(150deg, rgb(0, 120, 215), rgb(65, 161, 240)); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(150deg, rgb(0, 120, 215), rgb(65, 161, 240)); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(150deg, rgb(0, 120, 215), rgb(65, 161, 240)); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(150deg, rgb(0, 120, 215), rgb(65, 161, 240)); /* Standard syntax */
+    background: #424242;
+    background: linear-gradient(150deg, #424242, #696969);
 }
 
-#form-slide-wrapper {
-    position: relative;
-    width: 300%;
-    z-index: 50;
-}
-
-#form-slide-wrapper.navi-form-1 {
-    left: 0%;
-    transition: left 0.5s;
-}
-
-#form-slide-wrapper.navi-form-2 {
-    left: -100%;
-    transition: left 0.5s;
-}
-
-#form-slide-wrapper.navi-form-3 {
-    left: -200%;
-    transition: left 0.5s;
-}
-
-#form-slide-wrapper .form-1,
-#form-slide-wrapper .form-2,
-#form-slide-wrapper .form-3 {
-    float: left;
-    width: 33.3%;
-    padding-left: 40px; 
-    padding-right: 40px;
-    box-sizing: border-box;
-}
-
-#form-slide-wrapper .form-header-title {
+.form-header-title {
     text-align: center;
     font-family: Calibri;
     font-size: 1.5em;
     font-weight: normal;
-    color: #369bec;
+    color: white;
     margin-top: 40px;
 }
 
@@ -270,8 +225,8 @@
     max-width: 260px;
     min-height: 45px;
     border-radius: 6px;
-    background-color: #3297ea;
-    box-shadow: 1px 3px 4px 0px grey;
+    background-color: #585858;
+    box-shadow: 1px 3px 4px 0px #3c3c3c;
     z-index: 200;
 }
 
@@ -305,7 +260,7 @@
     width: 15px;
     height: 15px;
     transform: rotate(45deg);
-    background-color: #3297ea;
+    background-color: #585858;
 }
 
 #err-msg-box .msg {
@@ -337,20 +292,20 @@ select {
     padding-left: 8px;
     font-family: Calibri;
     font-size: 1.2em;
-    color: #5a5a5a;
-    background-color: white;
+    color: #c5c5c5;
+    background-color: #777777;
 }
 
 .hr-line-input {
     border: none;
     outline: none;
-    border-bottom: 1px solid #037ad8;
+    border-bottom: 2px solid #9a9a9a;
 }
 
 .err-hr-line-input {
     border: none;
     outline: none;
-    border-bottom: 1px solid red;
+    border-bottom: 1px solid #a52d2d;
 }
 
 .robot-input-cont {
@@ -420,7 +375,7 @@ select {
 .username-input-wrapper .reload-btn-cont > span,
 .referralid-input-wrapper .reload-btn-cont > span {
     font-size: 1.2em;
-    color: #067cd9;
+    color: white;
     padding-top: 6px;
     padding-left: 4px;
     cursor: pointer;
@@ -442,11 +397,11 @@ select {
 }
 
 .password-input-wrapper .showpasswd-btn-cont.hide > span {
-    color: #9da0a2;
+    color: #bbbbbb;
 }
 
 .password-input-wrapper .showpasswd-btn-cont.show > span {
-    color: #067cd9;
+    color: white;
 }
 
 .passwd-strength-indicator-cont {
@@ -506,7 +461,7 @@ select {
 }
 
 .passwd-strength-indicator-cont .txt-ind-wrapper > span {
-    color: #3398ea
+    color: white;
 }
 
 .firstname-input-wrapper > label,
@@ -548,7 +503,7 @@ label.push-up {
 .password-input-wrapper.lb-normal-color > label,
 .confirmpasswd-input-wrapper.lb-normal-color > label,
 .referralid-input-wrapper.lb-normal-color > label {
-    color: #3096ea;
+    color: white;
 }
 
 #email-input:disabled,
@@ -631,6 +586,7 @@ label.push-up {
 .acceppterms-cont {
     display: table;
     width: 100%;
+    margin-top: 30px;
 }
 
 .acceppterms-cont .item-1 {
@@ -648,12 +604,12 @@ label.push-up {
     margin: 0px;
     font-family: Calibri;
     font-size: 1.1em;
-    color: #3197ea;
+    color: white;
 }
 
 label[for=acceptterms-input] {
     display: inline-block;
-    width: 19px;
+    width: 20px;
     height: 19px;
     cursor: pointer;
     overflow: hidden;
@@ -662,109 +618,20 @@ label[for=acceptterms-input] {
 label[for=acceptterms-input] > img {
     position: relative;
     height: 18px;
-    width: 37px;
+    width: 39px;
 }
 
 #acceptterms-input:checked + .acceppterms-cont .item-1 label > img {
-    right: 19px;
+    right: 20px;
 }
 
 #acceptterms-input:checked ~ .reg-btn-cont .reg-btn:hover {
     box-shadow: 0px 2px 4px 1px gray;
+    background: linear-gradient(120deg, rgb(76, 76, 76), rgb(45, 45, 45));
 }
 
 .acceppterms-cont .terms-link {
-    color: #3197ea;
-}
-
-.form-navigation-cont .form-navi-btn {
-    display: inline-block;
-    position: relative;
-    text-align: center;
-    width: 50px;
-    height: 50px;
-    box-sizing: border-box;
-    border: none;
-    outline: none;
-    margin-left: 100%;
-    font-size: 1.0em;
     color: white;
-    cursor: default;
-    background: rgb(0, 120, 215);
-    background: -webkit-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215)); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215)); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215)); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215)); /* Standard syntax */
-}
-
-.form-navigation-cont .form-navi-btn:hover,
-#f-upload-input + label:hover {
-    box-shadow: 0px 2px 4px 1px gray;
-}
-
-.form-navigation-cont .form-navi-btn > span {
-    margin-top: 0.1em;
-}
-
-.form-navigation-cont {
-    position: absolute;
-    width: 100%;
-    bottom: 0px;
-}
-
-.form-navi-btn-cont {
-    padding: 0 30px 0 40px;
-    margin-bottom: 18px;
-}
-
-.form-progress-bar-cont {
-    padding: 0 26px 0 40px;
-    padding-right: 27px;
-    margin-bottom: 15px;
-}
-
-.form-progress-bar-cont .progress-bar-wrapper {
-    display: table-cell;
-    width: 100%;
-}
-
-.form-progress-bar-cont .progress-bar-bg {
-    height: 9px;
-    border-radius: 10px;
-    background-color: rgb(153, 179, 221);
-}
-
-.form-progress-bar-cont .progress-bar {
-    height: 9px;
-    border-radius: 10px;
-    background: -webkit-linear-gradient(120deg, rgb(0, 120, 215), rgb(65, 161, 240)); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(120deg, rgb(0, 120, 215), rgb(65, 161, 240)); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(120deg, rgb(0, 120, 215), rgb(65, 161, 240)); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(120deg, rgb(0, 120, 215), rgb(65, 161, 240)); /* Standard syntax */
-}
-
-.form-progress-bar-cont .progress-bar.stage-1 {
-    width: 33%;
-    transition: width 2s;
-}
-
-.form-progress-bar-cont .progress-bar.stage-2 {
-    width: 66%;
-    transition: width 2s;
-}
-
-.form-progress-bar-cont .progress-bar.stage-3 {
-    width: 100%;
-    transition: width 2s;
-}
-
-.form-progress-bar-cont .progress-number {
-    display: table-cell;
-    min-width: 50px;
-    text-align: right;
-    font-family: Calibri;
-    font-size: 1.1em;
-    color: #057bd9;
 }
 
 .reg-btn-cont {
@@ -782,11 +649,8 @@ label[for=acceptterms-input] > img {
     font-size: 1.2em;
     color: white;
     cursor: default;
-    background: rgb(0, 120, 215);
-    background: -webkit-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
-    background: -o-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
-    background: -moz-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
-    background: linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
+    background: rgb(88, 88, 88);
+    background: linear-gradient(120deg, rgb(88, 88, 88), rgb(53, 53, 53));
 }
 
 .csrf-input-cont {
@@ -806,20 +670,22 @@ label[for=acceptterms-input] > img {
 }
 
 @media only screen and (max-width: 500px) {
+    body {
+        background-color: #777777;
+    }
+
     .signup-cont {
         box-shadow: unset;
         margin-top: unset;
+        margin-bottom: unset;
     }
 
     .signup-cont .left-section-cont {
         display: none;
     }
 
-    #form-slide-wrapper .form-1, 
-    #form-slide-wrapper .form-2, 
-    #form-slide-wrapper .form-3 {
-        padding-left: 15px;
-        padding-right: 15px;
+    .signup-cont .form-cont {
+        padding: 0px 15px;
     }
 
     .footer-copyright {

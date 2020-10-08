@@ -55,7 +55,7 @@ try {
         $_POST['roi'],
         $_POST['bonus'],
         $_POST['withdrawpercent'],
-        $_POST['id'],
+        $_POST['id']
     );
     $stmt->execute();
     $stmt->close();

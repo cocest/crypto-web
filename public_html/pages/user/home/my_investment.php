@@ -275,7 +275,7 @@ require_once 'page_left_menu.php';
     <div class="page-content-cont">
         <h1 class="page-title-hd">My Investment</h1>
         <?php 
-            if ($data_for_page_rendering['current_investment']) {
+            if (true){//$data_for_page_rendering['current_investment']) {
         ?>
         <div class="current-inv-sec-1">
             <h4 class="section-group-header">Current Investment</h4>

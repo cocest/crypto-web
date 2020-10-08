@@ -1186,13 +1186,6 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     float: left;
 }
 
-.content-body-cont .header-description-cont .courrent-step-indicator {
-    float: right;
-    font-family: Calibri;
-    font-size: 1.4em;
-    color: #3fa0ef;
-}
-
 .content-body-cont .p1,
 .content-body-cont .p2 {
     max-width: 510px;

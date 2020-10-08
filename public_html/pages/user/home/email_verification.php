@@ -46,26 +46,19 @@ try {
     $redirect_user = true;
 
     // check if user's account is not yet activated
-    $query = 'SELECT email, identification FROM user_account_verification WHERE userID = ? LIMIT 1';
+    $query = 'SELECT email FROM user_account_verification WHERE userID = ? LIMIT 1';
     $stmt = $conn->prepare($query); // prepare statement
     $stmt->bind_param('i', $_SESSION['user_id']);
     $stmt->execute();
     $stmt->store_result(); // needed for num_rows
 
     if ($stmt->num_rows > 0) {
-        $stmt->bind_result($is_email_verified, $is_id_verified);
+        $stmt->bind_result($is_email_verified);
         $stmt->fetch();
         $stmt->close();
 
-        // check if personal identification is not verified
-        if ($is_email_verified == 1 && $is_id_verified == 0) {
-            $conn->close(); // close connection to database
-
-            // redirect user
-            header('Location: '. BASE_URL . 'user/home/id_verification.html');
-            exit;
-
-        } else if ($is_email_verified == 1 && $is_id_verified == 1) { // user account has been verified
+        // user account has been verified
+        if ($is_email_verified == 1) {
             $query = 'DELETE FROM user_account_verification WHERE userID = ? LIMIT 1';
             $stmt = $conn->prepare($query); // prepare statement
             $stmt->bind_param('i', $_SESSION['user_id']);
@@ -134,7 +127,6 @@ require_once 'left_bar_menu.php';
                 <div class="sub-section-hd">
                     <h4 class="section-group-header">Email Verification</h4>
                 </div>
-                <div class="courrent-step-indicator">Step 1 of 2</div>
             </div>
             <p class="p1 txt-block-fmt">
                 Please verify your email by clicking the link sent 

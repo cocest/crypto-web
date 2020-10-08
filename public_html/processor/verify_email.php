@@ -76,11 +76,11 @@ try {
             $conn->commit(); // commit all the transaction
             $conn->close(); // close connection to database
 
-            // redirect user to personal identification page
+            // redirect user to there dashboard
             $_SESSION['auth'] = true;
             $_SESSION['user_id'] = $user_id;
             $_SESSION['last_auth_time'] = time() + 1800; // expire in 30 minutes
-            header('Location: ' . BASE_URL . 'user/home/id_verification.html');
+            header('Location: ' . BASE_URL . 'user/home/my_investment.html');
             exit;
 
         } catch (Exception $e) {

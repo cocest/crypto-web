@@ -1,14 +1,5 @@
 <?php 
 
-// error handler function
-function customError($errno, $errstr) {
-    echo "<b>Error:</b> [$errno] $errstr<br>";
-    die();
-}
-
-// set the handler
-set_error_handler('customError');
-
 // import all the necessary liberaries
 require_once '../includes/config.php';
 
@@ -35,7 +26,7 @@ require_once '../includes/config.php';
     <script type="text/javascript" src="./js/smoothScroll.js"></script>
 </head>
 
-<body>
+<body class="theme-bg-color">
     <div class="page-top-menu-cont absolute">
         <!--Header menu container-->
         <div class="page-cont-max-width">
@@ -51,13 +42,10 @@ require_once '../includes/config.php';
                 <div class="main-menu-cont">
                     <ul class="ux-hr-menu fmt-link-med ux-txt-align-rt">
                         <li><a class="link ux-txt-smokewhite txt-hover" onclick="scrollToSection(0, this)">Home</a></li>
-                        <li><a class="link ux-txt-smokewhite txt-hover" onclick="scrollToSection(1, this)">Investment Packages</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" href="./about_us.html">About Us</a></li>
-                        <li><a class="link ux-txt-smokewhite txt-hover" onclick="scrollToSection(2, this)">Contact Us</a></li>
+                        <li><a class="link ux-txt-smokewhite txt-hover" onclick="scrollToSection(1, this)">Contact Us</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" href="./help/faq.html">FAQ</a></li>
-                        <li><a class="ux-btn ux-bg-chocolate bg-hover ux-txt-white ux-rd-corner-1"
-                                href="./register.html">Get
-                                Started</a></li>
+                        <li><a class="ux-btn reg-btn" href="./register.html">Get Started</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" href="./user/login.html">Sign In</a></li>
                     </ul>
                 </div>
@@ -78,12 +66,11 @@ require_once '../includes/config.php';
     </div>
 
     <!--drop down mobile menu container-->
-    <div class="drop-down-mobi-menu-cont hide shadow ux-bg-grayblue">
+    <div class="drop-down-mobi-menu-cont theme-bg-color hide shadow">
         <ul class="ux-vt-menu">
             <li><a class="link active" onclick="scrollToSection(0, this)">Home</a></li>
-            <li><a class="link" onclick="scrollToSection(1, this)">Investment Packages</a></li>
             <li><a class="link" href="./about_us.html">About US</a></li>
-            <li><a class="link" onclick="scrollToSection(2, this)">Contact US</a></li>
+            <li><a class="link" onclick="scrollToSection(1, this)">Contact US</a></li>
             <li><a class="link" href="./help/faq.html">FAQ</a></li>
             <li><a class="link" href="./register.html">Get Started</a></li>
         </ul>
@@ -99,22 +86,19 @@ require_once '../includes/config.php';
         <div id="headline-cont" class="page-cont-max-width">
             <div class="headline">
                 <h1>
-                    <span class="ux-txt-white ux-fs-px-18 txt-shadow">Cryptocurrencies Hedge Funds</span>
-                    </br>
-                    <span class="ux-txt-chocolate ux-fs-px-20 txt-shadow">Creating Profitable And Lasting Partnerships</span>
+                    <span class="ux-txt-white ux-fs-px-23 txt-shadow">Creating Profitable And Lasting Partnerships</span>
                 </h1>
             </div>
             <div class="sub-headline">
-                <h2 style="line-height: 28px;">
-                    <span class="ux-txt-white ux-fs-px-15 sub-headline-txt">
-                        We provide an alternative means of Holding, generating profits for our 
-                        partners in both the short and long terms. You too can become one of 
-                        our partners now!
+                <h2>
+                    <span class="ux-txt-white ux-fs-px-15 sub-headline-txt txt-shadow">
+                        We provide a means to alternative investing, generating profit for 
+                        our partners in the short and long terms. You too can become a partner now!
                     </span>
                 </h2>
             </div>
             <div class="action-btn-cont">
-                <a class="ux-btn custom-action-btn ux-bg-chocolate bg-hover ux-txt-white ux-rd-corner-1 shadow"
+                <a class="ux-btn custom-action-btn ux-bg-chocolate bg-hover ux-txt-white shadow"
                     href="./register.html">Create Account</a>
             </div>
         </div>
@@ -130,8 +114,8 @@ require_once '../includes/config.php';
     <!--why choose us section-->
     <div class="package-section page-cont-max-width">
         <div class="package-headline ux-txt-align-ct">
-            <h1 class="ux-txt-grayblue">Why Choose Us</h1>
-            <p class="descr-txt ux-fs-px-18">
+            <h1 class="ux-txt-white">Why Choose Us ?</h1>
+            <p class="descr-txt ux-fs-px-18 ux-txt-white">
                 You are at the right place. With our top notch service your success is guaranteed. 
                 It is our obligation to provide unparalleled services and we are always working 
                 to suit your preferences in the best way.
@@ -140,36 +124,40 @@ require_once '../includes/config.php';
         <div class="package-panel-cont">
             <div class="package-panel">
                 <div class="featured-art-cont">
-                    <i class="fas fa-shield-alt ux-txt-grayblue"></i>
+                    <i class="fas fa-shield-alt ux-txt-white"></i>
                 </div>
-                <div class="content">
-                    <h3>Secure & Reliable</h3>
+                <div class="content ux-txt-white">
+                    <h3>Risk Management</h3>
                     <p class="ux-fs-px-18">
-                        Our web technology adhered to the best security practices. All your sensitive 
-                        data are encrypted to ward off hacks and other cyber attacks.
+                        Our collaborative culture of debate, on-the-ground work and 
+                        in-house research enable us to enhance data analysis with 
+                        human-driven insight to better manage complexity and 
+                        evaluate hidden risks.
                     </p>
                 </div>
             </div>
             <div class="package-panel">
                 <div class="featured-art-cont">
-                    <i class="far fa-question-circle ux-txt-grayblue"></i>
+                    <i class="fas fa-globe-africa ux-txt-white"></i>
                 </div>
-                <div class="content">
-                    <h3>Great Client Relationship</h3>
+                <div class="content ux-txt-white">
+                    <h3>Global Accessibility</h3>
                     <p class="ux-fs-px-18">
-                        We offer 24/7 client support. We are always glad to aid you through 
-                        any difficulties you may encounter. We have the interest of our partners at heart.
+                        We are an international firm and partner with different institutional 
+                        and private investors from different ends of the globe. We also recruit 
+                        team members irrespective of nationality.
                     </p>
                 </div>
             </div>
             <div class="package-panel">
                 <div class="featured-art-cont">
-                    <i class="fas fa-box-open ux-txt-grayblue"></i>
+                    <i class="fas fa-compress-arrows-alt ux-txt-white"></i>
                 </div>
-                <div class="content">
-                    <h3>Referral Bonus</h3>
+                <div class="content ux-txt-white">
+                    <h3>Reduced Minimums</h3>
                     <p class="ux-fs-px-18">
-                        We offer 2% referral bonuses for new partners that register through your referral id.
+                        We have lower minimums to accommodate different income classes and 
+                        charge only 2% upon withdrawal. Other management fees are pinned to the AUM.
                     </p>
                 </div>
             </div>
@@ -180,137 +168,130 @@ require_once '../includes/config.php';
     <div class="service-section-cont">
         <div class="service-section page-cont-max-width">
             <div class="service-headline ux-txt-align-ct">
-                <h1 class="ux-txt-grayblue">Our Services</h1>
+                <h1 class="ux-txt-lightgray">How We Do It ?</h1>
+                <p class="descr-txt ux-fs-px-18 ux-txt-lightgray">
+                    We firmly believe in diversity and as such spread our portfolios 
+                    across different aspects of the alternative markets, generating 
+                    profit for our partners in the short and long terms.
+                </p>
             </div>
-            <div class="service-panel-cont ux-layout-grid columns-2">
-                <div class="grid-item">
-                    <div class="featured-art-cont">
-                        <i class="fas fa-cloud ux-txt-grayblue"></i>
-                    </div>
-                    <div class="content">
-                        <h3 class="ux-txt-grayblue">Cloud mining</h3>
-                        <p class="ux-fs-px-18">
-                            We offer private investors the opportunity to invest in cryptocurrency mining. We pool 
-                            resources together with other global investors to make this achievable and profitable.
-                        </p>
-                    </div>
+            <div class="service-panel-cont">
+                <div class="featured-img-cont">
+                    <img src="./images/background/how-we-do-it.jpg" />
                 </div>
-                <div class="grid-item">
-                    <div class="featured-art-cont">
-                        <i class="fas fa-hands-helping ux-txt-grayblue"></i>
+                <div class="service-list-cont">
+                    <div class="service-cont">
+                        <div class="featured-art-cont">
+                            <i class="fas fa-chart-line ux-txt-lightgray"></i>
+                        </div>
+                        <div class="content ux-txt-lightgray">
+                            <h3>Derivatives</h3>
+                            <p class="ux-fs-px-18">
+                                We engage in options and derivatives trading with the aim of 
+                                generating good returns while reducing risk.
+                            </p>
+                        </div>
                     </div>
-                    <div class="content">
-                        <h3 class="ux-txt-grayblue">Blockchain Startups and ICOs</h3>
-                        <p class="ux-fs-px-18">
-                            We identify new and budding companies with huge potential in the crypto space 
-                            and invest in them to generate returns.
-                        </p>
+                    <div class="service-cont">
+                        <div class="featured-art-cont">
+                            <i class="fab fa-bitcoin ux-txt-lightgray"></i>
+                        </div>
+                        <div class="content ux-txt-lightgray">
+                            <h3>Digital Currencies</h3>
+                            <p class="ux-fs-px-18">
+                                We explore the digital currency industry, investing in Blockchain 
+                                startups and ICOs to harness the groundbreaking returns in the 
+                                digital currency markets.
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div class="grid-item">
-                    <div class="featured-art-cont">
-                        <i class="fas fa-chart-pie ux-txt-grayblue"></i>
+                    <div class="service-cont">
+                        <div class="featured-art-cont">
+                            <i class="fas fa-chart-pie ux-txt-lightgray"></i>
+                        </div>
+                        <div class="content ux-txt-lightgray">
+                            <h3>Quantitative Hedge Funds</h3>
+                            <p class="ux-fs-px-18">
+                                We invest in and manage hedge funds, providing K1s for our 
+                                partners and regularly offering alphas.
+                            </p>
+                        </div>
                     </div>
-                    <div class="content">
-                        <h3 class="ux-txt-grayblue">Cryptocurrencies and Crypto derivatives Trading</h3>
-                        <p class="ux-fs-px-18">
-                            We use the latest strategies, techniques, and equipment to trade cryptocurrencies and 
-                            crypto derivatives, generating outstanding returns with a 90% profitable return rate.
-                        </p>
-                    </div>
-                </div>
-                <div class="grid-item">
-                    <div class="featured-art-cont">
-                        <i class="fas fa-cannabis ux-txt-grayblue"></i>
-                    </div>
-                    <div class="content">
-                        <h3 class="ux-txt-grayblue">Cannabis stocks and REITS</h3>
-                        <p class="ux-fs-px-18">
-                            We invest in upcoming and profitable sectors like the cannabis industry and real 
-                            estate trusts to generate outstanding ROIs.
-                        </p>
+                    <div class="service-cont">
+                        <div class="featured-art-cont">
+                            <i class="fas fa-gem ux-txt-lightgray"></i>
+                        </div>
+                        <div class="content ux-txt-lightgray">
+                            <h3>Precious Metals</h3>
+                            <p class="ux-fs-px-18">
+                                We invest in precious metals and related funds thus creating 
+                                a hedge for our partners.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!--Investment packages section-->
-    <div class="inv-pkg-section-cont">
-        <div class="inv-pkg-section page-cont-max-width">
+    <!--Getting started section-->
+    <div class="getting-started-section-cont">
+        <div class="getting-started-section page-cont-max-width">
             <div class="headline-cont ux-txt-align-ct">
-                <h1 class="ux-txt-grayblue">Investment Packages</h1>
+                <h1 class="ux-txt-white">Getting Started</h1>
+                <p class="descr-txt ux-fs-px-18 ux-txt-white">
+                    The Citadel is a firm believer in the blockchain technology. 
+                    To invest using our platform you must have completed the steps below.
+                </p>
             </div>
-            <div class="inv-pkg-list-cont ux-layout-grid columns-4">
-                <?php 
-
-                // generate investment packages from database
-
-                // mysql configuration
-                $db = $config['db']['mysql'];
-        
-                // enable mysql exception
-                mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-
-                try {
-                    // connect to database
-                    $conn = new mysqli($db['host'], $db['username'], $db['password'], $db['dbname']);
-
-                    //check connection
-                    if ($conn->connect_error) {
-                        throw new mysqli_sql_exception('Database connection failed: '.$conn->connect_error);
-                    }
-
-                    // fetch data from database
-                    $query = 'SELECT * FROM crypto_investment_packages';
-                    $stmt = $conn->prepare($query); // prepare statement
-                    $stmt->execute();
-                    $result = $stmt->get_result();
-                    $counter = 0;
-
-                    while ($row = $result->fetch_assoc()) {
-                        $package = 
-                            '<div class="grid-item">
-                                <div class="package-cont">
-                                    <div class="upper-sec">
-                                        <div class="pkg-name-cont ' . strtolower($row['package']) . '">
-                                            <h2>' . $row['package'] . '</h2>
-                                        </div>
-                                        <div class="header-img-cont ' . strtolower($row['package']) . '">
-                                            <img src="./images/icons/package_icon_sprint.png" />
-                                        </div>
-                                    </div>
-                                    <div class="lower-sec">
-                                        <h2 class="price">$' . number_format($row['minAmount']) . ' - ' . ($row['maxAmount'] == 0 ? 'unlimited' : '$' . number_format($row['maxAmount'])) . '</h2>
-                                        <ul class="benefit-list">
-                                            <li>' . ($row['durationInMonth'] > 2 ? 'Quarterly ROI - ' : $row['durationInMonth'] . ' Month ROI - ') . intval($row['monthlyROI']) . '%</li>
-                                            <li>Bonus - ' . (intval($row['bonus']) == 0 ? 'No' : intval($row['bonus']) . '%') . '</li>
-                                        </ul>
-                                        <button onclick="investmentPkgsSelected(' . $counter . ')">INVEST NOW</button>
-                                    </div>
-                                </div>
-                             </div>';
-
-                        echo $package;
-                        $counter++; // increment by one
-                    }
-
-                } catch (mysqli_sql_exception $e) {
-                    echo 'Mysql error: ' . $e->getMessage() . PHP_EOL;
-                
-                } catch (Exception $e) { // catch other exception
-                    echo 'Caught exception: ' .  $e->getMessage() . PHP_EOL;
-                }
-
-                ?>
-            </div>
-            <div class="inv-pkg-exp-col-btn-cont">
-                <button onclick="showMoreOrLessInvestmentPackages()">
-                    <div class="img-cont expand">
-                       <img src="./images/icons/expand_and_collapse.png" />
+            <div class="getting-started-cont">
+                <div class="featured-img-cont">
+                    <img src="./images/background/getting-started.jpg" />
+                </div>
+                <div class="getting-started-steps">
+                    <div class="instruction-cont">
+                        <div class="featured-art-cont">
+                            <div class="numbering">
+                                <span>1</span>
+                            </div>
+                        </div>
+                        <div class="content ux-txt-white">
+                            <h3>Own a Wallet</h3>
+                            <p class="ux-fs-px-18">
+                                Download a wallet on your device for storage of your digital currencies. 
+                                Always opt for offline wallets as they offer better security.
+                            </p>
+                        </div>
                     </div>
-                    <div class="text-cont">See More</div>
-                </button>
+                    <div class="instruction-cont">
+                        <div class="featured-art-cont">
+                            <div class="numbering">
+                                <span>2</span>
+                            </div>
+                        </div>
+                        <div class="content ux-txt-white">
+                            <h3>Purchase Digital Currencies</h3>
+                            <p class="ux-fs-px-18">
+                                Digital currencies can be bought on trusted exchanges. 
+                                For more information see FAQs
+                            </p>
+                        </div>
+                    </div>
+                    <div class="instruction-cont">
+                        <div class="featured-art-cont">
+                            <div class="numbering">
+                                <span>3</span>
+                            </div>
+                        </div>
+                        <div class="content ux-txt-white">
+                            <h3>Create an Account</h3>
+                            <p class="ux-fs-px-18">
+                                Click on the Create Account button to register and create your account. 
+                                Once created select package of your choice.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -319,22 +300,19 @@ require_once '../includes/config.php';
     <div class="about-crypto-section-cont">
         <div class="about-crypto-section page-cont-max-width">
             <div class="about-crypto-headline-cont">
-                <h1 class="ux-txt-white">About Us</h1>
+                <h1 class="ux-txt-lightgray">About Us</h1>
                 <!--<div class="about-crypto-headline-underline ux-bg-grayblue"></div>-->
             </div>
             <div class="about-crypto-img-cont">
-                <img src="./images/background/about-us.jpg" alt="About cryptocurrency image" />
+                <img src="./images/background/about-us-1.jpg" alt="About cryptocurrency image" />
             </div>
             <div class="about-crypto-cont">
                 <p>
-                    The Citadel Capital Partners is a leading investor in the global alternative and 
-                    financial markets. Founded in 1996 for the aim of ensuring capital appreciation 
-                    as well as wealth protection, we have delivered investment returns to our partners 
-                    for over a decade, aligning our interests for a profitable and lasting partnership. 
-                    With over $10 billion in AUM across different funds and using the latest management strategies, 
-                    technology, and trading techniques, we harness the brainpower of the smartest 
-                    individuals, building on a platform of discipline, integrity, and teamwork to 
-                    identify and utilize the latest opportunities to deliver groundbreaking returns.
+                    The Citadel Capital Partners is a leading investor in the global financial and 
+                    alternative markets. Founded with the aim of ensuring capital appreciation as 
+                    well as wealth protection, we have consistently delivered returns to our partners 
+                    for more than a decade, thus maintaining our promise of establishing profitable 
+                    and everlasting partnerships.
                 </p>
                 <div class="lm-about-us-link-cont">
                     <a href="./about_us.html">
@@ -345,44 +323,7 @@ require_once '../includes/config.php';
         </div>
     </div>
 
-    <!--Cryptocurrencies' price and trade statistics-->
-    <div class="crypto-statistics-section-cont">
-        <div class="crypto-statistics-section page-cont-max-width remove-elem">
-            <div class="title-cont">
-                <h1 class="ux-txt-grayblue">Cryptocurrencies Live Prices</h1>
-            </div>
-            <div id="crypto-st-table-cont">
-                <div class="tab-btn-cont">
-                    <div class="tab-btn active" onclick="changeCryptoPriceTo('usd', 0, this)">USD</div>
-                    <div class="tab-btn" onclick="changeCryptoPriceTo('eur', 1, this)">EURO</div>
-                    <div class="tab-btn" onclick="changeCryptoPriceTo('gbp', 2, this)">GBP</div>
-                </div>
-                <div class="table-wrapper">
-                    <table id="crypto-st-tbl"></table>
-                </div>
-            </div>
-            <div class="powered-crypto-statistics">
-                <img src="./images/icons/crypto_compare.png" alt="cryptocompare" />
-            </div>
-        </div>
-        <div class="crypto-statistics-loading-cont">
-            <div class="vt-bars-anim-cont">
-                <div class="vt-bar-cont">
-                    <div class="vt-bar-1"></div>
-                </div>
-                <div class="vt-bar-cont">
-                    <div class="vt-bar-2"></div>
-                </div>
-                <div class="vt-bar-cont">
-                    <div class="vt-bar-3"></div>
-                </div>
-            </div>
-            <div class="loading-txt-cont ux-txt-grayblue ux-fs-px-24">
-                Loading statistics
-            </div>
-        </div>
-    </div>
-
+    <?php if (false) { ?>
     <!--User Testimonial section-->
     <div class="testimoney-section-cont remove-elem">
         <div class="testimoney-section page-cont-max-width">
@@ -408,8 +349,70 @@ require_once '../includes/config.php';
             </div>
         </div>
     </div>
+    <?php } ?>
+
+    <!--Contact us section-->
+    <div class="contact-us-section-cont">
+        <div class="contact-us-section page-cont-max-width">
+            <div class="headline-cont ux-txt-align-ct">
+                <h1 class="ux-txt-white">Contact Us</h1>
+            </div>
+            <div class="message-us-cont">
+                <h2 class="header-title ux-txt-white">Let's get in touch</h2>
+                <p class="header-message ux-txt-white">
+                    The Citadel Capital Partners is a leading investor in the global alternative and 
+                    financial markets. Founded in 1996 for the aim of ensuring capital appreciation.
+                </p>
+                <ul class="contact-info-list">
+                    <li>
+                        <div class="list-icon">
+                            <i class="fas fa-envelope ux-txt-white"></i>
+                        </div>
+                        <div class="list-data ux-txt-white">contact@thecitadelcapital.com</div>
+                    </li>
+                    <li>
+                        <div class="list-icon">
+                            <i class="fas fa-phone-square-alt ux-txt-white"></i>
+                        </div>
+                        <div class="list-data ux-txt-white">+356 21250666</div>
+                    </li>
+                    <li>
+                        <div class="list-icon">
+                            <i class="fas fa-map-marker-alt ux-txt-white"></i>
+                        </div>
+                        <div class="list-data ux-txt-white">392 Triq il Kanun, Santa Venera, Malta</div>
+                    </li>
+                </ul>
+            </div>
+            <div class="contact-form-cont">
+                <form name="contact-us-form" onsubmit="return processSendUsMessageForm(event)" autocomplete="off" spellcheck="false" novalidate>
+                    <div class="form-input-cont">
+                        <div class="input-cont">
+                            <label class="ux-txt-white" for="name-input">Your Name</label>
+                            <input id="name-input" type="text" name="name" placeholder="Enter your full name" />
+                        </div>
+                        <div class="input-cont">
+                            <label class="ux-txt-white" for="email-input">Your Email</label>
+                            <input id="email-input" type="text" name="email" placeholder="Enter your email" />
+                        </div>
+                    </div>
+                    <div class="textarea-cont">
+                        <div class="textarea-label ux-txt-white">Your Message</div>
+                        <textarea class="textarea-input" data-gramm_editor="false"></textarea>
+                    </div>
+                    <div class="submit-btn-cont">
+                        <button class="form-submit-btn" type="submit">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!--Achievement section-->
+    <?php 
+        // don't render achievement section
+        if (false) {
+    ?>
     <div class="achievement-section-cont">
         <div class="achievement-section page-cont-max-width">
             <?php if (false) { ?>
@@ -459,7 +462,9 @@ require_once '../includes/config.php';
                     </div>
                 </div>
             </div>
-            <?php } ?>
+            <?php } 
+                  if (false) {
+            ?>
             <div class="sponsor-cont ux-layout-grid columns-4">
                 <div class="grid-item">
                     <img class="img-2" src="./images/organisation/fsca_logo.png" alt="fsca logo" />
@@ -474,75 +479,83 @@ require_once '../includes/config.php';
                     <img class="img-4" src="./images/organisation/cfpb_logo.png" alt="cfpb logo" />
                 </div>
             </div>
+            <?php } ?>
         </div>
     </div>
+    <?php } ?>
 
     <!--page footer section-->
-    <div class="page-footer-section ux-bg-grayblue">
-        <div class="footer-cont">
-            <div class="footer-col-1">
-                <div class="site-logo-in-footer">
-                    <img src="./images/icons/w_citadel_capital_logo.png" alt="thecitadelcapital" />
+    <div class="page-footer-section">
+        <div class="upper-footer-cont">
+            <div class="column-group-1">
+                <div class="footer-column">
+                    <img class="site-logo" src="./images/icons/w_citadel_capital_logo.png" alt="thecitadelcapital">
+                    <p class="text-block">
+                        <span class="text-cont">
+                            The Citadel Capital Partners is a leading investor in the global financial 
+                            and alternative markets. Founded with the aim of ensuring capital appreciation 
+                            as well as wealth protection.
+                        </span>
+                        <span class="more-link-cont">
+                            <a href="<?php echo BASE_URL . 'about_us.html'; ?>">Learn More</a>
+                        </span>
+                    </p>
+                </div>
+                <div class="footer-column">
+                    <h2 class="header">TERMS & POLICY</h2>
+                    <ul class="link-list">
+                        <li><a href="<?php echo BASE_URL . 'terms_and_condition.html'; ?>">Terms & Condition</a></li>
+                        <li><a href="<?php echo BASE_URL . 'privacy_policy.html'; ?>">Privacy Policy</a></li>
+                        <li><a href="<?php echo BASE_URL . 'cookies_policy.html'; ?>">Cookies Policy</a></li>
+                    </ul>
                 </div>
             </div>
-            <div class="footer-col-2">
-                <h4>TERMS</h4>
-                <ul class="ux-vt-menu fmt-link-med">
-                    <li>
-                        <a href="<?php echo BASE_URL . 'terms_and_condition.html'; ?>" class="link ux-txt-smokewhite txt-hover">Terms &amp; Condition</a>
-                    </li>
-                    <li>
-                        <a href="<?php echo BASE_URL . 'privacy_policy.html'; ?>" class="link ux-txt-smokewhite txt-hover">Privacy Policy</a>
-                    </li>
-                    <li>
-                        <a href="<?php echo BASE_URL . 'cookies_policy.html'; ?>" class="link ux-txt-smokewhite txt-hover">Cookies Policy</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="footer-col-3">
-                <h4>CONTACT US</h4>
-                <ul class="ux-vt-menu fmt-link-med">
-                    <li>
-                        <div class="address-in-footer">
-                            392 Triq il Kanun, Santa Venera, Malta
+            <div class="column-group-2">
+                <div class="footer-column">
+                    <h2 class="header">CONTACT US</h2>
+                    <ul class="link-list">
+                        <li>392 Triq il Kanun, Santa Venera, Malta</li>
+                        <li>
+                            <div class="list-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="list-data">contact@thecitadelcapital.com</div>
+                        </li>
+                        <li>
+                            <div class="list-icon">
+                                <i class="fas fa-phone-square-alt"></i>
+                            </div>
+                            <div class="list-data">+356 21250666</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h2 class="header">SUBSCRIBE TO NEWSLETTER </h2>
+                    <p class="text-block">
+                        To get the latest updates on market trends subscribe to our newsletter. 
+                        Be rest assured that your email address is private information and would 
+                        not be published publicly.
+                    </p>
+                    <div class="newsletter-sub-cont">
+                        <div class="email-input-cont">
+                            <input type="email" name="email" placeholder="Your Email" />
                         </div>
-                    </li>
-                    <li>
-                        <div class="contact-in-footer">
-                            <i class="fas fa-envelope"></i><span>contact@thecitadelcapital.com</span>
+                        <div class="sub-button-cont">
+                            <button type="button">Sign Up</button>
                         </div>
-                    </li>
-                    <li>
-                        <div class="phone-in-footer">
-                            <i class="fas fa-phone-square-alt"></i><span>+356 21250666</span>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="footer-col-4">
-                <h4>CONNECT WITH US</h4>
-                <ul class="ux-hr-menu">
-                    <li>
-                        <a href="https://web.facebook.com/thecitadelcapitalpartners/" class="ux-txt-smokewhite txt-hover">
-                            <i class="fab fa-facebook-square"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://twitter.com/JamieCitadel" class="ux-txt-smokewhite txt-hover">
-                            <i class="fab fa-twitter-square"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="ux-txt-smokewhite txt-hover">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                    </li>
-                </ul>
+                    </div>
+                    <h2 class="header">CONNECT WITH US</h2>
+                    <ul class="social-media-list-cont">
+                        <li><a href="https://web.facebook.com/thecitadelcapitalpartners/"><i class="icon fab fa-facebook-square"></i></a></li>
+                        <li><a href="https://twitter.com/JamieCitadel"><i class="icon fab fa-twitter-square"></i></a></li>
+                        <li><a href="#"><i class="icon fab fa-linkedin"></i></a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="footer-hr-line"></div>
-        <div class="footer-base-cont ux-bg-grayblue ux-txt-white">
-            Copyright &copy; Thecitadelcapital <?php echo date("Y");?>. All Rights Reserved
+        <div class="page-footer-hl"></div>
+        <div class="lower-footer-cont">
+            <div class="footer-bottom">Copyright &copy; Thecitadelcapital <?php echo date("Y");?>. All Rights Reserved</div>
         </div>
     </div>
 </body>

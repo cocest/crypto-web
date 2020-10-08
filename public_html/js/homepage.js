@@ -1,19 +1,32 @@
 function init() {
     // define and initialise variables
+    const DESKTOP_VIEW = 10;
+    const TABLET_VIEW = 11;
+    const MOBILE_VIEW = 12;
+    const SWIPE_HORIZONTAL = 10;
+    const SWIPE_VERTICAL = 11;
+    const SWIPE_START = 12;
+    const SWIPE_REMOVED = 13;
+    const SWIPE_END = 14;
+    const SWIPE_LEFT = 15;
+    const SWIPE_RIGHT = 16;
+    
+    let active_view;
     let top_main_menu_hidden = false;
-    let top_main_menu_changed = false;
+    let top_main_menu_changed = true;
     let page_scroll_y = 0;
     let curr_page_scroll_y = 0;
-    let window_active = false;
+    //let window_active = false;
     let drop_mobi_menu_active = false;
-    let curr_panel_view_count = 3;
+    /*let curr_panel_view_count = 3;
     let curr_tm_panel_index = 0;
     let slide_tm_wait = false;
-    let testimonies_ready = false;
+    let testimonies_ready = false;*/
     let less_more_pkgs_toggle = false;
     let curr_crypto_price_btn_id = 0;
     let is_crypto_stat_loading = true;
     let update_crypto_statistics_worker;
+    let current_inv_pkg_swipe_index = 0;
     let requestAnimationFrame = window.requestAnimationFrame
         || window.mozRequestAnimationFrame
         || window.webkitRequestAnimationFrame
@@ -22,10 +35,10 @@ function init() {
         || window.mozCancelAnimationFrame
         || window.webkitCancelAnimationFrame
         || function (request_id) { clearTimeout(request_id); };
-    let req_tm_anim_handler;
+    /*let req_tm_anim_handler;
     let tm_anim_running = false;
     let touch_event_attached = false;
-    let active_touches_tm = [];
+    let active_touches_tm = [];*/
     let crypto_price_table_header = [
         'NAME', 'PRICE', 'LAST UPDATE', 'MARKET CAP', 'SUPPLY', 'CHANGE PCT', 'LAST VOLUME'
     ];
@@ -40,8 +53,7 @@ function init() {
     let prev_active_link = document.querySelector('.drop-down-mobi-menu-cont .active');
     let page_sections = [];
     page_sections[0] = document.querySelector('.page-upper-section');
-    page_sections[1] = document.querySelector('.inv-pkg-section-cont');
-    page_sections[2] = document.querySelector('.page-footer-section');
+    page_sections[1] = document.querySelector('.contact-us-section-cont');
 
     // scroll to the page to section
     window.scrollToSection = function (index, link_elem) {
@@ -89,7 +101,7 @@ function init() {
     };
 
     // navigate through testimonial
-    window.slideTestimonial = function (direction) {
+    /*window.slideTestimonial = function (direction) {
         // wait for the animation to finish
         if (slide_tm_wait) {
             return;
@@ -243,10 +255,10 @@ function init() {
 
             }, 550);
         }
-    };
+    };*/
 
     // display full testimoney panel
-    window.displayFullTestimoneyPanel = function (index) {
+    /*window.displayFullTestimoneyPanel = function (index) {
         if (!window_active) {
             window_active = true;
 
@@ -264,7 +276,7 @@ function init() {
             // display the panel
             panel.removeAttribute('class');
         }
-    };
+    };*/
 
     // change the cryptocurrencies' price to other exchange currency
     window.changeCryptoPriceTo = function (exchange_to, btn_id, btn) {
@@ -295,16 +307,16 @@ function init() {
         let menu_elem = document.querySelector('.drop-down-mobi-menu-cont');
 
         if (btn.getAttribute('toggle') == '0') {
-            menu_bar.setAttribute('class', 'page-top-menu-cont fixed show ux-bg-grayblue');
+            menu_bar.setAttribute('class', 'page-top-menu-cont fixed theme-bg-color show');
             menu_icon.setAttribute('class', 'drop-menu-icon open');
-            menu_elem.setAttribute('class', 'drop-down-mobi-menu-cont show shadow ux-bg-grayblue');
+            menu_elem.setAttribute('class', 'drop-down-mobi-menu-cont show theme-bg-color shadow');
             btn.setAttribute('toggle', '1');
             drop_mobi_menu_active = true;
 
         } else {
-            menu_bar.setAttribute('class', 'page-top-menu-cont fixed show ux-bg-grayblue shadow');
+            menu_bar.setAttribute('class', 'page-top-menu-cont fixed theme-bg-color show shadow');
             menu_icon.setAttribute('class', 'drop-menu-icon close');
-            menu_elem.setAttribute('class', 'drop-down-mobi-menu-cont hide shadow ux-bg-grayblue');
+            menu_elem.setAttribute('class', 'drop-down-mobi-menu-cont theme-bg-color hide shadow');
             btn.setAttribute('toggle', '0');
             drop_mobi_menu_active = false;
             top_main_menu_changed = true;
@@ -312,48 +324,7 @@ function init() {
         }
     };
 
-    window.showMoreOrLessInvestmentPackages = function () {
-        let elem = document.querySelector('.inv-pkg-exp-col-btn-cont');
-        let btn_icon = elem.querySelector('.img-cont');
-        let btn_text = elem.querySelector('.text-cont');
-        let packages;
-
-        if (less_more_pkgs_toggle) { // show less
-            less_more_pkgs_toggle = false;
-            btn_icon.setAttribute('class', 'img-cont expand');
-            btn_text.innerHTML = "See More";
-
-            if (window.innerWidth < 800) {
-                resizeInvestmentPackages("mobile");
-            } else if (window.innerWidth < 1200) {
-                resizeInvestmentPackages("tablet")
-            } else {
-                resizeInvestmentPackages("desktop");
-            }
-
-        } else { // show more
-            less_more_pkgs_toggle = true;
-            btn_icon.setAttribute('class', 'img-cont collapse');
-            btn_text.innerHTML = "See Less";
-
-            elem = document.querySelector('.inv-pkg-list-cont');
-            packages = elem.querySelectorAll('.grid-item');
-
-            for (let i = 0; i < packages.length; i++) {
-                packages[i].removeAttribute('style');
-            }
-        }
-    };
-
-    // store user's selection on cookies and redirect to login page
-    window.investmentPkgsSelected = function (investment) {
-        // code for cookies here
-
-        // redirect user
-        window.location.href = "user/login.html";
-    };
-
-    function getTestimonialNextIndex(direction, panel_count) {
+    /*function getTestimonialNextIndex(direction, panel_count) {
         let index;
         let tm_length = testimonies.length;
 
@@ -381,7 +352,7 @@ function init() {
 
             return curr_tm_panel_index;
         }
-    }
+    }*/
 
     // clip unffitted text out
     function clipOutText(txt_length, text) {
@@ -409,7 +380,7 @@ function init() {
     }
 
     // add testimonies' panel to page
-    function createTestimonialPanels(panel_count) {
+    /*function createTestimonialPanels(panel_count) {
         let elem = document.querySelector('.testimonial-panel-cont');
         let panel, cont, clipped_text;
 
@@ -441,10 +412,10 @@ function init() {
             panel.appendChild(cont);
             elem.appendChild(panel);
         }
-    }
+    }*/
 
     // this function start testimonial slide animation
-    function startTMSlideAnimation() {
+    /*function startTMSlideAnimation() {
         if (!tm_anim_running) { // if is not running start animation
             tm_anim_running = true;
             let elapsed_time;
@@ -463,15 +434,15 @@ function init() {
 
             step(); // start
         }
-    }
+    }*/
 
     // this function stop testimonial slide animation
-    function stopTMSlideAnimation() {
+    /*function stopTMSlideAnimation() {
         if (tm_anim_running) { // if is running, stop animation
             cancelAnimationFrame(req_tm_anim_handler);
             tm_anim_running = false;
         }
-    }
+    }*/
 
     // format cryptocurrency statistics data
     function formatCryptoStatistics(data, data_name) {
@@ -609,7 +580,7 @@ function init() {
                 // check if menu has not been hidden
                 if (!top_main_menu_hidden) {
                     // hide menu
-                    elem.setAttribute('class', 'page-top-menu-cont fixed hide ux-bg-grayblue shadow');
+                    elem.setAttribute('class', 'page-top-menu-cont theme-bg-color fixed hide shadow');
                     top_main_menu_hidden = true;
                 }
 
@@ -617,7 +588,7 @@ function init() {
                 // check if menu has not been shown
                 if (top_main_menu_hidden) {
                     // hide menu
-                    elem.setAttribute('class', 'page-top-menu-cont fixed show ux-bg-grayblue shadow');
+                    elem.setAttribute('class', 'page-top-menu-cont theme-bg-color fixed show shadow');
                     top_main_menu_hidden = false;
                 }
             }
@@ -650,7 +621,7 @@ function init() {
     }
 
     // utility function that fetch users' testimoney from server
-    function requestForCustomerTestimonial() {
+    /*function requestForCustomerTestimonial() {
         let req_url = 'request';
         let form_data = 'req=get_user_testimonial'; // request query
 
@@ -681,12 +652,12 @@ function init() {
                 }
             }
         );
-    }
+    }*/
 
     // utility function to get touch index in array
-    function getTouchIndexByID(id) {
-        for (let i = 0; i < active_touches_tm.length; i++) {
-            if (active_touches_tm[i].identifier == id) {
+    function getTouchIndexByID(touches, id) {
+        for (let i = 0; i < touches.length; i++) {
+            if (touches[i].identifier == id) {
                 return i;
             }
         }
@@ -694,107 +665,122 @@ function init() {
         return -1; // touch not found
     }
 
-    // handle touch start event for testimonial
-    function handleStartTM(e) {
-        //e.preventDefault();
-        stopTMSlideAnimation(); // stop animation when user place finger(s) on scrren
-        let touches = e.changedTouches;
+    // utility function to listen for touch event
+    function swipeGestures(touch_target, swipe_direction, callback) {
+        let active_touches = [];
+        let is_touch_start_fired = false;
 
-        // we track only the first finger in the array
-        for (let i = 0; i < touches.length; i++) {
-            active_touches_tm.push(touches[i]);
-        }
-    }
+        // attach touch start event handler
+        touch_target.addEventListener("touchstart", (e) => {
+            let touches = e.changedTouches;
 
-    // handle touch end event for testimonial
-    function handleEndTM(e) {
-        //e.preventDefault();
-        let touches = e.changedTouches;
-
-        // check if is only one finger
-        if (active_touches_tm.length < 2) {
-            // distance move by the finger
-            let dx = active_touches_tm[0].pageX - touches[0].pageX; // x-direction
-            let dy = active_touches_tm[0].pageY - touches[0].pageY; // y-direction
-            let rad = Math.atan(dy / dx);
-
-            // check if distance is above our set threshold and
-            // swiping happen closely in horizontal direction; between 20 degree from horizontal
-            if (Math.abs(dx) > 100 && Math.abs(rad) < 0.3490658503988659) {
-                stopTMSlideAnimation();
-                window.slideTestimonial(dx > 0 ? 'next' : 'prev');
+            // finger(s) placed on touch target
+            if (!is_touch_start_fired) {
+                is_touch_start_fired = true;
+                callback({
+                    state: SWIPE_START,
+                    direction: null
+                });
             }
 
-            // remove the touch from the array
-            active_touches_tm = [];
-            if (window.innerWidth < 800) startTMSlideAnimation(); // start animation since the whole finger(s) is removed
-
-        } else { // find the finger and remove it from the array
+            // we track only one finger in the array
             for (let i = 0; i < touches.length; i++) {
-                active_touches_tm.splice(getTouchIndexByID(touches[i].identifier), 1);
+                active_touches.push(touches[i]);
             }
 
-            // check to start animation
-            if (active_touches_tm.length < 1) {
-                if (window.innerWidth < 800) startTMSlideAnimation();
+        }, false);
+
+        // attach touch move event handler
+        touch_target.addEventListener("touchend", (e) => {
+            let touches = e.changedTouches;
+
+            // check if is only one finger is on touch target
+            if (active_touches.length <= 1) {
+                // distance move by the finger
+                let dx = active_touches[0].pageX - touches[0].pageX; // x-direction
+                let dy = active_touches[0].pageY - touches[0].pageY; // y-direction
+                let rad = Math.atan(dy / dx);
+
+                // check if distance is above our set threshold and
+                // swiping happen closely in horizontal direction; between 20 degree from horizontal
+                if (Math.abs(dx) > 100 && Math.abs(rad) < 0.3490658503988659) {
+                    callback({
+                        state: SWIPE_REMOVED,
+                        direction: null
+                    });
+                    callback({
+                        state: SWIPE_END,
+                        direction: dx > 0 ? SWIPE_RIGHT : SWIPE_LEFT
+                    });
+
+                } else {
+                    callback({
+                        state: SWIPE_REMOVED,
+                        direction: null
+                    });
+                }
+
+                // remove the touch from the array
+                active_touches = [];
+
+            } else { // find the finger and remove it from the array
+                for (let i = 0; i < touches.length; i++) {
+                    active_touches.splice(getTouchIndexByID(active_touches, touches[i].identifier), 1);
+                }
             }
-        }
+
+        }, false);
     }
 
-    // add touch event handler
-    function attachTouchEventsTM() {
-        if (!touch_event_attached) {
-            touch_event_attached = true;
-
-            let elem = document.getElementById("testimonial-touch-surface");
-            elem.addEventListener("touchstart", handleStartTM, false);
-            elem.addEventListener("touchend", handleEndTM, false);
-        }
-    }
-
-    function resizeInvestmentPackages(adapt_to) {
-        if (less_more_pkgs_toggle) {
-            window.showMoreOrLessInvestmentPackages();
+    // slide package to clicked view index
+    window.slidePackageList = function (view_index) {
+        if (view_index == current_inv_pkg_swipe_index) {
             return;
         }
 
         let elem = document.querySelector('.inv-pkg-list-cont');
-        let packages = elem.querySelectorAll('.grid-item');
-        let start_index;
+        elem.setAttribute("class", "inv-pkg-list-cont ux-layout-grid columns-4 slide-" + (view_index + 1));
 
-        if (adapt_to == "mobile") {
-            start_index = 2;
-            elem.setAttribute('class', 'inv-pkg-list-cont ux-layout-grid columns-1');
+        // determine slide direction
+        if (current_inv_pkg_swipe_index < view_index) { // right direction
+            current_inv_pkg_swipe_index = view_index;
 
-        } else if (adapt_to == "tablet") {
-            start_index = 4;
-            elem.setAttribute('class', 'inv-pkg-list-cont ux-layout-grid columns-2');
+            // slide indicator
+            elem = document.getElementById("inv-pkg-slide-indicator-cont");
+            elem.setAttribute("class", "set-" + current_inv_pkg_swipe_index);
+            setTimeout(() => {
+                elem.setAttribute("class", "set-" + current_inv_pkg_swipe_index  + " dot-" + (view_index + 1));
+            }, 100);
 
-        } else { // desktop
-            start_index = 4;
-            elem.setAttribute('class', 'inv-pkg-list-cont ux-layout-grid columns-4');
+        } else { // left direction
+            current_inv_pkg_swipe_index = view_index + 1;
+
+            // slide indicator
+            elem = document.getElementById("inv-pkg-slide-indicator-cont");
+            elem.setAttribute("class", "set-" + current_inv_pkg_swipe_index);
+            setTimeout(() => {
+                elem.setAttribute("class", "set-" + current_inv_pkg_swipe_index  + " dot-" + current_inv_pkg_swipe_index);
+                current_inv_pkg_swipe_index -= 1;
+            }, 100);
         }
+    };
 
-        // hide remaining element
-        for (let i = 0; i < packages.length; i++) {
-            if (i < start_index) {
-                packages[i].removeAttribute('style');
+    // send message to us
+    window.processSendUsMessageForm = function(e) {
+        e.preventDefault();
 
-            } else {
-                packages[i].setAttribute('style', 'display: none;');
-            }
-        }
-    }
+        // start here
+    };
 
     // utility function that change page layout on page resize
     function adaptPageLayout() {
         let win_width_size = window.innerWidth;
 
         if (win_width_size < 800) { // mobile view
-            resizeInvestmentPackages("mobile");
+            active_view = MOBILE_VIEW;
 
             // change testimonial view
-            if (testimonies_ready) {
+            /*if (testimonies_ready) {
                 curr_panel_view_count = 1;
                 // testimonies varible must contain one testimoney
                 if (testimonies.length == 0) {
@@ -813,13 +799,13 @@ function init() {
                         startTMSlideAnimation();
                     }
                 }
-            }
+            }*/
 
         } else if (win_width_size < 1200) { // tablet view
-            resizeInvestmentPackages("tablet");
+            active_view = TABLET_VIEW;
 
             // change testimonial view
-            if (testimonies_ready) {
+            /*if (testimonies_ready) {
                 curr_panel_view_count = 2;
                 // testimonies varible must contain atleast two testimoney
                 if (testimonies.length < 2) {
@@ -838,17 +824,17 @@ function init() {
                         startTMSlideAnimation();
                     }
                 }
-            }
+            }*/
 
         } else { // desktop view
-            resizeInvestmentPackages("desktop");
+            active_view = DESKTOP_VIEW;
 
             // check if drop down mobile menu is active
             if (drop_mobi_menu_active) {
                 dropMobileMenu(document.querySelector('.drop-menu-icon-cont'));
             }
 
-            if (testimonies_ready) {
+            /*if (testimonies_ready) {
                 curr_panel_view_count = 3;
                 // testimonies varible must contain atleast three testimoney
                 if (testimonies.length < 3) {
@@ -867,16 +853,15 @@ function init() {
                         startTMSlideAnimation();
                     }
                 }
-            }
+            }*/
         }
-
-        attachTouchEventsTM();
     }
 
     // call after page is loaded
     adaptPageLayout();
-    requestForCryptoStatisticsUpdate();
-    requestForCustomerTestimonial();
+    //requestForCryptoStatisticsUpdate();
+    changeMainMenuOnScroll();
+    //requestForCustomerTestimonial();
 
     //listen to page scroll event
     window.onscroll = function (e) {

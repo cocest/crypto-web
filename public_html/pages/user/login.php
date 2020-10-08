@@ -58,14 +58,14 @@ if (isset($_COOKIE['auto_login'])) {
 <body>
     <div class="login-page ux-rd-corner-1">
         <div class="site-logo-cont">
-            <img src="../images/icons/citadel_capital_logo.png" alt="thecitadelcapital" />
+            <img src="../images/icons/w_citadel_capital_logo.png" alt="thecitadelcapital" />
         </div>
         <h2 class="sign-in-header">Sign In</h2>
         <form name="login-form" onsubmit="return processLoginForm(event)" autocomplete="off" novalidate>
             <div class="input-cont">
-                <div class="username-input-wrapper lb-normal-color">
-                    <label for="username-input">Username</label>
-                    <input id="username-input" class="hr-line-input" attachevent type="text" name="username">
+                <div class="email-input-wrapper lb-normal-color">
+                    <label for="email-input">Your Email</label>
+                    <input id="email-input" class="hr-line-input" attachevent type="email" name="email" />
                 </div>
             </div>
             <div class="input-cont">
@@ -76,7 +76,7 @@ if (isset($_COOKIE['auto_login'])) {
                             <span class="fas fa-eye"></span>
                         </div>
                     </div>
-                    <input id="password-input" class="hr-line-input" attachevent type="password" name="password">
+                    <input id="password-input" class="hr-line-input" attachevent type="password" name="password" />
                 </div>
             </div>
             <!--error message box-->

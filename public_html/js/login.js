@@ -15,7 +15,7 @@ function init() {
             // show password
             passwd_input.setAttribute("type", "text");
             let elem = btn.getElementsByTagName("span")[0];
-            elem.setAttribute("style", "color: #057bd9");
+            elem.setAttribute("style", "color: white;");
 
             setTimeout(function () {
                 // hide password
@@ -94,13 +94,13 @@ function init() {
         e.preventDefault(); // prevent form from submitting
 
         // check if any input is left empty
-        if (!requirdInputLeftEmpty(["username", "password"])) {
+        if (!requirdInputLeftEmpty(["email", "password"])) {
             let login_form = document.forms["login-form"];
             let form_data = new FormData(login_form);
 
             // disable inputs
             login_locked = true;
-            login_form.elements["username"].disabled = true;
+            login_form.elements["email"].disabled = true;
             login_form.elements["password"].disabled = true;
             login_form.elements["remember"].disabled = true;
             document.getElementById("login-submit-input").disabled = true;
@@ -120,7 +120,7 @@ function init() {
                 function (response) {
                     // enable inputs
                     login_locked = false;
-                    login_form.elements["username"].disabled = false;
+                    login_form.elements["email"].disabled = false;
                     login_form.elements["password"].disabled = false;
                     login_form.elements["remember"].disabled = false;
                     document.getElementById("login-submit-input").disabled = false;
@@ -137,7 +137,7 @@ function init() {
 
                     } else { // invalid username or password
                         let elem = document.getElementById("err-msg-box");
-                        elem.querySelector(".msg").innerHTML = "Username or password is incorrect.";
+                        elem.querySelector(".msg").innerHTML = "Email or password is incorrect.";
                         elem.removeAttribute("class");
 
                         error_msg_active = true;
@@ -154,7 +154,7 @@ function init() {
                     } else if (err_status == 503) { // check if is server busy
                         // enable inputs
                         login_locked = false;
-                        login_form.elements["username"].disabled = false;
+                        login_form.elements["email"].disabled = false;
                         login_form.elements["password"].disabled = false;
                         login_form.elements["remember"].disabled = false;
                         document.getElementById("login-submit-input").disabled = false;
@@ -174,7 +174,7 @@ function init() {
                         setTimeout(function () {
                             // enable inputs
                             login_locked = false;
-                            login_form.elements["username"].disabled = false;
+                            login_form.elements["email"].disabled = false;
                             login_form.elements["password"].disabled = false;
                             login_form.elements["remember"].disabled = false;
                             document.getElementById("login-submit-input").disabled = false;
@@ -183,7 +183,7 @@ function init() {
                             document.querySelector(".vt-bars-anim-cont").setAttribute("class", "vt-bars-anim-cont hide-elem");
 
                             let elem = document.getElementById("err-msg-box");
-                            elem.querySelector(".msg").innerHTML = "Username or password is incorrect.";
+                            elem.querySelector(".msg").innerHTML = "Email or password is incorrect.";
                             elem.removeAttribute("class");
 
                             error_msg_active = true;
@@ -193,7 +193,7 @@ function init() {
                     } else {
                         // enable inputs
                         login_locked = false;
-                        login_form.elements["username"].disabled = false;
+                        login_form.elements["email"].disabled = false;
                         login_form.elements["password"].disabled = false;
                         login_form.elements["remember"].disabled = false;
                         document.getElementById("login-submit-input").disabled = false;
@@ -227,7 +227,7 @@ function init() {
     }, false);
 }
 
-//initialise the script
+// initialise the script
 if (window.attachEvent) {
     window.attachEvent("onload", init);
 

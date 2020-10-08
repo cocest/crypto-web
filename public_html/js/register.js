@@ -1,15 +1,10 @@
 function init() {
     let err_msg_box = document.getElementById("err-msg-box");
-    let current_form_index = 1;
     let validating_user_input = false;
     let is_email_validated = false;
-    let is_username_validated = false;
-    let is_referralid_validated = false;
     let user_passwd_strength = 0;
     let passwd_indicator_elems = document.querySelectorAll(".passwd-strength-indicator-cont .indicator");
     let is_passwd_shown = false;
-    let is_passwd_confirmed = false;
-    let is_uploaded_file_valid = false;
     let curr_text_caret_offset = 0;
     let remove_user_input = false;
     let del_input_offset = 0;
@@ -17,18 +12,12 @@ function init() {
     let input_has_err_msg = {
         firstname: { error: null, message: "" },
         lastname: { error: null, message: "" },
-        countrycode: { error: null, message: "" },
-        phonenumber: { error: null, message: "" },
         email: { error: null, message: "" },
-        birthdate: { error: null, message: "" },
-        username: { error: null, message: "" },
-        referralid: { error: null, message: "" }
+        birthdate: { error: null, message: "" }
     };
 
     let inputs_current_value = {
-        email: "",
-        username: "",
-        referralid: ""
+        email: ""
     };
 
     // utility function that return the maximum days of the month
@@ -160,180 +149,6 @@ function init() {
         }
     }
 
-    // utility function to check if another user have claim the "username"
-    function validateUsername(input_elem) {
-        validating_user_input = true;
-
-        // check if username is already validated
-        if (is_username_validated) {
-            return;
-        }
-
-        // validate input
-        if (/^([a-zA-Z0-9]{3,}|[a-zA-Z0-9]{3,}@?[a-zA-Z0-9]+)$/.test(input_elem.value) && /[a-zA-Z]/.test(input_elem.value)) {
-            // disable email input
-            input_elem.disabled = true;
-
-            // display busy or wait animation
-            let input_cont_elem = document.querySelector(".username-input-wrapper .input-icon-cont");
-            input_cont_elem.querySelector(".mark-icon-cont").setAttribute("class", "mark-icon-cont remove-elem");
-            input_cont_elem.querySelector(".reload-btn-cont").setAttribute("class", "reload-btn-cont remove-elem");
-            input_cont_elem.querySelector(".vt-bars-anim-cont").setAttribute("class", "vt-bars-anim-cont");
-
-            let req_url = 'request';
-            let form_data = 'req=usernameexist&d=' + input_elem.value; // request query
-
-            // send request to server
-            window.ajaxRequest(
-                req_url,
-                form_data,
-                { contentType: "application/x-www-form-urlencoded" },
-
-                // listen to response from the server
-                function (response) {
-                    response_data = JSON.parse(response);
-
-                    if (response_data.username_exist) {
-                        input_elem.setAttribute("class", "err-hr-line-input");
-                        input_has_err_msg[input_elem.getAttribute("name")].error = "input_exist";
-                        input_has_err_msg[input_elem.getAttribute("name")].message = "Username has been chosen, try another name.";
-
-                        // hide wait animation
-                        input_cont_elem.querySelector(".vt-bars-anim-cont").setAttribute("class", "vt-bars-anim-cont remove-elem");
-
-                    } else {
-                        // display check icon
-                        input_cont_elem.querySelector(".vt-bars-anim-cont").setAttribute("class", "vt-bars-anim-cont remove-elem");
-                        input_cont_elem.querySelector(".mark-icon-cont").setAttribute("class", "mark-icon-cont");
-
-                        is_username_validated = true;
-                    }
-
-                    input_elem.disabled = false; // enable input
-                    validating_user_input = false;
-                },
-
-                // listen to server error
-                function (err_status) {
-                    // display reload button
-                    input_cont_elem.querySelector(".vt-bars-anim-cont").setAttribute("class", "vt-bars-anim-cont remove-elem");
-                    input_cont_elem.querySelector(".reload-btn-cont").setAttribute("class", "reload-btn-cont");
-
-                    input_elem.setAttribute("class", "err-hr-line-input");
-                    input_has_err_msg[input_elem.getAttribute("name")].error = "network_err";
-
-                    //check if is a timeout or server busy
-                    if (err_status == 408 ||
-                        err_status == 504 ||
-                        err_status == 503) {
-
-                        input_has_err_msg[input_elem.getAttribute("name")].message = "Server busy or timeout, Please click the retry button to try again.";
-
-                    } else {
-                        input_has_err_msg[input_elem.getAttribute("name")].message = "Check your internet connection and click the retry button.";
-                    }
-
-                    input_elem.disabled = false; // enable input
-                    validating_user_input = false;
-                }
-            );
-
-        } else { // invalid username
-            input_elem.setAttribute("class", "err-hr-line-input");
-            input_has_err_msg[input_elem.getAttribute("name")].error = "invalid_input";
-            input_has_err_msg[input_elem.getAttribute("name")].message = "Username should contain only number, alphabet or @ character in-between.";
-
-            validating_user_input = false;
-        }
-    }
-
-    // utility function to check if referral id exist
-    function validateReferralID(input_elem) {
-        validating_user_input = true;
-
-        // check if referral id is already validated
-        if (is_referralid_validated) {
-            return;
-        }
-
-        // validate input
-        if (/^[a-zA-Z0-9]+$/.test(input_elem.value)) {
-            // disable email input
-            input_elem.disabled = true;
-
-            // display busy or wait animation
-            let input_cont_elem = document.querySelector(".referralid-input-wrapper .input-icon-cont");
-            input_cont_elem.querySelector(".mark-icon-cont").setAttribute("class", "mark-icon-cont remove-elem");
-            input_cont_elem.querySelector(".reload-btn-cont").setAttribute("class", "reload-btn-cont remove-elem");
-            input_cont_elem.querySelector(".vt-bars-anim-cont").setAttribute("class", "vt-bars-anim-cont");
-
-            let req_url = 'request';
-            let form_data = 'req=referralexist&d=' + input_elem.value; // request query
-
-            // send request to server
-            window.ajaxRequest(
-                req_url,
-                form_data,
-                { contentType: "application/x-www-form-urlencoded" },
-
-                // listen to response from the server
-                function (response) {
-                    response_data = JSON.parse(response);
-
-                    if (response_data.referral_exist) {
-                        // display check icon
-                        input_cont_elem.querySelector(".vt-bars-anim-cont").setAttribute("class", "vt-bars-anim-cont remove-elem");
-                        input_cont_elem.querySelector(".mark-icon-cont").setAttribute("class", "mark-icon-cont");
-
-                        is_referralid_validated = true;
-
-                    } else {
-                        input_elem.setAttribute("class", "err-hr-line-input");
-                        input_has_err_msg[input_elem.getAttribute("name")].error = "input_not_exist";
-                        input_has_err_msg[input_elem.getAttribute("name")].message = "Referral ID is invalid.";
-
-                        // hide wait animation
-                        input_cont_elem.querySelector(".vt-bars-anim-cont").setAttribute("class", "vt-bars-anim-cont remove-elem");
-                    }
-
-                    input_elem.disabled = false; // enable input
-                    validating_user_input = false;
-                },
-
-                // listen to server error
-                function (err_status) {
-                    // display reload button
-                    input_cont_elem.querySelector(".vt-bars-anim-cont").setAttribute("class", "vt-bars-anim-cont remove-elem");
-                    input_cont_elem.querySelector(".reload-btn-cont").setAttribute("class", "reload-btn-cont");
-
-                    input_elem.setAttribute("class", "err-hr-line-input");
-                    input_has_err_msg[input_elem.getAttribute("name")].error = "network_err";
-
-                    //check if is a timeout or server busy
-                    if (err_status == 408 ||
-                        err_status == 504 ||
-                        err_status == 503) {
-
-                        input_has_err_msg[input_elem.getAttribute("name")].message = "Server busy or timeout, Please click the retry button to try again.";
-
-                    } else {
-                        input_has_err_msg[input_elem.getAttribute("name")].message = "Check your internet connection and click the retry button.";
-                    }
-
-                    input_elem.disabled = false; // enable input
-                    validating_user_input = false;
-                }
-            );
-
-        } else { // invalid username
-            input_elem.setAttribute("class", "err-hr-line-input");
-            input_has_err_msg[input_elem.getAttribute("name")].error = "invalid_input";
-            input_has_err_msg[input_elem.getAttribute("name")].message = "Referral ID should contain only number and alphabet.";
-
-            validating_user_input = false;
-        }
-    }
-
     // utility function to apply color to class of element
     function applyColorToPasswdStrengthIndicator(elems, limit, class_sel, def_class_sel) {
         for (let i = 0; i < elems.length; i++) {
@@ -379,10 +194,7 @@ function init() {
                     }
 
                     // add placehoder to input
-                    if (input_name == "countrycode") {
-                        input_elem.setAttribute("placeholder", "+123");
-
-                    } else if (input_name == "email") {
+                    if (input_name == "email") {
                         input_elem.setAttribute("placeholder", "example@mail.com");
 
                     } else if (input_name == "birthdate") {
@@ -405,8 +217,7 @@ function init() {
                     }
 
                     // remove placehoder added to email input
-                    if (input_name == "countrycode" ||
-                        input_name == "email" ||
+                    if (input_name == "email" ||
                         input_name == "birthdate") {
 
                         input_elem.removeAttribute("placeholder");
@@ -445,42 +256,13 @@ function init() {
                             }
                         }
 
-                    } else if (input_name == "username") {
-                        // check if input contain value
-                        if (input_elem.value.length > 0) {
-                            // validate input
-                            if (input_has_err_msg[input_name].error == null || input_has_err_msg[input_name].error == "invalid_input") {
-                                validateUsername(input_elem);
-                            }
-                        }
-
-                    } else if (input_name == "referralid") {
-                        // check if input contain value
-                        if (input_elem.value.length > 0) {
-                            // validate input
-                            if (input_has_err_msg[input_name].error == null || input_has_err_msg[input_name].error == "invalid_input") {
-                                validateReferralID(input_elem);
-                            }
-                        }
                     }
 
                     break;
 
                 case "keydown":
 
-                    if (input_name == "countrycode") { // allow only '+', numbers
-                        if (!remove_user_input) {
-                            remove_user_input = true;
-                            curr_text_caret_offset = window.getCaretPosition(input_elem);
-                        }
-
-                    } else if (input_name == "phonenumber") { // allow only numbers
-                        if (!remove_user_input) {
-                            remove_user_input = true;
-                            curr_text_caret_offset = window.getCaretPosition(input_elem);
-                        }
-
-                    } else if (input_name == "birthdate") {
+                    if (input_name == "birthdate") {
                         if (!remove_user_input) {
                             remove_user_input = true;
                             curr_text_caret_offset = window.getCaretPosition(input_elem);
@@ -503,44 +285,7 @@ function init() {
                         input_has_err_msg[input_name].error = null;
                     }
 
-                    if (input_name == "countrycode") {
-                        if (remove_user_input) {
-                            remove_user_input = false;
-
-                            // check if user input has "+" char in it
-                            if (/^\d+$/.test(input_elem.value)) {
-                                // add plus sign
-                                input_elem.value = "+" + input_elem.value;
-
-                                // reposition caret or cursor
-                                window.setCaretPosition(input_elem, input_elem.value.length + 1);
-                            }
-
-                            if (!/^(\+\d{1,3}|\+)$/.test(input_elem.value) && input_elem.value.length > 0) {
-                                // add plus sign
-                                input_elem.value = 
-                                    input_elem.value.substring(0, curr_text_caret_offset) + 
-                                    input_elem.value.substring(window.getCaretPosition(input_elem), input_elem.value.length);
-
-                                // reposition caret or cursor
-                                window.setCaretPosition(input_elem, curr_text_caret_offset);
-                            }
-                        }
-
-                    } else if (input_name == "phonenumber") {
-                        if (remove_user_input) {
-                            remove_user_input = false;
-
-                            if (/[^0-9]+/.test(input_elem.value)) {
-                                // remove user invalid input
-                                input_elem.value = input_elem.value.replace(/[^0-9]+/g, "");
-
-                                // reposition caret or cursor
-                                window.setCaretPosition(input_elem, curr_text_caret_offset);
-                            }
-                        }
-
-                    } else if (input_name == "birthdate") {
+                    if (input_name == "birthdate") {
                         if (remove_user_input) {
                             remove_user_input = false;
                         }
@@ -667,33 +412,6 @@ function init() {
                             user_passwd_strength = 0;
                         }
 
-                        // check if the two password match
-                        let confirm_passwd_input = document.getElementById("confirmpasswd-input");
-                        let mark_icon = document.querySelector(".confirmpasswd-input-wrapper .mark-icon-cont");
-
-                        if (input_elem.value == confirm_passwd_input.value && confirm_passwd_input.value.length > 0) {
-                            mark_icon.setAttribute("class", "mark-icon-cont");
-                            is_passwd_confirmed = true;
-
-                        } else {
-                            mark_icon.setAttribute("class", "mark-icon-cont remove-elem");
-                            is_passwd_confirmed = false;
-                        }
-
-                    } else if (input_name == "confirmpasswd") {
-                        // check if the two password match
-                        let passwd_input = document.getElementById("password-input");
-                        let mark_icon = document.querySelector(".confirmpasswd-input-wrapper .mark-icon-cont");
-
-                        if (input_elem.value == passwd_input.value && passwd_input.value.length > 0) {
-                            mark_icon.setAttribute("class", "mark-icon-cont");
-                            is_passwd_confirmed = true;
-
-                        } else {
-                            mark_icon.setAttribute("class", "mark-icon-cont remove-elem");
-                            is_passwd_confirmed = false;
-                        }
-
                     } else if (input_name == "email") {
                         // check if content is modified by user's input
                         if (!(inputs_current_value[input_name] == input_elem.value)) {
@@ -707,31 +425,6 @@ function init() {
                             input_cont_elem.querySelector(".vt-bars-anim-cont").setAttribute("class", "vt-bars-anim-cont remove-elem");
                         }
 
-                    } else if (input_name == "username") {
-                        // check if content is modified by user's input
-                        if (!(inputs_current_value[input_name] == input_elem.value)) {
-                            is_username_validated = false;
-                            inputs_current_value[input_name] = input_elem.value;
-
-                            // hide all the input icon
-                            let input_cont_elem = document.querySelector(".username-input-wrapper .input-icon-cont");
-                            input_cont_elem.querySelector(".mark-icon-cont").setAttribute("class", "mark-icon-cont remove-elem");
-                            input_cont_elem.querySelector(".reload-btn-cont").setAttribute("class", "reload-btn-cont remove-elem");
-                            input_cont_elem.querySelector(".vt-bars-anim-cont").setAttribute("class", "vt-bars-anim-cont remove-elem");
-                        }
-
-                    } else if (input_name == "referralid") {
-                        // check if content is modified by user's input
-                        if (!(inputs_current_value[input_name] == input_elem.value)) {
-                            is_referralid_validated = false;
-                            inputs_current_value[input_name] = input_elem.value;
-
-                            // hide all the input icon
-                            let input_cont_elem = document.querySelector(".referralid-input-wrapper .input-icon-cont");
-                            input_cont_elem.querySelector(".mark-icon-cont").setAttribute("class", "mark-icon-cont remove-elem");
-                            input_cont_elem.querySelector(".reload-btn-cont").setAttribute("class", "reload-btn-cont remove-elem");
-                            input_cont_elem.querySelector(".vt-bars-anim-cont").setAttribute("class", "vt-bars-anim-cont remove-elem");
-                        }
                     }
 
                     break;
@@ -841,7 +534,7 @@ function init() {
             // show password
             passwd_input.setAttribute("type", "text");
             let elem = btn.getElementsByTagName("span")[0];
-            elem.setAttribute("style", "color: #057bd9");
+            elem.setAttribute("style", "color: white;");
 
             setTimeout(function () {
                 // hide password
@@ -852,121 +545,59 @@ function init() {
         }
     };
 
-    // validate the current form and navigate user to next form
-    window.navigateForm = function (btn) {
-        btn.disabled = true; // disable the button
-
-        // for wait for sometime
-        setTimeout(function () {
-            // check if user input is still being validated by server
-            if (!validating_user_input) {
-                let is_invalid;
-
-                if (current_form_index == 1) { // first form
-                    if (!inputHasError(["email", "birthdate"])) {
-                        is_invalid = validateFormInput(
-                            [
-                                {
-                                    name: "firstname",
-                                    regExp: /^([a-zA-Z]|[a-zA-Z]+[']?[a-zA-Z]+)$/,
-                                    err_msg: "Name should contain only alphabet or ' character."
-                                },
-                                {
-                                    name: "lastname",
-                                    regExp: /^([a-zA-Z]|[a-zA-Z]+[']?[a-zA-Z]+)$/,
-                                    err_msg: "Name should contain only alphabet or ' character in-between."
-                                },
-                                {
-                                    name: "country",
-                                    regExp: /^.+$/
-                                },
-                                {
-                                    name: "countrycode",
-                                    regExp: /^\+\d+$/,
-                                    err_msg: "Country code is invalid."
-                                },
-                                {
-                                    name: "phonenumber",
-                                    regExp: /^\d+$/,
-                                    err_msg: "Phone number is not acceptable."
-                                },
-                                {
-                                    name: "email",
-                                    regExp: /^.+$/
-                                },
-                                {
-                                    name: "birthdate",
-                                    regExp: /^(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])\/[1-9]\d{3}$/,
-                                    err_msg: "Date of birth is invalid."
-                                },
-                                {
-                                    name: "gender",
-                                    regExp: /^.+$/
-                                }
-                            ]
-                        );
-
-                        // check if email has been validated and other input contain valid data
-                        if (is_email_validated && !is_invalid) {
-                            // navigate to next form
-                            document.getElementById("form-slide-wrapper").setAttribute("class", "navi-form-2");
-                            document.querySelector(".progress-bar").setAttribute("class", "progress-bar stage-2");
-                            document.querySelector(".progress-number").innerHTML = "2 / 3";
-                            current_form_index = 2;
-
-                        } else if (!is_email_validated) {
-                            let input_elem = document.getElementById("email-input");
-
-                            if (input_elem.value.length > 0) {
-                                validateUserEmailAddress(input_elem);
-                            }
-                        }
+    // validate the user's registeration form input
+    function validateRegisterationFormInput() {
+        if (!inputHasError(["birthdate", "email"])) {
+            if (validateFormInput(
+                [
+                    {
+                        name: "firstname",
+                        regExp: /^([a-zA-Z]|[a-zA-Z]+[']?[a-zA-Z]+)$/,
+                        err_msg: "Name should contain only alphabet or ' character."
+                    },
+                    {
+                        name: "lastname",
+                        regExp: /^([a-zA-Z]|[a-zA-Z]+[']?[a-zA-Z]+)$/,
+                        err_msg: "Name should contain only alphabet or ' character in-between."
+                    },
+                    {
+                        name: "country",
+                        regExp: /^.+$/
+                    },
+                    {
+                        name: "birthdate",
+                        regExp: /^(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])\/[1-9]\d{3}$/,
+                        err_msg: "Date of birth is invalid."
+                    },
+                    {
+                        name: "gender",
+                        regExp: /^.+$/
+                    }, 
+                    {
+                        name: "email",
+                        regExp: /^.+$/
                     }
+                ]
+            )) {
+                return false;
+            };
 
-                } else if (current_form_index == 2) { // second form
-                    if (!inputHasError(["username"])) {
-                        is_invalid = validateFormInput(
-                            [
-                                {
-                                    name: "username",
-                                    regExp: /^.+$/
-                                }
-                            ]
-                        );
-
-                        // check if password strength is acceptable
-                        if (!is_invalid && user_passwd_strength < 3) {
-                            is_invalid = true;
-                            document.getElementById("password-input").setAttribute("class", "err-hr-line-input");
-
-                        } else if (!is_invalid && !is_passwd_confirmed) {
-                            is_invalid = true;
-                            document.getElementById("confirmpasswd-input").setAttribute("class", "err-hr-line-input");
-                        }
-
-                        // check if email has been validated and other input contain valid data
-                        if (is_username_validated && !is_invalid) {
-                            // navigate to next form
-                            document.getElementById("form-slide-wrapper").setAttribute("class", "navi-form-3");
-                            document.querySelector(".form-navi-btn").setAttribute("class", "form-navi-btn hide-hr-pos ux-f-rd-corner");
-                            document.querySelector(".progress-bar").setAttribute("class", "progress-bar stage-3");
-                            document.querySelector(".progress-number").innerHTML = "3 / 3";
-                            current_form_index = 3;
-
-                        } else if (!is_username_validated) {
-                            let input_elem = document.getElementById("username-input");
-
-                            if (input_elem.value.length > 0) {
-                                validateUsername(input_elem);
-                            }
-                        }
-                    }
-                }
+            // check if email has been validated
+            if (!is_email_validated) {
+                return false;
             }
 
-            btn.disabled = false; // enable the button
+            // check if password strength is acceptable
+            if (user_passwd_strength < 3) {
+                document.getElementById("password-input").setAttribute("class", "err-hr-line-input");
+                return false;
+            }
 
-        }, 100);
+            return true;
+
+        } else { // input already has an error
+            return false;
+        }
     };
 
     /* 
@@ -978,8 +609,6 @@ function init() {
             "firstname",
             "lastname",
             "country",
-            "countrycode",
-            "phonenumber",
             "email",
             "birthdate",
             "gender"
@@ -998,144 +627,68 @@ function init() {
         }
     }
 
-    // utility function to validate file input
-    function validFileType(file, file_types) {
-        for (let i = 0; i < file_types.length; i++) {
-            if (file.type == file_types[i]) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    // uitlity function to shorten file name
-    function shortenFileName(file_name, limit) {
-        if (file_name.length > limit) {
-            return "..." + file_name.substring(file_name.length - limit, file_name.length);
-        }
-
-        return file_name;
-    }
-
-    // this handle file input event by validating selected file
-    function fileInputEventHandler(e) {
-        let img_exts = ["image/jpg", "image/jpeg", "image/png", "image/gif"]; //supported image extension
-        let files = e.target.files; // FileList object
-        is_uploaded_file_valid = false;
-
-        // check if file is selected
-        if (files.length > 0) {
-            //check if selected file is supported
-            if (validFileType(files[0], img_exts)) {
-                // check if file size is less than 4mb
-                if ((files[0].size / 1048576) < 4) {
-                    let elem = document.getElementById("f-upload-msg");
-                    elem.querySelector(".msg").innerHTML = shortenFileName(files[0].name, 40);
-                    elem.setAttribute("class", "no-error");
-
-                    is_uploaded_file_valid = true;
-
-                } else { // file size is too large
-                    let elem = document.getElementById("f-upload-msg");
-                    elem.querySelector(".msg").innerHTML = "File size exceed allowed maximum";
-                    elem.setAttribute("class", "error");
-                }
-
-            } else { // file is not supported
-                let elem = document.getElementById("f-upload-msg");
-                elem.querySelector(".msg").innerHTML = "File type is not supported";
-                elem.setAttribute("class", "error");
-            }
-
-        } else {
-            let elem = document.getElementById("f-upload-msg");
-            elem.setAttribute("class", "hide-elem");
-        }
-    }
-
     // process form and submit to server
     window.processRegisterationForm = function (e) {
-        // check if user has reach this stage and terms check button is checked
-        if (current_form_index == 3 && document.getElementById("acceptterms-input").checked) {
-            e.preventDefault(); // prevent form from submitting
-            let submit_btn = document.querySelector(".reg-btn");
-            submit_btn.disabled = true; // disable registeration button
+        e.preventDefault(); // prevent form from submitting
 
-            setTimeout(function () {
-                if (!inputHasError(["referralid"])) {
-                    // check if user input is still being validated by server
-                    if (!validating_user_input) {
-                        let is_invalid = false;
+        let submit_btn = document.querySelector(".reg-btn");
+        submit_btn.disabled = true; // disable registeration button
 
-                        if (document.getElementById("referralid-input").value != "" && !is_referralid_validated) {
-                            is_invalid = true;
+        setTimeout(() => {
+            // check if user's email is still validating
+            if (validating_user_input) {
+                submit_btn.disabled = false; // enable submit button
+                return;
+            }
 
-                        } else if (document.getElementById("f-upload-input").files.length < 1) {
-                            let elem = document.getElementById("f-upload-msg");
-                            elem.querySelector(".msg").innerHTML = "No scanned file is selected";
-                            elem.setAttribute("class", "error");
+            // check if form contain valid data and terms check button is checked
+            if (validateRegisterationFormInput() && document.getElementById("acceptterms-input").checked) {
+                let req_url = 'create_new_user';
+                let reg_form = new FormData(document.forms["registeration-form"]);
 
-                            is_invalid = true;
+                // send request to server
+                window.ajaxRequest(
+                    req_url,
+                    reg_form,
+                    { contentType: false },
 
-                        } else if (!is_uploaded_file_valid) {
-                            is_invalid = true;
+                    // listen to response from the server
+                    function (response) {
+                        submit_btn.disabled = false; // enable submit button
+                        response_data = JSON.parse(response);
+
+                        // check if registeration was succesfull
+                        if (response_data.success) {
+                            // redirect user
+                            window.location.replace(response_data.redirect_url);
+
+                        } else {
+                            alert(response_data.error_msg);
                         }
+                    },
 
-                        // check if there is no error
-                        if (!is_invalid) {
-                            let req_url = 'create_new_user';
-                            let reg_form = new FormData(document.forms["registeration-form"]);
+                    // listen to server error
+                    function (err_status) {
+                        submit_btn.disabled = false; // enable submit button
 
-                            // send request to server
-                            window.ajaxRequest(
-                                req_url,
-                                reg_form,
-                                { contentType: false },
+                        //check if is a timeout or server busy
+                        if (err_status == 408 ||
+                            err_status == 504 ||
+                            err_status == 503) {
 
-                                // listen to response from the server
-                                function (response) {
-                                    response_data = JSON.parse(response);
+                            window.processRegisterationForm(e);
 
-                                    // check if registeration was succesfull
-                                    if (response_data.success) {
-                                        // redirect user
-                                        window.location.replace(response_data.redirect_url);
-
-                                    } else {
-                                        alert(response_data.error_msg);
-                                    }
-                                },
-
-                                // listen to server error
-                                function (err_status) {
-                                    //check if is a timeout or server busy
-                                    if (err_status == 408 ||
-                                        err_status == 504 ||
-                                        err_status == 503) {
-
-                                        window.processRegisterationForm(e);
-
-                                    } else {
-                                        alert("An error occured, please try again.");
-                                    }
-                                }
-                            );
+                        } else {
+                            alert("An error occured, please try again.");
                         }
                     }
-                }
+                );
 
-                submit_btn.disabled = false;
+            } else {
+                submit_btn.disabled = false; // enable submit button
+            }
 
-            }, 100);
-
-            return false; // just in case
-
-
-        } else {
-            e.preventDefault();
-            return false; // just in case
-        }
+        }, 200);
     };
 
     // get all the input element to attach events
@@ -1148,9 +701,6 @@ function init() {
 
     // listen to click event on accept terms check button
     document.getElementById("acceptterms-input").addEventListener("click", analyseUserInput, false);
-
-    // attach change event to file input
-    document.getElementById("f-upload-input").addEventListener("change", fileInputEventHandler, false);
 
     // call function after reload
     pushUpInputLabelOnReload();

@@ -1,1 +1,6 @@
 Mailer Error: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting
+Mailer Error: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting
+Mysql error: Unknown column 'userID' in 'where clause'
+Mysql error: Unknown column 'userID' in 'where clause'
+Mysql error: Unknown column 'userID' in 'where clause'
+Caught exception: Blockchain API failed to retrieve gap.

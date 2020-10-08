@@ -16,7 +16,6 @@ set_error_handler('customError');
 require_once '../includes/config.php';
 require_once '../includes/utils.php'; // include utility liberary
 require_once '../includes/Nnochi.php';
-require_once '../includes/ImageResize/ImageResize.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 require_once '../includes/PHPMailer/Exception.php';
@@ -43,30 +42,10 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             exit; // stop script
         }
 
-        // check if upload file is valid
-        if (!validateUploadedImage($_FILES)) {
-            // send message to the client
-            echo json_encode([
-                'success' => false,
-                'error_msg' => 'Registeration was unsuccessfull.'
-            ]);
-        
-            exit; // stop script
-        }
-
         date_default_timezone_set('UTC');
 
-        // directory to save uploaded file
-        $img_ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
-        $file_name = randomText('hexdec', 32).'.'.$img_ext;
-        $target_dir = USER_ID_UPLOAD_DIR.$file_name;
-
-        // now resize the new uploaded image
-        $img_resize = new ImageResize($_FILES['file']['tmp_name']);
-        $img_resize->resizeTo(500, 500);
-        $img_resize->saveImage($target_dir);
-
-        $db = $config['db']['mysql']; // mysql configuration
+        // mysql configuration
+        $db = $config['db']['mysql'];
         
         // enable mysql exception
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -74,7 +53,7 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
         // connect to database
         $conn = new mysqli($db['host'], $db['username'], $db['password'], $db['dbname']);
 
-        //check connection
+        // check connection
         if ($conn->connect_error) {
             trigger_error('Database connection failed: '.$conn->connect_error, E_USER_ERROR);
         }
@@ -94,37 +73,30 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             'INSERT INTO users (
                 referralID, 
                 firstName, 
-                lastName, 
-                userName,
+                lastName,
                 email,
                 searchEmailHash,
-                country,
-                phoneCountryCode,
-                phoneNumber,
+                country, 
                 birthdate,
                 gender
-            ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+            ) VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
 
             $stmt = $conn->prepare($query); // prepare statement
             
             $stmt->bind_param(
-                'sssssssssss', 
+                'ssssssss', 
                 $user_ref_id,
                 $first_name,
                 $last_name,
-                $user_name,
                 $_POST['email'],
                 $search_email_hash,
-                $_POST['country'],
-                $_POST['countrycode'],
-                $_POST['phonenumber'],
+                $_POST['country'], 
                 $birth_date,
                 $user_gender
             );
     
             $first_name = ucfirst(strtolower($_POST['firstname']));
             $last_name = ucfirst(strtolower($_POST['lastname']));
-            $user_name = ucfirst(strtolower($_POST['username']));
             $user_gender = strtolower($_POST['gender']);
             $splitted_birth_date = explode('/', $_POST['birthdate']);
             $birth_date = $splitted_birth_date[2].'-'.$splitted_birth_date[0].'-'.$splitted_birth_date[1];
@@ -146,18 +118,11 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             $stmt->execute();
             $stmt->close();
 
-            // add uploaded file information into table
-            $query = 'INSERT INTO user_identification (userID, identificationURL) VALUES(?, ?)';
-            $stmt = $conn->prepare($query); // prepare statement
-            $stmt->bind_param('is', $new_user_id, $file_name);
-            $stmt->execute();
-            $stmt->close();
-
             // insert user's login credential into table
             $password_hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
-            $query = 'INSERT INTO user_authentication (userID, username, password) VALUES(?, ?, ?)';
+            $query = 'INSERT INTO user_authentication (userID, userEmailHash, password) VALUES(?, ?, ?)';
             $stmt = $conn->prepare($query); // prepare statement
-            $stmt->bind_param('iss', $new_user_id, $_POST['username'], $password_hash);
+            $stmt->bind_param('iss', $new_user_id, $search_email_hash, $password_hash);
             $stmt->execute();
             $stmt->close();
 
@@ -285,23 +250,8 @@ function validateUserFormInputs($inputs) {
                 break;
 
             case 'country':
-            case 'password':
-            case 'confirmpasswd': 
+            case 'password': 
                 if (!preg_match("/^.+$/", $input_value)) {
-                    return false;
-                }
-
-                break;
-
-            case 'countrycode':
-                if (!preg_match("/^\+\d+$/", $input_value)) {
-                    return false;
-                }
-
-                break;
-
-            case 'phonenumber':
-                if (!preg_match("/^\d+$/", $input_value)) {
                     return false;
                 }
 
@@ -329,47 +279,12 @@ function validateUserFormInputs($inputs) {
 
                 break;
 
-            case 'username':
-                if (!preg_match("/^([a-zA-Z0-9]+|[a-zA-Z0-9]+@?[a-zA-Z0-9]+)$/", $input_value)) {
-                    return false;
-                }
-
-                break;
-
-            case 'referralid':
-                if (!empty($input_value) && !preg_match("/^[a-zA-Z0-9]+$/", $input_value)) {
-                    return false;
-                }
-
-                break;
-
             default:
                 // shouldn't be here
         }
     }
 
     return true;
-}
-
-// utility function to validate user's uploaded file
-function validateUploadedImage($uploaded_files) {
-    /*
-    // uncomment this if your web hosting support it
-    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-    $type = finfo_file($finfo, $uploaded_files['file']['tmp_name']);
-    */
-
-    // using this one for now
-    $size = getimagesize($uploaded_files['file']['tmp_name']);
-	$type = $size['mime'];
-
-    if (isset($type) && in_array($type, ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'])) {
-        if ($uploaded_files['file']['size'] / 1048576 < 4) { // less than 4 megabytes
-            return true;
-        }
-    }
-
-    return false;
 }
 
 ?>
