@@ -177,7 +177,7 @@ require_once 'page_left_menu.php';
                 <div class="account-details-cont">
                     <h3 class="name"><?php echo $data_for_page_rendering['lastName'].' '.$data_for_page_rendering['firstName']; ?></h3>
                     <div class="username">
-                        <span>Username</span> <?php echo $data_for_page_rendering['userName']; ?>
+                        <span>Email</span> <?php echo $data_for_page_rendering['email']; ?>
                     </div>
                     <div class="ref-id">
                         <span>Referral ID</span> <?php echo $data_for_page_rendering['referralID']; ?>

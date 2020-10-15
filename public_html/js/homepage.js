@@ -55,6 +55,9 @@ function init() {
     page_sections[0] = document.querySelector('.page-upper-section');
     page_sections[1] = document.querySelector('.contact-us-section-cont');
 
+    // get contact us form
+    let contact_us_form = document.forms["contact-us-form"];
+
     // scroll to the page to section
     window.scrollToSection = function (index, link_elem) {
         window.smoothScroll(page_sections[index], 1000, 0, function(elem) {
@@ -765,11 +768,173 @@ function init() {
         }
     };
 
+    // process events for form input
+    function processInputEvents(e) {
+        let input_elem = e.target; // get element that fire the event
+
+        switch (e.type) {
+            case "keydown":
+                // remove error border line
+                input_elem.removeAttribute("style");
+
+                break;
+
+            default:
+                // you shoudn't be here
+        }
+    }
+
+    // attach event listener to input or select element
+    function attachEventsToInputs(input_elements) {
+        for (let i = 0; i < input_elements.length; i++) {
+            input_elements[i].addEventListener("keydown", processInputEvents, false);
+        }
+    }
+
+    // validate contact us form
+    function vallidateContactUsFormInput(inputs) {
+        let email_exp = pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+        if (!/^[a-zA-Z]+([ ]{1}[a-zA-Z]+)*$/.test(inputs["name"].value)) {
+            // mark the input with invalid value
+            inputs["name"].setAttribute("style", "border: 1px solid red;");
+
+            // scroll page to input that has the error
+            inputs["name"].scrollIntoView({behavior: "smooth"});
+            
+            return false;
+        }
+
+        if (!email_exp.test(inputs["email"].value)) {
+            // mark the input with invalid value
+            inputs["email"].setAttribute("style", "border: 1px solid red;");
+
+            // scroll page to input that has the error
+            inputs["email"].scrollIntoView({behavior: "smooth"});
+            
+            return false;
+        }
+
+        if (!/^.+$/.test(inputs["message"].value.trim())) {
+            // mark the input with invalid value
+            inputs["message"].setAttribute("style", "border: 1px solid red;");
+
+            // scroll page to input that has the error
+            inputs["message"].scrollIntoView({behavior: "smooth"});
+            
+            return false;
+        }
+
+        return true;
+    }
+
+    // open the contact us message dialog
+    function openMessageDialog(message_title, message) {
+        let msg_bg_cover = document.getElementById("pop-up-message-bg-cover");
+        let msg_dialog = document.getElementById("contact-us-pop-up-message");
+
+        // set message title
+        let elem = msg_dialog.querySelector('.message-title');
+        elem.innerHTML = message_title;
+
+        // set message body
+        elem = msg_dialog.querySelector('.message-body');
+        elem.innerHTML = message;
+
+        // show message dialog
+        msg_dialog.removeAttribute("class");
+        msg_bg_cover.removeAttribute("class");
+    }
+
+    // close opened window or dialog
+    window.closePopMessage = function (win_id, modal = false) {
+        // close the window
+        let elem = document.getElementById(win_id);
+        elem.setAttribute("class", "remove-elem");
+
+        if (modal) {
+            // remove background cover
+            elem = document.getElementById("pop-up-message-bg-cover");
+            elem.setAttribute("class","remove-elem");
+        }
+    };
+
     // send message to us
-    window.processSendUsMessageForm = function(e) {
+    window.processSendUsMessageForm = function (e) {
         e.preventDefault();
 
-        // start here
+        // get contact us form's input
+        let form_inputs = contact_us_form.elements;
+
+        // get submit button
+        let submit_btn = document.getElementById("contact-us-submit-btn");
+
+        // check if form's input contain valid value
+        if (!vallidateContactUsFormInput(form_inputs)) {
+            return;
+        }
+
+        let url = 'contact_us';
+        let form = new FormData(contact_us_form);
+
+        // disable form's input
+        form_inputs["name"].disabled = true;
+        form_inputs["email"].disabled = true;
+        form_inputs["message"].disabled = true;
+        submit_btn.disabled = true;
+
+        // send request to server
+        window.ajaxRequest(
+            url,
+            form,
+            { contentType: false },
+
+            // listen to response from the server
+            function (response) {
+                // enable form's input
+                form_inputs["name"].disabled = false;
+                form_inputs["email"].disabled = false;
+                form_inputs["message"].disabled = false;
+                submit_btn.disabled = false;
+
+                response_data = JSON.parse(response);
+
+                // check if registeration was succesfull
+                if (response_data.success) {
+                    form_inputs["name"].value = "";
+                    form_inputs["email"].value = "";
+                    form_inputs["message"].value = "";
+
+                    // show succes message to user
+                    openMessageDialog(
+                        "Success!",
+                        "Your message is successfully sent. Our agent will contact you as soon as possible."
+                    );
+
+                } else {
+                    // send error message to user
+                    openMessageDialog(
+                        "Oops! Error occured",
+                        "We are sorry! Your message couldn't get through, try again later."
+                    );
+                }
+            },
+
+            // listen to server error
+            function (err_status) {
+                // enable form's input
+                form_inputs["name"].disabled = false;
+                form_inputs["email"].disabled = false;
+                form_inputs["message"].disabled = false;
+                submit_btn.disabled = false;
+
+                // send error message to user
+                openMessageDialog(
+                    "Oops! Error occured",
+                    "An error occured. Please check your connection and try again later."
+                );
+            }
+        );
     };
 
     // utility function that change page layout on page resize
@@ -856,6 +1021,14 @@ function init() {
             }*/
         }
     }
+
+    // attach event to contact us form's input
+    let form_inputs = contact_us_form.elements;
+    attachEventsToInputs([
+        form_inputs["name"],
+        form_inputs["email"],
+        form_inputs["message"]
+    ]);
 
     // call after page is loaded
     adaptPageLayout();

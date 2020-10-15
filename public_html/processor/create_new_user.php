@@ -163,13 +163,13 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             $mail = new PHPMailer;
 
             // server settings
-            $mail->isSMTP();
+            /*$mail->isSMTP();
             $mail->Host = SMTP_HOST;
             $mail->Port = SMTP_PORT;
             $mail->SMTPAuth = true;
             $mail->Username = SMTP_USERNAME;
             $mail->Password = SMTP_PASSWORD;
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryption
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryption*/
            
             // recipient
             $mail->setFrom(SENDER_EMAIL, SENDER_NAME); // sender mail

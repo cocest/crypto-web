@@ -420,8 +420,39 @@
 }
 
 .page-footer-section .footer-column .newsletter-sub-cont {
+    position: relative;
     margin-top: 10px;
     margin-bottom: 30px;
+}
+
+.page-footer-section .footer-column .newsletter-sub-cont .subscription-message {
+    position: absolute;
+    top: -50px;
+    cursor: default;
+}
+
+.page-footer-section .footer-column .newsletter-sub-cont .subscription-message .message {
+    max-width: 250px;
+    min-width: 150px;
+    padding: 10px 10px;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 0.9em;
+    font-weight: 500;
+    color: #545454;
+    box-shadow: 0px 2px 3px 0px black;
+}
+
+.page-footer-section .footer-column .newsletter-sub-cont .subscription-message .pointer {
+    position: absolute;
+    bottom: -5px;
+    left: 20px;
+    width: 10px;
+    height: 10px;
+    transform: rotate(45deg);
+    background-color: white;
+    border-right: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
 }
 
 .page-footer-section .footer-column .newsletter-sub-cont .email-input-cont {
@@ -444,6 +475,10 @@
     padding: 0px 10px;
     box-sizing: border-box;
     font-size: 1.0em;
+}
+
+.page-footer-section .footer-column .newsletter-sub-cont .email-input-cont > input:disabled {
+    background-color: lightgray;
 }
 
 .page-footer-section .footer-column .newsletter-sub-cont .sub-button-cont > button {

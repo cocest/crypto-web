@@ -75,26 +75,9 @@ try {
         exit;
     }
 
-    // check if user has invested on any package before
-    $query = 'SELECT 1 FROM user_invested_package_records WHERE userID = ? LIMIT 1';
-    $stmt = $conn->prepare($query); // prepare statement
-    $stmt->bind_param('i', $_SESSION['user_id']);
-    $stmt->execute();
-    $stmt->store_result(); // needed for num_rows
-
-    $include_trial_pkg = true; // include trial package
-
-    if ($stmt->num_rows > 0) {
-        $include_trial_pkg = false;
-    }
-
-    $stmt->close();
-
     // fetch packages from database
-    $query = "SELECT * FROM crypto_investment_packages WHERE id > ?";
+    $query = "SELECT * FROM crypto_investment_packages";
     $stmt = $conn->prepare($query); // prepare statement
-    $stmt->bind_param('i', $list_offset);
-    $list_offset = $include_trial_pkg ? 0 : 1;
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -134,7 +117,7 @@ require_once 'page_left_menu.php';
         <h1 class="page-title-hd">Packages</h1>
         <div class="packages-sec-1">
             <div class="package-descr-cont">
-                Here is a list of exclusive packages you could choose from.
+                Here is a list of exclusive package you could choose from.
             </div>
             <div class="package-list-cont">
                 <div class="package-list-wrapper ux-layout-grid columns-3">

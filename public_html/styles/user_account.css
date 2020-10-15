@@ -118,7 +118,7 @@ h4.section-group-header {
     font-family: Calibri;
     font-size: 1.4em;
     font-weight: normal;
-    color: #3fa0ef;
+    color: #6e6e6e;
 }
 
 .fmt-btn,
@@ -141,11 +141,8 @@ h4.section-group-header {
     font-size: 1.0em;
     color: white;
     cursor: default;
-    background: rgb(0, 120, 215);
-    background: -webkit-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
-    background: -o-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
-    background: -moz-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
-    background: linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
+    background: rgb(51, 51, 51);
+    background: linear-gradient(120deg, rgb(105, 105, 105), rgb(51, 51, 51));
 }
 
 .fmt-btn:hover,
@@ -229,14 +226,14 @@ ul.menu-link-cont > li {
 ul.menu-link-cont .help-cont {
     padding: 5px 10px;
     border-radius: 4px;
-    border: 2px solid #6fb3ea;
-    color: #6fb3ea;
+    border: 2px solid #ababab;
+    color: #808080;
     cursor: default;
 }
 
 ul.menu-link-cont .help-cont:hover {
-    border: 2px solid #3d9eee;
-    color: #3d9eee;
+    border: 2px solid #858585;
+    color: #5f5f5f;
 }
 
 ul.menu-link-cont .help-cont > .fa-question-circle {
@@ -446,7 +443,7 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     top: -7px;
     font-family: sans-serif;
     font-size: 1.2em;
-    color: #3d9eee;
+    color: #737373;
 }
 
 #compose-mail-editor {
@@ -523,11 +520,8 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     font-size: 1.0em;
     color: white;
     cursor: default;
-    background: rgb(0, 120, 215);
-    background: -webkit-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
-    background: -o-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
-    background: -moz-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
-    background: linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
+    background: rgb(51, 51, 51);
+    background: linear-gradient(120deg, rgb(105, 105, 105), rgb(51, 51, 51));
 }
 
 #compose-mail-editor .edit-footer-cont .send-msg-btn:hover {
@@ -1047,7 +1041,7 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     top: 0px;
     width: 350px;
     height: 100%;
-    background-color: #5787c2;
+    background-color: #424242;
     z-index: 40;
 }
 
@@ -1069,14 +1063,14 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 }
 
 #page-left-menu-cont ul.menu-list-cont > li.enable:hover {
-    background-color: #6b96ca;
+    background-color: #5f5f5f;
 }
 
 #page-left-menu-cont ul.menu-list-cont .active-link-indicator {
     border-left: 6px solid white;
     padding-left: 0px;
-    outline: 2px solid #5787c2;
-    background-color: #6b96ca;
+    outline: 2px solid #424242;
+    background-color: #5f5f5f;
 }
 
 #page-left-menu-cont ul.menu-list-cont a {
@@ -1339,11 +1333,8 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     font-size: 1.1em;
     color: white;
     cursor: default;
-    background: rgb(0, 120, 215);
-    background: -webkit-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
-    background: -o-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
-    background: -moz-linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
-    background: linear-gradient(120deg, rgb(65, 161, 240), rgb(0, 120, 215));
+    background: rgb(51, 51, 51);
+    background: linear-gradient(120deg, rgb(105, 105, 105), rgb(51, 51, 51));
 }
 
 .cash-out-btn:hover {
@@ -2101,7 +2092,7 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     display: inline-block;
     font-size: 1.3em;
     font-weight: 500;
-    color: #3fa0ef;
+    color: #505050;
     margin-top: 5px;
     margin-bottom: 10px;
 }
@@ -2114,7 +2105,7 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 
 .edit-sec-btn > span {
     font-size: 1.2em;
-    color: #3fa0ef;
+    color: #505050;
 }
 
 .edit-profile-input-cont {
@@ -2196,7 +2187,7 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana;
     font-size: 1.0em;
     font-weight: 500;
-    color: #3d9eee;
+    color: #6b6b6b;
     padding: 10px;
     border: 0;
     outline: 0;
@@ -2207,14 +2198,14 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 #personal-info-save-btn-wrapper .save-btn-cont > button:hover,
 #contact-info-save-btn-wrapper .cancel-btn-cont > button:hover,
 #contact-info-save-btn-wrapper .save-btn-cont > button:hover {
-    color: #2582ce;
+    color: #555555;
 }
 
 #personal-info-save-btn-wrapper .cancel-btn-cont > button:disabled:hover,
 #personal-info-save-btn-wrapper .save-btn-cont > button:disabled:hover,
 #contact-info-save-btn-wrapper .cancel-btn-cont > button:disabled:hover,
 #contact-info-save-btn-wrapper .save-btn-cont > button:disabled:hover {
-    color: #3d9eee; /*default color*/
+    color: #7a7a7a; /*default color*/
 }
 
 #img-editor-win-cont {
@@ -2440,7 +2431,7 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 
 .page-footer {
     margin-top: 200px;
-    background-color: #77a2d8;
+    background-color: #5f5f5f;
 }
 
 .page-footer-cont {
@@ -2516,15 +2507,15 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 .page-footer .footer-hr-line {
     width: 100%;
     height: 1px;
-    border-bottom: 1px solid #4878b3;
+    border-bottom: 1px solid #4e4e4e;
 }
 
 .page-footer .footer-base {
     padding: 10px 15px;
     font-size: 1.0em;
     color: white;
-    background-color: #77a2d8;
-    border-top: 1px solid #6cb5ff;
+    background-color: #5f5f5f;
+    border-top: 1px solid #737373;
 }
 
 @media only screen and (max-width: 1500px) {

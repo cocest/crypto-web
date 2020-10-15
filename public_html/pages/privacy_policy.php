@@ -22,11 +22,12 @@ require_once '../includes/config.php';
     <link type="text/css" rel="stylesheet" href="./styles/privacy_policy.css">
     <script type="text/javascript" src="./js/utils.js"></script>
     <script type="text/javascript" src="./js/privacy_policy.js"></script>
+    <script type="text/javascript" src="./js/subscribe_newsletter.js"></script>
 </head>
 
 <body>
     <!--page main menu container-->
-    <div class="page-top-menu-cont ux-bg-grayblue">
+    <div class="page-top-menu-cont theme-bg-color">
         <div class="page-top-menu-wrapper sec-max-width">
             <nav>
                 <div class="site-logo-cont">
@@ -42,8 +43,7 @@ require_once '../includes/config.php';
                     <ul class="ux-hr-menu fmt-link-med">
                         <li><a class="link ux-txt-smokewhite txt-hover" href="./index.html">Home</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" href="./help/faq.html">FAQ</a></li>
-                        <li><a class="ux-btn ux-bg-chocolate bg-hover ux-txt-white ux-rd-corner-1"
-                                href="./register.html">Get Started</a></li>
+                        <li><a class="reg-btn ux-btn" href="./register.html">Get Started</a></li>
                         <li><a class="link ux-txt-smokewhite txt-hover" href="./user/login.html">Sign In</a></li>
                     </ul>
                 </div>
@@ -64,7 +64,7 @@ require_once '../includes/config.php';
     </div>
 
     <!--drop down mobile menu container-->
-    <div class="drop-down-mobi-menu-cont hide shadow ux-bg-grayblue">
+    <div class="drop-down-mobi-menu-cont hide shadow theme-bg-color">
         <ul class="ux-vt-menu">
             <li><a class="link active" href="./index.html">Home</a></li>
             <li><a class="link" href="./help/faq.html">FAQ</a></li>
@@ -346,76 +346,82 @@ require_once '../includes/config.php';
         </div>
     </div>
 
-    <!--page footer-->
-    <div class="page-footer-section ux-bg-grayblue">
-        <div class="footer-cont">
-            <div class="footer-col-1">
-                <div class="site-logo-in-footer">
-                    <img src="./images/icons/w_citadel_capital_logo.png" alt="thecitadelcapital">
+    <!--page footer section-->
+    <div class="page-footer-section">
+        <div class="upper-footer-cont">
+            <div class="column-group-1">
+                <div class="footer-column">
+                    <img class="site-logo" src="./images/icons/w_citadel_capital_logo.png" alt="thecitadelcapital">
+                    <p class="text-block">
+                        <span class="text-cont">
+                            The Citadel Capital Partners is a leading investor in the global 
+                            financial and alternative markets. Founded with the aim of ensuring 
+                            capital appreciation as well as wealth protection.
+                        </span>
+                        <span class="more-link-cont">
+                            <a href="<?php echo BASE_URL . 'about_us.html'; ?>">Learn More</a>
+                        </span>
+                    </p>
+                </div>
+                <div class="footer-column">
+                    <h2 class="header">TERMS & POLICY</h2>
+                    <ul class="link-list">
+                        <li><a href="<?php echo BASE_URL . 'terms_and_condition.html'; ?>">Terms & Condition</a></li>
+                        <li><a href="<?php echo BASE_URL . 'privacy_policy.html'; ?>">Privacy Policy</a></li>
+                        <li><a href="<?php echo BASE_URL . 'cookies_policy.html'; ?>">Cookies Policy</a></li>
+                    </ul>
                 </div>
             </div>
-            <div class="footer-col-2">
-                <h4>TERMS</h4>
-                <ul class="ux-vt-menu fmt-link-med">
-                    <li>
-                        <a href="<?php echo BASE_URL . 'terms_and_condition.html'; ?>"
-                            class="link ux-txt-smokewhite txt-hover">Terms &amp; Condition</a>
-                    </li>
-                    <li>
-                        <a href="<?php echo BASE_URL . 'privacy_policy.html'; ?>"
-                            class="link ux-txt-smokewhite txt-hover">Privacy Policy</a>
-                    </li>
-                    <li>
-                        <a href="<?php echo BASE_URL . 'cookies_policy.html'; ?>"
-                            class="link ux-txt-smokewhite txt-hover">Cookies Policy</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="footer-col-3">
-                <h4>CONTACT US</h4>
-                <ul class="ux-vt-menu fmt-link-med">
-                    <li>
-                        <div class="address-in-footer">
-                            392 Triq il Kanun, Santa Venera, Malta
+            <div class="column-group-2">
+                <div class="footer-column">
+                    <h2 class="header">CONTACT US</h2>
+                    <ul class="link-list">
+                        <li>392 Triq il Kanun, Santa Venera, Malta</li>
+                        <li>
+                            <div class="list-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="list-data">contact@thecitadelcapital.com</div>
+                        </li>
+                        <li>
+                            <div class="list-icon">
+                                <i class="fas fa-phone-square-alt"></i>
+                            </div>
+                            <div class="list-data">+356 21250666</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h2 class="header">SUBSCRIBE TO NEWSLETTER </h2>
+                    <p class="text-block">
+                        To get the latest updates on market trends subscribe to our newsletter. 
+                        Be rest assured that your email address is private information and would 
+                        not be published publicly.
+                    </p>
+                    <div class="newsletter-sub-cont">
+                        <div id="footer-subscription-message" class="subscription-message remove-elem">
+                            <div class="message"></div>
+                            <div class="pointer"></div>
                         </div>
-                    </li>
-                    <li>
-                        <div class="contact-in-footer">
-                            <i class="fas fa-envelope"></i><span>contact@thecitadelcapital.com</span>
+                        <div class="email-input-cont">
+                            <input id="footer-sub-newsletter-input" type="email" name="email" placeholder="Your Email" spellcheck="false" />
                         </div>
-                    </li>
-                    <li>
-                        <div class="phone-in-footer">
-                            <i class="fas fa-phone-square-alt"></i><span>+356 21250666</span>
+                        <div class="sub-button-cont">
+                            <button type="button" onclick="subscribeToNewsletter(this)">Sign Up</button>
                         </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="footer-col-4">
-                <h4>CONNECT WITH US</h4>
-                <ul class="ux-hr-menu">
-                    <li>
-                        <a href="https://web.facebook.com/thecitadelcapitalpartners/"
-                            class="ux-txt-smokewhite txt-hover">
-                            <i class="fab fa-facebook-square"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://twitter.com/JamieCitadel" class="ux-txt-smokewhite txt-hover">
-                            <i class="fab fa-twitter-square"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="ux-txt-smokewhite txt-hover">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                    </li>
-                </ul>
+                    </div>
+                    <h2 class="header">CONNECT WITH US</h2>
+                    <ul class="social-media-list-cont">
+                        <li><a href="https://web.facebook.com/thecitadelcapitalpartners/"><i class="icon fab fa-facebook-square"></i></a></li>
+                        <li><a href="https://twitter.com/JamieCitadel"><i class="icon fab fa-twitter-square"></i></a></li>
+                        <li><a href="#"><i class="icon fab fa-linkedin"></i></a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="footer-hr-line"></div>
-        <div class="footer-base-cont ux-bg-grayblue ux-txt-white">
-            Copyright &copy; Thecitadelcapital <?php echo date('Y'); ?>. All Rights Reserved
+        <div class="page-footer-hl"></div>
+        <div class="lower-footer-cont">
+            <div class="footer-bottom">Copyright &copy; Thecitadelcapital <?php echo date("Y");?>. All Rights Reserved</div>
         </div>
     </div>
 </body>

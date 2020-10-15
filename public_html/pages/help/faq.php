@@ -22,6 +22,7 @@ require_once '../../includes/config.php';
     <link type="text/css" rel="stylesheet" href="../styles/faq.css">
     <script type="text/javascript" src="../js/utils.js"></script>
     <script type="text/javascript" src="../js/faq.js"></script>
+    <script type="text/javascript" src="../js/subscribe_newsletter.js"></script>
 </head>
 
 <body>
@@ -100,8 +101,8 @@ require_once '../../includes/config.php';
             </div>
             <div class="q-answer">
                 <p>
-                    You could purchase cryptocurrencies online via an exchange (<a href="https://coinbase.com" target="_blank">Coinbase.com</a> or 
-                    <a href="https://coinmama.com" target="_blank">Coinmama.com</a>) or 
+                    You could purchase cryptocurrencies online via an exchange (<a href="https://coinbase.com" target="_blank">Coinbase.com</a>, 
+                    <a href="https://coinmama.com" target="_blank">Coinmama.com</a>, and <a href="https://abra.com" target="_blank">Abra.com</a>) or 
                     locally through a local vendor or ATM in your area. You could find local vendors in your country 
                     of residence on <a href="https://localbitcoins.com" target="_blank">localbitcoins.com</a>
                 </p>
@@ -182,7 +183,7 @@ require_once '../../includes/config.php';
             </div>
             <div class="q-answer">
                 <p>
-                    You cannot invest in two packages simultaneously. You can invest on the same or different 
+                    You cannot invest in two packages simultaneously. You can invest in the same or different 
                     package when your current active investment has matured.
                 </p>
             </div>
@@ -242,11 +243,15 @@ require_once '../../includes/config.php';
                         not be published publicly.
                     </p>
                     <div class="newsletter-sub-cont">
+                        <div id="footer-subscription-message" class="subscription-message remove-elem">
+                            <div class="message"></div>
+                            <div class="pointer"></div>
+                        </div>
                         <div class="email-input-cont">
-                            <input type="email" name="email" placeholder="Your Email" />
+                            <input id="footer-sub-newsletter-input" type="email" name="email" placeholder="Your Email" spellcheck="false" />
                         </div>
                         <div class="sub-button-cont">
-                            <button type="button">Sign Up</button>
+                            <button type="button" onclick="subscribeToNewsletter(this)">Sign Up</button>
                         </div>
                     </div>
                     <h2 class="header">CONNECT WITH US</h2>

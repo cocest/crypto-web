@@ -13,16 +13,16 @@ function init() {
         let menu_elem = document.querySelector('.drop-down-mobi-menu-cont');
 
         if (btn.getAttribute('toggle') == '0') {
-            menu_bar.setAttribute('class', 'page-top-menu-cont fixed show ux-bg-grayblue');
+            menu_bar.setAttribute('class', 'page-top-menu-cont fixed theme-bg-color show');
             menu_icon.setAttribute('class', 'drop-menu-icon open');
-            menu_elem.setAttribute('class', 'drop-down-mobi-menu-cont show shadow ux-bg-grayblue');
+            menu_elem.setAttribute('class', 'drop-down-mobi-menu-cont theme-bg-color show shadow');
             btn.setAttribute('toggle', '1');
             drop_mobi_menu_active = true;
 
         } else {
-            menu_bar.setAttribute('class', 'page-top-menu-cont fixed show ux-bg-grayblue shadow');
+            menu_bar.setAttribute('class', 'page-top-menu-cont fixed theme-bg-color show shadow');
             menu_icon.setAttribute('class', 'drop-menu-icon close');
-            menu_elem.setAttribute('class', 'drop-down-mobi-menu-cont hide shadow ux-bg-grayblue');
+            menu_elem.setAttribute('class', 'drop-down-mobi-menu-cont theme-bg-color hide shadow');
             btn.setAttribute('toggle', '0');
             drop_mobi_menu_active = false;
             top_main_menu_changed = true;
@@ -44,7 +44,7 @@ function init() {
 
         if (curr_page_scroll_y < 70) {
             if (top_main_menu_changed) {
-                elem.setAttribute('class', 'page-top-menu-cont ux-bg-grayblue');
+                elem.setAttribute('class', 'page-top-menu-cont theme-bg-color');
                 top_main_menu_changed = false;
             }
 
@@ -55,7 +55,7 @@ function init() {
                 // check if menu has not been hidden
                 if (!top_main_menu_hidden) {
                     // hide menu
-                    elem.setAttribute('class', 'page-top-menu-cont fixed hide ux-bg-grayblue shadow');
+                    elem.setAttribute('class', 'page-top-menu-cont theme-bg-color fixed hide shadow');
                     top_main_menu_hidden = true;
                 }
 
@@ -63,7 +63,7 @@ function init() {
                 // check if menu has not been shown
                 if (top_main_menu_hidden) {
                     // hide menu
-                    elem.setAttribute('class', 'page-top-menu-cont fixed show ux-bg-grayblue shadow');
+                    elem.setAttribute('class', 'page-top-menu-cont fixed theme-bg-color show shadow');
                     top_main_menu_hidden = false;
                 }
             }
@@ -73,7 +73,7 @@ function init() {
         page_scroll_y = curr_page_scroll_y;
     }
 
-    //listen to page scroll event
+    // listen to page scroll event
     window.onscroll = function (e) {
         changeMainMenuOnScroll();
     };

@@ -1043,6 +1043,65 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 break;
 
+            case 'subscribe_newsletter':
+                if (!isset($_POST['email'])) {
+                    trigger_error('Request is not properly formed', E_USER_ERROR);
+                }
+
+                // check if email address is valid
+                if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+                    echo json_encode([
+                        'success' => false,
+                        'already_subscribed' => false
+                    ]);
+
+                    exit(); // exit script
+                }
+
+                // generate hash of 40 characters length from user's email address
+                $search_email_hash = hash('sha1', strtolower($_POST['email']));
+
+                // check if email has been subcribed
+                $query = 'SELECT 1 FROM user_newsletter_subscription WHERE emailHash = ? LIMIT 1';
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->bind_param('s', $search_email_hash);
+                $stmt->execute();
+                $stmt->store_result(); // needed for num_rows
+
+                if ($stmt->num_rows > 0) { // email exist
+                    // send result to client
+                    echo json_encode([
+                        'success' => false,
+                        'already_subscribed' => true
+                    ]);
+ 
+                    // close database connection
+                    $stmt->close();
+                    $conn->close();
+
+                    exit(); // exit script
+                }
+
+                $stmt->close(); // close prepared statement
+
+                // subscribe user to our newsletter
+                $query = 'INSERT INTO user_newsletter_subscription (emailHash, emailAddress) VALUES(?, ?)';
+                $stmt = $conn->prepare($query); // prepare statement
+                $stmt->bind_param('ss', $search_email_hash, $_POST['email']);
+                $stmt->execute();
+
+                // close database connection
+                $stmt->close();
+                $conn->close();
+
+                // send result to client
+                echo json_encode([
+                    'success' => true,
+                    'already_subscribed' => false
+                ]);
+
+                break;
+
             default:
                 // you shouldn't be here
         }

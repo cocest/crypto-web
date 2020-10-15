@@ -24,6 +24,7 @@ require_once '../includes/config.php';
     <script type="text/javascript" src="./js/slider.js"></script>
     <script type="text/javascript" src="./js/homepage.js"></script>
     <script type="text/javascript" src="./js/smoothScroll.js"></script>
+    <script type="text/javascript" src="./js/subscribe_newsletter.js"></script>
 </head>
 
 <body class="theme-bg-color">
@@ -143,7 +144,7 @@ require_once '../includes/config.php';
                 <div class="content ux-txt-white">
                     <h3>Global Accessibility</h3>
                     <p class="ux-fs-px-18">
-                        We are an international firm and partner with different institutional 
+                        We are an international firm and partner with institutional 
                         and private investors from different ends of the globe. We also recruit 
                         team members irrespective of nationality.
                     </p>
@@ -170,7 +171,7 @@ require_once '../includes/config.php';
             <div class="service-headline ux-txt-align-ct">
                 <h1 class="ux-txt-lightgray">How We Do It ?</h1>
                 <p class="descr-txt ux-fs-px-18 ux-txt-lightgray">
-                    We firmly believe in diversity and as such spread our portfolios 
+                    We believe in diversity and as such spread our portfolios 
                     across different aspects of the alternative markets, generating 
                     profit for our partners in the short and long terms.
                 </p>
@@ -222,10 +223,10 @@ require_once '../includes/config.php';
                             <i class="fas fa-gem ux-txt-lightgray"></i>
                         </div>
                         <div class="content ux-txt-lightgray">
-                            <h3>Precious Metals</h3>
+                            <h3>Commodities</h3>
                             <p class="ux-fs-px-18">
-                                We invest in precious metals and related funds thus creating 
-                                a hedge for our partners.
+                                Our portfolio includes commodity futures, precious metals 
+                                and related funds thus providing a hedge for our partners.
                             </p>
                         </div>
                     </div>
@@ -240,8 +241,8 @@ require_once '../includes/config.php';
             <div class="headline-cont ux-txt-align-ct">
                 <h1 class="ux-txt-white">Getting Started</h1>
                 <p class="descr-txt ux-fs-px-18 ux-txt-white">
-                    The Citadel is a firm believer in the blockchain technology. 
-                    To invest using our platform you must have completed the steps below.
+                    The Citadel is a firm believer in the blockchain technology. To invest 
+                    using our platform you must have completed the steps below.
                 </p>
             </div>
             <div class="getting-started-cont">
@@ -272,8 +273,7 @@ require_once '../includes/config.php';
                         <div class="content ux-txt-white">
                             <h3>Purchase Digital Currencies</h3>
                             <p class="ux-fs-px-18">
-                                Digital currencies can be bought on trusted exchanges. 
-                                For more information see FAQs
+                                Digital currencies can be bought on trusted exchanges. For more information see FAQs.
                             </p>
                         </div>
                     </div>
@@ -286,8 +286,8 @@ require_once '../includes/config.php';
                         <div class="content ux-txt-white">
                             <h3>Create an Account</h3>
                             <p class="ux-fs-px-18">
-                                Click on the Create Account button to register and create your account. 
-                                Once created select package of your choice.
+                                Click on the Create Account button to register and create 
+                                your account. Once created select package of your choice.
                             </p>
                         </div>
                     </div>
@@ -352,6 +352,18 @@ require_once '../includes/config.php';
     <?php } ?>
 
     <!--Contact us section-->
+    <div id="pop-up-message-bg-cover" class="remove-elem"></div>
+    <div id="contact-us-pop-up-message" class="remove-elem">
+        <div class="message-cont">
+            <h4 class="message-title">Success!</h4>
+            <p class="message-body">
+                You have successfully subcribed to our newsletter.
+            </p>
+        </div>
+        <div class="button-cont">
+            <button class="ok-button" onclick="closePopMessage('contact-us-pop-up-message', true)">Ok</button>
+        </div>
+    </div>
     <div class="contact-us-section-cont">
         <div class="contact-us-section page-cont-max-width">
             <div class="headline-cont ux-txt-align-ct">
@@ -398,10 +410,10 @@ require_once '../includes/config.php';
                     </div>
                     <div class="textarea-cont">
                         <div class="textarea-label ux-txt-white">Your Message</div>
-                        <textarea class="textarea-input" data-gramm_editor="false"></textarea>
+                        <textarea class="textarea-input" name="message" data-gramm_editor="false"></textarea>
                     </div>
                     <div class="submit-btn-cont">
-                        <button class="form-submit-btn" type="submit">Send Message</button>
+                        <button id="contact-us-submit-btn" class="form-submit-btn" type="submit">Send Message</button>
                     </div>
                 </form>
             </div>
@@ -537,11 +549,15 @@ require_once '../includes/config.php';
                         not be published publicly.
                     </p>
                     <div class="newsletter-sub-cont">
+                        <div id="footer-subscription-message" class="subscription-message remove-elem">
+                            <div class="message"></div>
+                            <div class="pointer"></div>
+                        </div>
                         <div class="email-input-cont">
-                            <input type="email" name="email" placeholder="Your Email" />
+                            <input id="footer-sub-newsletter-input" type="email" name="email" placeholder="Your Email" spellcheck="false" />
                         </div>
                         <div class="sub-button-cont">
-                            <button type="button">Sign Up</button>
+                            <button type="button" onclick="subscribeToNewsletter(this)">Sign Up</button>
                         </div>
                     </div>
                     <h2 class="header">CONNECT WITH US</h2>

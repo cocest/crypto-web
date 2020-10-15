@@ -22,6 +22,7 @@ require_once '../includes/config.php';
     <link type="text/css" rel="stylesheet" href="./styles/about_us.css">
     <script type="text/javascript" src="./js/utils.js"></script>
     <script type="text/javascript" src="./js/about_us.js"></script>
+    <script type="text/javascript" src="./js/subscribe_newsletter.js"></script>
 </head>
 
 <body class="theme-bg-color">
@@ -117,9 +118,10 @@ require_once '../includes/config.php';
                 <div class="grid-item">
                     <h3 class="sub-caption">Diligence</h3>
                     <p class="content">
-                        Our team is made up of the most disciplined and dedicated individuals who 
-                        share the love for their occupation. They also invest capital alongside that 
-                        of our partners and as such are bent on generating the best returns.
+                        Our team is made up of the most disciplined and dedicated individuals 
+                        who share the love for their occupation. They also invest capital 
+                        alongside that of our partners and as such are bent on generating 
+                        the best returns.
                     </p>
                 </div>
                 <div class="grid-item">
@@ -146,10 +148,11 @@ require_once '../includes/config.php';
                         <h3 class="name">Matteo Koch</h3>
                         <h4 class="position">Chief Investment Officer</h4>
                         <p class="bio">
-                            A seasoned venture capitalist and tech investor, Matteo started his career 
-                            trading stocks and investing in treasury bonds before cementing his career 
-                            in real estate and private finance. He is a graduate of the University of 
-                            Zurich and actively donates to charity.
+                            Matteo is a graduate of the University of Zurich and an alumni of the Harvard 
+                            Business School. He started his career in the equity and bond markets before 
+                            branching out into commodities, real estate and other alternatives. 
+                            He is an established venture capitalist and has been the recipient of numerous 
+                            awards around the globe.
                         </p>
                     </div>
                 </div>
@@ -161,9 +164,10 @@ require_once '../includes/config.php';
                         <h3 class="name">Ella Garcia</h3>
                         <h4 class="position">Chief Risk Officer</h4>
                         <p class="bio">
-                            Ella is a Harvard graduate and she stands out as an analytical and results 
-                            driven individual. She is one of the pioneer employees of the firm and is a 
-                            community leader in her native state of Texas.
+                            Ella graduated from Harvard University with magna cum laude and stands out as a 
+                            highly disciplined and analytically driven individual. She has distinguished 
+                            herself in her rationality and has steered a lot of firms to greater heights. 
+                            She's a philanthropist in her native state of Texas.
                         </p>
                     </div>
                 </div>
@@ -175,12 +179,11 @@ require_once '../includes/config.php';
                         <h3 class="name">Matthew Spencer</h3>
                         <h4 class="position">Chief Operating Officer</h4>
                         <p class="bio">
-                            He is the chief operating officer and functions to manage the firms 
-                            operations all around the globe. A graduate of the University of Leeds, 
-                            Matthew became an employee of Citadel in 1999. He has since created a 
-                            reputation of being a great leader and businessman. He has been the 
-                            recipient of several awards and has served on different committees 
-                            around the world.
+                            Matthew is the chief operating officer and functions to manage the operations 
+                            of the firm around the globe.A graduate of Dartmouth College,he migrated to 
+                            the United States and became an employee of the Citadel. He has since then created 
+                            a reputation of being a great leader and an astute businessman. He has been the 
+                            recipient of several global awards and has served on different committees around the world.
                         </p>
                     </div>
                 </div>
@@ -190,12 +193,12 @@ require_once '../includes/config.php';
                     </div>
                     <div class="content-cont">
                         <h3 class="name">Jamie Hernandez</h3>
-                        <h4 class="position">Chief Marketing Officer</h4>
+                        <h4 class="position">Public Relations Officer</h4>
                         <p class="bio">
-                            A graduate of the New York State University, Jamie holds a DBA in 
-                            business administration. He is a seasoned investor and has huge 
-                            holdings in cryptocurrencies. He is a dedicated philanthropist and 
-                            has donated millions to several honorable causes.
+                            He is a graduate of the New York State University and holds a DBA in business 
+                            administration. He is a seasoned investor and has served as an arbitrator in 
+                            different corporate crises globally. A dedicated philanthropist, he has donated 
+                            to several honorable causes.
                         </p>
                     </div>
                 </div>
@@ -204,12 +207,12 @@ require_once '../includes/config.php';
                         <img src="<?php echo BASE_URL; ?>images/team/img_2.jpg" />
                     </div>
                     <div class="content-cont">
-                        <h3 class="name">Riku Takashi</h3>
-                        <h4 class="position">Chief Technical Officer</h4>
+                        <h3 class="name">J.R. Takashi</h3>
+                        <h4 class="position">Chief Technology Officer</h4>
                         <p class="bio">
-                            Riku is a graduate of the University of Osaka and has dedicated his 
-                            life's work to research and discovery of new trends in technology and 
-                            has merged that knowledge with our goals to generate outstanding ROIs.
+                            He is a graduate of the Massachusetts Institute of Technology and has dedicated 
+                            his life work to research and discovery of new trends in technology and has 
+                            merged that knowledge with our goal of generating outstanding returns for our partners.
                         </p>
                     </div>
                 </div>
@@ -270,11 +273,15 @@ require_once '../includes/config.php';
                         not be published publicly.
                     </p>
                     <div class="newsletter-sub-cont">
+                        <div id="footer-subscription-message" class="subscription-message remove-elem">
+                            <div class="message"></div>
+                            <div class="pointer"></div>
+                        </div>
                         <div class="email-input-cont">
-                            <input type="email" name="email" placeholder="Your Email" />
+                            <input id="footer-sub-newsletter-input" type="email" name="email" placeholder="Your Email" spellcheck="false" />
                         </div>
                         <div class="sub-button-cont">
-                            <button type="button">Sign Up</button>
+                            <button type="button" onclick="subscribeToNewsletter(this)">Sign Up</button>
                         </div>
                     </div>
                     <h2 class="header">CONNECT WITH US</h2>
