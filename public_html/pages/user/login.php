@@ -121,7 +121,7 @@ if (isset($_COOKIE['auto_login'])) {
                 <input type="text" name="csrf_token" value="<?php echo $csrf_token; ?>">
             </div>
             <div class="create-account-cont">
-                <p>You don't have account? <a href="../register.html">create one</a></p>
+                <p>You don’t have an account? <a href="../register.html">create one</a></p>
             </div>
         </form>
     </div>

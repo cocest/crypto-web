@@ -14,6 +14,10 @@
     color: #424242;
 }
 
+.remove-elem {
+    display: none;
+}
+
 .sec-max-width {
     max-width: 1250px;
 }
@@ -194,13 +198,39 @@
     padding: 80px 20px;
 }
 
+.about-us-video-frame {
+    position: relative;
+    width: 100%;
+    height: 535px;
+    max-width: 850px;
+    margin: 0 auto;
+    margin-bottom: 50px;
+    overflow: hidden;
+}
+
+@media only screen and (max-width: 850px) {
+    .about-us-video-frame {
+        padding-bottom: 56.25%;
+        height: 0;
+    }
+}
+
+.about-us-video-frame iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
 .about-us-cont {
     max-width: 850px;
     margin: 0 auto;
 }
 
 .about-us-cont .caption,
-.our-values-cont .caption,
+.our-values-cont .caption, 
+.research-process-cont .caption, 
 .our-team-cont .caption {
     font-size: 2.5em;
     font-weight: 500;
@@ -217,29 +247,39 @@
     background-color: #1f1f1f;
 }
 
-.our-values-cont {
+.our-values-cont,
+.research-process-cont {
     margin: 0 auto;
 }
 
-.our-values-cont .caption {
+.our-values-cont .caption,
+.research-process-cont .caption {
     text-align: center;
     color: lightgray;
 }
 
-.our-values-wrapper .grid-item {
+.our-values-wrapper .grid-item,
+.research-process-wrapper .grid-item {
     padding: 0px 15px 35px 15px;
 }
 
-.our-values-wrapper .grid-item .sub-caption {
+.our-values-wrapper .grid-item .sub-caption,
+.research-process-wrapper .grid-item .sub-caption {
     font-size: 1.5em;
     font-weight: 500;
     color: lightgray;
 }
 
-.our-values-wrapper .grid-item .content {
+.our-values-wrapper .grid-item .content,
+.research-process-wrapper .grid-item .content {
     font-size: 1.1em;
     color: lightgray;
     line-height: 27px;
+}
+
+.research-process-section {
+    padding: 80px 20px;
+    background-color: #2b2b2b;
 }
 
 .page-our-team-section {
@@ -447,6 +487,7 @@
     display: table-cell;
     vertical-align: top;
     width: 100%;
+    word-break: break-all;
 }
 
 .page-footer-section .footer-column .newsletter-sub-cont {
@@ -639,6 +680,7 @@
 
     .about-us-cont .caption, 
     .our-values-cont .caption, 
+    .research-process-cont .caption, 
     .our-team-cont .caption {
         font-size: 2.0em;
     }
@@ -649,7 +691,8 @@
         line-height: 30px;
     }
 
-    .our-values-wrapper .grid-item,
+    .our-values-wrapper .grid-item, 
+    .research-process-wrapper .grid-item, 
     .our-team-wrapper .grid-item {
         width: 100%!important;
     }

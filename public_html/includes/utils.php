@@ -239,3 +239,9 @@ function opensslDecrypt ($ivHashCiphertext, $password) {
 
     return openssl_decrypt($ciphertext, $method, $key, OPENSSL_RAW_DATA, $iv);
 }
+
+function CQ_X_Digest_signature ($path, $method, $params, $secret) {
+    $timestamp = time();
+    $body = $method =='GET' ? null : json_encode($params);
+    return hash_hmac('sha256', $path . $timestamp . $method . $body . $secret, true);
+}

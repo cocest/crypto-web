@@ -55,7 +55,7 @@ try {
 
 <head>
     <meta charset="UTF-8">
-    <title>Thecitadelcapital - My Account</title>
+    <title>Thecitadelcapitalpartners - My Account</title>
     <link rel="icon" type="image/png" href="../../images/icons/favicon1.png" sizes="16x16">
     <link rel="icon" type="image/png" href="../../images/icons/favicon2.png" sizes="32x32">
     <link rel="icon" type="image/png" href="../../images/icons/favicon3.png" sizes="120x120">

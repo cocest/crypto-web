@@ -66,11 +66,11 @@ try {
 
 <head>
     <meta charset="UTF-8">
-    <title>Thecitadelcapital - Registeration</title>
+    <title>The Citadel Capital Partners - Registration</title>
     <link rel="icon" type="image/png" href="./images/icons/favicon1.png" sizes="16x16">
     <link rel="icon" type="image/png" href="./images/icons/favicon2.png" sizes="32x32">
     <link rel="icon" type="image/png" href="./images/icons/favicon3.png" sizes="120x120">
-    <meta name="description" content="thecitadelcapital registeration page">
+    <meta name="description" content="thecitadelcapital registration page">
     <meta name="keywords" content="sign up, register, register to thecitadelcapital, create account with thecitadelcapital">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link type="text/css" href="fonts/css/all.min.css" rel="stylesheet">
@@ -98,7 +98,10 @@ try {
                         <img src="./images/icons/w_citadel_capital_logo.png" alt="thecitadelcapital" />
                     </div>
                     <div class="headline-cont">
-                        <p>Register today to enjoy our great packages and services exclusively design for you.</p>
+                        <p>
+                            Become a limited partner today and enjoy our exclusive services 
+                            tailored to suit your financial goals!
+                        </p>
                     </div>
                     <div class="copyright">
                         &copy; <?php echo date("Y");?> Thecitadelcapital. All Rights Reserved
@@ -117,7 +120,7 @@ try {
 
                 <form name="registeration-form" onsubmit="return processRegisterationForm(event)" autocomplete="off"
                     novalidate>
-                    <h3 class="form-header-title">Registeration Form</h3>
+                    <h3 class="form-header-title">Registration Form</h3>
                     <div class="robot-input-cont">
                         <input type="text" name="leaveitempty">
                     </div>

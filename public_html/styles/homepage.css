@@ -226,39 +226,23 @@
     position: relative;
     height: 800px;
     width: 100%;
-    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)), url('../images/background/home-upper-sec-bg.jpg');
-    background-position: 0 0, top left;
-    background-repeat: no-repeat, no-repeat;
-    background-size: cover, cover;
 }
 
-#imageslider-cont {
+#imageslider {
     position: absolute;
     height: inherit;
     width: inherit;
+    z-index: 10;
 }
 
-.headline-left-bg-img-cont {
-    display: none;
+.page-upper-section .img-slider-cover {
     position: absolute;
     height: inherit;
-    width: 100%;
-    max-width: 1250px;
-    left: 50%;
-    margin-left: -625px;
-}
-
-.headline-left-bg-img {
-    position: absolute;
-    right: 0px;
-    top: 50px;
-    height: 750px;
-    width: 750px;
-    margin-right: 20px;
-    /*background-image: url(../images/background/demo_bg_iso_1.svg);*/
+    width: inherit;
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8));
     background-repeat: no-repeat;
-    background-position: center;
     background-size: cover;
+    z-index: 20;
 }
 
 #headline-cont {
@@ -266,6 +250,68 @@
     height: inherit;
     width: 100%;
     z-index: 50;
+}
+
+.headline-wrapper-1,
+.headline-wrapper-2,
+.headline-wrapper-3,
+.headline-wrapper-4 {
+    position: absolute;
+    top: 0px;
+}
+
+.headline-wrapper-1.anim-out,
+.headline-wrapper-2.anim-out,
+.headline-wrapper-3.anim-out,
+.headline-wrapper-4.anim-out {
+    visibility: hidden;
+}
+
+.headline-wrapper-1.anim-out .headline,
+.headline-wrapper-1.anim-out .sub-headline,
+.headline-wrapper-1.anim-out .action-btn-cont, 
+.headline-wrapper-2.anim-out .headline,
+.headline-wrapper-2.anim-out .sub-headline,
+.headline-wrapper-2.anim-out .action-btn-cont, 
+.headline-wrapper-3.anim-out .headline,
+.headline-wrapper-3.anim-out .sub-headline,
+.headline-wrapper-3.anim-out .action-btn-cont,
+.headline-wrapper-4.anim-out .headline,
+.headline-wrapper-4.anim-out .sub-headline,
+.headline-wrapper-4.anim-out .action-btn-cont {
+    position: relative;
+    opacity: 0;
+    transform: translate(0px, 35px);
+}
+
+.headline-wrapper-1.anim-in .headline, 
+.headline-wrapper-2.anim-in .headline, 
+.headline-wrapper-3.anim-in .headline,
+.headline-wrapper-4.anim-in .headline {
+    position: relative;
+    opacity: 1;
+    transform: translate(0px, 0px);
+    transition: transform 1s ease 0.5s, opacity 1s ease 0.5s;
+}
+
+.headline-wrapper-1.anim-in .sub-headline,
+.headline-wrapper-2.anim-in .sub-headline,
+.headline-wrapper-3.anim-in .sub-headline,
+.headline-wrapper-4.anim-in .sub-headline {
+    position: relative;
+    opacity: 1;
+    transform: translate(0px, 0px);
+    transition: transform 0.7s ease 0.85s, opacity 0.7s ease 0.85s;
+}
+
+.headline-wrapper-1.anim-in .action-btn-cont,
+.headline-wrapper-2.anim-in .action-btn-cont,
+.headline-wrapper-3.anim-in .action-btn-cont,
+.headline-wrapper-4.anim-in .action-btn-cont {
+    position: relative;
+    opacity: 1;
+    transform: translate(0px, 0px);
+    transition: transform 0.6s ease 1s, opacity 0.6s ease 1s;
 }
 
 .headline {
@@ -295,19 +341,19 @@
 }
 
 #anim-img-indicator {
-    display: none; /*remeber to remove this, when necessary*/
     position: absolute;
-    left: -32px;
+    left: -40px;
     bottom: 10px;
     height: 20px;
-    width: 65px;
+    width: 84px;
     margin-left: 50%;
     z-index: 100;
 }
 
 #img-ind-0,
 #img-ind-1,
-#img-ind-2 {
+#img-ind-2,
+#img-ind-3 {
     display: inline-block;
     width: 10px;
     height: 10px;
@@ -413,6 +459,12 @@
 .service-panel-cont .service-cont,
 .getting-started-steps .instruction-cont {
     padding: 10px;
+}
+
+.getting-started-steps .create-account-btn-cont {
+    margin-top: 50px;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 .service-panel-cont > .grid-item {
@@ -1489,6 +1541,7 @@
     display: table-cell;
     vertical-align: top;
     width: 100%;
+    word-break: break-word;
 }
 
 .page-footer-section .footer-column .newsletter-sub-cont {
@@ -1833,10 +1886,3 @@
     }
 }
 
-/*for right image container in upper page section*/
-@media only screen and (max-width: 1250px) {
-    .headline-left-bg-img-cont {
-        left: 0%;
-        margin-left: 1px;
-    }
-}

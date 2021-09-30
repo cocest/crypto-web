@@ -173,11 +173,28 @@ require_once 'page_left_menu.php';
                             </div>
                             <div class="address-cont">
                                 <h2 class="header">Address</h2>
-                                <div class="payment-address">
-                                    <button class="copy-btn" title="Copy Address" onclick="copyCryptoCurrencyAddress()">
-                                        <i class="far fa-clipboard"></i>
-                                    </button>
-                                    <input id="currency-address" type="text" disabled>
+                                <div class="payment-address-cont">
+                                    <div class="payment-address">
+                                        <input id="currency-address" type="text" disabled>
+                                    </div>
+                                    <div class="payment-address-copy-btn">
+                                        <button class="copy-btn" title="Copy Address" onclick="copyTextInput('currency-address')">
+                                            <i class="far fa-clipboard"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dest-tag-cont remove-elem">
+                                <h2 class="header">Destination Tag</h2>
+                                <div class="payment-dest-tag-cont">
+                                    <div class="payment-dest-tag">
+                                        <input id="currency-dest-tag" type="text" disabled>
+                                    </div>
+                                    <div class="payment-dest-tag-copy-btn">
+                                        <button class="copy-btn" title="Copy Address" onclick="copyTextInput('currency-dest-tag')">
+                                            <i class="far fa-clipboard"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <div class="payment-duration-cont">
@@ -213,7 +230,7 @@ require_once 'page_left_menu.php';
             <h4 class="section-group-header">Investment</h4>
             <div class="inv-cont">
                 <div class="inv-img-cont pkg-<?php echo $data_for_page_rendering['id']; ?>">
-                    <img src='../../images/icons/package_icon_sprint.png' />
+                    <img src='../../images/icons/citadel_package_img_sprint.png' />
                 </div>
                 <div class="inv-name-cont">
                     <h2><?php echo $data_for_page_rendering['package']; ?></h2>
@@ -223,14 +240,28 @@ require_once 'page_left_menu.php';
                 <h3>Features & benefits</h3>
                 <ul class="inv-feature-list">
                     <li>
-                        <?php echo intval($data_for_page_rendering['monthlyROI']); ?>% return of investment (ROI).
-                    </li>
-                    <li>
                         <?php echo $data_for_page_rendering['bonus'] == 0 ? 'No' : intval($data_for_page_rendering['bonus']).'%'; ?> investment bonus.
                     </li>
                     <li>
-                        Investment matured after <?php echo $data_for_page_rendering['durationInMonth']; ?> months.
+                        Investment contract expires after <?php echo $data_for_page_rendering['durationInMonth']; ?> month(s).
                     </li>
+                    <?php if ($chose_package_id != 1) { ?>
+                    <li>Dedicated portfolio manager.</li>
+                    <?php } ?>
+                    <?php if ($chose_package_id == 1) { ?>
+                    <li>Fractional trading.</li>
+                    <li>Withdrawal after 14 days.</li>
+                    <?php } else if ($chose_package_id == 2) { ?>
+                    <li>Withdrawal after 30 days.</li>
+                    <?php } else if ($chose_package_id == 3) { ?>
+                    <li>Withdrawal after 30 days.</li>
+                    <?php } else if ($chose_package_id == 4) { ?>
+                    <li>Withdrawal after 30 days.</li>
+                    <?php } else if ($chose_package_id == 5) { ?>
+                    <li>Withdrawal after 60 days.</li>
+                    <?php } else if ($chose_package_id == 6) { ?>
+                    <li>Withdrawal after 90 days.</li>
+                    <?php } ?>
                 </ul>
             </div>
         </div>
@@ -238,9 +269,9 @@ require_once 'page_left_menu.php';
             <h4 class="section-group-header">Payment Method</h4>
             <form name="payment-form" onsubmit="return processPaymentForm(event)" autocomplete="off" novalidate>
                 <div class="select-crypto-cont">
-                    <!--<div class="select-input-descr">
+                    <div class="select-input-descr">
                         Please, select cryptocurrency you want to use for payment below:
-                    </div>-->
+                    </div>
                     <div class="crypto-currency-cont">
                         <input id="btc-crypto-input" type="radio" name="currency" value="BTC" checked />
                         <label for="btc-crypto-input">
@@ -248,7 +279,7 @@ require_once 'page_left_menu.php';
                             <img class="crypto-icon" src="../../images/icons/bitcoin_icon.png" alt="bitcoin" />
                             <div class="crypt-name">BTC</div>
                         </label>
-                        <!--<input id="eth-crypto-input" type="radio" name="currency" value="ETH" />
+                        <input id="eth-crypto-input" type="radio" name="currency" value="ETH" />
                         <label for="eth-crypto-input">
                             <div class="marker"></div>
                             <img class="crypto-icon" src="../../images/icons/ethereum_icon.png" alt="ethereum" />
@@ -259,12 +290,18 @@ require_once 'page_left_menu.php';
                             <div class="marker"></div>
                             <img class="crypto-icon" src="../../images/icons/ripple_icon.png" alt="ripple" />
                             <div class="crypt-name">XRP</div>
-                        </label>-->
+                        </label>
                     </div>
+                    <p class="payment-alternative-note">
+                        For alternative payment methods please write to us.
+                    </p>
                 </div>
                 <div class="crypto-input-cont">
-                    <label for="crypto-amount">Amount in USD</label></br>
-                    <input id="crypto-amount" type="number" name="amount"  attachevent />
+                    <label for="crypto-amount">Amount</label></br>
+                    <div class="crypto-amount-group-input">
+                        <input id="crypto-amount" type="text" name="amount" placeholder="0.00" attachevent />
+                        <div class="input-icon">USD</div>
+                    </div>
                 </div>
                 <input type="hidden" name="package_id" value="<?php echo $chose_package_id; ?>" />
                 <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>" />
@@ -320,14 +357,22 @@ require_once 'page_left_menu.php';
                     let payment_elem = document.getElementById("payment-win-cont");
                     payment_elem.querySelector('.payment-amount').innerHTML = payment_details.amount;
                     payment_elem.querySelector('#currency-address').value = payment_details.wallet_address;
+
+                    // check if payment required destination tag
+                    if (payment_details.destinationTag) {
+                        payment_elem = document.getElementById("currency-dest-tag").value = payment_details.destinationTag;
+                        payment_elem = document.querySelector('#payment-win-cont .dest-tag-cont').setAttribute("class", "dest-tag-cont");
+                    }
+
                     payment_elem.querySelector('.payment-qr-code').setAttribute("src", qrcode_url);
                     payment_elem.removeAttribute("class");
 
                     fitPaymentWin();
                 }
 
-                window.copyCryptoCurrencyAddress = function () {
-                    let elem = document.getElementById("currency-address");
+                // utility function that copy text input value
+                window.copyTextInput = function (input_id) {
+                    let elem = document.getElementById(input_id);
                     elem.disabled = false;
                     elem.select();
                     elem.setSelectionRange(0, 99999)
@@ -335,7 +380,7 @@ require_once 'page_left_menu.php';
                     elem.setSelectionRange(0, 0); // unselect the text
                     elem.disabled = true;
                     alert("Address copied to clipboard.");
-                }
+                };
 
                 window.processPaymentForm = function(e) {
                     e.preventDefault(); // prevent default behaviour
@@ -348,7 +393,7 @@ require_once 'page_left_menu.php';
                     // get user filled form
                     let form = document.forms["payment-form"];
 
-                    let req_url = '../../bc_process_payment';
+                    let req_url = '../../process_crypto_payment';
                     let reg_form = new FormData(form);
 
                     // hide proceed button and show processing animation
@@ -430,7 +475,7 @@ require_once 'page_left_menu.php';
                 function requiredInputLeftEmptyOrInvalid() {
                     let input = document.getElementById("crypto-amount");
 
-                    if (!/^([0-9]+|[0-9]+.?[0-9]+)$/.test(input.value)) {
+                    if (!/^([1-9][0-9]*|(0|[1-9][0-9]*)\.[0-9]+)$/.test(input.value)) {
                         // underline the input
                         input.setAttribute("style", "border: 1px solid #ff7878;");
 
@@ -440,14 +485,44 @@ require_once 'page_left_menu.php';
                     return false;
                 }
 
+                // prevent invalid value for input element
+                function preventInvalidAmountInput(e) {
+                    let input_elem = e.target;
+
+                    // allow only valid pressed key
+                    if (!(e.key.length > 1 || /[0-9.]/.test(e.key))) {
+                        e.preventDefault();
+                    }
+
+                    if (/[0-9.]/.test(e.key)) {
+                        let caret_offset = window.getCaretPosition(input_elem);
+                        let input_value = input_elem.value;
+                        let new_input_value = input_value.substring(0, caret_offset) + e.key + input_value.substring(caret_offset, input_value.length);
+
+                        // validate input format
+                        if (!/^(0|[1-9][0-9]*|(0|[1-9][0-9]*)\.[0-9]*)$/.test(new_input_value)) {
+                            e.preventDefault();
+                        }
+                    }
+                }
+
                 // process events for form input
                 function processInputEvents(e) {
                     let input_elem = e.target; // get element that fire the event
+                    let input_name = input_elem.getAttribute("name");
 
                     switch (e.type) {
+                        case "keydown":
+                            if (input_name == "amount") {
+                                preventInvalidAmountInput(e);
+                            }
+
+                            break;
                         case "keyup":
                             // remove the red underline
                             input_elem.removeAttribute("style");
+
+                            break;
 
                         default:
                             // you don't suppose to be here
@@ -462,6 +537,7 @@ require_once 'page_left_menu.php';
                         attach_event = input_elements[i].getAttribute("attachevent") == null ? false : true;
                         // check type of element
                         if (attach_event) {
+                            input_elements[i].addEventListener("keydown", processInputEvents, false);
                             input_elements[i].addEventListener("keyup", processInputEvents, false);
                         }
                     }

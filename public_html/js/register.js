@@ -228,7 +228,7 @@ function init() {
                         // check if input contain value
                         if (input_elem.value.length > 0) {
                             // validate input
-                            if (!/^([a-zA-Z]|[a-zA-Z]+[']?[a-zA-Z]+)$/.test(input_elem.value)) {
+                            if (!/^([a-zA-Z]|[a-zA-Z]+[']?[a-zA-Z]+)$/.test(input_elem.value.trime())) {
                                 input_elem.setAttribute("class", "err-hr-line-input");
 
                                 input_has_err_msg[input_name].error = "invalid_input";
@@ -706,7 +706,7 @@ function init() {
     pushUpInputLabelOnReload();
 }
 
-//initialise the script
+// initialise the script
 if (window.attachEvent) {
     window.attachEvent("onload", init);
 

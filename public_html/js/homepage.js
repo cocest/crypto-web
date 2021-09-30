@@ -540,23 +540,32 @@ function init() {
     }
 
     // start image slider animation
-    /*window.imageSlider(
+    window.imageSlider(
         [
-            './images/anim/0908Japan09.bmp',
-            './images/anim/0908Japan13.bmp',
-            './images/anim/0908Japan16.bmp'
+            './images/anim/bg_img_1.jpg',
+            './images/anim/bg_img_2.jpg',
+            './images/anim/bg_img_3.jpg',
+            './images/anim/bg_img_4.jpg'
         ],
         2, // animation time (in seconds)
-        5, // wait for next animation time (in seconds)
+        10, // wait for next animation time (in seconds)
         function (prev_indicator_index, curr_indicator_index) {
+            // hide previous content
+            let elem = document.querySelector('.headline-wrapper-' + (prev_indicator_index + 1));
+            elem.setAttribute("class", "headline-wrapper-" + (prev_indicator_index + 1) + " anim-out");
+
+            // animate current content
+            elem = document.querySelector('.headline-wrapper-' + (curr_indicator_index + 1));
+            elem.setAttribute("class", "headline-wrapper-" + (curr_indicator_index + 1) + " anim-in");
+
             // mark the indicator as image slide play
             var elem_1 = document.getElementById('img-ind-' + prev_indicator_index);
             var elem_2 = document.getElementById('img-ind-' + curr_indicator_index);
 
             elem_1.setAttribute('class', 'ux-bg-white ux-f-rd-corner');
-            elem_2.setAttribute('class', 'ux-bg-grayblue bg-hover ux-f-rd-corner');
+            elem_2.setAttribute('class', 'ux-bg-dimgray bg-hover ux-f-rd-corner');
         }
-    );*/
+    );
 
     // show and hide main top menu on scroll
     function changeMainMenuOnScroll() {

@@ -312,12 +312,12 @@ try {
                     // close connection to database
                     $conn->close();
 
-                    die('*ok*');
-
                 } catch (Exception $e) {
                     $conn->rollback(); // remove all queries from queue if error occured (undo)
                     $conn->close(); // close connection to database
                 }
+
+                die('*ok*');
 
             } else {
                 $update_current_investment = false;
@@ -408,13 +408,12 @@ try {
                     // close connection to database
                     $conn->close();
 
-                    // transaction successfull
-                    die('*ok*');
-
                 } catch (Exception $e) {
                     $conn->rollback(); // remove all queries from queue if error occured (undo)
                     $conn->close(); // close connection to database
                 }
+
+                die('*ok*');
             }
 
         } else {

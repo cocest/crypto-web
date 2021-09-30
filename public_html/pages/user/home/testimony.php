@@ -118,9 +118,9 @@ require_once 'page_left_menu.php';
 ?>
 
     <div class="page-content-cont">
-        <h1 class="page-title-hd">Testimony</h1>
+        <h1 class="page-title-hd">Reviews</h1>
         <div class="testimony-sec-1">
-            <h4 class="section-group-header">List of Testimonies</h4>
+            <h4 class="section-group-header">List of Reviews</h4>
             <div class="testimony-list-cont">
                 <div id="testimony-list-wrapper">
                     <?php
@@ -145,7 +145,7 @@ require_once 'page_left_menu.php';
                         if (count($data_for_page_rendering) < 1) {
                     ?>
                     <div id="no-testimony-msg">
-                        No testimony
+                        No personal review
                     </div>
                     <?php 
                         }
@@ -158,7 +158,7 @@ require_once 'page_left_menu.php';
                         <label for="testimony-textarea">
                             <span id="text_input_counter">0</span> / 1000
                         </label>
-                        <textarea id="testimony-textarea" name="testimony" placeholder="Write Your Testimony"></textarea>
+                        <textarea id="testimony-textarea" name="testimony" placeholder="Write your Review"></textarea>
                     </div>
                     <div class="publish-btn-cont">
                         <button class="testimony-publish-btn" type="submit">Publish</button>

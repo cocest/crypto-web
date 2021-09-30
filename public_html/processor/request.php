@@ -506,7 +506,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $req_result = [
                             'success' => true,
                             'profile_url' => empty($row['mediumProfilePictureURL']) ? BASE_URL.'images/icons/profile_pic2.png' : USER_PROFILE_URL.$row['mediumProfilePictureURL'],
-                            'username' => $row['userName'],
+                            'username' => '',
                             'referral_id' => $row['referralID'],
                             'reg_date' => $registered_date,
                             'name' => $row['lastName'].' '.$row['firstName'],
@@ -599,16 +599,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     trigger_error('Request is not properly formed', E_USER_ERROR);
                 }
 
-                // decode search value
-                $search_reg_user = urldecode($_POST['search']);
-                $search_reg_user = trim($search_reg_user);
-
                 // get total number of registered users
-                if (empty($search_reg_user)) {
+                if (empty($_POST['search'])) {
                     $query = 'SELECT COUNT(*) AS total FROM users';
                     $stmt = $conn->prepare($query); // prepare statement
                 } else {
-                    $query = 'SELECT COUNT(*) AS total FROM users WHERE '.($_POST['field'] == "username" ? "userName": "referralID").' LIKE ?';
+                    // decode search value
+                    $search_reg_user = urldecode($_POST['search']);
+                    $search_reg_user = trim($search_reg_user);
+
+                    $query = 'SELECT COUNT(*) AS total FROM users WHERE referralID LIKE ?';
                     $stmt = $conn->prepare($query); // prepare statement
                     $stmt->bind_param('s', $search_user);
                     $search_user = '%'.$search_reg_user.'%';
@@ -620,12 +620,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $stmt->close();
 
                 // get registered users
-                if (empty($search_reg_user)) {
-                    $query = 'SELECT id, referralID, firstName, lastName, userName FROM users ORDER BY time DESC LIMIT ?, ?';
+                if (empty($_POST['search'])) {
+                    $query = 'SELECT id, referralID, firstName, lastName FROM users ORDER BY time DESC LIMIT ?, ?';
                     $stmt = $conn->prepare($query); // prepare statement
                     $stmt->bind_param('ii', $_POST['offset'], $_POST['limit']);
                 } else {
-                    $query = 'SELECT id, referralID, firstName, lastName, userName FROM users WHERE '.($_POST['field'] == "username" ? "userName": "referralID").' LIKE ? ORDER BY time DESC LIMIT ?, ?';
+                    $query = 'SELECT id, referralID, firstName, lastName FROM users WHERE referralID LIKE ? ORDER BY time DESC LIMIT ?, ?';
                     $stmt = $conn->prepare($query); // prepare statement
                     $stmt->bind_param('sii', $search_user, $_POST['offset'], $_POST['limit']);
                     $search_user = '%'.$search_reg_user.'%';
@@ -639,7 +639,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 while ($row = $result->fetch_assoc()) {
                     $users[] = [
                         $row['referralID'],
-                        $row['userName'],
+                        '',
                         $row['lastName'].' '.$row['firstName'],
                         $row['id']
                     ];
@@ -673,7 +673,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 // get unverified account
                 $query = 
-                    'SELECT A.userID, A.time, B.firstName, B.lastName, B.userName 
+                    'SELECT A.userID, A.time, B.firstName, B.lastName 
                     FROM user_account_verification AS A LEFT JOIN users AS B ON A.userID = B.id 
                     WHERE A.identification = 0 ORDER BY A.time DESC LIMIT ?, ?';
                 $stmt = $conn->prepare($query); // prepare statement
@@ -685,7 +685,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 while ($row = $result->fetch_assoc()) {
                     $accounts[] = [
-                        $row['userName'],
+                        '',
                         $row['lastName'].' '.$row['firstName'],
                         date("M j, Y g:i A", $row['time']),
                         $row['userID']

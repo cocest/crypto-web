@@ -92,7 +92,7 @@ try {
     }
 
     // get user's email address
-    $query = 'SELECT email FROM users WHERE userID = ? LIMIT 1';
+    $query = 'SELECT email FROM users WHERE id = ? LIMIT 1';
     $stmt = $conn->prepare($query); // prepare statement
     $stmt->bind_param('i', $_SESSION['user_id']);
     $stmt->execute();
@@ -134,7 +134,7 @@ require_once 'left_bar_menu.php';
             </p>
             <p class="p2 txt-block-fmt">
                 Note: If you don’t receive any email after 5 minutes 
-                click the below button to resend.
+                click the button below to resend.
             </p>
             <div class="email-resend-btn-cont">
                 <input class="fmt-btn" type="button" value="Resend" onclick="resendEmailVerification()" />

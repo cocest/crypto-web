@@ -30,7 +30,7 @@
                     <div class="link-icon-cont-4">
                         <img src="../../images/icons/icons_sprite_4.png" />
                     </div>
-                    <span class="link-name">Testimony</span>
+                    <span class="link-name">Reviews</span>
                 </a>
             </li>
             <li class="disable">

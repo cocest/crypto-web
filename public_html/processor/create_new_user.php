@@ -95,8 +95,8 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
                 $user_gender
             );
     
-            $first_name = ucfirst(strtolower($_POST['firstname']));
-            $last_name = ucfirst(strtolower($_POST['lastname']));
+            $first_name = ucfirst(strtolower(trim($_POST['firstname'])));
+            $last_name = ucfirst(strtolower(trim($_POST['lastname'])));
             $user_gender = strtolower($_POST['gender']);
             $splitted_birth_date = explode('/', $_POST['birthdate']);
             $birth_date = $splitted_birth_date[2].'-'.$splitted_birth_date[0].'-'.$splitted_birth_date[1];
@@ -208,8 +208,7 @@ if (hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             exit;
 
         } catch (mysqli_sql_exception $e) { // catch only mysqli exceptions
-            $conn->rollback(); // remove all queries from queue if error occured (undo)            
-            unlink($target_dir); // delete uploaded image
+            $conn->rollback(); // remove all queries from queue if error occured (undo)
 
             // log the error to a file
             error_log('Mysql error: '.$e->getMessage().PHP_EOL, 3, CUSTOM_ERR_DIR.'custom_errors.log');
@@ -243,7 +242,7 @@ function validateUserFormInputs($inputs) {
         switch($input_name) {
             case 'firstname':
             case 'lastname':
-                if (!preg_match("/^([a-zA-Z]|[a-zA-Z]+[']?[a-zA-Z]+)$/", $input_value)) {
+                if (!preg_match("/^([a-zA-Z]|[a-zA-Z]+[']?[a-zA-Z]+)$/", trim($input_value))) {
                     return false;
                 }
 

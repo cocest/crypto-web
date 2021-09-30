@@ -3,6 +3,7 @@
     // define and initialise varibles here
     var image_urls;
     var image_urls_length;
+    var is_slider_initiated = false;
     var loaded_images = [];
     var loaded_img_counter = 0;
     var anim_time;
@@ -35,7 +36,7 @@
             loaded_img_counter++;
 
             //check if all images is fully loaded
-            if (loaded_img_counter == image_urls_length) { //case base
+            if (loaded_img_counter >= image_urls_length) { //case base
                 call_back();
 
             } else {
@@ -49,7 +50,7 @@
             loaded_img_counter++;
 
             //check if all images is fully loaded
-            if (loaded_img_counter == image_urls_length) { //base case
+            if (loaded_img_counter >= image_urls_length) { //base case
                 call_back();
 
             } else {
@@ -72,6 +73,24 @@
                 else {
                     curr_img_counter++;
                 }
+
+                image_elem_1.setAttribute("style",
+                    "position: absolute;" +
+                    "top: 0px;" +
+                    "width: inherit;" +
+                    "height: inherit;" +
+
+                    // background image
+                    "background-image: url(" + image_urls[prev_img_counter] + ");" +
+                    "background-repeat: no-repeat;" +
+                    "background-position: center;" +
+                    "background-size: cover;" +
+
+                    // set animation properties
+                    "opacity: 0;" +
+                    "transition: opacity " + anim_time + "s;" +
+                    "z-index: 10;"
+                );
 
                 // show image
                 image_elem_2.setAttribute("style",
@@ -106,37 +125,6 @@
                 // wait for animation to finish
                 setTimeout(function () {
                     wait = false; // animation has finished executing
-
-                    // bring previous image to front
-                    image_elem_2.setAttribute("style",
-                        "position: absolute;" +
-                        "top: 0px;" +
-                        "width: inherit;" +
-                        "height: inherit;" +
-
-                        // set animation properties
-                        "opacity: 0;" +
-                        "transition: opacity " + anim_time + "s;" +
-                        "z-index: 20;"
-                    );
-
-                    image_elem_1.setAttribute("style",
-                        "position: absolute;" +
-                        "top: 0px;" +
-                        "width: inherit;" +
-                        "height: inherit;" +
-
-                        // background image
-                        "background-image: url(" + image_urls[curr_img_counter] + ");" +
-                        "background-repeat: no-repeat;" +
-                        "background-position: center;" +
-                        "background-size: cover;" +
-
-                        // set animation properties
-                        "opacity: 1;" +
-                        "transition: opacity " + anim_time + "s;" +
-                        "z-index: 10;"
-                    );
 
                 }, anim_time * 1000);
 
@@ -265,6 +253,12 @@
 
     // call this method to start animation
     window.imageSlider = function (img_urls, anim_t, wait_int, call_back) {
+        if (is_slider_initiated) {
+            return;
+        }
+
+        is_slider_initiated = true;
+
         image_urls = img_urls;
         image_urls_length = img_urls.length;
         anim_time = anim_t;
@@ -274,8 +268,8 @@
         // start loading image
         preloadImages(function () {
             if (loaded_img_counter === 1) {
-                //get parent element define by the user
-                image_cont = document.getElementById("imageslider-cont");
+                // get parent element define by the user
+                image_cont = document.getElementById("imageslider");
 
                 // create element for first image
                 image_elem_1 = document.createElement("div");
@@ -324,8 +318,50 @@
         });
     };
 
+    // slide next image
+    window.nextImage = function () {
+        // check if animation is running
+        if (!wait) {
+            // stop the animation
+            stopAnimation();
+
+            animate("forward");
+
+            if (starting_anim !== null) {
+                clearTimeout(starting_anim);
+            }
+
+            // wait before starting the animation
+            starting_anim = setTimeout(function () {
+                starting_anim = null;
+                startAnimation();
+            }, anim_time * 1000);
+        }
+    };
+
+    // slide previous image
+    window.prevImage = function () {
+        // check if animation is running
+        if (!wait) {
+            // stop the animation
+            stopAnimation();
+
+            animate("backward");
+
+            if (starting_anim !== null) {
+                clearTimeout(starting_anim);
+            }
+
+            // wait before starting the animation
+            starting_anim = setTimeout(function () {
+                starting_anim = null;
+                startAnimation();
+            }, anim_time * 1000);
+        }
+    };
+
     // animate click image
-    window.gotoImageSlider = function (goto_index) {
+    window.gotoImage = function (goto_index) {
         // check if animation is running
         if (!wait) {
             // check if pass index is valid
@@ -335,7 +371,7 @@
                     // stop the animation
                     stopAnimation();
 
-                    //determin direction to animate
+                    // determin direction to animate
                     if (goto_index > curr_img_counter) { //forward
                         curr_img_counter = goto_index - 1;
                         animate("forward");
@@ -344,7 +380,7 @@
                             clearTimeout(starting_anim);
                         }
 
-                        //wait before starting the animation
+                        // wait before starting the animation
                         starting_anim = setTimeout(function () {
                             starting_anim = null;
                             startAnimation();

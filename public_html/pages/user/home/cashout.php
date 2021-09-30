@@ -144,40 +144,47 @@ require_once 'page_left_menu.php';
             </div>
         </div>
         <div class="cashout-inv-sec-2">
-            <h4 class="section-group-header">Withdrawal Details</h4>
+            <h4 class="section-group-header">Withdrawal</h4>
             <form name="cashout-form" onsubmit="return processCashoutForm(event)" autocomplete="off" novalidate>
                 <div class="select-crypto-cont">
-                    <!--<div class="select-input-descr">
-                        Please select cryptocurrency of choice payments should be made in below:
-                    </div>-->
+                    <div class="select-input-descr">
+                        Please select cryptocurrency payment should be made into below:
+                    </div>
                     <div class="crypto-currency-cont">
-                        <input id="btc-crypto-input" type="radio" name="currency" value="BTC" checked />
+                        <input id="btc-crypto-input" type="radio" name="currency" value="BTC" attachevent checked />
                         <label for="btc-crypto-input">
                             <div class="marker"></div>
                             <img class="crypto-icon" src="../../images/icons/bitcoin_icon.png" alt="bitcoin" />
                             <div class="crypt-name">BTC</div>
                         </label>
-                        <!--<input id="eth-crypto-input" type="radio" name="currency" value="ETH" />
+                        <input id="eth-crypto-input" type="radio" name="currency" value="ETH" attachevent />
                         <label for="eth-crypto-input">
                             <div class="marker"></div>
                             <img class="crypto-icon" src="../../images/icons/ethereum_icon.png" alt="ethereum" />
                             <div class="crypt-name">ETH</div>
                         </label>
-                        <input id="xrp-crypto-input" type="radio" name="currency" value="XRP" />
+                        <input id="xrp-crypto-input" type="radio" name="currency" value="XRP" attachevent />
                         <label for="xrp-crypto-input">
                             <div class="marker"></div>
                             <img class="crypto-icon" src="../../images/icons/ripple_icon.png" alt="ripple" />
                             <div class="crypt-name">XRP</div>
-                        </label>-->
+                        </label>
                     </div>
                 </div>
                 <div class="crypto-input-cont">
                     <label for="crypto-amount">Amount in USD (available balance)</label></br>
-                    <input id="crypto-amount" type="number" name="amount" min="0"  attachevent />
+                    <div class="crypto-amount-group-input">
+                        <input id="crypto-amount" type="text" name="amount" placeholder="0.00" attachevent />
+                        <div class="input-icon">USD</div>
+                    </div>
                 </div>
                 <div class="crypto-input-cont">
                     <label for="crypto-wallet-address">Wallet Address</label></br>
                     <input id="crypto-wallet-address" type="text" name="walletaddress" attachevent />
+                </div>
+                <div id="crypto-dest-tag-cont" class="crypto-input-cont remove-elem">
+                    <label for="crypto-dest-tag">Destination Tag</label></br>
+                    <input id="crypto-dest-tag" type="text" name="desttag" attachevent />
                 </div>
                 <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
                 <div class="cashout-proceed-btn-cont">
@@ -200,6 +207,9 @@ require_once 'page_left_menu.php';
             </form>
         </div>
         <script>
+            // constant and variable
+            let destination_tag_requird = false;
+
             window.processCashoutForm = function(e) {
                 e.preventDefault(); // prevent default behaviour
 
@@ -214,16 +224,29 @@ require_once 'page_left_menu.php';
                 let form = document.forms["cashout-form"];
 
                 // check if any input is left empty or contain invalid data
-                if (requiredInputLeftEmptyOrInvalid(
-                    [
-                        {name: 'amount', regex: /^([0-9]+|[0-9]+.?[0-9]+)$/}, 
-                        {name: 'walletaddress', regex: regex_crypto_validator[form.elements['currency'].value]}
-                    ])
-                    ) {
-                    return false;
+                if (destination_tag_requird) {
+                    if (requiredInputLeftEmptyOrInvalid(
+                        [
+                            {name: 'amount', regex: /^([1-9][0-9]*|(0|[1-9][0-9]*)\.[0-9]+)$/}, 
+                            {name: 'walletaddress', regex: regex_crypto_validator[form.elements['currency'].value]},
+                            {name: 'desttag', regex: /^\w+$/}
+                        ])
+                        ) {
+                        return false;
+                    }
+
+                } else {
+                    if (requiredInputLeftEmptyOrInvalid(
+                        [
+                            {name: 'amount', regex: /^([1-9][0-9]*|(0|[1-9][0-9]*)\.[0-9]+)$/}, 
+                            {name: 'walletaddress', regex: regex_crypto_validator[form.elements['currency'].value]}
+                        ])
+                        ) {
+                        return false;
+                    }
                 }
 
-                let req_url = '../../bc_process_withdrawal';
+                let req_url = '../../process_crypto_withdrawal';
                 let reg_form = new FormData(form);
 
                 // hide proceed button and show processing animation
@@ -256,7 +279,7 @@ require_once 'page_left_menu.php';
                             let msg_elem = document.getElementById("msg-win-cont");
                             msg_elem.querySelector('.title').innerHTML = "Withdrawal";
                             msg_elem.querySelector('.body-cont').innerHTML = 
-                                "Withraw order has been placed successfully. You will receive notification once the order is complete.";
+                                "Withraw order has been placed successfully. You will receive notification once the order is completed.";
                             msg_elem.removeAttribute("class");
 
                         } else { // order can't be place due to error
@@ -336,11 +359,41 @@ require_once 'page_left_menu.php';
             // process events for form input
             function processInputEvents(e) {
                 let input_elem = e.target; // get element that fire the event
+                let input_name = input_elem.getAttribute("name");
 
                 switch (e.type) {
+                    case "keydown":
+                        if (input_name == "amount") {
+                            preventInvalidAmountInput(e);
+                        }
+
+                        break;
+
                     case "keyup":
                         // remove the red underline
                         input_elem.removeAttribute("style");
+
+                        break;
+
+                    case "change":
+                        if (input_name == "currency") {
+                            if (input_elem.value == "XRP") {
+                                destination_tag_requird = true;
+
+                                // show destination tag input
+                                let elem = document.getElementById("crypto-dest-tag-cont");
+                                elem.setAttribute("class", "crypto-input-cont");
+
+                            } else {
+                                destination_tag_requird = false;
+
+                                // hide destination tag input
+                                let elem = document.getElementById("crypto-dest-tag-cont");
+                                elem.setAttribute("class", "crypto-input-cont remove-elem");
+                            }
+                        }
+
+                        break;
 
                     default:
                         // you don't suppose to be here
@@ -355,6 +408,27 @@ require_once 'page_left_menu.php';
                 };
             });
 
+            // prevent invalid value for input element
+            function preventInvalidAmountInput(e) {
+                let input_elem = e.target;
+
+                // allow only valid pressed key
+                if (!(e.key.length > 1 || /[0-9.]/.test(e.key))) {
+                    e.preventDefault();
+                }
+
+                if (/[0-9.]/.test(e.key)) {
+                    let caret_offset = window.getCaretPosition(input_elem);
+                    let input_value = input_elem.value;
+                    let new_input_value = input_value.substring(0, caret_offset) + e.key + input_value.substring(caret_offset, input_value.length);
+
+                    // validate input format
+                    if (!/^(0|[1-9][0-9]*|(0|[1-9][0-9]*)\.[0-9]*)$/.test(new_input_value)) {
+                        e.preventDefault();
+                    }
+                }
+            }
+
             // attach event listener to input or select element
             function attachEventsToInputs(input_elements) {
                 let attach_event = false;
@@ -363,7 +437,9 @@ require_once 'page_left_menu.php';
                     attach_event = input_elements[i].getAttribute("attachevent") == null ? false : true;
                     // check type of element
                     if (attach_event) {
+                        input_elements[i].addEventListener("keydown", processInputEvents, false);
                         input_elements[i].addEventListener("keyup", processInputEvents, false);
+                        input_elements[i].addEventListener("change", processInputEvents, false);
                     }
                 }
             }

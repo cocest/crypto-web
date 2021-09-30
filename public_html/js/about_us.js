@@ -73,7 +73,7 @@ function init() {
         page_scroll_y = curr_page_scroll_y;
     }
 
-    //listen to page scroll event
+    // listen to page scroll event
     window.onscroll = function (e) {
         changeMainMenuOnScroll();
     };

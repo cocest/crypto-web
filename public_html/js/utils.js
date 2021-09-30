@@ -55,6 +55,16 @@
         return document.body.scrollLeft || document.documentElement.scrollLeft;
     };
 
+    // get element offset top in a document
+    window.getElementOffset = function (el) {
+        const rect = el.getBoundingClientRect();
+      
+        return {
+            top: rect.top + window.pageYOffset || window.getPageScrollTop(),
+            left: rect.left + window.pageXOffset || window.getPageScrollLeft(),
+        };
+    }
+
     //utility function to remove all child element
     window.removeAllChildElement = function (parent) {
         while (parent.firstChild) {
@@ -157,8 +167,41 @@
         }
     }
 
+    // utility function to determine when height of element changes
+    window.onElementHeightChange = function (elem, callback) {
+        let lastHeight = elem.clientHeight, newHeight;
+      
+        (function run() {
+            newHeight = elem.clientHeight;
+            if (lastHeight != newHeight) {
+                callback(newHeight);
+                lastHeight = newHeight;
+            }
+      
+            if (elem.onElementHeightChangeTimer) {
+                clearTimeout(elem.onElementHeightChangeTimer);
+            }
+      
+            elem.onElementHeightChangeTimer = setTimeout(run, 200);
+        })()
+    }
+
+    // utility function to get page full path
+    window.getFullPathURL = function () {
+        let url_scheme = window.location.protocol + "//" + window.location.host;
+        let split_url_path = window.location.pathname.split("/");
+
+        // return base URL
+        return url_scheme + split_url_path.slice(0, split_url_path.length - 1).join("/") + "/";
+    }
+
+    // utility function to base URL
+    window.getBaseURL = function () {
+        return window.location.protocol + "//" + window.location.host + "/";
+    }
+
     // utility function to send request to server
-    window.ajaxRequest = function (_url, _form, _settings, _send_callback, _err_callback) {
+    window.ajaxRequest = function (_url, _form, _settings, _callback) {
         // code for IE7+, Firefox, Chrome, Opera, Safari
         let xmlhttp = new XMLHttpRequest();
 
@@ -183,6 +226,14 @@
                 xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             }
 
+            // set custom headers
+            if (typeof _settings.headers != "undefined") {
+                let headers = _settings.headers;
+                for (let i = 0; i < headers.length; i++) {
+                    xmlhttp.setRequestHeader(headers[i][0], headers[i][1]);
+                }
+            }
+
             // send request to server
             if (_form == null) {
                 xmlhttp.send();
@@ -194,10 +245,10 @@
             // response on state change and return the responds
             xmlhttp.onreadystatechange = function () {
                 if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-                    _send_callback(xmlhttp.responseText);
-                }
-                else if (xmlhttp.status !== 200) { // handle server error
-                    _err_callback(xmlhttp.status, xmlhttp.responseText);
+                    _callback(xmlhttp.responseText, xmlhttp.status);
+
+                } else if (xmlhttp.status !== 200) {
+                    _callback(null, xmlhttp.status);
                 }
             };
         }

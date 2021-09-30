@@ -10,7 +10,7 @@ require_once '../includes/config.php';
 
 <head>
     <meta charset="UTF-8">
-    <title>Thecitadelcapital - About Us</title>
+    <title>The Citadel Capital Partners - About Us</title>
     <link rel="icon" type="image/png" href="./images/icons/favicon1.png" sizes="16x16">
     <link rel="icon" type="image/png" href="./images/icons/favicon2.png" sizes="32x32">
     <link rel="icon" type="image/png" href="./images/icons/favicon3.png" sizes="120x120">
@@ -86,19 +86,29 @@ require_once '../includes/config.php';
 
     <!--about us section-->
     <div class="page-about-us-section">
+        <div class="about-us-video-frame">
+            <iframe width="500" height="315" src="https://www.youtube.com/embed/KY_tzaZMUII" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
         <div class="about-us-cont">
-           <h1 class="caption ux-txt-white">About Us</h1>
-           <p class="content ux-txt-white">
-                The Citadel Capital Partners is a leading investor in the global financial 
-                and alternative markets. Founded with the aim of ensuring capital appreciation 
-                as well as wealth protection, we have consistently delivered returns to our 
-                partners for more than a decade, thus maintaining our promise of establishing 
-                profitable and everlasting partnerships. Using the latest management strategies, 
-                technology and trading techniques, our team consisting of individuals with 
-                extensive experience in hedge funds,private equity,equity capital markets 
-                advisory and alternatives investments has built on a platform of integrity, 
-                discipline and teamwork to identify and utilize the latest trends and market 
-                sentiments to deliver outstanding returns.
+            <h1 class="caption ux-txt-white">About Us</h1>
+            <p class="content ux-txt-white">
+                The Citadel Capital Partners is a leading investor in the global alternative markets. 
+                Founded with the aim of ensuring capital appreciation as well 
+                as wealth protection, we have consistently delivered returns to our partners thus 
+                maintaining our promise of establishing profitable and everlasting partnerships.
+                Using the latest management strategies, trading techniques and technology, our team 
+                consisting of highly educated and qualified personnel, with extensive experience in 
+                hedge funds, private equity and alternative assets management and advisory, has 
+                built on a platform of integrity, discipline and teamwork to identify and utilize 
+                the latest trends and market sentiments to deliver outstanding returns to our 
+                partners in both the long and short terms. We have mastered the alchemy of fusing AI 
+                data analysis with human insight and also take pride in our superior research process, 
+                thus achieving maximum levels of efficiency and risk management. With the advent of 
+                the Blockchain technology, digital assets and Decentralized Finance (DeFi), The 
+                Citadel Capital Partners has recognized the importance of these as the future of 
+                finance and has capitalized on them,exploring different investment opportunities 
+                around the globe and subverting the problems plaguing the contemporary financial 
+                industry.
             </p>
         </div>
     </div>
@@ -111,8 +121,9 @@ require_once '../includes/config.php';
                 <div class="grid-item">
                     <h3 class="sub-caption">Integrity</h3>
                     <p class="content">
-                        We have built a reputation of integrity for over a decade of fulfilling our 
-                        promise of outstanding returns to our partners and investors.
+                        We work to maintain a reputation of integrity by fulfilling our promise 
+                        of generating outstanding returns for our partners. We also believe in 
+                        transparency and offer 24/7 client support.
                     </p>
                 </div>
                 <div class="grid-item">
@@ -127,8 +138,40 @@ require_once '../includes/config.php';
                 <div class="grid-item">
                     <h3 class="sub-caption">Team Work</h3>
                     <p class="content">
-                        All members work as a unit with the single goal of generating profits for 
-                        our partners and investors.
+                        All team members work as a unit with the sole aim of profit generation.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--research process section-->
+    <div class="research-process-section">
+        <div class="research-process-cont sec-max-width">
+            <h1 class="caption">Our Strategy</h1>
+            <div class="research-process-wrapper ux-layout-grid columns-3">
+                <div class="grid-item">
+                    <h3 class="sub-caption">Qualitative Analysis</h3>
+                    <p class="content">
+                        Our research team scrutinizes the legacy of the funds and firms 
+                        in our portfolio, reviewing history, team members, and other third parties.
+                    </p>
+                </div>
+                <div class="grid-item">
+                    <h3 class="sub-caption">Quantitative Analysis</h3>
+                    <p class="content">
+                        The performance of the assets and funds in our portfolio is constantly 
+                        reviewed and compared using mathematical and statistical models, identifying 
+                        the best performers before investment distribution is made.
+                    </p>
+                </div>
+                <div class="grid-item">
+                    <h3 class="sub-caption">Legal Compliance</h3>
+                    <p class="content">
+                        We make sure that all assets in our portfolio comply with the legalities 
+                        set down by the governing bodies of the areas in which they are located. 
+                        We constantly revise our paperwork, making sure they are up to date and 
+                        in compliance with all such legalities.
                     </p>
                 </div>
             </div>
@@ -149,7 +192,7 @@ require_once '../includes/config.php';
                         <h4 class="position">Chief Investment Officer</h4>
                         <p class="bio">
                             Matteo is a graduate of the University of Zurich and an alumni of the Harvard 
-                            Business School. He started his career in the equity and bond markets before 
+                            Business School. He started his career in the equity markets before 
                             branching out into commodities, real estate and other alternatives. 
                             He is an established venture capitalist and has been the recipient of numerous 
                             awards around the globe.
@@ -167,7 +210,7 @@ require_once '../includes/config.php';
                             Ella graduated from Harvard University with magna cum laude and stands out as a 
                             highly disciplined and analytically driven individual. She has distinguished 
                             herself in her rationality and has steered a lot of firms to greater heights. 
-                            She's a philanthropist in her native state of Texas.
+                            She is a philanthropist in her native state of Texas.
                         </p>
                     </div>
                 </div>
@@ -193,7 +236,7 @@ require_once '../includes/config.php';
                     </div>
                     <div class="content-cont">
                         <h3 class="name">Jamie Hernandez</h3>
-                        <h4 class="position">Public Relations Officer</h4>
+                        <h4 class="position">Chief Public Relations Officer</h4>
                         <p class="bio">
                             He is a graduate of the New York State University and holds a DBA in business 
                             administration. He is a seasoned investor and has served as an arbitrator in 
@@ -216,6 +259,22 @@ require_once '../includes/config.php';
                         </p>
                     </div>
                 </div>
+                <div class="grid-item">
+                    <div class="profile-pic-cont">
+                        <img src="<?php echo BASE_URL; ?>images/team/img_6.jpg" />
+                    </div>
+                    <div class="content-cont">
+                        <h3 class="name">Robert Kramer</h3>
+                        <h4 class="position">Chief Legal Advisor</h4>
+                        <p class="bio">
+                            Rob is the Chief Legal Advisor and serves to manage all international 
+                            legalities concerning The Citadel Capital Partners. Prior to joining 
+                            the Citadel, Rob attained fame as a top insurance attorney. He is a 
+                            fellow of the American Bar Association and graduated with honors from 
+                            the Vermont Law School.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -228,9 +287,8 @@ require_once '../includes/config.php';
                     <img class="site-logo" src="./images/icons/w_citadel_capital_logo.png" alt="thecitadelcapital">
                     <p class="text-block">
                         <span class="text-cont">
-                            The Citadel Capital Partners is a leading investor in the global 
-                            financial and alternative markets. Founded with the aim of ensuring 
-                            capital appreciation as well as wealth protection.
+                            The Citadel Capital Partners is a leading investor in the global alternative markets. 
+                            Founded with the aim of ensuring capital appreciation as well as wealth protection.
                         </span>
                         <span class="more-link-cont">
                             <a href="<?php echo BASE_URL . 'about_us.html'; ?>">Learn More</a>
@@ -240,7 +298,7 @@ require_once '../includes/config.php';
                 <div class="footer-column">
                     <h2 class="header">TERMS & POLICY</h2>
                     <ul class="link-list">
-                        <li><a href="<?php echo BASE_URL . 'terms_and_condition.html'; ?>">Terms & Condition</a></li>
+                        <li><a href="<?php echo BASE_URL . 'terms_and_condition.html'; ?>">Terms & Conditions</a></li>
                         <li><a href="<?php echo BASE_URL . 'privacy_policy.html'; ?>">Privacy Policy</a></li>
                         <li><a href="<?php echo BASE_URL . 'cookies_policy.html'; ?>">Cookies Policy</a></li>
                     </ul>
@@ -250,18 +308,18 @@ require_once '../includes/config.php';
                 <div class="footer-column">
                     <h2 class="header">CONTACT US</h2>
                     <ul class="link-list">
-                        <li>392 Triq il Kanun, Santa Venera, Malta</li>
+                    <li>Salesforce Tower, 110 Bishopsgate, London</li>
                         <li>
                             <div class="list-icon">
                                 <i class="fas fa-envelope"></i>
                             </div>
-                            <div class="list-data">contact@thecitadelcapital.com</div>
+                            <div class="list-data">contact@thecitadelcapitalpartners.com</div>
                         </li>
                         <li>
                             <div class="list-icon">
                                 <i class="fas fa-phone-square-alt"></i>
                             </div>
-                            <div class="list-data">+356 21250666</div>
+                            <div class="list-data">+44 7537 180465</div>
                         </li>
                     </ul>
                 </div>
@@ -287,8 +345,9 @@ require_once '../includes/config.php';
                     <h2 class="header">CONNECT WITH US</h2>
                     <ul class="social-media-list-cont">
                         <li><a href="https://web.facebook.com/thecitadelcapitalpartners/"><i class="icon fab fa-facebook-square"></i></a></li>
-                        <li><a href="https://twitter.com/JamieCitadel"><i class="icon fab fa-twitter-square"></i></a></li>
-                        <li><a href="#"><i class="icon fab fa-linkedin"></i></a></li>
+                        <li><a href="https://twitter.com/theccpartners"><i class="icon fab fa-twitter-square"></i></a></li>
+                        <li><a href="https://www.linkedin.com/company/the-citadel-capital-partners"><i class="icon fab fa-linkedin"></i></a></li>
+                        <li><a href="https://wa.me/447537180465?text=Welcome%20to%20Thecitadelcapitalpartners%20help%20desk"><i class="icon fab fa-whatsapp"></i></a></li>
                     </ul>
                 </div>
             </div>

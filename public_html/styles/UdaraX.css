@@ -45,6 +45,14 @@
    color: white;
  }
 
+ .ux-bg-dimgray {
+   background-color: rgb(80, 80, 80);
+ }
+
+ .ux-bg-dimgray.bg-hover:hover {
+   background-color: dimgray;
+ }
+
  .ux-txt-chocolate {
    color: chocolate;
  }

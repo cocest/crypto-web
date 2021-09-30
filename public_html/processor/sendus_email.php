@@ -69,12 +69,15 @@ try {
     */
 
     // get user's information
-    $query = 'SELECT userName FROM users WHERE id = ? LIMIT 1';
+    $query = 'SELECT firstName, lastName FROM users WHERE id = ? LIMIT 1';
     $stmt = $conn->prepare($query); // prepare statement
     $stmt->bind_param('i', $_SESSION['user_id']);
     $stmt->execute();
-    $stmt->bind_result($user_account_name);
+    $stmt->bind_result($first_name, $last_name);
     $stmt->fetch();
+
+    // user full name
+    $user_account_name = $last_name . ' ' . $first_name;
 
     // send mail to our customer care
     $mail = new PHPMailer();

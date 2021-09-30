@@ -10,7 +10,7 @@ require_once '../includes/config.php';
 
 <head>
     <meta charset="UTF-8">
-    <title>Thecitadelcapital - Cookies Policy</title>
+    <title>The Citadel Capital Partners - Cookies Policy</title>
     <link rel="icon" type="image/png" href="./images/icons/favicon1.png" sizes="16x16">
     <link rel="icon" type="image/png" href="./images/icons/favicon2.png" sizes="32x32">
     <link rel="icon" type="image/png" href="./images/icons/favicon3.png" sizes="120x120">
@@ -106,8 +106,8 @@ require_once '../includes/config.php';
                     other device by a website, containing details of your browsing history on that website among its
                     many uses.</li>
                 <li><strong>Website</strong> refers to The Citadel Capital Partners , accessible from <a
-                        href="https://www.thecitadelcapital.com" rel="external nofollow noopener"
-                        target="_blank">https://www.thecitadelcapital.com</a>.</li>
+                        href="https://thecitadelcapitalpartners.com" rel="external nofollow noopener"
+                        target="_blank">https://thecitadelcapitalpartners.com</a>.</li>
             </ul>
             <h1>The use of the Cookies</h1>
             <h2>Type of Cookies We Use</h2>
@@ -176,7 +176,7 @@ require_once '../includes/config.php';
             <h2>Contact Us</h2>
             <p>If you have any questions about this Cookies Policy, You can contact us:</p>
             <ul>
-                <li>By email: <strong>contact@thecitadelcapital.com</strong></li>
+                <li>By email: <strong>contact@thecitadelcapitalpartners.com</strong></li>
             </ul>
         </div>
     </div>
@@ -189,8 +189,7 @@ require_once '../includes/config.php';
                     <img class="site-logo" src="./images/icons/w_citadel_capital_logo.png" alt="thecitadelcapital">
                     <p class="text-block">
                         <span class="text-cont">
-                            The Citadel Capital Partners is a leading investor in the global 
-                            financial and alternative markets. Founded with the aim of ensuring 
+                            The Citadel Capital Partners is a leading investor in the global alternative markets. Founded with the aim of ensuring 
                             capital appreciation as well as wealth protection.
                         </span>
                         <span class="more-link-cont">
@@ -201,7 +200,7 @@ require_once '../includes/config.php';
                 <div class="footer-column">
                     <h2 class="header">TERMS & POLICY</h2>
                     <ul class="link-list">
-                        <li><a href="<?php echo BASE_URL . 'terms_and_condition.html'; ?>">Terms & Condition</a></li>
+                        <li><a href="<?php echo BASE_URL . 'terms_and_condition.html'; ?>">Terms & Conditions</a></li>
                         <li><a href="<?php echo BASE_URL . 'privacy_policy.html'; ?>">Privacy Policy</a></li>
                         <li><a href="<?php echo BASE_URL . 'cookies_policy.html'; ?>">Cookies Policy</a></li>
                     </ul>
@@ -211,18 +210,18 @@ require_once '../includes/config.php';
                 <div class="footer-column">
                     <h2 class="header">CONTACT US</h2>
                     <ul class="link-list">
-                        <li>392 Triq il Kanun, Santa Venera, Malta</li>
+                        <li>Salesforce Tower, 110 Bishopsgate, London</li>
                         <li>
                             <div class="list-icon">
                                 <i class="fas fa-envelope"></i>
                             </div>
-                            <div class="list-data">contact@thecitadelcapital.com</div>
+                            <div class="list-data">contact@thecitadelcapitalpartners.com</div>
                         </li>
                         <li>
                             <div class="list-icon">
                                 <i class="fas fa-phone-square-alt"></i>
                             </div>
-                            <div class="list-data">+356 21250666</div>
+                            <div class="list-data">+44 7537 180465</div>
                         </li>
                     </ul>
                 </div>
@@ -247,9 +246,10 @@ require_once '../includes/config.php';
                     </div>
                     <h2 class="header">CONNECT WITH US</h2>
                     <ul class="social-media-list-cont">
-                        <li><a href="https://web.facebook.com/thecitadelcapitalpartners/"><i class="icon fab fa-facebook-square"></i></a></li>
-                        <li><a href="https://twitter.com/JamieCitadel"><i class="icon fab fa-twitter-square"></i></a></li>
-                        <li><a href="#"><i class="icon fab fa-linkedin"></i></a></li>
+                        <li><a href="https://www.facebook.com/The-Citadel-Capital-Partners/103036931767611"><i class="icon fab fa-facebook-square"></i></a></li>
+                        <li><a href="https://twitter.com/theccpartners"><i class="icon fab fa-twitter-square"></i></a></li>
+                        <li><a href="https://www.linkedin.com/company/the-citadel-capital-partners"><i class="icon fab fa-linkedin"></i></a></li>
+                        <li><a href="https://wa.me/447537180465?text=Welcome%20to%20Thecitadelcapitalpartners%20help%20desk"><i class="icon fab fa-whatsapp"></i></a></li>
                     </ul>
                 </div>
             </div>

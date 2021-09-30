@@ -94,7 +94,7 @@ try {
     $stmt->close();
 
     // check to delete user's profile pictures
-    if (!empty($small_profile_url)) {
+    if (!empty($small_profile_url) && file_exists(USER_PROFILE_DIR.$small_profile_url)) {
         unlink(USER_PROFILE_DIR.$small_profile_url);
         unlink(USER_PROFILE_DIR.$medium_profile_url);
     }

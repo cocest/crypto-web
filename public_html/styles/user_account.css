@@ -135,7 +135,7 @@ h4.section-group-header {
     box-sizing: border-box;
     border: none;
     outline: none;
-    padding: 8px 0;
+    padding: 10px 0;
     width: 100%;
     border-radius: 4px;
     font-size: 1.0em;
@@ -991,6 +991,8 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     margin: 10px;
     margin-bottom: 20px;
     padding: 10px;
+    padding: 10px;
+    padding-top: 2px;
     border-top: 1px solid lightgray;
     border-radius: 8px;
     box-shadow: 0px 3px 8px 2px rgba(0, 0, 0, 0.4);
@@ -998,6 +1000,7 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 }
 
 #msg-win-cont .title-bar-cont {
+    margin-bottom: 15px;
     overflow: hidden;
 }
 
@@ -1437,6 +1440,15 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     font-size: 1.2em;
 }
 
+.payment-alternative-note {
+    max-width: 425px;
+    padding: 10px;
+    box-sizing: border-box;
+    line-height: 26px;
+    font-size: 1.1em;
+    background-color: #e6e6e6;
+}
+
 .select-input-descr {
     font-size: 1.1em;
     margin-top: 25px;
@@ -1476,8 +1488,7 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     padding-bottom: 0px;
     margin-right: 10px;
     margin-bottom: 15px;
-    border: 2px solid lightgray;
-    border-radius: 6px;
+    outline: 2px solid lightgray;
     overflow: hidden;
 }
 
@@ -1514,7 +1525,7 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 #btc-crypto-input:checked + label,
 #eth-crypto-input:checked + label,
 #xrp-crypto-input:checked + label {
-    border: 2px solid #3fa0ef;
+    outline: 2px solid #3fa0ef;
 }
 
 #btc-crypto-input:checked + label .marker,
@@ -1524,6 +1535,7 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 }
 
 .crypto-input-cont {
+    max-width: 425px;
     margin-bottom: 20px;
 }
 
@@ -1531,10 +1543,10 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     font-size: 1.1em;
 }
 
+.crypto-amount-group-input > input,
 .crypto-input-cont > input {
     width: 100%;
-    max-width: 350px;
-    height: 35px;
+    height: 40px;
     box-sizing: border-box;
     margin-top: 10px;
     padding-left: 10px;
@@ -1543,6 +1555,22 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     color: #4c4e50;
     border: 1px solid #bdbdbd;
     border-radius: 4px;
+}
+
+.crypto-amount-group-input > input {
+    padding-right: 50px;
+}
+
+.crypto-amount-group-input {
+    position: relative;
+}
+
+.crypto-amount-group-input .input-icon {
+    position: absolute;
+    right: 15px;
+    height: 20px;
+    margin-top: -31px;
+    pointer-events: none;
 }
 
 .cashout-proceed-btn-cont,
@@ -1596,18 +1624,26 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 }
 
 .package-list-wrapper .package-cont.item-1 .upper-sec {
-    border-bottom: 3px solid #d58042;
+    border-bottom: 3px solid #dfdfdf;
 }
 
 .package-list-wrapper .package-cont.item-2 .upper-sec {
-    border-bottom: 3px solid #a85d18;
+    border-bottom: 3px solid #5f5f5f;
 }
 
 .package-list-wrapper .package-cont.item-3 .upper-sec {
-    border-bottom: 3px solid #a9abae;
+    border-bottom: 3px solid #d58042;
 }
 
 .package-list-wrapper .package-cont.item-4 .upper-sec {
+    border-bottom: 3px solid #a85d18;
+}
+
+.package-list-wrapper .package-cont.item-5 .upper-sec {
+    border-bottom: 3px solid #a9abae;
+}
+
+.package-list-wrapper .package-cont.item-6 .upper-sec {
     border-bottom: 3px solid #d9b800;
 }
 
@@ -1688,7 +1724,7 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 }
 
 .inv-img-cont > img {
-    height: 50px;
+    height: 45px;
     width: auto;
 }
 
@@ -1699,22 +1735,27 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
 
 .inv-img-cont.pkg-2 > img {
     position: relative;
-    left: -62px;
+    left: -55px;
 }
 
 .inv-img-cont.pkg-3 > img {
     position: relative;
-    left: -124px;
+    left: -168px;
 }
 
 .inv-img-cont.pkg-4 > img {
     position: relative;
-    left: -185px;
+    left: -224px;
 }
 
 .inv-img-cont.pkg-5 > img {
     position: relative;
-    left: -247px;
+    left: -280px;
+}
+
+.inv-img-cont.pkg-6 > img {
+    position: relative;
+    left: -338px;
 }
 
 .inv-name-cont {
@@ -1760,6 +1801,7 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     margin: 10px;
     margin-bottom: 20px;
     padding: 10px;
+    padding-top: 2px;
     border-top: 1px solid lightgray;
     border-radius: 8px;
     box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.4);
@@ -1815,23 +1857,25 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     margin-bottom: 30px;
 }
 
-.payment-details-cont .amount-cont {
+.payment-details-cont .amount-cont,
+.payment-details-cont .address-cont {
     margin-bottom: 20px;
 }
 
-.payment-details-cont .address-cont {
+.payment-details-cont .dest-tag-cont {
     margin-bottom: 15px;
 }
 
 .payment-details-cont .amount-cont .header,
-.payment-details-cont .address-cont .header {
+.payment-details-cont .address-cont .header,
+.payment-details-cont .dest-tag-cont .header {
     margin-top: 0px;
     margin-bottom: 10px;
     font-weight: 500;
     font-size: 1.0em;
 }
 
-.payment-details-cont .address-cont .payment-address {
+/*.payment-details-cont .address-cont .payment-address {
     position: relative;
     padding: 0px 10px;
     border-radius: 4px;
@@ -1861,6 +1905,60 @@ ul.menu-link-cont .user-cont:hover .fa-caret-down {
     border: none;
     background-color: white;
     font-size: 1.0em;
+}*/
+
+.payment-details-cont .payment-address-cont,
+.payment-details-cont .payment-dest-tag-cont {
+    display: table;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 6px;
+    border: 1px solid lightgray;
+}
+
+.payment-details-cont .payment-address,
+.payment-details-cont .payment-dest-tag {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    padding: 8px 15px;
+    overflow: hidden;
+}
+
+.payment-details-cont .payment-address > input,
+.payment-details-cont .payment-dest-tag > input {
+    width: 100%;
+    outline: none;
+    border: none;
+    background-color: white;
+    font-size: 1.0em;
+}
+
+.payment-details-cont .payment-address-copy-btn,
+.payment-details-cont .payment-dest-tag-copy-btn {
+    display: table-cell;
+    vertical-align: middle;
+    min-width: 40px;
+    max-width: 40px;
+    text-align: center;
+    color: #7d7d7d;
+    cursor: pointer;
+}
+
+.payment-details-cont .payment-address-copy-btn .copy-btn,
+.payment-details-cont .payment-dest-tag-copy-btn .copy-btn {
+    width: 100%;
+    height: 35px;
+    outline: none;
+    border: none;
+    background-color: unset;
+    cursor: pointer;
+}
+
+.payment-details-cont .payment-address-copy-btn .copy-btn > i,
+.payment-details-cont .payment-dest-tag-copy-btn .copy-btn > i {
+    font-size: 1.5em;
+    color: #6cb6f3;
 }
 
 .payment-qr-code-cont {

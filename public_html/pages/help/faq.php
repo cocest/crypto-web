@@ -80,7 +80,7 @@ require_once '../../includes/config.php';
                 <h1 class="headline">Frequently Asked Questions</h1>
                 <h2 class="sub-headline">
                     <span class="txt">You can browse the questions below to find an answer. </span>
-                    <span class="txt">If you can't find a related question, feel free to send us an email (contact@thecitadelcapital.com).</span>
+                    <span class="txt">If you can't find a related question, feel free to send us an email (contact@thecitadelcapitalpartners.com).</span>
                 </h2>
             </div>
         </div>
@@ -89,6 +89,40 @@ require_once '../../includes/config.php';
     <!--faq page section-->
     <div class="page-faq-section">
         <div class="page-faq-section-wrapper">
+            <div class="q-header-cont expand" toggle="0" onclick="expandAnswer(this)">
+                <div class="wrapper-1">
+                    <h2>What are alternative assets?</h2>
+                </div>
+                <div class="wrapper-2">
+                    <div class="img-cont">
+                        <img src="../images/icons/expand_and_collapse.png" alt="expand icon" />
+                    </div>
+                </div>
+            </div>
+            <div class="q-answer">
+                <p>
+                    These are asset classes that cannot be categorized as stocks, bonds or certificates. 
+                    They include real estate, commodities, collectibles, digital (crypto) currencies, and 
+                    institutional funds.
+                </p>
+            </div>
+            <div class="q-header-cont expand" toggle="0" onclick="expandAnswer(this)">
+                <div class="wrapper-1">
+                    <h2>What is the Blockchain?</h2>
+                </div>
+                <div class="wrapper-2">
+                    <div class="img-cont">
+                        <img src="../images/icons/expand_and_collapse.png" alt="expand icon" />
+                    </div>
+                </div>
+            </div>
+            <div class="q-answer">
+                <p>
+                    In simple terms, this is a system of information recording that makes it 
+                    impossible to change, hack or cheat the system. It is a digital ledger of 
+                    transactions that forms the backbone of most cryptocurrencies.
+                </p>
+            </div>
             <div class="q-header-cont expand" toggle="0" onclick="expandAnswer(this)">
                 <div class="wrapper-1">
                     <h2>How do I purchase cryptocurrencies?</h2>
@@ -102,9 +136,26 @@ require_once '../../includes/config.php';
             <div class="q-answer">
                 <p>
                     You could purchase cryptocurrencies online via an exchange (<a href="https://coinbase.com" target="_blank">Coinbase.com</a>, 
-                    <a href="https://coinmama.com" target="_blank">Coinmama.com</a>, and <a href="https://abra.com" target="_blank">Abra.com</a>) or 
+                    <a href="https://coinmama.com" target="_blank">Coinmama.com</a>, <a href="https://cex.io" target="_blank">cex.io</a>, and 
+                    <a href="https://abra.com" target="_blank">Abra.com</a>) or 
                     locally through a local vendor or ATM in your area. You could find local vendors in your country 
                     of residence on <a href="https://localbitcoins.com" target="_blank">localbitcoins.com</a>
+                </p>
+            </div>
+            <div class="q-header-cont expand" toggle="0" onclick="expandAnswer(this)">
+                <div class="wrapper-1">
+                    <h2>What payment methods do you offer?</h2>
+                </div>
+                <div class="wrapper-2">
+                    <div class="img-cont">
+                        <img src="../images/icons/expand_and_collapse.png" alt="expand icon" />
+                    </div>
+                </div>
+            </div>
+            <div class="q-answer">
+                <p>
+                    We accept payment mostly in bitcoin. For other alternative means of payment please 
+                    write to us.
                 </p>
             </div>
             <div class="q-header-cont expand" toggle="0" onclick="expandAnswer(this)">
@@ -121,6 +172,22 @@ require_once '../../includes/config.php';
                 <p>
                     Deposits and withdrawals are made according to the investment package of your choice. Select 
                     the cryptocurrency you would like to make deposits/withdrawals in and follow the prescribed steps.
+                </p>
+            </div>
+            <div class="q-header-cont expand" toggle="0" onclick="expandAnswer(this)">
+                <div class="wrapper-1">
+                    <h2>What is the minimum investment?</h2>
+                </div>
+                <div class="wrapper-2">
+                    <div class="img-cont">
+                        <img src="../images/icons/expand_and_collapse.png" alt="expand icon" />
+                    </div>
+                </div>
+            </div>
+            <div class="q-answer">
+                <p>
+                    The least package starts at $1,000 (USD) but we also offer fractional trading services 
+                    so you can start with as little as $100 (USD).
                 </p>
             </div>
             <div class="q-header-cont expand" toggle="0" onclick="expandAnswer(this)">
@@ -168,7 +235,7 @@ require_once '../../includes/config.php';
                 <p>
                     You might have entered wrong details or uploaded identification which could not be verified. 
                     Try registering again using the appropriate details. Ensure that your personal information 
-                    you entered during registeration correspond with details in your uploaded identification.
+                    you entered during registration correspond with details in your uploaded identification.
                 </p>
             </div>
             <div class="q-header-cont expand" toggle="0" onclick="expandAnswer(this)">
@@ -192,15 +259,14 @@ require_once '../../includes/config.php';
 
     <!--page footer section-->
     <div class="page-footer-section">
-        <div class="upper-footer-cont">
+    <div class="upper-footer-cont">
             <div class="column-group-1">
                 <div class="footer-column">
                     <img class="site-logo" src="../images/icons/w_citadel_capital_logo.png" alt="thecitadelcapital">
                     <p class="text-block">
                         <span class="text-cont">
-                            The Citadel Capital Partners is a leading investor in the global 
-                            financial and alternative markets. Founded with the aim of ensuring 
-                            capital appreciation as well as wealth protection.
+                            The Citadel Capital Partners is a leading investor in the global alternative markets. Founded with the aim of ensuring capital appreciation 
+                            as well as wealth protection.
                         </span>
                         <span class="more-link-cont">
                             <a href="<?php echo BASE_URL . 'about_us.html'; ?>">Learn More</a>
@@ -210,7 +276,7 @@ require_once '../../includes/config.php';
                 <div class="footer-column">
                     <h2 class="header">TERMS & POLICY</h2>
                     <ul class="link-list">
-                        <li><a href="<?php echo BASE_URL . 'terms_and_condition.html'; ?>">Terms & Condition</a></li>
+                        <li><a href="<?php echo BASE_URL . 'terms_and_condition.html'; ?>">Terms & Conditions</a></li>
                         <li><a href="<?php echo BASE_URL . 'privacy_policy.html'; ?>">Privacy Policy</a></li>
                         <li><a href="<?php echo BASE_URL . 'cookies_policy.html'; ?>">Cookies Policy</a></li>
                     </ul>
@@ -220,18 +286,18 @@ require_once '../../includes/config.php';
                 <div class="footer-column">
                     <h2 class="header">CONTACT US</h2>
                     <ul class="link-list">
-                        <li>392 Triq il Kanun, Santa Venera, Malta</li>
+                        <li>Salesforce Tower, 110 Bishopsgate, London</li>
                         <li>
                             <div class="list-icon">
                                 <i class="fas fa-envelope"></i>
                             </div>
-                            <div class="list-data">contact@thecitadelcapital.com</div>
+                            <div class="list-data">contact@thecitadelcapitalpartners.com</div>
                         </li>
                         <li>
                             <div class="list-icon">
                                 <i class="fas fa-phone-square-alt"></i>
                             </div>
-                            <div class="list-data">+356 21250666</div>
+                            <div class="list-data">+44 7537 180465</div>
                         </li>
                     </ul>
                 </div>
@@ -256,9 +322,10 @@ require_once '../../includes/config.php';
                     </div>
                     <h2 class="header">CONNECT WITH US</h2>
                     <ul class="social-media-list-cont">
-                        <li><a href="https://web.facebook.com/thecitadelcapitalpartners/"><i class="icon fab fa-facebook-square"></i></a></li>
-                        <li><a href="https://twitter.com/JamieCitadel"><i class="icon fab fa-twitter-square"></i></a></li>
-                        <li><a href="#"><i class="icon fab fa-linkedin"></i></a></li>
+                        <li><a href="https://www.facebook.com/The-Citadel-Capital-Partners-103036931767611"><i class="icon fab fa-facebook-square"></i></a></li>
+                        <li><a href="https://twitter.com/theccpartners"><i class="icon fab fa-twitter-square"></i></a></li>
+                        <li><a href="https://www.linkedin.com/company/the-citadel-capital-partners"><i class="icon fab fa-linkedin"></i></a></li>
+                        <li><a href="https://wa.me/447537180465?text=Welcome%20to%20Thecitadelcapitalpartners%20help%20desk"><i class="icon fab fa-whatsapp"></i></a></li>
                     </ul>
                 </div>
             </div>

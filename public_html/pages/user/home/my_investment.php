@@ -161,7 +161,7 @@ try {
                     'amount_invested' => cladNumberFormat($investment_row['amountInvested']) . ' USD',
                     'date_of_investment' => date("M j, Y g:i A", $investment_row['startTime']),
                     'package' => $investment_row['package'],
-                    'duration' => $investment_row['durationInMonth'] . ' month',
+                    'duration' => $investment_row['durationInMonth'] >= 2 ? $investment_row['durationInMonth'] . ' months' : $investment_row['durationInMonth'] . ' month',
                     'roi' => floor($investment_row['monthlyROI']) . '%',
                     'bonus' => floor($investment_row['bonus']) . '%',
                     'current_profit' => cladNumberFormat($current_profit) . ' USD'
@@ -275,7 +275,7 @@ require_once 'page_left_menu.php';
     <div class="page-content-cont">
         <h1 class="page-title-hd">My Investment</h1>
         <?php 
-            if (true){//$data_for_page_rendering['current_investment']) {
+            if ($data_for_page_rendering['current_investment']) {
         ?>
         <div class="current-inv-sec-1">
             <h4 class="section-group-header">Current Investment</h4>
@@ -313,7 +313,7 @@ require_once 'page_left_menu.php';
                                 </div>
                                 <img class="icon" src="../../images/icons/chart-arrow-up.png" />
                             </div>
-                            <div class="title">Return of Investment</div>
+                            <div class="title">Return on Investment</div>
                         </div>
                     </div>
                     <div class="grid-item">

@@ -13,7 +13,7 @@ $config = array(
         "mysql" => array(
             "dbname" => "citadelcapital",
             "username" => "root",
-            "password" => "",
+            "password" => "cocest",
             "host" => "localhost"
         )
     ),
@@ -52,6 +52,8 @@ define("BC_XPUB_ADDRESS", "address");
 define("BC_API_KEY", "key");
 define("BC_GUID", "id");
 define("BC_WALLET_PASSWORD", "password");
+define("CQ_API_KEY", "d2c4b2296b52");
+define("CQ_API_SECRET", "ZVnt-X!39-$29B-2bD@-!t4S-N9mR");
 define("SMTP_HOST", "smtp.sendgrid.net");
 define("SMTP_PORT", 587);
 define("SMTP_USERNAME", "");
